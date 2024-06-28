@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'nygrh-resturant')</title>
+    <title>@yield('title', 'RagamaGuru')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
@@ -40,85 +40,10 @@
   @include('includes.navbar')
   @yield('content')
 
-  <div class="hero-header">
-    <div class="header-slider header-slider-preloader slider-two" id="home">
-        <div class="animation-slide owl-carousel owl-theme" id="animation-slide">
-           
-            <div class="item bg-img-hero">
-                <img src="assets\img\banner\2023-12-27\f.jpg">
-            </div>
-      
-        </div>
-    </div>
-    <!-- /.End of header slider -->
-    <div class="container">
-        <div class="hero-header_wrap">
-            <div class="row align-items-center">
-                <div class="col-12 col-md-7">
-                    <div class="header-text my-5">
-                       
-                        <h6 class="header-subtitle">BEYOND IMAGINABLE</h6>
-                        <h1 class="header-title">Enjoy Your Vacation With Us</h1>
-                        <p class="header-des mb-0">It is a long established fact that a reader will be distracted by the readable content of a 
-                          page when looking at its layout.</p>
-                    </div>
-                </div>
-               
-            </div>
-        </div>
-    </div>
-    <!-- /.End of hero header -->
-    <div class="slider_preloader">
-        <div class="slider_preloader_status">&nbsp;</div>
-    </div>
-    <!-- /.End of slider preloader -->
-</div>
-<!-- /.End of hero header -->
+  @include('includes.carousel')
 
 
-<div class="container">
-    <div class="search-area">
-        <div class="row no-gutters custom-search-input-2 search-form-content">
-            <div class="search-option col-12 col-sm-6 col-lg-3">
-                <label>check_in <i class="ti-calendar"></i></label>
-                <input id="daterangepicker" class="form-control" type="text" name="checkin"
-                    value="Y-m-d'">
-            </div>
-            <div class="search-option col-12 col-sm-6 col-lg-3">
-                <label>check_out<i class="ti-calendar"></i></label>
-                <input id="daterangepicker2" class="form-control" type="text" name="checkout"
-                    value="Y-m-d">
-            </div>
-            <div class="search-option col-12 col-sm-6 col-lg-3">
-                <div class="d-flex align-items-center justify-content-between h-50 border-bottom w-100 px-lg-3 px-xl-4">
-                    <div class="search-title fs-13 text-uppercase">adults</div>
-                    <div class="d-flex justify-content-center align-items-center number-spinner">
-                        <a class=" btn-pm" data-dir="dwn"><span class="ti-minus"></span></a>
-                        <input type="text" class="spinner" name="adults" value="2">
-                        <a class=" btn-pm" data-dir="up"><span class="ti-plus"></span></a>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between h-50 w-100 px-lg-3 px-xl-4">
-                    <div class="search-title fs-13 text-uppercase">children</div>
-                    <div class="d-flex justify-content-center align-items-center children">
-                        <a class=" btn-pm" data-dir="dwn"><span class="ti-minus"></span></a>
-                        <input type="text" class="spinner" name="children" value="0">
-                        <a class=" btn-pm" data-dir="up"><span class="ti-plus"></span></a>
-                    </div>
-                </div>
-            </div>
-         
-            <div class="col-lg-3">
-                <button type="submit" class="btn">
-                    <span>Need Help:
-                        <p>071 229 1276</p></span>
-                    Check Availability
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.End of search area -->
+
 
 <div class="section section-feature bg-gray position-relative">
     <div class="container">

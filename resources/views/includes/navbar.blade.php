@@ -50,29 +50,18 @@
 
             <ul class="navbar-nav mr-auto">
             <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="">Entrance</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="">About Us</a>
+                <a class="nav-link active" aria-current="page" href="">Shop</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="">Contact Us</a>
+                <a class="nav-link active" aria-current="page" href="">Appointment</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="">Stories</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="">Menu</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Special Features
-                 </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Food cart</a></li>
-                    <li><a class="dropdown-item" href="#">Sign In</a></li>
-                </ul>
-            </li>
+         
 
             </ul>
 
