@@ -144,8 +144,7 @@
 <div class="section container rounded join-content box-shadow mb-5 shadow">
     <div class="text-center col-middle">
         <h2 class="fs-32 text-white mb-4 ">This charming private 19th century mansion, which originally</h2>
-        <a href="user/login"
-            class="btn btn-outline-white mr-3">Sign In</a>
+        <a href="user/login" class="btn btn-outline-white mr-3">Sign In</a>
         <a href="register" class="btn btn-white">Join Us</a>
     </div>
 </div>

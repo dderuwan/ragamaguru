@@ -538,6 +538,24 @@ alert-warning {
     background: #bd0f0f;
 }
 
+#btn-join{
+    padding: 7px 10px;
+    color: black;
+    font-size:12px;
+  }
+  #btn-join:hover {
+  color: white;
+  border-color: white;
+}
+  #btn-sign{
+    padding: 7px 10px;
+    color: white;
+    font-size:12px;
+  }
+  #btn-sign:hover {
+  color: white;
+  border-color: white;
+}
 
 /*Navbar------------*/
 
