@@ -2,8 +2,11 @@
      <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
         <div class="d-flex order-lg-last">
         <ul class="navbar-right">
+        <div class="mt-4 btn-container" style="margin-right:50px; ">
+                <a href="{{ route('login') }}" class="btn btn-primary btn-custom" style="padding: 7px 10px;color: #fff;font-size:12px;">LOGIN</a>
+            </div>
             <div class="mt-4 btn-container" style="margin-right:50px; ">
-                <a href="#" class="btn btn-primary btn-custom" style="padding: 7px 10px;color: #fff;font-size:12px;">LOGIN</a>
+                <a href="{{ route('register') }}" class="btn btn-primary btn-custom" style="padding: 7px 10px;color: #fff;font-size:12px;">REGISTER</a>
             </div>
         </ul>   
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
