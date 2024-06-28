@@ -2,7 +2,7 @@
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active" style="height: 800px;">
-                <img src="default1.jpeg" class="d-block w-100 h-100" alt="...">
+                <img src="default.jpeg" class="d-block w-100 h-100" alt="...">
                 <div class="carousel-caption d-none d-md-block text-start">
                     <div class="container">
                         <div class="hero-header_wrap">
