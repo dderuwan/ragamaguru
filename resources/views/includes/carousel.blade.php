@@ -1,17 +1,47 @@
 <div class="hero-header">
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" >
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active" style="height: 750px;">
-                <img src="image2.png" class="d-block w-100 h-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+            <div class="carousel-item active" style="height: 800px;">
+                <img src="default1.jpeg" class="d-block w-100 h-100" alt="...">
+                <div class="carousel-caption d-none d-md-block text-start">
                     <div class="container">
                         <div class="hero-header_wrap">
-                            <div class="row align-items-left">
-                                <div class="col-12 col-md-6">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-7">
                                     <div class="header-text my-5 text-white">
-                                        <h6 class="header-subtitle">BEYOND IMAGINABLE</h6>
-                                        <h2 class="header-title">Enjoy Your Vacation With Us</h2>
-                                        <p class="header-des mb-0">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                        <h4 class="header-title">Welcome to Ragama Guru Asapuwa </h4>
+                                        <p class="header-des mb-0">Meet Guruthuma at Guru Asapuwa<br>
+                                        Monday to Saturday and the last Sunday of every month at<br> 8 am</p><br>
+                                        <h6 class="header-subtitle" style="text-align: left;">BOOK YOUR VISIT</h6>
+                                        <p class="header-des mb-0">
+                                        Fill out the form to schedule your appointment and receive confirmation details via SMS</p>
+                                        <div class="mt-4">
+                                            <a href="#" class="btn btn-primary">BOOK NOW</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item active" style="height: 800px;">
+                <img src="default.jpeg" class="d-block w-100 h-100" alt="...">
+                <div class="carousel-caption d-none d-md-block text-start">
+                    <div class="container">
+                        <div class="hero-header_wrap">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-7">
+                                    <div class="header-text my-5 text-white">
+                                        <h4 class="header-title">Welcome to Ragama Guru Asapuwa </h4>
+                                        <p class="header-des mb-0">Meet Guruthuma at Guru Asapuwa<br>
+                                        Monday to Saturday and the last Sunday of every month at<br> 8 am</p><br>
+                                        <h6 class="header-subtitle" style="text-align: left;">BOOK YOUR VISIT</h6>
+                                        <p class="header-des mb-0">
+                                        Fill out the form to schedule your appointment and receive confirmation details via SMS</p>
+                                        <div class="mt-4">
+                                            <a href="#" class="btn btn-primary">BOOK NOW</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -37,8 +67,3 @@
     <!-- /.End of slider preloader -->
 </div>
 <!-- /.End of hero header -->
-
-
-
-
-
