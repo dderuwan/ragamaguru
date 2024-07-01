@@ -51,44 +51,45 @@
         height:30px;
     }
   
+    
 
 </style>
+
 
   </head>
   <body>
 
 
   <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
-     <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
-     <div class="d-flex ms-auto mt-2">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Language
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Sinhala</a></li>
-                    <li><a class="dropdown-item" href="#">English</a></li>
-                </ul>
-            </li>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Entrance</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="">Appointment</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
-            </li>
-            
-            </ul>
-        </div>
-    </nav>
+  <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
+  <div class="d-flex ms-auto mt-2">
+    <select id="language_selector" class="form-select mt-3 changeLang">
+      <option selected>Language</option>
+      <option value="en">English</option>
+      <option value="si">Sinhala</option>
+    </select>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Entrance</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="">Appointment</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+    
+
 <!-- /.End of navbar -->
 
   @yield('content')
@@ -135,11 +136,10 @@
     <script src="website_assets/js/script.js"></script>
     <script src="website_assets/js/subscriber_email.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=">
-
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key="></script>
 
     <script src="website_assets/js/loadMap.js"></script>
+
 
 
     

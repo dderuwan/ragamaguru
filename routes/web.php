@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Stichoza\GoogleTranslate\GoogleTranslate;
+use App\Http\Controllers\LangController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,6 +14,9 @@ Auth::routes();
 
 Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
+
+Route::get('lang/home', [LangController::class,'index']);
+Route::get('lang/change', [LangController::class,'change'])->name('changeLang');
 
 
 // Authentication Routes
