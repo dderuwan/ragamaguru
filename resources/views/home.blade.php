@@ -69,7 +69,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
@@ -83,7 +83,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
@@ -97,7 +97,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
@@ -111,7 +111,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
@@ -125,7 +125,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
@@ -139,7 +139,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
@@ -153,7 +153,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
@@ -167,7 +167,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
