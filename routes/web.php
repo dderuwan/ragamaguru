@@ -11,6 +11,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::view('/home', 'home')->name('home');
+Route::view('/store', 'store')->name('store');
 
 
 // Authentication Routes
