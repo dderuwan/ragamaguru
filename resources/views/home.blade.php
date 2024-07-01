@@ -33,6 +33,13 @@
     <link href="assets/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/foodcart/main.css" rel="stylesheet">
 
+    <style>
+        .btn-buy{
+            font-size:15px; 
+            padding:5px 7px;
+        }
+    </style>
+
   </head>
   <body>
 
@@ -49,10 +56,10 @@
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="section-title text-center mb-5 col-middle">
-                    <h1 class="block-title fs-25 mb-2 font-weight-bold">Products
+                    <h1 class="block-title">Products
                     </h1>
                     <div class="sub-title fs-18">
-                    A resort is a self-contained destination that can provide for all of your travel needs in one location.
+                    
                     </div>
                 </div>
                 <!-- /.End of section title -->
@@ -64,7 +71,7 @@
                 <a href="" class="card-img position-relative">
                         <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -76,9 +83,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="assets/img/Home-page/below_slider_second.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -90,9 +97,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="assets/img/Home-page/below_slider_second.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -104,9 +111,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="assets/img/Home-page/below_slider_second.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -118,9 +125,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="assets/img/Home-page/below_slider_second.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -132,9 +139,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="assets/img/Home-page/below_slider_second.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -146,9 +153,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="assets/img/Home-page/below_slider_second.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -160,9 +167,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
-                        <img src="assets/img/Home-page/below_slider_second.png" class="img-fluid wd_xs_100" alt="...">
+                        <img src="General-Chapter.png" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
-                            class="position-absolute btn btn-primary btn-sm">Buy now</button>
+                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-0 weeklyoffer-title"><a href=""
@@ -182,44 +189,6 @@
 
 
  
-<div class="section section-destination">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-                <div class="section-title text-center mb-5 col-middle">
-                    <h2 class="block-title fs-25 mb-2 font-weight-bold">Explore Destinations & Experiences
-                      </h2>
-                    <div class="sub-title fs-18">
-                    Our guests always travel the world in style. Mention @Kempinski on Instagram for a chance to be featured!
-                    </div>
-                </div>
-                <!-- /.End of section title -->
-            </div>
-        </div>
-                
-        <div class="destinations-carousel owl-carousel owl-theme">
-            <div class="card card-poster text-white flex-row align-items-end border-0">
-                <a href=""
-                    class="tile-link position-absolute w-100 h-100 top-0 left-0"></a>
-                    <img src="assets/img/Home-page/explore_destinations.png"
-                    alt="Card image" class="bg-image">
-                <div class="card-body overlay-content position-relative">
-                    <div class="mb-3">
-                        <button type="button"
-                            class="btn btn-primary btn-sm book-btn">Book now</button>
-                    </div>
-                    <span
-                        class="item-tag text-uppercase bg-white font-weight-500 mb-2 d-inline-block"></span>
-                    <h5 class="card-title font-weight-bold text-white">
-                    </h5>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- /.End of destination -->
-
 
 
 
