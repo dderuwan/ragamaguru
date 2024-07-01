@@ -43,7 +43,15 @@
     .nav-link {
         color: #fff !important; /* White color for the links */
     }
-    
+    .dropdown-menu{
+        width: 50px;
+    }
+    .dropdown-item{
+        width: 10px;
+        height:30px;
+    }
+  
+
 </style>
 
   </head>
@@ -52,19 +60,16 @@
 
   <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
      <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
-        <div class="d-flex order-lg-last">
-        <ul class="navbar-right">
-            <div class="mt-4 btn-container" style="margin-right:50px; ">
-                <a href="{{ route('login') }}" id="btn-sign" class="btn btn-primary">SIGN IN</a>
-            </div>
-            <div class="mt-4 btn-container" style="margin-right:50px; ">
-                <a href="{{ route('register') }}" id="btn-join" class="btn btn-white">JOIN US</a>
-            </div>
-        </ul>   
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+     <div class="d-flex ms-auto mt-2">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Language
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Sinhala</a></li>
+                    <li><a class="dropdown-item" href="#">English</a></li>
+                </ul>
+            </li>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -108,7 +113,10 @@
     <script src="website_assets/plugins/fancybox/dist/jquery.fancybox.min.js"></script>
     <script src="website_assets/plugins/theia-sticky-sidebar/dist/ResizeSensor.min.js"></script>
     <script src="website_assets/plugins/theia-sticky-sidebar/dist/theia-sticky-sidebar.min.js">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+   
 
     <script src="website_assets/plugins/numscroller/numscroller-1.0.js"></script>
 

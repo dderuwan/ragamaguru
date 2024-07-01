@@ -485,7 +485,6 @@ alert-warning {
     font-size: 32px !important;
 }
 
-
 /*Form control ------*/
 
 .form-control,
@@ -538,62 +537,41 @@ alert-warning {
     background: #bd0f0f;
 }
 
-#btn-join{
-    padding: 7px 10px;
-    color: black;
-    font-size:12px;
-  }
-  #btn-join:hover {
-  color: white;
-  border-color: white;
-}
-  #btn-sign{
-    padding: 7px 10px;
-    color: white;
-    font-size:12px;
-  }
-  #btn-sign:hover {
-  color: white;
-  border-color: white;
+.navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the left */
 }
 
-/*Navbar------------*/
+.btn-container {
+    margin-top:10px;
+}
 
-.navbar {
-    z-index: 2;
-    padding: 0 1rem;
+#btn-sign{
+    padding: 10px 13px;
+    font-size: 14px;
+    color: #fff;
+    font-weight:650;
+    margin-right:10px;
+}
+
+#btn-join {
+    padding: 10px 13px;
+    font-size: 14px;
+    color: #fff;
+    font-weight:650;
+}
+
+#btn-join {
     background-color: #fff;
-    -webkit-box-shadow: 0 0 3px rgba(52, 58, 64, 0.15);
-    box-shadow: 0 0 3px rgba(52, 58, 64, 0.15);
-    align-items: flex-start !important;
-    height:80px;
+    color: black;
 }
 
-.header-sticky.sticky {
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
-    -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
-    animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-    background-color: rgba(255,255,255,.7);
+#btn-join:hover {
+    color: #fff;
+    background-color: black;
 }
 
-.navbar-light .navbar-nav .nav-link {
-    color: #000;
-    font-weight: 700;
-}
-.search-icon .nav-link.dropdown-toggle::after {
-    display: none;
-}
-
-.dropdown-menu.search-dropdown {
-    padding: 15px;
-    min-width: 14rem;
-}
 
 
 
@@ -790,22 +768,7 @@ alert-warning {
 
 /* Other styles for the page not related to the animated dropdown */
 
-.carousel-item {
-    height: 560px;
-    min-height: 350px;
-    background: no-repeat center center scroll;
-    background-size: cover;
-}
 
-.carousel-item::before {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    content: "";
-    background: rgba(0, 0, 0, 0.3);
-}
 
 /* Slider ------*/
 
@@ -1030,6 +993,7 @@ alert-warning {
     }
 }
 
+
 /*Header --------------------*/
 
 .hero-header {
@@ -1077,39 +1041,18 @@ alert-warning {
     background: #fff;
 }
 
-
-
-
-
-
-.carousel-item {
-    background-color: transparent !important;
-    transition: transform 0.6s ease-in-out; /* Smooth transition effect */
-    opacity: 1; /* Ensure item is fully visible */
+.carousel {
+    background-image: url('default.jpeg');
+    background-size: cover; /* Ensure the background image covers the whole carousel */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
 }
-
-
-.carousel-inner {
-    overflow: hidden; /* Prevent content overflow during transition */
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    background: none; /* Remove background color */
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    filter: invert(100%); /* Invert icon color for better visibility */
-}
-
-
 
 
 .hero-header .hero-header_wrap .header-text .header-title {
     color: gold;
     font-size: 50px;
-    margin-top: 220px;
+    margin-top: 130px;
     margin-bottom: 25px;
     font-weight: 700;
     font-family: 'Playfair Display', serif;
@@ -1282,7 +1225,6 @@ alert-warning {
         font-size: 18px;
     }
 }
-
 
 
 /*Slideer ----------------------------*/
@@ -1862,7 +1804,6 @@ alert-warning {
     color: #fff;
 }
 
-
 /*Gallery ---------------------- */
 
 
@@ -2063,7 +2004,6 @@ alert-warning {
 
 
 /* Blog details page ---------- */
-
 
 /*Details Post share icon*/
 
@@ -2844,6 +2784,7 @@ img.bg-image {
     margin-bottom: .5rem !important;
     margin-top: .7rem;
 }
+
 /* Home Offer Book Now */
 .card-img .btn {
     top: 50%;
@@ -2889,6 +2830,7 @@ img.bg-image {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 @media(min-width: 1750px){
     .section-gallery{
         max-width: 1750px; 
@@ -2934,16 +2876,6 @@ img.bg-image {
 .red-color{
     color: red;
 }
-@media(min-width:992px){
-    .hero-header_wrap{
-        min-height: 780px;
-    }
-}
-@media(max-width:1200px){
-    #Imageid{
-        width: 100% !important;
-    }
-}
 .forgot-custom-btn{
     border-style: dashed;
     padding: 5px 8px 5px 8px !important;
@@ -2972,3 +2904,52 @@ img.bg-image {
 .wa-right{
     right: 65px !important;
 }
+@media(max-width:1200px){
+    #Imageid{
+        width: 100% !important;
+    }
+}
+
+/*Navbar------------*/
+
+.navbar {
+    z-index: 2;
+    padding: 0 1rem;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 3px rgba(52, 58, 64, 0.15);
+    box-shadow: 0 0 3px rgba(52, 58, 64, 0.15);
+    align-items: flex-start !important;
+    height:80px;
+}
+
+.header-sticky.sticky {
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+    animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    background-color: rgba(255,255,255,.7);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #000;
+    font-weight: 700;
+}
+.search-icon .nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu.search-dropdown {
+    padding: 15px;
+    min-width: 14rem;
+}
+@media(min-width:992px){
+    .hero-header_wrap{
+        min-height: 690px;
+    }
+}
+
