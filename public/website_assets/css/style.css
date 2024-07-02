@@ -2461,34 +2461,86 @@ img.bg-image {
     padding-left: 30px;
 }
 
-.footer-link .link:hover {
-    color: #bd0f0f;
+
+.social-icon {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
-.social-icon{
-    padding-left: 30px;
+.social-icon {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
-.social-icon a {
-    display: block;
-    margin-bottom: 9px;
-    text-decoration: none;
-    -webkit-transition: all .2s linear;
-    -o-transition: all .2s linear;
-    transition: all .2s linear;
-    padding-left: 0;
-    color: #777;
+
+.social-icon li {
+    display: flex;
+    align-items: center;
+}
+
+.social-icon li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Remove underline from links */
+    color: rgb(210, 200, 200); /* Change color as needed */
     font-weight: 500;
 }
 
-.social-icon .icon-wrap {
-    width: 30px;
-    margin-right: 8px;
-    line-height: 30px;
-    border-radius: 50%;
-    vertical-align: middle;
-    color: #fff;
-    background-color: #bd0f0f;
-    text-align: center;
+.social-icon li .icon-wrap {
+    margin-right: 8px; /* Adjust spacing between icon and text */
+    font-size: 18px; /* Adjust icon size as needed */
 }
+
+.container1 {
+    width: 700px;
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center; /* Center the text within the container if needed */;
+    height: 10px; /* Set a minimum height */
+}
+
+.container2 {
+    width: 300px;
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center; /* Center the text within the container if needed */
+    font-size: 16px;
+    color:white;
+}
+
+
+
+.menus {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menus li {
+    display: flex;
+    align-items: center;
+}
+
+.menus li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Remove underline from links */
+    color: #d2c8c8; /* Default color */
+    padding: 10px; /* Add some padding for better click area */
+}
+
+.menus li a:hover {
+    color: #bd0f0f; /* Color change on hover */
+}
+
+.menus li a:focus, .menus li a:active {
+    text-decoration: none; /* Ensure no underline on focus or active states */
+}
+
 
 .clients {
     width: 100%;
