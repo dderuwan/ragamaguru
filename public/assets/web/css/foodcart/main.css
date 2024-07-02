@@ -894,27 +894,21 @@ section {
 
 .menu .tab-content .menu-item .menu-img {
   padding: 0 60px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
-.menu .tab-content .menu-item h4 {
+.menu .tab-content .menu-item h4 a{
   font-size: 22px;
   font-weight: 500;
   color: var(--color-secondary);
   font-family: var(--font-secondary);
   font-weight: 30px;
-  margin-bottom: 5px;
 }
 
-.menu .tab-content .menu-item .ingredients {
-  font-family: var(--font-secondary);
-  color: #8d8d9b;
-  margin-bottom: 5px;
-}
 
 .menu .tab-content .menu-item .price {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 500;
   color: var(--color-primary);
 }
 
