@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use app\Http\Controllers\HomeController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.home');
 });
 
 Auth::routes();
