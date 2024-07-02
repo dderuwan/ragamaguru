@@ -41,46 +41,36 @@
   @yield('content')
 
          
-
-  <div class="card">
-    <div class="card-body">
-        <div class="section section-about">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-5 col-md-6 col-12">
-                        <div class="position-relative">
-                            <img src="assets/web/images/image3.jpg"
-                                class="rounded img-fluid mx-auto d-block" alt="" style="height: 400px;">
-                            <div class="play-icon">
-                                <a href="" class="play-btn video-play-icon">
-                                    <i class="mdi mdi-play text-primary rounded-circle bg-white shadow"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end col-->
-
-                    <div class="col-lg-7 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                        <div class="ml-lg-5 ml-md-4">
-                            <div class="section-title">
-                                <h4 class="title">Product 01<span class="text-primary"></span></h4>
-                                <p class="section-price text-primary para-desc mx-auto mb-0">Rs 100.00</p>
-                                <div class="mt-4">
-                                    <a href="#" class="btn btn-primary">We provide</a>
-                                </div>
-                                <span class="badge badge-pill badge-soft-primary">About</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end col-->
+  <div class="section section-about">
+    <div class="container3">
+        <div class="row align-items-start"> <!-- Align items to the top of the row -->
+            <!-- Image Column -->
+            <div class="col-lg-7 col-md-6 col-12">
+                <div class="img position-relative">
+                    <a href="assets/web/images/image3.jpg" class="glightbox">
+                        <img src="assets/web/images/image3.jpg" class="rounded img-fluid mx-auto d-block" alt="">
+                    </a>
                 </div>
-                <!--end row-->
             </div>
-            <!--end container-->
+            <!-- Text Column -->
+            <div class="col-lg-5 col-md-6 mt-sm-0 pt-2 pt-sm-0">
+                <div class="ml-lg-3 ml-md-2 d-flex flex-column justify-content-start h-100"> <!-- Align content to start of column -->
+                    <div class="section-title text-left mt-2"> <!-- Align text to left -->
+                        <h4 class="title">Product 01<span class="text-primary"></span></h4>
+                        <p class="section-price text-primary para-desc mx-auto">Rs 100.00</p>
+                        <a href="#">
+                            <span class="badge badge-pill badge-soft-primary mt-3">
+                                <i class="fas fa-shopping-cart"></i>&nbsp; Add to Cart
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!--end section section-about-->
     </div>
 </div>
+
+
 
 
 

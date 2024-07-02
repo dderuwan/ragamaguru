@@ -61,8 +61,8 @@
     <div class="tab-pane fade active show" id="menu-starters">
         <div class="row gy-5">
                 <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Product 01</a></h4>
+                      <a href="{{ route('products') }}"><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="product-details.blade.php">Product 01</a></h4>
                       <p class="price">Rs 100.00</p>
                   </div>
                   <div class="col-lg-4 menu-item">
