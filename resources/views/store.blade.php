@@ -50,73 +50,144 @@
    
             
 <!--products-->
-
 <section id="menu" class="menu">
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
           <p>Check Our <span>Products</span></p>
         </div>
+  
+<div id="product-list" class="tab-content mt-5" data-aos="fade-up" data-aos-delay="300">
+    <div class="tab-pane fade active show" id="menu-starters">
+        <div class="row gy-5">
+                <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Product 01</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+                  <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Product 02</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+                  <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Product 03</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+                  <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Magnam Tiste</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+                  <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Product 04</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+                  <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Product 05</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+                  <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Product 06</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+                  <div class="col-lg-4 menu-item">
+                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
+                      <h4><a href="">Product 07</a></h4>
+                      <p class="price">Rs 100.00</p>
+                  </div>
+        </div>
+    </div>
+</div>
+</section>
 
-        
-        <div class="tab-content mt-5" data-aos="fade-up" data-aos-delay="300">
-          <div class="tab-pane fade active show" id="menu-starters">
-            <div class="row gy-5">
-              <div class="col-lg-4 menu-item">
-                <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4><a href="">Magnam Tiste</a></h4>
-                <p class="price">
-                  Rs 100.00
-                </p>
-              </div><!-- product Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="" class="glightbox"><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4><a href="">Magnam Tiste</a></h4>
-                <p class="price">
-                  Rs 100.00
-                </p>
-              </div><!-- product Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="" class="glightbox"><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4><a href="">Magnam Tiste</a></h4>
-                <p class="price">
-                  Rs 100.00
-                </p>
-              </div><!-- product Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4><a href="">Magnam Tiste</a></h4>
-                <p class="price">
-                  Rs 100.00
-                </p>
-              </div><!-- product Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4><a href="">Magnam Tiste</a></h4>
-                <p class="price">
-                  Rs 100.00
-                </p>
-              </div><!-- product Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4><a href="">Magnam Tiste</a></h4>
-                <p class="price">
-                  Rs 100.00
-                </p>
-              </div><!-- product Item -->
-              
-
-            </div>
-          </div>
-    </section><!-- End product Section -->
+<!--pagination-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mb-4"  id="pagination">
+        <li class="page-item" id="prevPage">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#" data-page="1">1</a></li>
+        <li class="page-item"><a class="page-link" href="#" data-page="2">2</a></li>
+        <!-- Add more page links dynamically using JavaScript -->
+        <li class="page-item" id="nextPage">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 
 
+<!--pagination JS-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const itemsPerPage = 6;
+    let currentPage = 1;
+
+    const products = document.querySelectorAll("#product-list .menu-item");
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+
+    function showPage(page) {
+        products.forEach((item, index) => {
+            if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+        updatePagination(page);
+    }
+
+    function updatePagination(currentPage) {
+        const paginationItems = document.querySelectorAll("#pagination .page-item");
+
+        paginationItems.forEach(item => {
+            item.classList.remove("active");
+        });
+
+        paginationItems[currentPage].classList.add("active");
+    }
+
+    // Click event listeners for pagination links
+    document.querySelectorAll("#pagination .page-link").forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            currentPage = parseInt(this.getAttribute("data-page"));
+            showPage(currentPage);
+        });
+    });
+
+    // Previous page button
+    document.getElementById("prevPage").addEventListener("click", function(e) {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    });
+
+    // Next page button
+    document.getElementById("nextPage").addEventListener("click", function(e) {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    });
+
+    // Initial page load
+    showPage(currentPage);
+});
+
+</script>
  
 
                 
@@ -160,6 +231,7 @@
     </script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
+
 
 
     @include('includes.footer')

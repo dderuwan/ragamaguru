@@ -30,6 +30,9 @@
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ route('products') }}">Products</a>
+            </li>
             </ul>
         </div>
     </nav>
