@@ -1825,7 +1825,19 @@ alert-warning {
       justify-content: end; /* Ensure buttons align right on smaller screens */
     }
   }
+
+  /* cart */
+.card3{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to the item */
+    background-color: white;
+}
+
+.section-border {
+    border: 1px solid #eae5e5; /* Black border with 1px width */
+    padding: 20px; /* Optional: Add padding inside the border */
+  }
   
+
 .badge {
     display: inline-block;
     font-weight: 600;

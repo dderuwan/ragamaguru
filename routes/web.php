@@ -18,6 +18,7 @@ Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
 Route::view('/appointment', 'appointment')->name('appointment');
 Route::view('/product-details', 'product-details')->name('products');
+Route::view('/cart', 'cart')->name('cart');
 
 Route::get('lang/home', [LangController::class,'index']);
 Route::get('lang/change', [LangController::class,'change'])->name('changeLang');

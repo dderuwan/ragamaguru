@@ -41,103 +41,89 @@
   @include('includes.navbar')
   @yield('content')
 
-  <header class="header-bg">
-  <div class="p-3 text-center border-bottom">
-    <div class="container4">
-      <div class="row gy-3 justify-content-between align-items-center">
-        <div class="col-lg-2 col-md-4 col-0"></div>
-        <div class="order-lg-last col-lg-5 col-sm-8 col-12">
-          <div class="d-flex justify-content-end">
-            <a href="" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"> 
-                <i class="fas fa-heart m-1 me-md-2 text-white"></i>
-                <p class="d-none d-md-block mb-0">Wishlist</p>
-            </a>
-            <a href="" class="border rounded py-1 px-3 nav-link d-flex align-items-center"> 
-                <i class="fas fa-shopping-cart m-1 me-md-2 text-white"></i>
-                <p class="d-none d-md-block mb-0">My cart</p>
-            </a>
+
+  <section class="h-100">
+  <div class="container section-border h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0">Your Cart</h3>
+          <h4 class="fw-normal mb-0 text-muted">2 items</h4>
+        </div>
+
+        <div class="card3 rounded-3 mb-4">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Cotton T-shirt">
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">Product 01</p>
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', -1)">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input id="quantity-product1" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product1')">
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', 1)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                <h5 id="price-product1" class="mb-0">Rs 100.00</h5>
+              </div>
+              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+              </div>
+            </div>
           </div>
         </div>
+
+        <div class="card3 rounded-3 mb-4">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Cotton T-shirt">
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">Product 02</p>
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', -1)">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input id="quantity-product2" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product2')">
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', 1)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                <h5 id="price-product2" class="mb-0">Rs 100.00</h5>
+              </div>
+              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="float-right">
+              <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">
+                <i class="fas fa-long-arrow-alt-left me-2"></i> Back to shopping
+              </button>
+              <button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-</header>
-
-
-
-<!-- content -->
-<section class="py-5">
-  <div class="container">
-    <div class="row gx-5">
-      <aside class="col-lg-6">
-        <div class="border rounded-4 mb-3 d-flex justify-content-center">
-            <a href="/assets/web/images/image3.jpg" class="glightbox">
-            <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/assets/web/images/image3.jpg" />
-          </a>
-        </div>
-        <div class="d-flex justify-content-center mb-3">
-          <a href="/assets/web/images/image3.1.jpg" class="glightbox">
-            <img width="60" height="60" class="rounded-2" src="/assets/web/images/image3.1.jpg" />
-          </a>
-          <a href="/assets/web/images/image3.1.jpg" class="glightbox">
-            <img width="60" height="60" class="rounded-2" src="/assets/web/images/image3.1.jpg" />
-          </a>
-        </div>
-        
-      </aside>
-      <main class="col-lg-6">
-        <div class="ps-lg-3">
-          <h4 class="title text-dark fw-bold"">PRODUCT 01 </h4>
-          <div class="d-flex flex-row my-3">
-            <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>30 orders</span>
-            <span class="text-success ms-2">In stock</span>
-          </div>
-          <div class="mb-3">
-            <span class="h5 text-primary fw-bold"">Rs 100.00</span>
-          </div>
-
-          <p>
-          An incense stick producer manufactures and distributes aromatic sticks that release fragrant smoke when burned. 
-          They typically use a blend of natural materials like wood powder, resins, and essential oils to create the incense sticks. 
-          </p>
-
-          <hr />
-
-          <div class="row mb-4">
-          <div class="col-md-4 col-6 mb-3">
-              <label class="mb-2 d-block">Quantity</label>
-              <div class="input-group mb-3" style="width: 170px;">
-                <button class="btn btn-white border border-secondary px-3" type="button" id="button-minus" data-mdb-ripple-color="dark">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input type="text" class="form-control text-center border border-secondary" id="quantity-input" placeholder="1" aria-label="Quantity" 
-                aria-describedby="button-minus button-plus" value="1"/>
-                <button class="btn btn-white border border-secondary px-3" type="button" 
-                id="button-plus" data-mdb-ripple-color="dark">
-                <i class="fas fa-plus"></i>
-                </button>
-              </div>
-            </div>
-            </div>
-
-          <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-          <a href="{{ route('cart') }}" class="btn btn-primary shadow-0"> <i class="me-1 fas fa-shopping-cart"></i> Add to cart </a>
-          <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
-        </div>
-      </main>
-    </div>
-  </div>
 </section>
-<!-- content -->
 
-
-
-
-
-
-
-
-                
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -177,29 +163,27 @@
     </script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
-
+  
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const minusButton = document.getElementById('button-minus');
-      const plusButton = document.getElementById('button-plus');
-      const quantityInput = document.getElementById('quantity-input');
-
-      minusButton.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        if (!isNaN(currentValue) && currentValue > 1) {
-          quantityInput.value = currentValue - 1;
+    function changeQuantity(productId, change) {
+        var quantityInput = document.getElementById('quantity-' + productId);
+        var currentQuantity = parseInt(quantityInput.value);
+        var newQuantity = currentQuantity + change;
+        if (newQuantity >= 0) {
+            quantityInput.value = newQuantity;
+            updatePrice(productId);
         }
-      });
+    }
 
-      plusButton.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        if (!isNaN(currentValue)) {
-          quantityInput.value = currentValue + 1;
-        }
-      });
-    });
-  </script>
-
+    function updatePrice(productId) {
+        var quantityInput = document.getElementById('quantity-' + productId);
+        var priceElement = document.getElementById('price-' + productId);
+        var pricePerUnit = 100; // Replace with your actual price per unit
+        var quantity = parseInt(quantityInput.value);
+        var totalPrice = quantity * pricePerUnit;
+        priceElement.textContent = 'Rs ' + totalPrice.toFixed(2);
+    }
+    </script>
 
     @include('includes.footer')
 
