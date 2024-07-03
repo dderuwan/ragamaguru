@@ -1798,38 +1798,34 @@ alert-warning {
     transition: all 0.4s ease-in-out;
 }
 
-.container3 {
-    width: 100%; /* Full width by default */
-    max-width: 1000px; /* Maximum width of 1000px */
-    margin: 0 auto; /* Center the container horizontally */
-    text-align: center; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to the item */
-    padding: 20px;
-    box-sizing: border-box; /* Include padding and border in total width */
+/* product details */
+.icon-hover:hover {
+    border-color: #bd0f0f!important;
+    background-color: white !important;
+    color: #bd0f0f !important;
+  }
+  
+  .icon-hover:hover i {
+    color: #bd0f0f !important;
+  }
+
+.container4{
+    margin-right:30px;
+    color:white;
+}
+.header-bg {
+    background-color: #bd0f0f;
 }
 
-.container3 img {
-    width: 100%; /* Make the image responsive */
-    max-width: 85%; /* Ensure image doesn't exceed container width */
-    display: block; /* Remove any default inline spacing */
-}
-
-@media (min-width: 768px) {
-    .container3 .row {
-        display: flex;
-        align-items: start; /* Align items to the top of the row */
+  .d-flex.justify-content-end > a {
+    margin-left: 10px; /* Add some spacing between buttons */
+  }
+  @media (max-width: 992px) {
+    .order-lg-last {
+      justify-content: end; /* Ensure buttons align right on smaller screens */
     }
-
-    .container3 .col-lg-7 {
-        text-align: right; /* Align image column content to the right on larger screens */
-    }
-
-    .container3 .col-lg-5 {
-        text-align: left; /* Align text column content to the left on larger screens */
-    }
-}
-
-
+  }
+  
 .badge {
     display: inline-block;
     font-weight: 600;

@@ -71,128 +71,112 @@
         <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow-lg rounded-0 mb-4">
-                <a href="" class="card-img position-relative">
+                    <a href="{{ route('products') }}" class="card-img position-relative">
                         <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100" alt="...">
                         <button type="button"
                             class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
                     </a>
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="text-dark">Product name</a></h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title"><a href=""
-                                class="">Price</a></h6>
+                        <h6 class="card-title mb-0 weeklyoffer-title text-dark">Product name</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary">Price</h6>
                     </div>
                 </div>
                 <!-- /.End of card -->
