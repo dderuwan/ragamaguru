@@ -76,52 +76,75 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <p>Check Our <span>Products</span></p>
+          <p>Products</p>
         </div>
   
 <div id="product-list" class="tab-content mt-5" data-aos="fade-up" data-aos-delay="300">
     <div class="tab-pane fade active show" id="menu-starters">
-        <div class="row gy-5">
-                <div class="col-lg-4 menu-item">
-                      <a href="{{ route('products') }}"><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="product-details.blade.php">Product 01</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
-                  <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Product 02</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
-                  <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Product 03</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
-                  <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Magnam Tiste</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
-                  <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Product 04</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
-                  <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Product 05</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
-                  <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Product 06</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
-                  <div class="col-lg-4 menu-item">
-                      <a href=""><img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt=""></a>
-                      <h4><a href="">Product 07</a></h4>
-                      <p class="price">Rs 100.00</p>
-                  </div>
+                <div class="row gy-5">
+                    <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 01">
+                        </a>
+                        <h4 class="product-name">Product 01</h4>
+                        <p class="price">Rs 100.00</p>
+                    </div>
+
+                    <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 02">
+                        </a>
+                        <h4 class="product-name">Product 02</h4>
+                        <p class="price">Rs 300.00</p>
+                    </div>
+
+                    <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 03">
+                        </a>
+                        <h4 class="product-name">Product 03</h4>
+                        <p class="price">Rs 100.00</p>
+                    </div>
+
+                   <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 04">
+                        </a>
+                        <h4 class="product-name">Product 04</h4>
+                        <p class="price">Rs 100.00</p>
+                    </div>
+
+                    <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 05">
+                        </a>
+                        <h4 class="product-name">Product 05</h4>
+                        <p class="price">Rs 50.00</p>
+                    </div>
+
+                   <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 06">
+                        </a>
+                        <h4 class="product-name">Product 06</h4>
+                        <p class="price">Rs 100.00</p>
+                    </div>
+
+                    <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 07">
+                        </a>
+                        <h4 class="product-name">Product 07</h4>
+                        <p class="price">Rs 100.00</p>
+                    </div>
+
+                    <div class="col-lg-4 menu-item">
+                        <a href="#" class="product-link">
+                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 08">
+                        </a>
+                        <h4 class="product-name">Product 08</h4>
+                        <p class="price">Rs 100.00</p>
+                    </div>
         </div>
     </div>
 </div>
@@ -211,7 +234,27 @@
 
 </script>
  
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const productLinks = document.querySelectorAll('.product-link');
 
+        productLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const productContainer = this.closest('.menu-item');
+                const productName = productContainer.querySelector('.product-name').textContent;
+                const productPrice = productContainer.querySelector('.price').textContent.replace('Rs ', '');
+
+                const url = new URL(window.location.origin + "/products");
+                url.searchParams.set('name', productName.trim());
+                url.searchParams.set('price', productPrice.trim());
+
+                window.location.href = url.toString();
+            });
+        });
+    });
+</script>
                 
 
 
@@ -254,6 +297,27 @@
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const productLinks = document.querySelectorAll('.product-link');
+
+        productLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const productContainer = this.closest('.menu-item');
+                const productName = productContainer.querySelector('.product-name').textContent;
+                const productPrice = productContainer.querySelector('.price').textContent.replace('Rs ', '');
+
+                const url = new URL(window.location.origin + "{{ route('products') }}");
+                url.searchParams.set('name', productName.trim());
+                url.searchParams.set('price', productPrice.trim());
+
+                window.location.href = url.toString();
+            });
+        });
+    });
+</script>
 
 
     @include('includes.footer')

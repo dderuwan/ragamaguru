@@ -63,13 +63,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
   <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
-  <div class="d-flex ms-auto mt-2">
-    <select id="language_selector" class="form-select mt-3 changeLang">
-      <option selected>Language</option>
-      <option value="en">English</option>
-      <option value="si">Sinhala</option>
-    </select>
-  </div>
+ 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">

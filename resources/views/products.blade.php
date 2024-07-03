@@ -49,12 +49,13 @@
         <div class="order-lg-last col-lg-5 col-sm-8 col-12">
           <div class="d-flex justify-content-end">
             <a href="" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"> 
-                <i class="fas fa-heart m-1 me-md-2 text-white"></i>
-                <p class="d-none d-md-block mb-0">Wishlist</p>
+              <i class="fas fa-heart m-1 me-md-2 text-white"></i>
+              <p class="d-none d-md-block mb-0">Wishlist</p>
             </a>
-            <a href="" class="border rounded py-1 px-3 nav-link d-flex align-items-center"> 
+            <a href="{{ route('cart') }}" class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative"> 
                 <i class="fas fa-shopping-cart m-1 me-md-2 text-white"></i>
                 <p class="d-none d-md-block mb-0">My cart</p>
+                <span id="cart-count" class="badge bg-warning text-dark rounded-circle position-absolute top-0 start-100 translate-middle p-1 small">0</span>
             </a>
           </div>
         </div>
@@ -65,36 +66,43 @@
 
 
 
+
+
+
+
+
 <!-- content -->
 <section class="py-5">
-  <div class="container">
-    <div class="row gx-5">
-      <aside class="col-lg-6">
-        <div class="border rounded-4 mb-3 d-flex justify-content-center">
+    <div class="container">
+      <div class="row gx-5">
+        <aside class="col-lg-6">
+          <div class=" rounded-4 mb-3 d-flex justify-content-end">
             <a href="/assets/web/images/image3.jpg" class="glightbox">
-            <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/assets/web/images/image3.jpg" />
-          </a>
-        </div>
-        <div class="d-flex justify-content-center mb-3">
-          <a href="/assets/web/images/image3.1.jpg" class="glightbox">
-            <img width="60" height="60" class="rounded-2" src="/assets/web/images/image3.1.jpg" />
-          </a>
-          <a href="/assets/web/images/image3.1.jpg" class="glightbox">
-            <img width="60" height="60" class="rounded-2" src="/assets/web/images/image3.1.jpg" />
-          </a>
-        </div>
-        
-      </aside>
+              <img style="max-width: 85%; max-height: 100vh; margin-left: 80px;" class="rounded-4 fit" src="/assets/web/images/image3.jpg" />
+            </a>
+          </div>
+          <div class="d-flex justify-content-center mb-3">
+            <a href="/assets/web/images/image3.1.jpg" class="glightbox">
+              <img width="60" height="60" class="rounded-2" src="/assets/web/images/image3.1.jpg" />
+            </a>
+            <a href="/assets/web/images/image3.1.jpg" class="glightbox">
+              <img width="60" height="60" class="rounded-2" src="/assets/web/images/image3.1.jpg" />
+            </a>
+          </div>
+        </aside>
+
+      
       <main class="col-lg-6">
-        <div class="ps-lg-3">
-          <h4 class="title text-dark fw-bold"">PRODUCT 01 </h4>
-          <div class="d-flex flex-row my-3">
+      <div class="ps-lg-3">
+        <h4 class="title text-dark fw-bold">{{ $name }}</h4>
+        <div class="d-flex flex-row my-3">
             <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>30 orders</span>
             <span class="text-success ms-2">In stock</span>
-          </div>
-          <div class="mb-3">
-            <span class="h5 text-primary fw-bold"">Rs 100.00</span>
-          </div>
+        </div>
+        <div class="mb-3">
+            <span class="h5 text-primary fw-bold">Rs {{ $price }}</span>
+        </div>
+
 
           <p>
           An incense stick producer manufactures and distributes aromatic sticks that release fragrant smoke when burned. 
@@ -103,32 +111,17 @@
 
           <hr />
 
-          <div class="row mb-4">
-          <div class="col-md-4 col-6 mb-3">
-              <label class="mb-2 d-block">Quantity</label>
-              <div class="input-group mb-3" style="width: 170px;">
-                <button class="btn btn-white border border-secondary px-3" type="button" id="button-minus" data-mdb-ripple-color="dark">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input type="text" class="form-control text-center border border-secondary" id="quantity-input" placeholder="1" aria-label="Quantity" 
-                aria-describedby="button-minus button-plus" value="1"/>
-                <button class="btn btn-white border border-secondary px-3" type="button" 
-                id="button-plus" data-mdb-ripple-color="dark">
-                <i class="fas fa-plus"></i>
-                </button>
-              </div>
-            </div>
-            </div>
-
+        
           <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-          <a href="{{ route('cart') }}" class="btn btn-primary shadow-0"> <i class="me-1 fas fa-shopping-cart"></i> Add to cart </a>
+          <a href="" class="btn btn-primary shadow-0" onclick="addToCart()"> 
+            <i class="me-1 fas fa-shopping-cart"></i> Add to cart </a>
           <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
         </div>
       </main>
     </div>
   </div>
 </section>
-<!-- content -->
+
 
 
 
@@ -178,27 +171,45 @@
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const minusButton = document.getElementById('button-minus');
-      const plusButton = document.getElementById('button-plus');
-      const quantityInput = document.getElementById('quantity-input');
 
-      minusButton.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        if (!isNaN(currentValue) && currentValue > 1) {
-          quantityInput.value = currentValue - 1;
-        }
-      });
+   <!--adding an item to the cart and update -->
+   <script>
+    function addToCart() {
+        // Get current count from localStorage or initialize to 0
+        let currentCount = localStorage.getItem('cartCount') || 0;
+        
+        // Increment the count
+        let newCount = parseInt(currentCount) + 1;
+        
+        // Update localStorage with the new count
+        localStorage.setItem('cartCount', newCount);
+        
+        // Update cart count display
+        updateCartCount(newCount);
+        
+        // Optionally, you can redirect to the cart page using window.location.href
+        // Example: window.location.href = "{{ route('cart') }}";
+    }
 
-      plusButton.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        if (!isNaN(currentValue)) {
-          quantityInput.value = currentValue + 1;
-        }
-      });
-    });
-  </script>
+    // Function to update the cart count display
+    function updateCartCount(count) {
+        document.getElementById('cart-count').innerText = count;
+    }
+
+    // Function to initialize cart count on page load
+    function initCartCount() {
+        // Get count from localStorage
+        let currentCount = localStorage.getItem('cartCount') || 0;
+        
+        // Update cart count display
+        updateCartCount(currentCount);
+    }
+
+    // Initialize cart count on page load
+    initCartCount();
+
+</script>
+
 
 
     @include('includes.footer')

@@ -1834,13 +1834,25 @@ alert-warning {
     overflow: hidden; /* Ensure content overflow is hidden */
 }
 
+
 .section-border {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to the item */
     padding: 20px; /* Optional: Add padding inside the border */
   }
 
+  @media (min-width: 1025px) {
+    .h-custom {
+    height: 100vh !important;
+    }
+    }
   
-  
+
+.badge.small {
+    font-size: 0.75rem;
+    min-width: 1.25rem;
+    height: 1.25rem;
+  }
+
 
 .badge {
     display: inline-block;

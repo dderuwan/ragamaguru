@@ -41,88 +41,88 @@
   @include('includes.navbar')
   @yield('content')
 
+  <header class="header-bg">
+    <div class="container4 p-2">
+          <div class="d-flex align-items-center">
+            <h4 class="text-white">My Cart</h4>
+          </div>
+    </div>
+  </header>
 
 
-  <section class="h-100">
-  <div class="container section-border h-100 py-5">
+  <section class="h-100 h-custom">
+  <div class="container h-100 py-5">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-10">
+      <div class="col">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0">Your Cart</h3>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="h5">Products</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <!--image-->
+                    <img src="assets\web\images\image3.jpg" class="img-fluid rounded-3" style="width: 120px;" alt="Book">
+                    <div class="flex-column ms-4">
+                      <p class="mb-0">Product 01</p>
+                    </div>
+                  </div>
+                </td>
+                <!--price-->
+                <td class="align-middle">
+                  <p class="mb-0" style="font-weight: 500;">$9.99</p>
+                </td>
+                <!--quantity-->
+                <td class="align-middle">
+                  <div class="d-flex flex-row">
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input min="0" name="quantity" value="0" type="number" class="form-control form-control-sm" style="width: 50px;" />
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </td>
+                <!--total-->
+                <td class="align-middle">
+                  <p class="mb-0" style="font-weight: 500;">$9.99</p>
+                </td>
+                <!--delete-->
+                <td class="align-middle">
+                  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                    <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-    <!-- Product 01 -->
-        <div class="card3 rounded-3 mb-3" style="height: auto;">
-            <div class="card-body p-2"> <!-- Reduced padding to 3 for top/bottom -->
-                <div class="row align-items-center">
-                <div class="col-md-2 col-lg-2 col-xl-2">
-                    <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Product Image" style="max-width: 80%; height: auto;">
-                    <!-- Adjusted max-width to maintain responsiveness -->
+        <div class="row mt-4 justify-content-end">
+          <div class="col-md-4">
+            <div class="card shadow-2-strong" style="border-radius: 16px;">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                  <p class="mb-2">Total Price</p>
+                  <p class="mb-2">$26.48</p>
                 </div>
-                <div class="col-md-3 col-lg-3 col-xl-3">
-                    <p class="lead fw-normal mb-0">Product 01</p> <!-- Removed mb-2 for reduced margin -->
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', -1)">
-                    <i class="fas fa-minus"></i>
-                    </button>
-                    <input id="quantity-product1" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product1')">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', 1)">
-                    <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                    <h5 id="price-product1" class="mb-0">Rs 100.00</h5>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                    <a href="#" class="text-danger delete-item" data-item-id="product1">
-                    <i class="fas fa-trash fa-lg"></i>
-                    </a>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 02 -->
-        <div class="card3 rounded-3 mb-3" style="height: auto;">
-            <div class="card-body p-2"> <!-- Reduced padding to 3 for top/bottom -->
-                <div class="row align-items-center">
-                <div class="col-md-2 col-lg-2 col-xl-2">
-                    <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Product Image" style="max-width: 80%; height: auto;">
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-3">
-                    <p class="lead fw-normal mb-0">Product 02</p> <!-- Removed mb-2 for reduced margin -->
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', -1)">
-                    <i class="fas fa-minus"></i>
-                    </button>
-                    <input id="quantity-product2" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product1')">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', 1)">
-                    <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                    <h5 id="price-product2" class="mb-0">Rs 100.00</h5>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                    <a href="#" class="text-danger delete-item" data-item-id="product2">
-                    <i class="fas fa-trash fa-lg"></i>
-                    </a>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Checkout buttons -->
-        <div class="card">
-          <div class="card-header">
-            <div class="float-right">
-              <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">
-                <i class="fas fa-long-arrow-alt-left me-2"></i> Back to shopping
-              </button>
-              <button type="button" class="btn btn-lg btn-primary mt-2">CHECKOUT</button>
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block btn-lg">
+                  <div class="d-flex justify-content-between">
+                    <span>Checkout</span>
+                    <span>$26.48</span>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -131,6 +131,8 @@
     </div>
   </div>
 </section>
+
+
 
 
 
