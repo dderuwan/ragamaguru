@@ -42,6 +42,7 @@
   @yield('content')
 
 
+
   <section class="h-100">
   <div class="container section-border h-100 py-5">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -49,72 +50,79 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h3 class="fw-normal mb-0">Your Cart</h3>
-          <h4 class="fw-normal mb-0 text-muted">2 items</h4>
         </div>
 
-        <div class="card3 rounded-3 mb-4">
-          <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-              <div class="col-md-2 col-lg-2 col-xl-2">
-                <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Cotton T-shirt">
-              </div>
-              <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">Product 01</p>
-              </div>
-              <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', -1)">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input id="quantity-product1" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product1')">
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', 1)">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </div>
-              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 id="price-product1" class="mb-0">Rs 100.00</h5>
-              </div>
-              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-              </div>
+    <!-- Product 01 -->
+        <div class="card3 rounded-3 mb-3" style="height: auto;">
+            <div class="card-body p-2"> <!-- Reduced padding to 3 for top/bottom -->
+                <div class="row align-items-center">
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                    <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Product Image" style="max-width: 80%; height: auto;">
+                    <!-- Adjusted max-width to maintain responsiveness -->
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3">
+                    <p class="lead fw-normal mb-0">Product 01</p> <!-- Removed mb-2 for reduced margin -->
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', -1)">
+                    <i class="fas fa-minus"></i>
+                    </button>
+                    <input id="quantity-product1" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product1')">
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product1', 1)">
+                    <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                    <h5 id="price-product1" class="mb-0">Rs 100.00</h5>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                    <a href="#" class="text-danger delete-item" data-item-id="product1">
+                    <i class="fas fa-trash fa-lg"></i>
+                    </a>
+                </div>
+                </div>
             </div>
-          </div>
         </div>
 
-        <div class="card3 rounded-3 mb-4">
-          <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-              <div class="col-md-2 col-lg-2 col-xl-2">
-                <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Cotton T-shirt">
-              </div>
-              <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">Product 02</p>
-              </div>
-              <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', -1)">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input id="quantity-product2" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product2')">
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', 1)">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </div>
-              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 id="price-product2" class="mb-0">Rs 100.00</h5>
-              </div>
-              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-              </div>
+        <!-- Product 02 -->
+        <div class="card3 rounded-3 mb-3" style="height: auto;">
+            <div class="card-body p-2"> <!-- Reduced padding to 3 for top/bottom -->
+                <div class="row align-items-center">
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                    <img src="/assets/web/images/image3.jpg" class="img-fluid rounded-3" alt="Product Image" style="max-width: 80%; height: auto;">
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3">
+                    <p class="lead fw-normal mb-0">Product 02</p> <!-- Removed mb-2 for reduced margin -->
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', -1)">
+                    <i class="fas fa-minus"></i>
+                    </button>
+                    <input id="quantity-product2" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" onchange="updatePrice('product1')">
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="changeQuantity('product2', 1)">
+                    <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                    <h5 id="price-product2" class="mb-0">Rs 100.00</h5>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                    <a href="#" class="text-danger delete-item" data-item-id="product2">
+                    <i class="fas fa-trash fa-lg"></i>
+                    </a>
+                </div>
+                </div>
             </div>
-          </div>
         </div>
 
+        <!-- Checkout buttons -->
         <div class="card">
           <div class="card-header">
             <div class="float-right">
               <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">
                 <i class="fas fa-long-arrow-alt-left me-2"></i> Back to shopping
               </button>
-              <button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button>
+              <button type="button" class="btn btn-lg btn-primary mt-2">CHECKOUT</button>
             </div>
           </div>
         </div>
@@ -183,6 +191,35 @@
         var totalPrice = quantity * pricePerUnit;
         priceElement.textContent = 'Rs ' + totalPrice.toFixed(2);
     }
+
+        
+    // Function to handle item deletion
+    function deleteItem(event) {
+        event.preventDefault(); // Prevent default anchor behavior
+
+        // Get the item ID from the data attribute
+        const itemId = event.currentTarget.getAttribute('data-item-id');
+
+        // Assuming you have a function to remove the item from the cart array or database
+        console.log('Deleting item:', itemId);
+
+        // Here you would typically call a function to remove the item from the cart
+        // Example: removeItemFromCart(itemId);
+
+        // Find the parent card element and remove it
+        const cardElement = event.currentTarget.closest('.card3');
+        if (cardElement) {
+            cardElement.remove();
+        }
+    }
+
+    // Attach event listener to all delete buttons with class 'delete-item'
+    const deleteButtons = document.querySelectorAll('.delete-item');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', deleteItem);
+    });
+
+
     </script>
 
     @include('includes.footer')

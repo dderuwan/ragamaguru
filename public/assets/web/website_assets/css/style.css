@@ -1826,16 +1826,20 @@ alert-warning {
     }
   }
 
+
   /* cart */
 .card3{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to the item */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to the item */
     background-color: white;
+    overflow: hidden; /* Ensure content overflow is hidden */
 }
 
 .section-border {
-    border: 1px solid #eae5e5; /* Black border with 1px width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to the item */
     padding: 20px; /* Optional: Add padding inside the border */
   }
+
+  
   
 
 .badge {
