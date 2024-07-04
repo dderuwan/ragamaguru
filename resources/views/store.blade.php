@@ -31,6 +31,20 @@
     <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
 
+    <style>
+        .card {
+            height: 100%;
+            width:300px;
+        }
+        .card-body {
+            padding: 10px;
+        }
+        .card2-img {
+            max-height: 200px;
+            overflow: hidden;
+        }
+
+    </style>
   </head>
   <body>
 
@@ -72,83 +86,120 @@
 
             
 <!--products-->
-<section id="menu" class="menu">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-header">
-          <p>Products</p>
-        </div>
-  
-<div id="product-list" class="tab-content mt-5" data-aos="fade-up" data-aos-delay="300">
-    <div class="tab-pane fade active show" id="menu-starters">
-                <div class="row gy-5">
-                    <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 01">
-                        </a>
-                        <h4 class="product-name">Product 01</h4>
-                        <p class="price">Rs 100.00</p>
+ <div class="section menu" id="product-list">
+        <div class="container"  data-aos="fade-up">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center mb-5 col-middle">
+                        <h1 class="block-title">Products</h1>
                     </div>
-
-                    <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 02">
+                    <!-- /.End of section title -->
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
-                        <h4 class="product-name">Product 02</h4>
-                        <p class="price">Rs 300.00</p>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 01</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
+                        </div>
                     </div>
-
-                    <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 03">
+                    <!-- /.End of card -->
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
-                        <h4 class="product-name">Product 03</h4>
-                        <p class="price">Rs 100.00</p>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 02</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 50.00</h6>
+                        </div>
                     </div>
-
-                   <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 04">
+                    <!-- /.End of card -->
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
-                        <h4 class="product-name">Product 04</h4>
-                        <p class="price">Rs 100.00</p>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 03</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
+                        </div>
                     </div>
-
-                    <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 05">
+                    <!-- /.End of card -->
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
-                        <h4 class="product-name">Product 05</h4>
-                        <p class="price">Rs 50.00</p>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 04</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
+                        </div>
                     </div>
-
-                   <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 06">
+                    <!-- /.End of card -->
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
-                        <h4 class="product-name">Product 06</h4>
-                        <p class="price">Rs 100.00</p>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 05</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
+                        </div>
                     </div>
-
-                    <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 07">
+                    <!-- /.End of card -->
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
-                        <h4 class="product-name">Product 07</h4>
-                        <p class="price">Rs 100.00</p>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 06</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 50.00</h6>
+                        </div>
                     </div>
-
-                    <div class="col-lg-4 menu-item">
-                        <a href="#" class="product-link">
-                            <img src="assets/web/images/image3.jpg" class="menu-img img-fluid" alt="Product 08">
+                    <!-- /.End of card -->
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
-                        <h4 class="product-name">Product 08</h4>
-                        <p class="price">Rs 100.00</p>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 07</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
+                        </div>
                     </div>
+                    <!-- /.End of card -->
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                        <a href="#" class="card2-img position-relative product-link">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+
+                        </a>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 08</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
+                        </div>
+                    </div>
+                    <!-- /.End of card -->
+                </div>
+                
+            </div>
         </div>
     </div>
-</div>
-</section>
+
+
 
 <!--pagination-->
 <nav aria-label="Page navigation example">
@@ -171,90 +222,8 @@
 
 
 
-<!--pagination JS-->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    const itemsPerPage = 6;
-    let currentPage = 1;
 
-    const products = document.querySelectorAll("#product-list .menu-item");
-    const totalPages = Math.ceil(products.length / itemsPerPage);
 
-    function showPage(page) {
-        products.forEach((item, index) => {
-            if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
-                item.style.display = "block";
-            } else {
-                item.style.display = "none";
-            }
-        });
-        updatePagination(page);
-    }
-
-    function updatePagination(currentPage) {
-        const paginationItems = document.querySelectorAll("#pagination .page-item");
-
-        paginationItems.forEach(item => {
-            item.classList.remove("active");
-        });
-
-        paginationItems[currentPage].classList.add("active");
-    }
-
-    // Click event listeners for pagination links
-    document.querySelectorAll("#pagination .page-link").forEach(link => {
-        link.addEventListener("click", function(e) {
-            e.preventDefault();
-            currentPage = parseInt(this.getAttribute("data-page"));
-            showPage(currentPage);
-        });
-    });
-
-    // Previous page button
-    document.getElementById("prevPage").addEventListener("click", function(e) {
-        e.preventDefault();
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
-        }
-    });
-
-    // Next page button
-    document.getElementById("nextPage").addEventListener("click", function(e) {
-        e.preventDefault();
-        if (currentPage < totalPages) {
-            currentPage++;
-            showPage(currentPage);
-        }
-    });
-
-    // Initial page load
-    showPage(currentPage);
-});
-
-</script>
- 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const productLinks = document.querySelectorAll('.product-link');
-
-        productLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                const productContainer = this.closest('.menu-item');
-                const productName = productContainer.querySelector('.product-name').textContent;
-                const productPrice = productContainer.querySelector('.price').textContent.replace('Rs ', '');
-
-                const url = new URL(window.location.origin + "/products");
-                url.searchParams.set('name', productName.trim());
-                url.searchParams.set('price', productPrice.trim());
-
-                window.location.href = url.toString();
-            });
-        });
-    });
-</script>
                 
 
 
@@ -296,29 +265,8 @@
     </script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const productLinks = document.querySelectorAll('.product-link');
-
-        productLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                const productContainer = this.closest('.menu-item');
-                const productName = productContainer.querySelector('.product-name').textContent;
-                const productPrice = productContainer.querySelector('.price').textContent.replace('Rs ', '');
-
-                const url = new URL(window.location.origin + "{{ route('products') }}");
-                url.searchParams.set('name', productName.trim());
-                url.searchParams.set('price', productPrice.trim());
-
-                window.location.href = url.toString();
-            });
-        });
-    });
-</script>
-
+    <script src="assets/web/js/product.js"></script>
+    <script src="assets/web/js/pagination.js"></script>
 
     @include('includes.footer')
 

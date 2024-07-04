@@ -1817,6 +1817,13 @@ alert-warning {
     background-color: #bd0f0f;
 }
 
+.btn-group .btn, .btn-group form {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+
   .d-flex.justify-content-end > a {
     margin-left: 10px; /* Add some spacing between buttons */
   }
@@ -1828,24 +1835,34 @@ alert-warning {
 
 
   /* cart */
-.card3{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to the item */
-    background-color: white;
-    overflow: hidden; /* Ensure content overflow is hidden */
-}
-
 
 .section-border {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to the item */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to the item */
     padding: 20px; /* Optional: Add padding inside the border */
+  
   }
 
-  @media (min-width: 1025px) {
-    .h-custom {
-    height: 100vh !important;
-    }
-    }
+
+
   
+/* Chrome, Safari, Edge, Opera */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.no-spinner[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Center the number inside the input field */
+.no-spinner {
+  text-align: center;
+  line-height: 1.5; /* Adjust this value to center vertically, based on your input's height */
+}
+
 
 .badge.small {
     font-size: 0.75rem;

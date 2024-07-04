@@ -35,6 +35,7 @@
                                     <span>Home</span></a></li>
                                 <li><a href="{{ route('home') }}"  rel="noopener noreferrer">
                                    <span>Appointments</span></a></li>
+                                   
                             </ul>
                             <p style="color:#999999;">All Rights Reserved by RaagamaGuru.lk</p>
                         </div>

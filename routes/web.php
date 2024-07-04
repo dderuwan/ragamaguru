@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,8 +23,18 @@ Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
 
-
+    
 Route::get('/products', [ProductController::class, 'show'])->name('products');
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
+Route::post('/delete-from-cart', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
+Route::get('/cart-item-count', [CartController::class, 'getItemCount'])->name('cartItemCount');
+
+Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('clearCart');
+
+
+
+
 
 
 

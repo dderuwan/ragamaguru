@@ -12,5 +12,7 @@ class ProductController extends Controller
         $price = $request->query('price');
         return view('products', compact('name', 'price'));
     }
+
+
 }
 

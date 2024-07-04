@@ -91,36 +91,41 @@
           </div>
         </aside>
 
-      
-      <main class="col-lg-6">
-      <div class="ps-lg-3">
-        <h4 class="title text-dark fw-bold">{{ $name }}</h4>
-        <div class="d-flex flex-row my-3">
-            <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>30 orders</span>
-            <span class="text-success ms-2">In stock</span>
+        <main class="col-lg-6">
+                    <div class="ps-lg-3">
+                        <h4 class="title text-dark fw-bold">{{ $name }}</h4>
+                        <div class="d-flex flex-row my-3">
+                            <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>30 orders</span>
+                            <span class="text-success ms-2">In stock</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="h5 text-primary fw-bold">Rs {{ $price }}</span>
+                        </div>
+                        <p>
+                An incense stick producer manufactures and distributes aromatic sticks that release fragrant smoke when burned. 
+                They typically use a blend of natural materials like wood powder, resins, and essential oils to create the incense sticks. 
+                </p>
+
+                <hr />
+                <div class="btn-group" role="group">
+              <form id="addToCartForm" action="{{ route('addToCart') }}" method="POST">
+                @csrf
+                <input type="hidden" name="name" value="{{ $name }}">
+                <input type="hidden" name="price" value="{{ $price }}">
+                <button type="submit" class="btn btn-primary shadow-0" onclick="addToCart(event)">
+                  <i class="me-1 fas fa-shopping-cart"></i> Add to cart
+                </button>
+              </form>
+              <a href="#" class="btn btn-warning shadow-0 me-2">Buy now</a>
+              <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3">
+                <i class="me-1 fa fa-heart fa-lg"></i> Save
+              </a>
+            </div>
+                </main>
+            </div>
         </div>
-        <div class="mb-3">
-            <span class="h5 text-primary fw-bold">Rs {{ $price }}</span>
-        </div>
+    </section>
 
-
-          <p>
-          An incense stick producer manufactures and distributes aromatic sticks that release fragrant smoke when burned. 
-          They typically use a blend of natural materials like wood powder, resins, and essential oils to create the incense sticks. 
-          </p>
-
-          <hr />
-
-        
-          <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-          <a href="" class="btn btn-primary shadow-0" onclick="addToCart()"> 
-            <i class="me-1 fas fa-shopping-cart"></i> Add to cart </a>
-          <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
-        </div>
-      </main>
-    </div>
-  </div>
-</section>
 
 
 
@@ -150,7 +155,6 @@
 
     <script src="assets/web/website_assets/plugins/numscroller/numscroller-1.0.js"></script>
 
-    <!-- Food Cart JS-->
     <script src="assets/web/js/Food_cart/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/web/js/Food_cart/aos/aos.js"></script>
     <script src="assets/web/js/Food_cart/glightbox/js/glightbox.min.js"></script>
@@ -158,9 +162,7 @@
     <script src="assets/web/js/Food_cart/swiper/swiper-bundle.min.js"></script>
     <script src="assets/web/js/Food_cart/php-email-form/validate.js"></script>
     <script src="assets/web/js/Food_cart/main.js"></script>
-    
-    <!-- sweetalert -->
-
+  
     <script src="assets/sweetalert/sweetalert.min.js" type="text/javascript"></script>
     <script src="assets/web/website_assets/js/script.js"></script>
     <script src="assets/web/website_assets/js/subscriber_email.js"></script>
@@ -170,45 +172,61 @@
     </script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
+    <script src="assets/web/js/cart.js"></script>
 
 
    <!--adding an item to the cart and update -->
    <script>
-    function addToCart() {
-        // Get current count from localStorage or initialize to 0
-        let currentCount = localStorage.getItem('cartCount') || 0;
-        
-        // Increment the count
-        let newCount = parseInt(currentCount) + 1;
-        
-        // Update localStorage with the new count
-        localStorage.setItem('cartCount', newCount);
-        
-        // Update cart count display
-        updateCartCount(newCount);
-        
-        // Optionally, you can redirect to the cart page using window.location.href
-        // Example: window.location.href = "{{ route('cart') }}";
+// Function to add item to cart via AJAX
+function addToCart(event) {
+  event.preventDefault(); // Prevent form submission
+
+  // Get form data
+  let formData = new FormData(document.getElementById('addToCartForm'));
+
+  // AJAX request to add item to cart
+  fetch('{{ route("addToCart") }}', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Update cart count on product and cart pages
+      updateCartCount();
+      localStorage.setItem('cartCount', data.cartCount); // Update local storage with current cart count
+
     }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred.');
+  });
+}
 
-    // Function to update the cart count display
-    function updateCartCount(count) {
-        document.getElementById('cart-count').innerText = count;
-    }
+// Function to update the cart count display
+function updateCartCount() {
+  fetch('{{ route("cartItemCount") }}')
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('cart-count').innerText = data.count;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
 
-    // Function to initialize cart count on page load
-    function initCartCount() {
-        // Get count from localStorage
-        let currentCount = localStorage.getItem('cartCount') || 0;
-        
-        // Update cart count display
-        updateCartCount(currentCount);
-    }
+// Initialize cart count on page load
+function initCartCount() {
+  let currentCount = localStorage.getItem('cartCount') || 0;
+  updateCartCount(currentCount);
+}
 
-    // Initialize cart count on page load
-    initCartCount();
-
+initCartCount(); // Initialize cart count when the page loads
 </script>
+
+
+
 
 
 
