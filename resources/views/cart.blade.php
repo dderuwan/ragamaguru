@@ -29,6 +29,19 @@
   <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+
+  <style>
+    .title{
+      margin-left:600px;
+    }
+  @media (max-width: 992px) {
+    .title {
+      margin-left: 0;
+      text-align: center;
+    }
+  }
+</style>
+
 </head>
 <body style="background-color: #f8f8f8b3">
 
@@ -37,29 +50,28 @@
 <header class="header-bg">
   <div class="p-3 text-center border-bottom">
     <div class="container4">
-      <div class="row gy-3 justify-content-between align-items-center">
-        <div class="col-lg-2 col-md-4 col-0"></div>
-        <div class="order-lg-last col-lg-5 col-sm-8 col-12">
-          <div class="d-flex justify-content-end">
-            <a href="" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"> 
-              <i class="fas fa-heart m-1 me-md-2 text-white"></i>
-              <p class="d-none d-md-block mb-0">Wishlist</p>
-            </a>
-            <a href="{{ route('cart') }}" class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative"> 
-                <i class="fas fa-shopping-cart m-1 me-md-2 text-white"></i>
-                <p class="d-none d-md-block mb-0">My cart</p>
-                <span id="cart-count" class="badge bg-warning text-dark rounded-circle position-absolute top-0 start-100 translate-middle p-1 small">
-                  0</span>
-            </a>
-          </div>
+      <div class="row gy-3 align-items-center">
+        <div class="col-12 col-lg-7 d-flex justify-content-center">
+          <h4 class="text-white title mb-0">Shopping Cart</h4>
+        </div>
+        <div class="col-12 col-lg-5 d-flex justify-content-end">
+          <a href="{{ route('cart') }}" class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative">
+            <i class="fas fa-shopping-cart m-1 me-md-2 text-white"></i>
+            <p class="d-none d-md-block mb-0">My cart</p>
+            <span id="cart-count" class="badge bg-warning text-dark rounded-circle position-absolute top-0 start-100 translate-middle p-1 small">0</span>
+          </a>
         </div>
       </div>
     </div>
   </div>
 </header>
-<button onclick="clearCart()" class="btn">Clear Cart</button>
+
+
+
+
+
 <section class="h-100 h-custom">
-  <div class="container h-80 py-5">
+  <div class="container h-80 py-1">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
         <div class="table-responsive">
@@ -68,49 +80,60 @@
               <tr>
                 <th scope="col"></th>
                 <th scope="col">Products</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
+                <th scope="col" class="text-center">Price</th>
+                <th scope="col" class="text-center">Quantity</th>
+                <th scope="col" class="text-center">Total</th>
                 <th scope="col">Delete</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($cart as $item)
-              <tr id="product-row">
+              @foreach($cart as $index => $item)
+              <tr id="product-row-{{ $index }}">
+
                 <!-- Image -->
                 <td>
                   <div class="d-flex align-items-center">
                     <img src="assets/web/images/image3.jpg" class="img-fluid rounded-3" style="width: 80px;" alt="product">
                   </div>
                 </td>
+
                 <!-- Product -->
                 <td class="align-middle">
                   <p class="mb-0" style="font-weight: 500;">{{ $item['name'] }}</p>
                 </td>
+
                 <!-- Price -->
-                <td class="align-middle">
-                  <p class="mb-0" style="font-weight: 500;" id="unit-price-1">{{ $item['price'] }}</p>
+                <td class="align-middle text-center price-column">
+                  <p class="mb-0" style="font-weight: 500;" id="unit-price-{{ $index }}">{{ $item['price'] }}</p>
                 </td>
+
                 <!-- Quantity -->
-                <td class="align-middle">
-                  <div class="d-flex flex-row">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="updateQuantity(-1, 'quantity-1', 'total-price-1', 'unit-price-1')">
+                <td class="align-middle text-center quantity-column">
+                  <div class="d-flex flex-row justify-content-center">
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" 
+                      onclick="updateQuantity(-1, 'quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')">
                       <i class="fas fa-minus"></i>
                     </button>
-                    <input id="quantity-1" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm no-spinner" style="width: 50px;" onchange="updateTotalPrice('quantity-1', 'total-price-1', 'unit-price-1')" />
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="updateQuantity(1, 'quantity-1', 'total-price-1', 'unit-price-1')">
+                    <input id="quantity-{{ $index }}" min="0" name="quantity" value="1" type="number" 
+                      class="form-control form-control-sm no-spinner text-center" style="width: 50px;" 
+                      onchange="updateTotalPrice('quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')" />
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" 
+                      onclick="updateQuantity(1, 'quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')">
                       <i class="fas fa-plus"></i>
                     </button>
                   </div>
                 </td>
+
                 <!-- Total -->
-                <td class="align-middle">
-                  <p class="mb-0" style="font-weight: 500;" id="total-price-1">Rs 100.00</p>
+                <td class="align-middle text-center total-column">
+                  <p class="mb-0" style="font-weight: 500;" id="total-price-{{ $index }}">{{ $item['price'] }}</p>
                 </td>
+                
                 <!-- Delete -->
                 <td class="align-middle">
                   <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                    <a href="#!" class="text-danger" onclick="deleteProduct('product-row')"><i class="fas fa-trash fa-lg"></i></a>
+                    <a href="#!" class="text-danger" onclick="deleteProduct('product-row-{{ $index }}', {{ $index }})">
+                      <i class="fas fa-trash fa-lg"></i></a>
                   </div>
                 </td>
               </tr>
@@ -118,6 +141,7 @@
             </tbody>
           </table>
         </div>
+      
 
         <div class="row mt-3 justify-content-end">
           <div class="col-md-4">
@@ -127,7 +151,8 @@
                   <p class="mb-2" style="font-weight: bold;">Total Price</p>
                   <p class="mb-2" style="font-weight: bold;" id="total-cart-price">Rs 100.00</p>
                 </div>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block btn-lg text-center">
+                <button type="button" data-mdb-button-init data-mdb-ripple-init 
+                  class="btn btn-primary btn-block btn-lg text-center">
                   Proceed To Checkout
                 </button>
               </div>
@@ -138,6 +163,7 @@
     </div>
   </div>
 </section>
+<button onclick="clearCart()" class="btn">Clear Cart</button>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/web/website_assets/plugins/bootstrap/js/popper.min.js"></script>
@@ -171,29 +197,33 @@
 <script>
    // Function to delete product from cart
   
-   function deleteProduct(rowId) {
-    // Perform AJAX request to delete product from cart
-    fetch('{{ route("deleteFromCart") }}', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-      },
-      body: JSON.stringify({ rowId: rowId })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        // Update cart count after successful deletion
-        updateCartCount();
-      } 
-    });
-  
-    // Delete the product row from UI
-    const row = document.getElementById(rowId);
-    row.parentNode.removeChild(row);
-  }
-  
+   function deleteProduct(rowId, index) {
+  fetch('{{ route("deleteFromCart") }}', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify({ rowId: index })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Remove the product row from the UI
+      const row = document.getElementById(rowId);
+      row.parentNode.removeChild(row);
+      // Update cart count and total price
+      updateCartCount();
+      updateCartTotal();
+    } else {
+      console.error('Failed to delete item from cart.');
+    }
+  })
+  .catch(error => {
+    console.error('Error deleting item:', error);
+  });
+}
+
   // Function to update cart count
   function updateCartCount() {
     fetch('{{ route("cartItemCount") }}')
@@ -205,34 +235,36 @@
       console.error('Error:', error);
     });
   }
-  
+
   // Initialize cart count on page load
   updateCartCount();
+  updateCartTotal();
 
-  function clearCart() {
-    fetch('{{ route("clearCart") }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Update cart count to zero or update UI as needed
-            document.getElementById('cart-count').innerText = 0;
-            // Clear cart items UI
-            const tbody = document.querySelector('tbody');
-            tbody.innerHTML = ''; // Clear all rows from the table
-        } else {
-            console.error('Failed to clear cart.');
-        }
-    })
-    .catch(error => {
-        console.error('Error clearing cart:', error);
-    });
-}
+  // clear cart
+    function clearCart() {
+      fetch('{{ route("clearCart") }}', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+          }
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              // Update cart count to zero or update UI as needed
+              document.getElementById('cart-count').innerText = 0;
+              // Clear cart items UI
+              const tbody = document.querySelector('tbody');
+              tbody.innerHTML = ''; // Clear all rows from the table
+          } else {
+              console.error('Failed to clear cart.');
+          }
+      })
+      .catch(error => {
+          console.error('Error clearing cart:', error);
+      });
+  }
 
   
 </script>

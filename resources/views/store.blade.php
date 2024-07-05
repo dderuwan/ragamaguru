@@ -70,7 +70,7 @@
         <div class="col-lg-6 col-md-8 col-12">
           <div class="input-group">
             <div class="form-outline flex-grow-1">
-              <input type="search" id="form1" class="form-control" placeholder="Search"/>
+              <input type="search" id="searchInput" class="form-control" placeholder="Search"/>
             </div>
             <button type="button" class="btn btn-primary shadow-0" style="min-width: 100px;">
               <i class="fas fa-search"></i>
@@ -81,8 +81,6 @@
     </div>
   </div>
 </header>
-
-
 
             
 <!--products-->
@@ -98,7 +96,7 @@
             </div>
             <div class="row" >
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0" data-name="Product 01">
                         <a href="#" class="card2-img position-relative product-link">
                             <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
@@ -151,7 +149,7 @@
                             <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
                         </a>
                         <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 05</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product05 product05</h6>
                             <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
                         </div>
                     </div>
@@ -267,6 +265,7 @@
     <script src="assets/web/website_assets/js/loadMap.js"></script>
     <script src="assets/web/js/product.js"></script>
     <script src="assets/web/js/pagination.js"></script>
+
 
     @include('includes.footer')
 
