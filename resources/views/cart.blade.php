@@ -165,6 +165,8 @@
 </section>
 <button onclick="clearCart()" class="btn">Clear Cart</button>
 
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/web/website_assets/plugins/bootstrap/js/popper.min.js"></script>
 <script src="assets/web/website_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -191,7 +193,7 @@
 <script src="assets/web/website_assets/js/subscriber_email.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key="></script>
 <script src="assets/web/website_assets/js/loadMap.js"></script>
-
+<script src="assets/web/js/product.js"></script>
 <script src="assets/web/js/cart.js"></script>
 
 <script>

@@ -10,7 +10,8 @@ class ProductController extends Controller
     {
         $name = $request->query('name');
         $price = $request->query('price');
-        return view('products', compact('name', 'price'));
+        $image = $request->query('image'); 
+        return view('products', compact('name', 'price', 'image'));
     }
 
 

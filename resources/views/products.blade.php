@@ -69,8 +69,9 @@
       <div class="row gx-5">
         <aside class="col-lg-6">
           <div class=" rounded-4 mb-3 d-flex justify-content-end">
-            <a href="/assets/web/images/image3.jpg" class="glightbox">
-              <img style="max-width: 85%; max-height: 100vh; margin-left: 80px;" class="rounded-4 fit" src="/assets/web/images/image3.jpg" />
+            <a href="{{ $image }}" class="glightbox">
+              <img style="max-width: 85%; max-height: 100vh; margin-left: 80px;" class="rounded-4 fit" 
+              src="{{ $image }}" />
             </a>
           </div>
           <div class="d-flex justify-content-center mb-3">
@@ -103,6 +104,7 @@
                         @csrf
                       <input type="hidden" name="name" value="{{ $name }}">
                       <input type="hidden" name="price" value="{{ $price }}">
+                      <input type="hidden" name="image" value="{{ $image }}">
                       <button type="submit" class="btn btn-primary shadow-0" onclick="addToCart(event)">
                       <i class="me-1 fas fa-shopping-cart"></i> Add to cart
                       </button>
@@ -158,7 +160,7 @@
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
     <script src="assets/web/js/cart.js"></script>
-
+    <script src="assets/web/js/product.js"></script>
 
    <!--adding an item to the cart and update -->
    <script>

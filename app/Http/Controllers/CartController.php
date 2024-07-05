@@ -11,6 +11,7 @@ class CartController extends Controller
         $product = [
             'name' => $request->input('name'),
             'price' => $request->input('price'),
+            'image' => $request->input('image'),
         ];
         $cart = session()->get('cart', []);
         $cart[] = $product;

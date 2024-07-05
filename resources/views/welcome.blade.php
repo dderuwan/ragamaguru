@@ -54,7 +54,6 @@
   
 
 
-
 </style>
 
 
@@ -62,27 +61,33 @@
   <body>
 
 
-  <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
-  <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
- 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Entrance</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
-      </li>
-      <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="{{ route('appointment') }}">Appointments</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
-      </li>
-    </ul>
+<!-- /.End of navbar -->
+
+
+<nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="assets/img/2023-12-25/I.png" alt=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Entrance</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ route('appointment') }}">Appointments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
-<!-- /.End of navbar -->
 
   @yield('content')
 
@@ -138,6 +143,8 @@
     <!-- /.End of slider preloader -->
 </div>
 <!-- /.End of hero header -->
+
+
 
 
 

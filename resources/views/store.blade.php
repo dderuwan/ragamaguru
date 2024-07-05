@@ -98,7 +98,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0" data-name="Product 01">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
                         </a>
                         <div class="card-body text-center">
                             <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 01</h6>
@@ -110,7 +110,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
                         </a>
                         <div class="card-body text-center">
                             <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 02</h6>
@@ -122,7 +122,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
                         </a>
                         <div class="card-body text-center">
                             <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 03</h6>
@@ -134,7 +134,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
                         </a>
                         <div class="card-body text-center">
                             <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 04</h6>
@@ -146,7 +146,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
                         </a>
                         <div class="card-body text-center">
                             <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product05 product05</h6>
@@ -158,7 +158,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
                         </a>
                         <div class="card-body text-center">
                             <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 06</h6>
@@ -170,7 +170,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
                         </a>
                         <div class="card-body text-center">
                             <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 07</h6>
@@ -182,7 +182,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0">
                         <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid" alt="...">
+                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
 
                         </a>
                         <div class="card-body text-center">
