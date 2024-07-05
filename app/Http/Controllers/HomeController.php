@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('dashboard.index');
     }
+
+    // public function register()
+    // {
+    //     return view('customer.create');
+    // }
 }

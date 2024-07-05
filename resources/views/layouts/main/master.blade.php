@@ -23,5 +23,7 @@
     </div> <!-- .wrapper -->
     {{-- jquery --}}
     @include('layouts.main.script')
+    @yield('scripts')
+    <x-notify::notify />
   </body>
 </html>
