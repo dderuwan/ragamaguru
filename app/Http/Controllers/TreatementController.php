@@ -66,22 +66,24 @@ class TreatementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Treatement $Treatements)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|string|max:255',
-            'status' => 'nullable',
-        ]);
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'price' => 'required|numeric',
+        'status' => 'required|boolean',
+    ]);
 
-        $Treatements->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'status' => $request->status == true ? 1:0,
-        ]);
+    $treatment = Treatement::findOrFail($id);
+    $treatment->update([
+        'name' => $request->name,
+        'price' => $request->price,
+        'status' => $request->status,
+    ]);
 
-        return redirect('/Treatement')->with('status','Treatements Updated Successfully');
-    }
+    return redirect()->route('Treatement.index')->with('status', 'Treatment updated successfully');
+}
+
 
     /**
      * Remove the specified resource from storage.

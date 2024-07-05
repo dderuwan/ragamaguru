@@ -43,7 +43,7 @@
                                     <td>{{ $Treatement->price }}</td>
                                     <td>{{ $Treatement->status == 1 ? 'Active':'Inactive' }}</td>
                                     <td>
-                                        <a href="{{ route('Treatement.edit', $Treatement->id) }}" class="btn btn-success">Edit</a>
+                                        <button type="button" class="btn btn-success" onclick="openEditModal({{($Treatement) }})">Edit</button>
                                         <a href="{{ route('Treatement.show', $Treatement->id) }}" class="btn btn-info">Show</a>
 
                                         <form id="delete-form-{{ $Treatement->id }}" action="{{ route('Treatement.destroy', $Treatement->id) }}" method="POST" class="d-inline">
@@ -99,9 +99,53 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editTreatmentModal" tabindex="-1" role="dialog" aria-labelledby="editTreatmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTreatmentModalLabel">Edit Treatement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTreatmentForm" action="{{ url('Treatement') }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="edit-name">Name</label>
+                            <input type="text" name="name" class="form-control" id="edit-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-price">Price</label>
+                            <input type="text" name="price" class="form-control" id="edit-price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-status">Status</label>
+                            <select name="status" class="form-control" id="edit-status">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" onclick="confirmEdit(event)">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function openEditModal(treatement) {
+        $('#editTreatmentModal').modal('show');
+        $('#editTreatmentForm').attr('action', `/Treatement/${treatement.id}`);
+        $('#edit-name').val(treatement.name);
+        $('#edit-price').val(treatement.price);
+        $('#edit-status').val(treatement.status);
+    }
 
 
 
+</script>
 
 
 <script>
@@ -119,6 +163,23 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+
+    function confirmEdit(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to save the changes?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, save it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('editTreatmentForm').submit();
             }
         });
     }

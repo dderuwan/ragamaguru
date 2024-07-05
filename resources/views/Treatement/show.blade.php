@@ -28,7 +28,8 @@
                             <label>Status</label>
                             <br/>
                             <p>
-                                {{ $Treatement->status == 1 ? 'checked':'' }}
+                                {{ $Treatement->status == 1 ? 'Active':'' }}
+                                {{ $Treatement->status == 0 ? 'Inactive':'' }}
                             </p>
                         </div>
                     </div>
