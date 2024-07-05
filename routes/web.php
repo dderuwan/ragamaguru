@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use app\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\TreatementController;
 
 Route::get('/', function () {
     // return view('frontend.home');
@@ -10,6 +11,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+Route::get('/Treatement', [App\Http\Controllers\TreatementController::class, 'index'])->name('Treatement');
 
-
+Route::resource('Treatement', TreatementController::class);
