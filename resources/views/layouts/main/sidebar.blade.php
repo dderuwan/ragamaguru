@@ -16,12 +16,33 @@
         </a>
       </div>
       <ul class="navbar-nav flex-fill w-100 mb-2">
-        <li class="nav-item dropdown">
-          <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class=" nav-link">
+         <li class="nav-item active sidebar_li">
             <i class="fe fe-home fe-16"></i>
+          <a href="{{route('dashboard')}}" class="sidebar_text" >
             <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
           </a>
         </li>
+        <li class="nav-item dropdown">
+            <a href="#customer" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">Customer</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="customer">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('allcustomers')}}" ><span class="ml-1 item-text">Customer List</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link pl-3" href="{{route('createcustomer')}}" ><span class="ml-1 item-text">Add customer</span></a>
+            </li>
+            </ul>
+        </li>
+         <li class="nav-item active sidebar_li">
+            <i class="fe fe-home fe-16"></i>
+          <a href="{{route('treatement')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Treatement</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
+
       </ul>
       <ul class="navbar-nav flex-fill w-100 mb-2">
         <li class="nav-item dropdown">

@@ -1,4 +1,4 @@
-@extends('Treatement.layouts')
+@extends('layouts.main.master')
 
 @section('content')
 
