@@ -1,5 +1,4 @@
 
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -25,15 +24,12 @@
       <link href="https://fonts.googleapis.com/css?family=Caveat:400,700|Playfair+Display:400,400i,700,700i,900,900i|Sarabun:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800&display=swap" rel="stylesheet" />
       <link href="assets/web/website_assets/css/style.css?v=3" rel="stylesheet">
 
-
    
     <link href="assets/web/css/foodcart/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/aos/aos.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
-
-    
   </head>
   <body>
 
@@ -208,8 +204,7 @@
     <script src="assets/web/website_assets/plugins/isotope/isotope.pkgd.js"></script>
     <script src="assets/web/website_assets/plugins/fancybox/dist/jquery.fancybox.min.js"></script>
     <script src="assets/web/website_assets/plugins/theia-sticky-sidebar/dist/ResizeSensor.min.js"></script>
-    <script src="assets/web/website_assets/plugins/theia-sticky-sidebar/dist/theia-sticky-sidebar.min.js">
-    </script>
+    <script src="assets/web/website_assets/plugins/theia-sticky-sidebar/dist/theia-sticky-sidebar.min.js"></scrip>
 
     <script src="assets/web/website_assets/plugins/numscroller/numscroller-1.0.js"></script>
 
