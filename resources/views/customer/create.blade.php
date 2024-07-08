@@ -14,7 +14,7 @@
               <strong class="card-title">Register</strong>
             </div>
             <div class="card-body">
-              <form method="post" action="{{route('customer.store')}}">
+              <form method="post" action="{{route('storecustomer')}}">
                 @csrf
                 <div class="form-row">
                   <div class="form-group col-md-6">
@@ -71,7 +71,7 @@
               <strong class="card-title">Verification</strong>
             </div>
             <div class="card-body">
-              <form method="post" action="{{route('customer.verify')}}">
+              <form method="post" action="{{route('verifycustomer')}}">
                 @csrf
                 <div class="form-group">
                   <label for="addedContact">Registered Contact Number</label>

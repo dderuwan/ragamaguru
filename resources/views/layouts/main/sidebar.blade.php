@@ -36,6 +36,12 @@
             </li>
             </ul>
         </li>
+         <li class="nav-item active sidebar_li">
+            <i class="fe fe-home fe-16"></i>
+          <a href="{{route('treatement')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Treatement</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
 
       </ul>
     </nav>

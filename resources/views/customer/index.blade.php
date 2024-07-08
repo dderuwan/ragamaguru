@@ -48,7 +48,7 @@
                                                     <span class="text-muted sr-only">Action</span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{route('customer.edit',$customer->id)}}">Edit</a>
+                                                    <a class="dropdown-item" href="{{route('editcustomer',$customer->id)}}">Edit</a>
                                                     <button class="dropdown-item text-danger" onclick="confirmDelete('{{ $customer->id }}')">Remove</button>
                                                     <form id="delete-form-{{ $customer->id }}" action="{{ route('customer.destroy', $customer->id) }}" method="POST" style="display:none;">
                                                         @csrf
