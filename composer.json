@@ -9,11 +9,7 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
-<<<<<<< HEAD
         "mckenziearts/laravel-notify": "^2.5"
-=======
-        "stichoza/google-translate-php": "^5.1"
->>>>>>> manushi
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
