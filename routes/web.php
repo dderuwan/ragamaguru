@@ -47,13 +47,7 @@ Route::post('password/email', [App\Http\Controllers\Auth\ForgotPasswordControlle
 Route::get('password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 
-// Route::resource('customer', CustomerController::class);
-
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard');
-
-// Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+ Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 // customer module
 Route::get('/allcustomers', [CustomerController::class,'index'])->name('allcustomers');
