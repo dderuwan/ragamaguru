@@ -13,6 +13,7 @@ class TreatementController extends Controller
      */
     public function index()
     {
+
         $Treatements =Treatement::paginate(10);
         return view('Treatement.index', [
             'Treatements' => $Treatements
