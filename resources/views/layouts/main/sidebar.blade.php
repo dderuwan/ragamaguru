@@ -39,8 +39,22 @@
          <li class="nav-item active sidebar_li">
             <i class="fe fe-home fe-16"></i>
           <a href="{{route('treatement')}}" class="sidebar_text" >
-            <span class="ml-3 item-text">Treatement</span><span class="sr-only">(current)</span>
+            <span class="ml-3 item-text">Treatment</span><span class="sr-only">(current)</span>
           </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#supplier" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">Supplier</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="supplier">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('allsuppliers')}}" ><span class="ml-1 item-text">Supplier List</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link pl-3" href="{{route('createsupplier')}}" ><span class="ml-1 item-text">Add Supplier</span></a>
+            </li>
+            </ul>
         </li>
 
       </ul>
