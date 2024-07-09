@@ -5,29 +5,28 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title">Update Customer</h2>
+        <h2 class="page-title">Add Supplier</h2>
         <p class="text-muted"></p>
 
         <div class="card-deck">
           <div class="card shadow mb-4">
             <div class="card-header">
-              <strong class="card-title">Update</strong>
+              <strong class="card-title">Register</strong>
             </div>
             <div class="card-body">
-              <form method="POST" action="{{ route('updatecustomer', $customer->id) }}">
+              <form method="post" action="{{route('storesupplier')}}">
                 @csrf
                 <div class="form-row">
-                <input id="id" type="hidden" name="id" value={{$customer->id}}>
                   <div class="form-group col-md-6">
                     <label for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="{{$customer->name}}" >
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name">
                     @error('name')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputContact">Contact Number</label>
-                    <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number" readonly value="{{$customer->contact}}" >
+                    <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number">
                     @error('contact')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -35,13 +34,13 @@
                 </div>
                 <div class="form-group">
                   <label for="inputAddress">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" value="{{$customer->address}}" >
+                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address">
                   @error('address')
                   <p class="text-danger">{{ $message }}</p>
                   @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Register</button>
               </form>
             </div>
           </div>
@@ -58,15 +57,11 @@
           {{ session('error') }}
         </div>
         @endif
-        @if (session('otp'))
-        <div class="alert alert-danger">
-          {{ session('otp') }}
-        </div>
-        @endif
 
-
-
-
+              </form>
+            </div>
+          </div>
+        </div> <!-- / .card-desk-->
       </div> <!-- .col-12 -->
     </div> <!-- .row -->
   </div> <!-- .container-fluid -->

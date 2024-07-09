@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
@@ -51,6 +52,7 @@ Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 // customer module
+Route::resource('customer', CustomerController::class);
 Route::get('/allcustomers', [CustomerController::class,'index'])->name('allcustomers');
 Route::get('/createCustomer', [CustomerController::class, 'create'])->name('createcustomer');
 Route::post('/storeCustomer', [CustomerController::class, 'store'])->name('storecustomer');
@@ -65,7 +67,13 @@ Route::get('/treatement', [App\Http\Controllers\TreatementController::class, 'in
 
 
 
-
+// supplier module
+Route::resource('supplier', SupplierController::class);
+Route::get('/allsuppliers', [SupplierController::class,'index'])->name('allsuppliers');
+Route::get('/createSupplier', [SupplierController::class, 'create'])->name('createsupplier');
+Route::post('/storeSupplier', [SupplierController::class, 'store'])->name('storesupplier');
+Route::get('/editSupplier/{id}', [SupplierController::class, 'edit'])->name('editsupplier');
+Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('updatesupplier');
 
 
 ?>

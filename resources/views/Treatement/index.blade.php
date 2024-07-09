@@ -64,6 +64,7 @@
         </div>
     </div>
 
+
     <!-- Modal -->
     <div class="modal fade" id="addTreatementModal" tabindex="-1" role="dialog" aria-labelledby="addTreatementModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -133,6 +134,7 @@
             </div>
         </div>
     </div>
+
 
 <script>
     function openEditModal(treatement) {

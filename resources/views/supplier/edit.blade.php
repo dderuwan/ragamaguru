@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title">Update Customer</h2>
+        <h2 class="page-title">Update Supplier</h2>
         <p class="text-muted"></p>
 
         <div class="card-deck">
@@ -14,20 +14,20 @@
               <strong class="card-title">Update</strong>
             </div>
             <div class="card-body">
-              <form method="POST" action="{{ route('updatecustomer', $customer->id) }}">
+              <form method="POST" action="{{route('updatesupplier', $supplier->id)}}">
                 @csrf
                 <div class="form-row">
-                <input id="id" type="hidden" name="id" value={{$customer->id}}>
+                <input id="id" type="hidden" name="id" value={{$supplier->id}}>
                   <div class="form-group col-md-6">
                     <label for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="{{$customer->name}}" >
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="{{$supplier->name}}" >
                     @error('name')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputContact">Contact Number</label>
-                    <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number" readonly value="{{$customer->contact}}" >
+                    <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number" readonly value="{{$supplier->contact}}" >
                     @error('contact')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                   <label for="inputAddress">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" value="{{$customer->address}}" >
+                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" value="{{$supplier->address}}" >
                   @error('address')
                   <p class="text-danger">{{ $message }}</p>
                   @enderror
