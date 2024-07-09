@@ -44,11 +44,12 @@ class SupplierController extends Controller
 
             
 
-            return redirect()->back()->with([
+            return redirect()->route('allsuppliers')->with([
                 'success' => 'Supplier added successfully',
             ]);
         }
     }
+
 
 
     public function edit(Supplier $supplier, $id)
@@ -67,7 +68,7 @@ class SupplierController extends Controller
         if ($supplierId) {
             $updatedData = $request->all();
             $supplierId->update($updatedData);
-            return redirect()->back()->with('success', 'Supplier updated successfully.');
+            return redirect()->route('allsuppliers')->with('success', 'Supplier updated successfully.');
         } else {
             return redirect()->back()->with('error', 'Supplier not found.');
         }
@@ -91,4 +92,8 @@ class SupplierController extends Controller
             return redirect()->route('supplier.index')->with('error', 'Supplier not found.');
         }
     }
+
+
+    
+
 }

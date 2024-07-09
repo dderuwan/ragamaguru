@@ -54,7 +54,7 @@
 
 
   <!-- Home image-->
-  <div class="hero1">
+  <div class="hero1" style="background-image: url('/assets/web/images/homeimg.jpg');">
     <div class="hero-container">
         <div class="content1">
             <h2 id="content-title">ONLINE STORE</h2>

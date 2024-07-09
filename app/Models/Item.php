@@ -5,21 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Supplier extends Model
+class Item extends Model
 {
     use HasFactory;
 
-    protected $table  = "suppliers";
+    protected $table  = "item";
 
     protected $fillable = [
-        'supplier_code',
+        'item_code',
+        'image',
         'name',
-        'contact',
-        'address',
-        'supplier_type',
-        'registered_time'
+        'description',
+        'quantity',
+        'price',
+        'supplier_code',
     ];
 
+   
 
     /**
      * Boot function from Laravel.
@@ -29,17 +31,17 @@ class Supplier extends Model
         parent::boot();
         
         static::creating(function ($model) {
-            $model->supplier_code = self::generateSupplierCode();
+            $model->item_code = self::generateItemCode();
         });
     }
 
     
-    private static function generateSupplierCode()
+    private static function generateItemCode()
     {
         // Generate a random string of characters
-        $randomString = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 7); 
+        $randomString = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 5); 
 
         // Combine with prefix
-        return 'SUP-' . $randomString;
+        return 'ITEM-' . $randomString;
     }
 }
