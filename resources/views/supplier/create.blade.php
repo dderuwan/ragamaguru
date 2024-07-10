@@ -39,7 +39,6 @@
                   <p class="text-danger">{{ $message }}</p>
                   @enderror
                 </div>
-
                 <button type="submit" class="btn btn-primary">Register</button>
               </form>
             </div>

@@ -51,8 +51,16 @@
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('allsuppliers')}}" ><span class="ml-1 item-text">Supplier List</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link pl-3" href="{{route('createsupplier')}}" ><span class="ml-1 item-text">Add Supplier</span></a>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#item" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-shopping-cart fe-16"></i>
+            <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="item">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('item.index')}}" ><span class="ml-1 item-text">Item List</span></a>
             </li>
             </ul>
         </li>

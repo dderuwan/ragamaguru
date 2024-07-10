@@ -95,7 +95,7 @@
     <div class="header-slider header-slider-preloader slider-two" id="home">
         <div class="animation-slide owl-carousel owl-theme" id="animation-slide">
             <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>
-            <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>
+            <div class="item bg-img-hero" data-image-src="/assets/web/images/homeimg3.jpg"></div>
             <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>
         </div>
     </div>

@@ -37,11 +37,11 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">All Suppliers</h2>
+                        <h2 class="page-title">All Items</h2>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="{{ route('createsupplier') }}"><button type="button" class="btn btn-primary float-end">
-                            Add Supplier
+                        <a href="{{ route('createitem') }}"><button type="button" class="btn btn-primary float-end">
+                            Add Item
                         </button></a>
                     </div>
                 </div>
@@ -56,34 +56,44 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
-                                            <th style="color: black;">Supplier code</th>
+                                            <th style="color: black;">Item code</th>
+                                            <th style="color: black;">Image</th>
                                             <th style="color: black;">Name</th>
-                                            <th style="color: black;">Contact No.</th>
-                                            <th style="color: black;">Address</th>
-                                            <th style="color: black;">Registered Time</th>
+                                            <th style="color: black;">Description</th>
+                                            <th style="color: black;">Quantity</th>
+                                            <th style="color: black;">Individual Item cost</th>
+                                            <th style="color: black;">Supplier</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($supplier_list as $supplier)
+                                        @foreach ($item_list as $item)
                                         <tr>
-                                            <td>{{$supplier->id}}</td>
-                                            <td>{{$supplier->supplier_code}}</td>
-                                            <td>{{$supplier->name}}</td>
-                                            <td>{{$supplier->contact}}</td>
-                                            <td>{{$supplier->address}}</td>
-                                            <td>{{$supplier->registered_time}}</td>
+                                            <td>{{$item->id}}</td>
+                                            <td>{{$item->item_code}}</td>
+                                            <td> @if ($item->image)
+                                                <img src="{{ asset('storage/' . $item->image) }}" 
+                                                    alt="Item Image" style="max-width: 100px; max-height: 100px;">
+                                                @else
+                                                    No Image
+                                                @endif
+                                            </td>
+                                            <td>{{$item->name}}</td>
+                                            <td>{{$item->description}}</td>
+                                            <td>{{$item->quantity}}</td>
+                                            <td>Rs. {{$item->price}}</td>
+                                            <td>{{$item->supplier_code}}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('editsupplier', $supplier->id) }}" class="action-icon edit-icon" title="Edit">
+                                                    <a href="" class="action-icon edit-icon" title="Edit">
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
                                                     
-                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $supplier->id }}')" title="Delete">
+                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $item->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
                                                     
-                                                    <form id="delete-form-{{ $supplier->id }}" action="{{ route('supplier.destroy', $supplier->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $item->id }}" action="{{ route('item.destroy', $item->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -112,7 +122,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this supplier?
+                    Are you sure you want to delete this Item?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -127,8 +137,8 @@
 
 @section('scripts')
 <script>
-    function confirmDelete(supplierId) {
-        const deleteForm = document.getElementById('delete-form-' + supplierId);
+    function confirmDelete(itemId) {
+        const deleteForm = document.getElementById('delete-form-' + itemId);
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
         $('#deleteModal').modal('show');

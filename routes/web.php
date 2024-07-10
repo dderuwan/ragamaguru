@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
@@ -74,6 +75,19 @@ Route::get('/createSupplier', [SupplierController::class, 'create'])->name('crea
 Route::post('/storeSupplier', [SupplierController::class, 'store'])->name('storesupplier');
 Route::get('/editSupplier/{id}', [SupplierController::class, 'edit'])->name('editsupplier');
 Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('updatesupplier');
+
+
+
+
+
+
+// Item module
+Route::resource('item', ItemController::class);
+Route::get('/items', [ItemController::class, 'index'])->name('item.index'); 
+Route::get('/items/create', [ItemController::class, 'create'])->name('createitem'); 
+Route::post('/items', [ItemController::class, 'store'])->name('items.store'); 
+Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
+
 
 
 ?>
