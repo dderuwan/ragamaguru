@@ -85,7 +85,7 @@
                                             <td>{{$item->supplier_code}}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="" class="action-icon edit-icon" title="Edit">
+                                                    <a href="{{ route('edititem', $item->id) }}" class="action-icon edit-icon" title="Edit">
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
                                                     

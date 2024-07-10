@@ -15,16 +15,16 @@
                 @csrf
                 <div class="col-sm-12 mt-4 mb-5">
                 <div class="form-group row">
-                <label class="col-sm-1 col-form-label">Supplier<i class="text-danger">*</i></label>
-                <div class="col-sm-5">
-                    <select class="js-example-basic-single js-states form-control" name="supplier_code">
-                    <option value="">Select supplier</option>
-                        <?php
-                            $supplierCodes = \App\Models\Supplier::pluck('supplier_code')->toArray();
-                            foreach ($supplierCodes as $supplierCode) {
-                                echo '<option value="' . $supplierCode . '">' . $supplierCode . '</option>';
-                            }
-                        ?>
+                  <label class="col-sm-1 col-form-label">Supplier<i class="text-danger">*</i></label>
+                    <div class="col-sm-5">
+                        <select class="js-example-basic-single js-states form-control" name="supplier_code">
+                            <option value="">Select supplier</option>
+                            <?php
+                                $supplierCodes = \App\Models\Supplier::pluck('supplier_code')->toArray();
+                                foreach ($supplierCodes as $supplierCode) {
+                                    echo '<option value="' . $supplierCode . '">' . $supplierCode . '</option>';
+                                }
+                            ?>
                         </select>
                     </div>
                   </div>

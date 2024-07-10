@@ -93,6 +93,10 @@ Route::get('/items', [ItemController::class, 'index'])->name('item.index');
 Route::get('/items/create', [ItemController::class, 'create'])->name('createitem'); 
 Route::post('/items', [ItemController::class, 'store'])->name('items.store'); 
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
+Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
+Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
+
+
 
 
 
