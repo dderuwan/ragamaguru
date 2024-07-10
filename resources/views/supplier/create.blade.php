@@ -5,11 +5,11 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title">Add Supplier</h2>
+        <h2 class="page-title p-2">Add Supplier</h2>
         <p class="text-muted"></p>
 
-        <div class="card-deck">
-          <div class="card shadow mb-4">
+        <div class="card-deck p-2">
+          <div class="card shadow mb-4 p-3">
             <div class="card-header">
               <strong class="card-title">Register</strong>
             </div>
@@ -18,14 +18,14 @@
                 @csrf
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="inputName">Name</label>
+                    <label for="inputName" class="text-dark">Name</label>
                     <input type="text" class="form-control" id="inputName" name="name" placeholder="Name">
                     @error('name')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="inputContact">Contact Number</label>
+                    <label for="inputContact" class="text-dark">Contact Number</label>
                     <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number">
                     @error('contact')
                     <p class="text-danger">{{ $message }}</p>
@@ -33,7 +33,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="inputAddress">Address</label>
+                  <label for="inputAddress" class="text-dark">Address</label>
                   <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address">
                   @error('address')
                   <p class="text-danger">{{ $message }}</p>

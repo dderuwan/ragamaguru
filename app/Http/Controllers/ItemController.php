@@ -40,7 +40,10 @@ class ItemController extends Controller
                 $item = new Item();
                 $item->name = $validatedData['item_name'][$key];
                 $item->description = $validatedData['item_description'][$key];
-                $item->quantity = $validatedData['item_quantity'][$key];
+                
+                // Check if quantity is provided, otherwise default to 0
+                $item->quantity = !empty($validatedData['item_quantity'][$key]) ? $validatedData['item_quantity'][$key] : 0;
+                
                 $item->price = $validatedData['item_price'][$key];
                 $item->supplier_code = $validatedData['supplier_code']; // Single supplier code for all items
     
@@ -59,6 +62,8 @@ class ItemController extends Controller
             return redirect()->back()->with('error', 'Failed to add items. Please try again.');
         }
     }
+    
+
     
 
         /**

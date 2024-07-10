@@ -5,10 +5,10 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title">Update Item</h2>
+        <h2 class="page- p-2">Update Item</h2>
         <p class="text-muted"></p>
 
-        <div class="card-deck">
+        <div class="card-deck p-2">
           <div class="card shadow mb-4">
             
             <div class="card-body p-4">
@@ -96,7 +96,6 @@
                         </div>
 
                   </div>
-
                   <button type="submit" class="btn btn-primary">Save</button>
                 </form>
 
@@ -142,12 +141,12 @@
             var label = document.getElementById('imageLabel');
             label.textContent = fileName;
         });
-    });
-    function updateImageLabel(input) {
-    var fileName = input.files[0].name;
-    var label = input.parentNode.querySelector('.custom-file-label');
-    label.textContent = fileName;
-  }
+        });
+        function updateImageLabel(input) {
+        var fileName = input.files[0].name;
+        var label = input.parentNode.querySelector('.custom-file-label');
+        label.textContent = fileName;
+      }
    
    
 </script>

@@ -55,12 +55,23 @@
         </li>
         <li class="nav-item dropdown">
             <a href="#item" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-shopping-cart fe-16"></i>
+            <i class="fe fe-menu fe-16"></i>
             <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="item">
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('item.index')}}" ><span class="ml-1 item-text">Item List</span></a>
+            </li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#purchase" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-shopping-cart fe-16"></i>
+            <span class="ml-3 item-text">Purchase Manage</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="purchase">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('createPurchaseOrder')}}" ><span class="ml-1 item-text">Purchase Order Create</span></a>
             </li>
             </ul>
         </li>

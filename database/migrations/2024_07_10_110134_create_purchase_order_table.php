@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('item', function (Blueprint $table) {
+        Schema::create('purchase_order', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('item_code')->unique();
-            $table->string('name');
-            $table->string('description');
-            $table->binary('image')->nullable();
-            $table->integer('quantity')->nullable();
-            $table->decimal('price', 10, 2);
+            $table->string('request_code')->unique();
+            $table->string('item_code');
             $table->string('supplier_code');
+            $table->integer('inquantity')->nullable();
+            $table->integer('order_quantity');
+            $table->decimal('price', 10, 2);
+            $table->tinyInteger('status')->default(0)->comment('0: Pending, 1: Received');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('item');
+        Schema::dropIfExists('purchase_order');
     }
 };
