@@ -71,14 +71,14 @@ class TreatmentController extends Controller
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'price' => 'required|numeric',
+
         'status' => 'required|boolean',
     ]);
 
     $treatment = Treatment::findOrFail($id);
     $treatment->update([
         'name' => $request->name,
-        'price' => $request->price,
+
         'status' => $request->status,
     ]);
 

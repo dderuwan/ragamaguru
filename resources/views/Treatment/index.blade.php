@@ -39,9 +39,10 @@
                                             <td>{{ $Treatment->status == 1 ? 'Active':'Inactive' }}</td>
                                             <td>
                                                 <!-- Edit Button -->
-                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $Treatment->id }}">
+                                                <a href="{{ route('editTreatment', $Treatment->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
-                                                </button>
+                                                </a>
+
 
                                                 <!-- Delete Button -->
                                                 <form id="delete-form-{{ $Treatment->id }}" action="{{ route('deleteTreatment', $Treatment->id) }}" method="POST" class="d-inline">
@@ -60,6 +61,41 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal{{ $Treatment->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $Treatment->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel{{ $Treatment->id }}">Edit Treatment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('updateTreatment', $Treatment->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-3">
+                            <label>Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ $Treatment->name }}" required />
+                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Status</label>
+                            <select name="status" class="form-control" required>
+                                <option value="1" {{ $Treatment->status == 1 ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ $Treatment->status == 0 ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                            @error('status') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
