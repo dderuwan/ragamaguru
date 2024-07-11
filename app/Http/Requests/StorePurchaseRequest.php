@@ -19,16 +19,14 @@ class StorePurchaseRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            'request_code' => 'required|string|unique:purchase_order,request_code',
-            'item_code' => 'required|string',
-            'supplier_code' => 'required|string',
-            'inquantity' => 'nullable|integer',
-            'order_quantity' => 'required|integer',
-            'price' => 'required|numeric',
-            'status' => 'required|in:0,1', // Ensure status is either 0 or 1
-        ];
-    }
+        public function rules(): array
+        {
+            return [
+                'supplier_code' => 'required',
+                'item_name.*' => 'required',
+                'inquantity.*' => 'required|numeric|min:1',
+                'orderquantity.*' => 'required|numeric|min:1',        
+            ];
+
+        }
 }

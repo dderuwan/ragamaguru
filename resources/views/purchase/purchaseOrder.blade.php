@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <style>
 .action-icons {
     display: flex;
@@ -37,12 +38,7 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">All Suppliers</h2>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <a href="{{ route('createsupplier') }}"><button type="button" class="btn btn-primary float-end">
-                            Add Supplier
-                        </button></a>
+                        <h2 class="page-title">Purchase Order Requests</h2>
                     </div>
                 </div>
                 <p class="card-text"></p>
@@ -56,34 +52,32 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
+                                            <th style="color: black;">Order Request Code</th>
                                             <th style="color: black;">Supplier code</th>
-                                            <th style="color: black;">Name</th>
-                                            <th style="color: black;">Contact No.</th>
-                                            <th style="color: black;">Address</th>
-                                            <th style="color: black;">Registered Time</th>
+                                            <th style="color: black;">Date</th>
+                                            <th style="color: black;">Status</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($supplier_list as $supplier)
+                                        @foreach ($purchase_list as $purchase)
                                         <tr>
-                                            <td>{{$supplier->id}}</td>
-                                            <td>{{$supplier->supplier_code}}</td>
-                                            <td>{{$supplier->name}}</td>
-                                            <td>{{$supplier->contact}}</td>
-                                            <td>{{$supplier->address}}</td>
-                                            <td>{{$supplier->registered_time}}</td>
+                                            <td>{{$purchase->id}}</td>
+                                            <td>{{$purchase->request_code}}</td>
+                                            <td>{{$purchase->supplier_code}}</td>
+                                            <td>{{$purchase->date}}</td>
+                                            <td>{{$purchase->status}}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('editsupplier', $supplier->id) }}" class="action-icon edit-icon" title="Edit">
-                                                        <i class="fe fe-edit text-primary"></i>
+                                                    <a href="{{ route('view-details', $purchase->id) }}" class="action-icon edit-icon" title="View">
+                                                        <i class="fe fe-clipboard text-primary"></i>
                                                     </a>
                                                     
-                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $supplier->id }}')" title="Delete">
+                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $purchase->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
                                                     
-                                                    <form id="delete-form-{{ $supplier->id }}" action="{{ route('supplier.destroy', $supplier->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $purchase->id }}" action="{{ route('purchase.destroy', $purchase->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -101,6 +95,8 @@
         </div>
     </div>
 
+    
+
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -112,7 +108,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this supplier?
+                    Are you sure you want to delete this Purchase order request?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -127,8 +123,8 @@
 
 @section('scripts')
 <script>
-    function confirmDelete(supplierId) {
-        const deleteForm = document.getElementById('delete-form-' + supplierId);
+    function confirmDelete(purchaseId) {
+        const deleteForm = document.getElementById('delete-form-' + purchaseId);
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
         $('#deleteModal').modal('show');

@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('supplier_code');
             $table->integer('inquantity')->nullable();
             $table->integer('order_quantity');
-            $table->decimal('price', 10, 2);
             $table->tinyInteger('status')->default(0)->comment('0: Pending, 1: Received');
+            $table->date('date');
             $table->timestamps();
+
+            $table->foreign('item_code')->references('item_code')->on('item')->onDelete('cascade');
+            $table->foreign('supplier_code')->references('supplier_code')->on('suppliers')->onDelete('cascade');
         });
     }
 

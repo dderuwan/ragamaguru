@@ -24,30 +24,27 @@ class ItemController extends Controller
 
     public function getSupplierCodes()
     {
-        $supplierCodes = Supplier::pluck('supplier_code')->toArray(); // Fetch supplier_code as an array
+        $supplierCodes = Supplier::pluck('supplier_code')->toArray(); 
         return response()->json($supplierCodes);
     }
 
 
     public function store(StoreItemRequest $request)
     {
-        // Validate the incoming request data through StoreItemRequest
+        
         $validatedData = $request->validated();
     
         try {
-            // Loop through each item detail to store in the database
+            
             foreach ($validatedData['item_name'] as $key => $value) {
                 $item = new Item();
                 $item->name = $validatedData['item_name'][$key];
                 $item->description = $validatedData['item_description'][$key];
-                
-                // Check if quantity is provided, otherwise default to 0
                 $item->quantity = !empty($validatedData['item_quantity'][$key]) ? $validatedData['item_quantity'][$key] : 0;
-                
                 $item->price = $validatedData['item_price'][$key];
-                $item->supplier_code = $validatedData['supplier_code']; // Single supplier code for all items
+                $item->supplier_code = $validatedData['supplier_code']; 
     
-                // Handle image upload if required
+                
                 if ($request->hasFile('item_image') && $request->file('item_image')[$key]->isValid()) {
                     $item->image = $request->file('item_image')[$key]->store('items', 'public');
                 }
@@ -55,7 +52,7 @@ class ItemController extends Controller
                 $item->save();
             }
     
-            // Redirect back with success message
+           
             return redirect()->route('item.index')->with('success', 'Items added successfully!');
         } catch (\Exception $e) {
             // Handle any exceptions if necessary

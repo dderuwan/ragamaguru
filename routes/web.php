@@ -95,12 +95,14 @@ Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
 
 
-// Purchase module
-Route::get('/purchase/order-create', [PurchaseController::class, 'create'])->name('createPurchaseOrder'); 
-Route::post('/get-items-by-supplier', [PurchaseController::class, 'getItemsBySupplier'])->name('get-items-by-supplier');
-Route::post('/purchaseOrder', [PurchaseController::class, 'store'])->name('storeOrder'); 
-
-
+//Purchase module
+Route::resource('purchase', PurchaseController::class)->except(['show']);
+Route::get('/purchase/order-create', [PurchaseController::class, 'create'])->name('createPurchaseOrder');
+Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchase.store');
+Route::get('/allpurchaseRequests', [PurchaseController::class, 'index'])->name('purchase.purchaseOrder');
+Route::get('/view-request-details', [PurchaseController::class, 'viewDetails'])->name('view-details');
+Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
+Route::get('/get-items-by-supplier', [PurchaseController::class, 'getItemsBySupplier'])->name('get-items-by-supplier');
 
 
 
