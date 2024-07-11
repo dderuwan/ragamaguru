@@ -62,9 +62,13 @@ Route::get('/editCustomer/{id}', [CustomerController::class, 'edit'])->name('edi
 Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('updatecustomer');
 Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
 
-
-Route::get('/treatement', [App\Http\Controllers\TreatementController::class, 'index'])->name('treatement');
-
+//Treatment module
+Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
+Route::get('/createTreatment', [App\Http\Controllers\TreatmentController::class, 'create'])->name('createTreatment');
+Route::get('/editTreatment', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
+Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
+Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
+Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
 
 
 

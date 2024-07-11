@@ -18,12 +18,7 @@
                                 {{ $Treatement->name }}
                             </p>
                         </div>
-                        <div class="mb-3">
-                            <label>price</label>
-                            <p>
-                                {!! $Treatement->price !!}
-                            </p>
-                        </div>
+                       
                         <div class="mb-3">
                             <label>Status</label>
                             <br/>
