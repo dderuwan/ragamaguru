@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_order', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('request_code')->unique();
+            $table->string('request_code');
             $table->string('item_code');
             $table->string('supplier_code');
             $table->integer('inquantity')->nullable();

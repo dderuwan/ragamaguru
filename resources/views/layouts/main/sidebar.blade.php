@@ -74,7 +74,7 @@
                 <a class="nav-link pl-3" href="{{route('createPurchaseOrder')}}" ><span class="ml-1 item-text">Purchase Order Create</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('purchase.purchaseOrder')}}" ><span class="ml-1 item-text">Purchase Order Request</span></a>
+                <a class="nav-link pl-3" href="{{route('purchase.purchaseOrder')}}" ><span class="ml-1 item-text">All Order Requests</span></a>
             </li>
             </ul>
         </li>

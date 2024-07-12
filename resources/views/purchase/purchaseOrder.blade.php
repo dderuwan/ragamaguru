@@ -66,20 +66,27 @@
                                             <td>{{$purchase->request_code}}</td>
                                             <td>{{$purchase->supplier_code}}</td>
                                             <td>{{$purchase->date}}</td>
-                                            <td>{{$purchase->status}}</td>
+                                            <td>
+                                                @if ($purchase->status == 0)
+                                                <span>Pending</span>
+                                                @elseif ($purchase->status == 1)
+                                                <span>Received</span>
+                                                @else
+                                                <span class="badge badge-secondary">Unknown</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('view-details', $purchase->id) }}" class="action-icon edit-icon" title="View">
+                                                    <a href="{{ route('purchase.show', $purchase->request_code) }}" class="action-icon edit-icon" title="View">
                                                         <i class="fe fe-clipboard text-primary"></i>
                                                     </a>
                                                     
-                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $purchase->id }}')" title="Delete">
-                                                        <i class="fe fe-trash-2 text-danger"></i>
-                                                    </button>
-                                                    
-                                                    <form id="delete-form-{{ $purchase->id }}" action="{{ route('purchase.destroy', $purchase->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $purchase->id }}" action="{{ route('purchase.destroy', $purchase->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
+                                                        <button type="button" class="action-icon delete-icon" onclick="confirmDelete('{{ $purchase->id }}')" title="Delete">
+                                                            <i class="fe fe-trash-2 text-danger"></i>
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </td>                                         

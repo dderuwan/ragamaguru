@@ -24,7 +24,7 @@ class StorePurchaseRequest extends FormRequest
             return [
                 'supplier_code' => 'required',
                 'item_name.*' => 'required',
-                'inquantity.*' => 'required|numeric|min:1',
+                'inquantity.*' => 'required|numeric|min:0',
                 'orderquantity.*' => 'required|numeric|min:1',        
             ];
 
