@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
 use App\Models\Item; 
 use Illuminate\Http\Request;
 
@@ -23,27 +24,27 @@ class ItemController extends Controller
 
     public function getSupplierCodes()
     {
-        $supplierCodes = Supplier::pluck('supplier_code')->toArray(); // Fetch supplier_code as an array
+        $supplierCodes = Supplier::pluck('supplier_code')->toArray(); 
         return response()->json($supplierCodes);
     }
 
 
     public function store(StoreItemRequest $request)
     {
-        // Validate the incoming request data through StoreItemRequest
+        
         $validatedData = $request->validated();
     
         try {
-            // Loop through each item detail to store in the database
+            
             foreach ($validatedData['item_name'] as $key => $value) {
                 $item = new Item();
                 $item->name = $validatedData['item_name'][$key];
                 $item->description = $validatedData['item_description'][$key];
-                $item->quantity = $validatedData['item_quantity'][$key];
+                $item->quantity = !empty($validatedData['item_quantity'][$key]) ? $validatedData['item_quantity'][$key] : 0;
                 $item->price = $validatedData['item_price'][$key];
-                $item->supplier_code = $validatedData['supplier_code']; // Single supplier code for all items
+                $item->supplier_code = $validatedData['supplier_code']; 
     
-                // Handle image upload if required
+                
                 if ($request->hasFile('item_image') && $request->file('item_image')[$key]->isValid()) {
                     $item->image = $request->file('item_image')[$key]->store('items', 'public');
                 }
@@ -51,7 +52,7 @@ class ItemController extends Controller
                 $item->save();
             }
     
-            // Redirect back with success message
+           
             return redirect()->route('item.index')->with('success', 'Items added successfully!');
         } catch (\Exception $e) {
             // Handle any exceptions if necessary
@@ -60,19 +61,67 @@ class ItemController extends Controller
     }
     
 
-     /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        $item = Item::find($id);
-        if ($item) {
-            $item->delete();
-            notify()->success('Item deleted successfully. ⚡️', 'Success');
-            return redirect()->route('item.index');
-        } else {
-            return redirect()->route('item.index')->with('error', 'Item not found.');
+    
+
+        /**
+         * Remove the specified resource from storage.
+         */
+        public function destroy($id)
+        {
+            $item = Item::find($id);
+            if ($item) {
+                $item->delete();
+                notify()->success('Item deleted successfully. ⚡️', 'Success');
+                return redirect()->route('item.index');
+            } else {
+                return redirect()->route('item.index')->with('error', 'Item not found.');
+            }
         }
-    }
+
+
+        
+        public function edit(Item $item, $id)
+        {
+
+            $item = Item::find($id);
+            return view('item.edit', compact('item'));
+        }
+  
+   
+            /**
+         * Update the specified resource in storage.
+         */
+        public function update(UpdateItemRequest $request, $id)
+        {
+            $item = Item::find($id);
+
+            if ($item) {
+                $item->supplier_code = $request->supplier_code;
+                $item->name = $request->item_name;
+                $item->description = $request->item_description;
+                $item->quantity = $request->item_quantity;
+                $item->price = $request->item_price;
+
+                // Handle optional image upload
+                if ($request->hasFile('item_image')) {
+                    $request->validate([
+                        'item_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    ]);
+
+                    $image = $request->file('item_image');
+                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+                    $image->storeAs('public', $imageName);
+                    $item->image = $imageName;
+                }
+
+                $item->save();
+
+                return redirect()->route('item.index')->with('success', 'Item updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Item not found.');
+            }
+        }
+
+
     
 }

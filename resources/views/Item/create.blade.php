@@ -15,16 +15,16 @@
                 @csrf
                 <div class="col-sm-12 mt-4 mb-5">
                 <div class="form-group row">
-                <label class="col-sm-1 col-form-label">Supplier<i class="text-danger">*</i></label>
-                <div class="col-sm-5">
-                    <select class="js-example-basic-single js-states form-control" name="supplier_code">
-                    <option value="">Select supplier</option>
-                        <?php
-                            $supplierCodes = \App\Models\Supplier::pluck('supplier_code')->toArray();
-                            foreach ($supplierCodes as $supplierCode) {
-                                echo '<option value="' . $supplierCode . '">' . $supplierCode . '</option>';
-                            }
-                        ?>
+                  <label class="col-sm-1 col-form-label text-dark">Supplier<i class="text-danger">*</i></label>
+                    <div class="col-sm-5">
+                        <select class="js-example-basic-single js-states form-control" name="supplier_code">
+                            <option value="">Select supplier</option>
+                            <?php
+                                $supplierCodes = \App\Models\Supplier::pluck('supplier_code')->toArray();
+                                foreach ($supplierCodes as $supplierCode) {
+                                    echo '<option value="' . $supplierCode . '">' . $supplierCode . '</option>';
+                                }
+                            ?>
                         </select>
                     </div>
                   </div>
@@ -35,8 +35,8 @@
                     <tr>
                         <th class="text-center" width="20%" style="color: black;">Name<i class="text-danger">*</i></th>
                         <th class="text-center" width="25%" style="color: black;">Description<i class="text-danger">* </i></th>
-                        <th class="text-center" style="color: black;">Quantity<i class="text-danger">*</i></th>
-                        <th class="text-center" style="color: black;">Image<i class="text-danger">*</th>
+                        <th class="text-center" style="color: black;">Quantity</i></th>
+                        <th class="text-center" style="color: black;">Image</th>
                         <th class="text-center" style="color: black;">Individual Item cost<i class="text-danger">*</th>
                         <th class="text-center" style="color: black;"></th>
                     </tr>
@@ -50,7 +50,7 @@
                             <input type="text" name="item_description[]" required="" class="form-control product_name" placeholder="description" id="item_description" tabindex="5">   
                         </td>
                         <td class="span3">
-                            <input type="text" name="item_quantity[]" required="" class="form-control product_name" placeholder="quantity" id="item_quantity" tabindex="5">   
+                        <input type="text" name="item_quantity[]" class="form-control product_name" placeholder="Quantity" id="item_quantity" tabindex="5">
                         </td>
                         <td class="span3">
                         <div class="custom-file">

@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
@@ -82,15 +83,29 @@ Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('upd
 
 
 
-
-
-
 // Item module
 Route::resource('item', ItemController::class);
 Route::get('/items', [ItemController::class, 'index'])->name('item.index'); 
 Route::get('/items/create', [ItemController::class, 'create'])->name('createitem'); 
 Route::post('/items', [ItemController::class, 'store'])->name('items.store'); 
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
+Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
+Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
+
+
+//Purchase module
+Route::resource('purchase', PurchaseController::class)->except(['show']);
+Route::get('/purchase/order-create', [PurchaseController::class, 'create'])->name('createPurchaseOrder');
+Route::get('/allpurchaseRequests', [PurchaseController::class, 'index'])->name('purchase.purchaseOrder');
+Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
+Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getItemsBySupplier'])->name('get-items-by-supplier');
+Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
+Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
+
+
+
+
+
 
 
 

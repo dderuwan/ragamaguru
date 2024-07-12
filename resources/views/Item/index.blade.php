@@ -12,21 +12,21 @@
 
 .action-icon {
     display: inline-block;
-    width: 36px; /* Adjust width as needed */
-    height: 36px; /* Adjust height as needed */
-    line-height: 36px; /* Center the icon vertically */
+    width: 36px; 
+    height: 36px; 
+    line-height: 36px; 
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 5px; /* Adjust spacing between icons */
+    margin-right: 5px; 
 }
 
 .edit-icon {
-    background-color: #f0f0f0; /* Light background for edit icon */
+    background-color: #f0f0f0; 
 }
 
 .delete-icon {
-    background-color: #f8d7da; /* Light red background for delete icon */
+    background-color: #f8d7da; 
 }
 
 </style>
@@ -85,7 +85,7 @@
                                             <td>{{$item->supplier_code}}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="" class="action-icon edit-icon" title="Edit">
+                                                    <a href="{{ route('edititem', $item->id) }}" class="action-icon edit-icon" title="Edit">
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
                                                     
