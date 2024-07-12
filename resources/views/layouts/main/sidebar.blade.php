@@ -78,6 +78,17 @@
             </li>
             </ul>
         </li>
+        <li class="nav-item dropdown">
+            <a href="#setting" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-settings fe-16"></i>
+            <span class="ml-3 item-text">Settings</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="setting">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('company.index')}}" ><span class="ml-1 item-text">Manage Company</span></a>
+            </li>
+            </ul>
+        </li>
 
       </ul>
     </nav>

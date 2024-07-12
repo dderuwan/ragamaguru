@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
@@ -103,6 +104,11 @@ Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->n
 Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getItemsBySupplier'])->name('get-items-by-supplier');
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
+
+
+//Settings module
+Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
+Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
 
 
 
