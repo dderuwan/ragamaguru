@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreItemRequest;
 use App\Models\Item; 
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -18,7 +19,8 @@ class ItemController extends Controller
 
     public function create()
     {
-        return view('item.create');
+        $suppliers = Supplier::all();
+        return view('item.create', compact('suppliers'));
     }
 
     public function getSupplierCodes()
@@ -30,33 +32,45 @@ class ItemController extends Controller
 
     public function store(StoreItemRequest $request)
     {
-        // Validate the incoming request data through StoreItemRequest
-        $validatedData = $request->validated();
-    
+        
+
         try {
-            // Loop through each item detail to store in the database
-            foreach ($validatedData['item_name'] as $key => $value) {
+            $request->validate([
+                'supplier_code' => 'required',
+                'items.*.item_name' => 'required',
+                'items.*.item_description' => 'required',
+                'items.*.unit_price' => 'nullable|numeric',
+                'items.*.image' => 'nullable|image',
+            ]);
+
+            foreach ($request->items as $itemData) {
                 $item = new Item();
-                $item->name = $validatedData['item_name'][$key];
-                $item->description = $validatedData['item_description'][$key];
-                $item->quantity = $validatedData['item_quantity'][$key];
-                $item->price = $validatedData['item_price'][$key];
-                $item->supplier_code = $validatedData['supplier_code']; // Single supplier code for all items
-    
-                // Handle image upload if required
-                if ($request->hasFile('item_image') && $request->file('item_image')[$key]->isValid()) {
-                    $item->image = $request->file('item_image')[$key]->store('items', 'public');
+                $item->item_code = $this->generateItemCode();
+                $item->name = $itemData['item_name'];
+                $item->description = $itemData['item_description'];
+                $item->price = $itemData['unit_price'];
+                $item->quantity = $itemData['quentity'];
+                $item->supplier_code = $request->supplier_code;
+
+                if (isset($itemData['image'])) {
+                    $file = $itemData['image'];
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('images/items'), $filename);
+                    $item->image = $filename;
                 }
-    
+
                 $item->save();
             }
-    
-            // Redirect back with success message
+
             return redirect()->route('item.index')->with('success', 'Items added successfully!');
-        } catch (\Exception $e) {
-            // Handle any exceptions if necessary
-            return redirect()->back()->with('error', 'Failed to add items. Please try again.');
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage())->withInput();
         }
+    }
+
+    private function generateItemCode()
+    {
+        return 'ITEM-' . time() . '-' . rand(1000, 9999);
     }
     
 
@@ -72,6 +86,55 @@ class ItemController extends Controller
             return redirect()->route('item.index');
         } else {
             return redirect()->route('item.index')->with('error', 'Item not found.');
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $item = Item::findOrFail($id);
+            $suppliers = Supplier::all(); // Get all suppliers
+            return view('item.edit', compact('item', 'suppliers'));
+        } catch (ModelNotFoundException $e) {
+            return back()->withError('Item not found')->withInput();
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage())->withInput();
+        }
+    }
+
+    // Update the specified item in storage
+    public function update(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'item_code' => 'required|unique:item,item_code,'.$id,
+                'item_name' => 'required',
+                'item_description' => 'required',
+                'unit_price' => 'nullable|numeric',
+                'supplier_code' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $item = Item::findOrFail($id);
+            $item->item_code = $request->item_code;
+            $item->name = $request->item_name;
+            $item->description = $request->item_description;
+            $item->price = $request->unit_price;
+            $item->supplier_code = $request->supplier_code;
+
+            if ($request->hasFile('image')) {
+                $imageName = time().'.'.$request->image->extension();
+                $request->image->move(public_path('images/items'), $imageName);
+                $item->image = $imageName;
+            }
+
+            $item->save();
+
+            return redirect()->route('item.index')->with('success', 'Item updated successfully.');
+        } catch (ModelNotFoundException $e) {
+            return back()->withError('Item not found')->withInput();
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage())->withInput();
         }
     }
     
