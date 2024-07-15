@@ -44,7 +44,7 @@ class CompanySettingController extends Controller
             $companyDetail = new CompanyDetails();
         }
 
-        // Update the company details
+       
         $companyDetail->title = $request->title;
         $companyDetail->address = $request->address;
         $companyDetail->email = $request->email;
@@ -55,7 +55,7 @@ class CompanySettingController extends Controller
         $companyDetail->footertext = $request->footertext;
         $companyDetail->save();
 
-        // Redirect back with a success message
+        
         return redirect()->back()->with('success', 'Company details saved successfully.');
     }
 }

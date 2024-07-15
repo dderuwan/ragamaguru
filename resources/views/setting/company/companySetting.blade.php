@@ -41,8 +41,12 @@
                 <label for="inputFile" class="col-sm-2 col-form-label" style="color:black;">Logo</label>
                 <div class="col-sm-8">
                       <br>
+                      @if($companyDetail && $companyDetail->logo)
                           <img src="{{ asset('images/logos/' . $companyDetail->logo) }}" class="img-thumbnail" style="max-width: 100px;">
-                          <br>
+                      @else
+                          <p>No logo available</p>
+                      @endif
+                      <br>
                   <div class="custom-file">
                     <input type="file" class="custom-file-input" id="inputFile" name="logo" accept="image/*" onchange="updateImageLabel(this)">
                     <label class="custom-file-label" for="inputFile">Choose file</label>
@@ -70,7 +74,6 @@
               <div class="form-group row">
                 <div class="col-sm-10 mt-5">
                   <button type="submit" class="btn btn-primary">Save</button>
-                  <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
               </div>
             </form>

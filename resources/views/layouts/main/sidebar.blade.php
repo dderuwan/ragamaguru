@@ -87,6 +87,9 @@
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('company.index')}}" ><span class="ml-1 item-text">Manage Company</span></a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('user.index')}}" ><span class="ml-1 item-text">Add User</span></a>
+            </li>
             </ul>
         </li>
 

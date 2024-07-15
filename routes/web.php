@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\HomeController;
@@ -110,7 +111,8 @@ Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name
 Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
 Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
 
-
+Route::get('/users', [UserController::class, 'index'])->name('user.index');
+Route::post('/users/add-user', [UserController::class, 'store'])->name('user.store');
 
 
 
