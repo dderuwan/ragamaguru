@@ -15,6 +15,13 @@ class UserController extends Controller
     }
 
 
+    public function show()
+    {
+        $user_list = User::all();
+        return view('setting.user.user_list', compact('user_list'));
+    }
+
+
         public function store(Request $request)
     {
         try {

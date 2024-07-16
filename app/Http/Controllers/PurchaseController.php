@@ -37,23 +37,18 @@ class PurchaseController extends Controller
     public function show($request_code)
     {
         try {
-            // Find the purchase orders by request_code
             $items = Purchase::where('request_code', $request_code)->get();
             
-            // Find the corresponding purchase details
             $purchase = Purchase::where('request_code', $request_code)->firstOrFail();
     
-            // Prepare data array
             $data = [
                 'items' => $items,
                 'purchase' => $purchase,
                 'request_code' => $request_code,
             ];
     
-            // Return the view with the items, purchase details, and request_code
             return view('purchase.order_request_details', $data);
         } catch (ModelNotFoundException $e) {
-            // Handle case where no items with the given request_code are found
             abort(404);
         }
     }
@@ -94,22 +89,20 @@ class PurchaseController extends Controller
         try {
             DB::beginTransaction();
     
-            // Generate a unique request code for this submission
+            
             $requestCode = 'ORDREQ-' . Str::random(10);
     
-            // Initialize an array to store Purchase instances
             $purchases = [];
     
-            // Loop through each item_name to create Purchase instances
             foreach ($validatedData['item_name'] as $key => $value) {
                 $purchase = [
                     'item_code' => $value,
                     'supplier_code' => $validatedData['supplier_code'],
                     'inquantity' => $validatedData['inquantity'][$key] ?? null,
                     'order_quantity' => $validatedData['orderquantity'][$key],
-                    'status' => 0, // Assuming default status
-                    'date' => now(), // Assuming current date/time
-                    'request_code' => $requestCode, // Assign the generated request code
+                    'status' => 0, 
+                    'date' => now(), 
+                    'request_code' => $requestCode, 
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -117,7 +110,6 @@ class PurchaseController extends Controller
                 $purchases[] = $purchase;
             }
     
-            // Perform bulk insertion using Eloquent's insert method
             DB::table('purchase_order')->insert($purchases);
     
             DB::commit();

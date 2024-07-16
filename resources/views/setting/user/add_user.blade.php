@@ -52,26 +52,30 @@
                   <input type="text" class="form-control" id="inputAbout" name="about" placeholder="About">
                 </div>
               </div>
-              <div class="form-group row col-sm-2">
-                <label for="inputuser_type" class="col-sm-2 col-form-label" style="color:black;">User Type</label>
-                <div class="form-check">
+              <div class="form-group row">
+                <label for="inputuser_type" class="col-sm-2 col-form-label" style="color:black;">User Type<i class="text-danger">*</i></label>
+                <div class="col-sm-8">
+                  <div class="form-check">
                     <input type="radio" name="user_type" id="type_user" class="form-check-input" value="user" checked>
                     <label for="type_user" class="form-check-label">User</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" name="user_type" id="type_admin" class="form-check-input" value="admin">
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" name="user_type" id="stype_admin" class="form-check-input" value="admin">
                     <label for="type_admin" class="form-check-label">Admin</label>
+                  </div>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;">Status</label>
-                <div class="form-check">
+                <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;">Status<i class="text-danger">*</i></label>
+                <div class="col-sm-8">
+                  <div class="form-check">
                     <input type="radio" name="status" id="status_active" class="form-check-input" value="active" checked>
                     <label for="status_active" class="form-check-label">Active</label>
-                </div>
-                <div class="form-check">
+                  </div>
+                  <div class="form-check">
                     <input type="radio" name="status" id="status_inactive" class="form-check-input" value="inactive">
                     <label for="status_inactive" class="form-check-label">Inactive</label>
+                  </div>
                 </div>
               </div>
               <div class="form-group row">
@@ -101,9 +105,9 @@
 
 <script>
 function updateImageLabel(input) {
-    let fileName = input.files[0].name;
+    const fileName = input.files[0] ? input.files[0].name : 'Choose file';
     input.nextElementSibling.innerText = fileName;
 }
 </script>
 
-@endsection
+@endSection

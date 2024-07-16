@@ -111,8 +111,10 @@ Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name
 Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
 Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
 
+Route::resource('users', UserController::class);
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
 Route::post('/users/add-user', [UserController::class, 'store'])->name('user.store');
+Route::post('/users/user-list', [UserController::class, 'show'])->name('user.show');
 
 
 

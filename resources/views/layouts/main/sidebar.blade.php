@@ -29,10 +29,10 @@
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="customer">
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('allcustomers')}}" ><span class="ml-1 item-text">Customer List</span></a>
+                <a class="nav-link pl-3" href="{{route('allcustomers')}}" ><span class="ml-1 item-text"> - Customer List</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link pl-3" href="{{route('createcustomer')}}" ><span class="ml-1 item-text">Add customer</span></a>
+                <a class="nav-link pl-3" href="{{route('createcustomer')}}" ><span class="ml-1 item-text"> - Add customer</span></a>
             </li>
             </ul>
         </li>
@@ -49,7 +49,7 @@
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="supplier">
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('allsuppliers')}}" ><span class="ml-1 item-text">Supplier List</span></a>
+                <a class="nav-link pl-3" href="{{route('allsuppliers')}}" ><span class="ml-1 item-text"> - Supplier List</span></a>
             </li>
             </ul>
         </li>
@@ -60,7 +60,7 @@
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="item">
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('item.index')}}" ><span class="ml-1 item-text">Item List</span></a>
+                <a class="nav-link pl-3" href="{{route('item.index')}}" ><span class="ml-1 item-text"> - Item List</span></a>
             </li>
             </ul>
         </li>
@@ -71,10 +71,10 @@
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="purchase">
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('createPurchaseOrder')}}" ><span class="ml-1 item-text">Purchase Order Create</span></a>
+                <a class="nav-link pl-3" href="{{route('createPurchaseOrder')}}" ><span class="ml-1 item-text"> - Purchase Order Create</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('purchase.purchaseOrder')}}" ><span class="ml-1 item-text">All Order Requests</span></a>
+                <a class="nav-link pl-3" href="{{route('purchase.purchaseOrder')}}" ><span class="ml-1 item-text"> - All Order Requests</span></a>
             </li>
             </ul>
         </li>
@@ -85,14 +85,16 @@
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="setting">
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('company.index')}}" ><span class="ml-1 item-text">Manage Company</span></a>
+                <a class="nav-link pl-3" href="{{route('company.index')}}" ><span class="ml-1 item-text"> - Manage Company</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('user.index')}}" ><span class="ml-1 item-text">Add User</span></a>
+                <a class="nav-link pl-3" href="{{route('user.index')}}" ><span class="ml-1 item-text"> - Add User</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text"> - User List</span></a>
             </li>
             </ul>
         </li>
-
       </ul>
     </nav>
   </aside>
