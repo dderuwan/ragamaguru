@@ -38,7 +38,7 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Purchase Order Requests</h2>
+                        <h2 class="page-title">Users</h2>
                     </div>
                 </div>
                 <p class="card-text"></p>
@@ -52,35 +52,40 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
-                                            <th style="color: black;">Order Request Code</th>
-                                            <th style="color: black;">Supplier code</th>
-                                            <th style="color: black;">Date</th>
+                                            <th style="color: black;">Image</th>
+                                            <th style="color: black;">Username</th>
+                                            <th style="color: black;">Email</th>
                                             <th style="color: black;">Status</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ()
+                                        @foreach ($user_list as $index => $user)
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>
-                                               
+                                                @if ($user->image)
+                                                    <img src="{{ asset('storage/' . $user->image) }}" alt="User Image" style="max-width: 70px; max-height: 70px;">
+                                                @else
+                                                    No Image
+                                                @endif
                                             </td>
+                                            <td>{{ $user->firstname }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->status }}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="" class="action-icon edit-icon" title="View">
-                                                        <i class="fe fe-clipboard text-primary"></i>
+                                                    <a href="{{ route('user.edit', $user->id) }}" class="action-icon edit-icon" title="Edit">
+                                                        <i class="fe fe-edit text-primary"></i>
                                                     </a>
-                                                    
-                                                    <form id="delete-form-{{ $purchase->id }}" action="{{ route('purchase.destroy', $purchase->id) }}" method="POST">
+
+                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $user->id }}')" title="Delete">
+                                                        <i class="fe fe-trash-2 text-danger"></i>
+                                                    </button>
+
+                                                    <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="action-icon delete-icon" onclick="confirmDelete('{{ $purchase->id }}')" title="Delete">
-                                                            <i class="fe fe-trash-2 text-danger"></i>
-                                                        </button>
                                                     </form>
                                                 </div>
                                             </td>                                         

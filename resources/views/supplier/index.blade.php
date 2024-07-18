@@ -65,9 +65,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($supplier_list as $supplier)
+                                        @foreach ($supplier_list as $index=> $supplier)
                                         <tr>
-                                            <td>{{$supplier->id}}</td>
+                                            <td><?= $index + 1 ?></td>
                                             <td>{{$supplier->supplier_code}}</td>
                                             <td>{{$supplier->name}}</td>
                                             <td>{{$supplier->contact}}</td>

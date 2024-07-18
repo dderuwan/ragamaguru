@@ -60,9 +60,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($purchase_list as $purchase)
+                                        @foreach ($purchase_list as  $index => $purchase)
                                         <tr>
-                                            <td>{{$purchase->id}}</td>
+                                            <td><?= $index + 1 ?></td>
                                             <td>{{$purchase->request_code}}</td>
                                             <td>{{$purchase->supplier_code}}</td>
                                             <td>{{$purchase->date}}</td>

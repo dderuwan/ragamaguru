@@ -67,9 +67,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($item_list as $item)
+                                        @foreach ($item_list as $index => $item)
                                         <tr>
-                                            <td>{{$item->id}}</td>
+                                            <td><?= $index + 1 ?></td>
                                             <td>{{$item->item_code}}</td>
                                             <td> @if ($item->image)
                                                 <img src="{{ asset('storage/' . $item->image) }}" 

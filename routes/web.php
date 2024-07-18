@@ -115,6 +115,9 @@ Route::resource('users', UserController::class);
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
 Route::post('/users/add-user', [UserController::class, 'store'])->name('user.store');
 Route::post('/users/user-list', [UserController::class, 'show'])->name('user.show');
+Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateUser');
 
 
 

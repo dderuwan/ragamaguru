@@ -16,32 +16,32 @@
               <div class="form-group row">
                 <label for="inputfirstname" class="col-sm-2 col-form-label" style="color:black;"> First Name <i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputfirstname" name="firstname" placeholder="First name" required>
+                  <input type="text" class="form-control" id="inputfirstname" name="firstname[]" placeholder="First name" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputlastname" class="col-sm-2 col-form-label" style="color:black;">Last Name<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputlastname" name="lastname" placeholder="Last name">
+                  <input type="text" class="form-control" id="inputlastname" name="lastname[]" placeholder="Last name">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label" style="color:black;">Email<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email">
+                  <input type="email" class="form-control" id="inputEmail3" name="email[]" placeholder="Email">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputpassword" class="col-sm-2 col-form-label" style="color:black;">Password<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="password" class="form-control" id="inputpassword" name="password" placeholder="password">
+                  <input type="password" class="form-control" id="inputpassword" name="password[]" placeholder="password">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputFile" class="col-sm-2 col-form-label" style="color:black;">Image<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputFile" name="image" accept="image/*" onchange="updateImageLabel(this)">
+                    <input type="file" class="custom-file-input" id="inputFile" name="image[]" accept="image/*" onchange="updateImageLabel(this)">
                     <label class="custom-file-label" for="inputFile">Choose file</label>
                   </div>
                 </div>
