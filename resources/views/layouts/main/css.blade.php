@@ -17,6 +17,6 @@
 <link rel="stylesheet" href="{{asset('assets/css/app-dark.css')}}" id="darkTheme" disabled>
 {{-- custome css --}}
 <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" >
-
+<link rel="stylesheet" href="{{asset('assets/css/posinvoice.css')}}">
 
 

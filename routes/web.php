@@ -117,6 +117,15 @@ Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'd
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
 
+ //POS
+ Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
+ Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
+ Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
+ Route::get('/showpos/{id}', [App\Http\Controllers\POSController::class, 'show'])->name('showopos');
+ Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
+
+ Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
+
 
 
 ?>
