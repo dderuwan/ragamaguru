@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreItemRequest;
-use App\Http\Requests\UpdateItemRequest;
-use App\Models\Item; 
+use App\Models\Item;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -19,109 +19,123 @@ class ItemController extends Controller
 
     public function create()
     {
-        return view('item.create');
+        $suppliers = Supplier::all();
+        return view('item.create', compact('suppliers'));
     }
 
     public function getSupplierCodes()
     {
-        $supplierCodes = Supplier::pluck('supplier_code')->toArray(); 
+        $supplierCodes = Supplier::pluck('supplier_code')->toArray(); // Fetch supplier_code as an array
         return response()->json($supplierCodes);
     }
 
 
     public function store(StoreItemRequest $request)
     {
-        
-        $validatedData = $request->validated();
-    
+
+
         try {
-            
-            foreach ($validatedData['item_name'] as $key => $value) {
+            $request->validate([
+                'supplier_code' => 'required',
+                'items.*.item_name' => 'required',
+                'items.*.item_description' => 'required',
+                'items.*.unit_price' => 'nullable|numeric',
+                'items.*.image' => 'nullable|image',
+            ]);
+
+            foreach ($request->items as $itemData) {
                 $item = new Item();
-                $item->name = $validatedData['item_name'][$key];
-                $item->description = $validatedData['item_description'][$key];
-                $item->quantity = !empty($validatedData['item_quantity'][$key]) ? $validatedData['item_quantity'][$key] : 0;
-                $item->price = $validatedData['item_price'][$key];
-                $item->supplier_code = $validatedData['supplier_code']; 
-    
-                
-                if ($request->hasFile('item_image') && $request->file('item_image')[$key]->isValid()) {
-                    $item->image = $request->file('item_image')[$key]->store('items', 'public');
+                $item->item_code = $this->generateItemCode();
+                $item->name = $itemData['item_name'];
+                $item->description = $itemData['item_description'];
+                $item->price = $itemData['unit_price'];
+                $item->quantity = $itemData['quentity'];
+                $item->supplier_code = $request->supplier_code;
+
+                if (isset($itemData['image'])) {
+                    $file = $itemData['image'];
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('images/items'), $filename);
+                    $item->image = $filename;
                 }
-    
+
                 $item->save();
             }
-    
-           
+
             return redirect()->route('item.index')->with('success', 'Items added successfully!');
-        } catch (\Exception $e) {
-            // Handle any exceptions if necessary
-            return redirect()->back()->with('error', 'Failed to add items. Please try again.');
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage())->withInput();
         }
     }
-    
 
-    
+    private function generateItemCode()
+    {
+        return 'ITEM-' . time() . '-' . rand(1000, 9999);
+    }
 
-        /**
-         * Remove the specified resource from storage.
-         */
-        public function destroy($id)
-        {
-            $item = Item::find($id);
-            if ($item) {
-                $item->delete();
-                notify()->success('Item deleted successfully. ⚡️', 'Success');
-                return redirect()->route('item.index');
-            } else {
-                return redirect()->route('item.index')->with('error', 'Item not found.');
+
+     /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $item = Item::find($id);
+        if ($item) {
+            $item->delete();
+            notify()->success('Item deleted successfully. ⚡️', 'Success');
+            return redirect()->route('item.index');
+        } else {
+            return redirect()->route('item.index')->with('error', 'Item not found.');
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $item = Item::findOrFail($id);
+            $suppliers = Supplier::all(); // Get all suppliers
+            return view('item.edit', compact('item', 'suppliers'));
+        } catch (ModelNotFoundException $e) {
+            return back()->withError('Item not found')->withInput();
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage())->withInput();
+        }
+    }
+
+    // Update the specified item in storage
+    public function update(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'item_code' => 'required|unique:item,item_code,'.$id,
+                'item_name' => 'required',
+                'item_description' => 'required',
+                'unit_price' => 'nullable|numeric',
+                'supplier_code' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $item = Item::findOrFail($id);
+            $item->item_code = $request->item_code;
+            $item->name = $request->item_name;
+            $item->description = $request->item_description;
+            $item->price = $request->unit_price;
+            $item->supplier_code = $request->supplier_code;
+
+            if ($request->hasFile('image')) {
+                $imageName = time().'.'.$request->image->extension();
+                $request->image->move(public_path('images/items'), $imageName);
+                $item->image = $imageName;
             }
+
+            $item->save();
+
+            return redirect()->route('item.index')->with('success', 'Item updated successfully.');
+        } catch (ModelNotFoundException $e) {
+            return back()->withError('Item not found')->withInput();
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage())->withInput();
         }
+    }
 
-
-        
-        public function edit(Item $item, $id)
-        {
-
-            $item = Item::find($id);
-            return view('item.edit', compact('item'));
-        }
-  
-   
-            /**
-         * Update the specified resource in storage.
-         */
-        public function update(UpdateItemRequest $request, $id)
-        {
-            $item = Item::find($id);
-
-            if ($item) {
-                $item->supplier_code = $request->supplier_code;
-                $item->name = $request->item_name;
-                $item->description = $request->item_description;
-                $item->quantity = $request->item_quantity;
-                $item->price = $request->item_price;
-
-                // Handle optional image upload
-                if ($request->hasFile('item_image')) {
-                    $request->validate([
-                        'item_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-                    ]);
-
-                    $image = $request->file('item_image');
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
-                    $image->storeAs('public', $imageName);
-                    $item->image = $imageName;
-                }
-
-                $item->save();
-
-                return redirect()->route('item.index')->with('success', 'Item updated successfully.');
-            } else {
-                return redirect()->back()->with('error', 'Item not found.');
-            }
-        }
-
-
-    
 }

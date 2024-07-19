@@ -88,6 +88,8 @@ Route::resource('item', ItemController::class);
 Route::get('/items', [ItemController::class, 'index'])->name('item.index'); 
 Route::get('/items/create', [ItemController::class, 'create'])->name('createitem'); 
 Route::post('/items', [ItemController::class, 'store'])->name('items.store'); 
+Route::get('/edititem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edititem');
+Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateitem');
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
 Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
@@ -106,6 +108,29 @@ Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name
 
 
 
+
+
+//OrderRequests module
+Route::get('/allorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'index'])->name('allorderrequests');
+Route::get('/createorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'create'])->name('OrderRequests.create');
+Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store'); 
+Route::get('/showorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'show'])->name('OrderRequests.show');
+Route::delete('/deleteorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'destroy'])->name('OrderRequests.destroy');
+
+// API Routes for fetching items and stock
+Route::get('/api/get-items/{supplierCode}', [App\Http\Controllers\OrderRequestContralller::class, 'getItemsBySupplier']);
+Route::get('/api/get-item-stock/{itemCode}', [App\Http\Controllers\OrderRequestContralller::class, 'getItemStock']);
+
+
+// GIN
+Route::get('/allgins', [App\Http\Controllers\GinController::class, 'index'])->name('allgins');
+Route::get('/creategin', [App\Http\Controllers\GinController::class, 'create'])->name('creategin');
+Route::post('/insertgin', [App\Http\Controllers\GinController::class, 'store'])->name('insertgin');
+Route::get('/showogins/{id}', [App\Http\Controllers\GinController::class, 'show'])->name('showogins');
+Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'destroy'])->name('deletegins');
+
+// routes/web.php
+Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
 
 
 

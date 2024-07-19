@@ -55,7 +55,7 @@
         </li>
         <li class="nav-item dropdown">
             <a href="#item" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-menu fe-16"></i>
+            <i class="fe fe-box fe-16"></i></i>
             <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="item">
@@ -64,17 +64,19 @@
             </li>
             </ul>
         </li>
+
+
         <li class="nav-item dropdown">
-            <a href="#purchase" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-shopping-cart fe-16"></i>
-            <span class="ml-3 item-text">Purchase Manage</span><span class="sr-only">(current)</span>
+            <a href="#orderrequest" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-shopping-cart fe-16 mb-2"></i>
+            <span class="ml-3 item-text">OrderRequests</span><span class="sr-only">(current)</span>
             </a>
-            <ul class="collapse list-unstyled pl-4 w-100" id="purchase">
+            <ul class="collapse list-unstyled pl-4 w-100" id="orderrequest">
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('createPurchaseOrder')}}" ><span class="ml-1 item-text">Purchase Order Create</span></a>
+                <a class="nav-link pl-3" href="{{route('allorderrequests')}}" ><span class="ml-1 item-text">OrderRequests List</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('purchase.purchaseOrder')}}" ><span class="ml-1 item-text">All Order Requests</span></a>
+                <a class="nav-link pl-3" href="{{route('allgins')}}" ><span class="ml-1 item-text">GIN List</span></a>
             </li>
             </ul>
         </li>
