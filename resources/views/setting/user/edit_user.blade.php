@@ -12,33 +12,33 @@
           </div>
           <div class="card-body">
           <form action="{{ route('updateUser', $user->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+    @csrf
+    @method('PUT')
               <div class="form-group row">
                 <label for="inputfirstname" class="col-sm-2 col-form-label" style="color:black;"> First Name</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputfirstname" name="firstname[]" placeholder="First name" value="{{ $user->firstname }}">
+                  <input type="text" class="form-control" id="inputfirstname" name="firstname" placeholder="First name" value="{{ $user->firstname }}">
                 </div>
               </div>
 
               <div class="form-group row">
                 <label for="inputlastname" class="col-sm-2 col-form-label" style="color:black;">Last Name</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputlastname" name="lastname[]" placeholder="Last name" value="{{ $user->lastname }}" >
+                  <input type="text" class="form-control" id="inputlastname" name="lastname" placeholder="Last name" value="{{ $user->lastname }}" >
                 </div>
               </div>
 
               <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label" style="color:black;">Email</label>
                 <div class="col-sm-8">
-                  <input type="email" class="form-control" id="inputEmail3" name="email[]" placeholder="Email"  value="{{ $user->email }}">
+                  <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email"  value="{{ $user->email }}">
                 </div>
               </div>
 
               <div class="form-group row">
                 <label for="inputpassword" class="col-sm-2 col-form-label" style="color:black;">Password</label>
                 <div class="col-sm-8">
-                  <input type="password" class="form-control" id="inputpassword" name="password[]" placeholder="password">
+                  <input type="password" class="form-control" id="inputpassword" name="password" placeholder="password">
                 </div>
               </div>
 
@@ -88,7 +88,7 @@
                 <label for="inputFile" class="col-sm-2 col-form-label" style="color:black;">Image</label>
                 <div class="col-sm-8">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputFile" name="image[]" accept="image/*" onchange="updateImageLabel(this)">
+                    <input type="file" class="custom-file-input" id="inputFile" name="image" accept="image/*" onchange="updateImageLabel(this)">
                     <label class="custom-file-label" for="inputFile">Choose file</label>
                   </div>
                 </div>
