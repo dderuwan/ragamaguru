@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('treatment', function (Blueprint $table) {
+        Schema::create('pos_items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('status')->default(1)->comment('1=Active,0=Inactive');
+            $table->foreignId('pos_id')->constrained('pos')->onDelete('cascade');
+            $table->string('item_code');
+            $table->string('item_name');
+            $table->integer('quantity');
+            $table->decimal('total_cost', 15, 2);
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('treatment');
+        Schema::dropIfExists('pos_items');
     }
 };

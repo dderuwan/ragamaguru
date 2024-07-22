@@ -2,6 +2,7 @@
 
 @section('content')
 <main role="main" class="main-content">
+<<<<<<< HEAD
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
@@ -39,10 +40,35 @@
                         <th class="text-center" style="color: black;">Image</th>
                         <th class="text-center" style="color: black;">Individual Item cost<i class="text-danger">*</th>
                         <th class="text-center" style="color: black;"></th>
+=======
+    <div class="container">
+        <h1>Create Item</h1>
+        <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+                <label for="supplier_code">Supplier *</label>
+                <select name="supplier_code" class="form-control" required>
+                    <option value="">Select Supplier </option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->supplier_code }}">{{ $supplier->supplier_code }}-{{ $supplier->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <table class="table table-bordered" id="items-table">
+                <thead>
+                    <tr>
+                        <th>Item Name *</th>
+                        <th>Description</th>
+                        <th>Selling Price</th>
+                        <th>Quentity</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+>>>>>>> kavidu
                     </tr>
                 </thead>
-                <tbody id="addItem">
+                <tbody>
                     <tr>
+<<<<<<< HEAD
                         <td class="span3">
                             <input type="text" name="item_name[]" required="" class="form-control product_name" placeholder="Item name" id="item_name" tabindex="5">   
                         </td>
@@ -64,112 +90,46 @@
                         <td>
                             <button class="btn btn-danger red text_align_right" type="button" value="Delete" onclick="deletePurchaseRow(this)" tabindex="8">Delete</button>
                         </td>
+=======
+                        <td><input type="text" name="items[0][item_name]" class="form-control" required></td>
+                        <td><input type="text" name="items[0][item_description]" class="form-control" required></td>
+                        <td><input type="text" name="items[0][quentity]" class="form-control" ></td>
+                        <td><input type="text" name="items[0][unit_price]" class="form-control" required></td>
+                        <td><input type="file" name="items[0][image]" class="form-control"></td>
+                        <td><button type="button" class="btn btn-danger remove-row">Delete</button></td>
+>>>>>>> kavidu
                     </tr>
                 </tbody>
-                 <tfoot>
-                    <tr>
-                        <td colspan="5">
-                          <input type="button" id="add_invoice_item" class="btn btn-primary" name="add-invoice-item" 
-                            onclick="addmore('addItem');" value="Add More item" tabindex="9">
-                              </td>
-                          </tr>
-                      </tfoot>
             </table>
-            <input type="hidden" name="finyear" value="">
-              <div class="form-group row">
-                <div class="col-sm-6">
-                 <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </div>
-            </form>
-            </div>
-          </div>
-        </div> <!-- / .card-desk-->
+            <button type="button" class="btn btn-primary" id="add-row">Add New Item</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</main>
 
-        @if (session('success'))
-        <div class="alert alert-success">
-          {{ session('success') }}
-        </div>
-        @endif
-        @if (session('error'))
-        <div class="alert alert-danger">
-          {{ session('error') }}
-        </div>
-        @endif
-
-              </form>
-            </div>
-          </div>
-        </div> <!-- / .card-desk-->
-      </div> <!-- .col-12 -->
-    </div> <!-- .row -->
-  </div> <!-- .container-fluid -->
-
-
-</main> <!-- main -->
-@endsection
-
-@section('scripts')
 <script>
+    let rowIndex = 1;
 
-
-    
-    function addmore(containerId) {
-        var container = document.getElementById(containerId);
-        var newRow = document.createElement('tr');
-
+    document.getElementById('add-row').addEventListener('click', function() {
+        const table = document.getElementById('items-table').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
         newRow.innerHTML = `
-            <td class="span3 supplier">
-                <input type="text" name="item_name[]" required="" class="form-control product_name" placeholder="Item name" tabindex="5">   
-            </td>
-            <td class="span3 supplier">
-                <input type="text" name="item_description[]" required="" class="form-control product_name" placeholder="description" tabindex="5">   
-            </td>
-            <td class="span3 supplier">
-                <input type="text" name="item_quantity[]" required="" class="form-control product_name" placeholder="quantity" tabindex="5">   
-            </td>
-            <td class="span3">
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" name="item_image[]" accept="image/*" onchange="updateImageLabel(this)">
-          <label class="custom-file-label">Choose file</label>
-        </div>
-      </td>
-            <td class="span3 supplier">
-                <input type="text" name="item_price[]" required="" class="form-control product_name" placeholder="price" tabindex="5">   
-            </td>
-            <td>
-                <button class="btn btn-danger red text_align_right" type="button" value="delete" onclick="deletePurchaseRow(this)" tabindex="8">Delete</button>
-            </td>
+            <tr>
+                <td><input type="text" name="items[${rowIndex}][item_name]" class="form-control" required></td>
+                <td><input type="text" name="items[${rowIndex}][item_description]" class="form-control" required></td>
+                <td><input type="text" name="items[${rowIndex}][quentity]" class="form-control" ></td>
+                <td><input type="text" name="items[${rowIndex}][unit_price]" class="form-control" required></td>
+                <td><input type="file" name="items[${rowIndex}][image]" class="form-control"></td>
+                <td><button type="button" class="btn btn-danger remove-row">Delete</button></td>
+            </tr>
         `;
-
-        container.appendChild(newRow);
-    }
-
-    function deletePurchaseRow(button) {
-        var row = button.parentNode.parentNode;
-        row.parentNode.removeChild(row);
-    }
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Function to handle file input change
-        document.getElementById('Item_image').addEventListener('change', function(e) {
-            var fileName = e.target.files[0].name;
-            var label = document.getElementById('imageLabel');
-            label.textContent = fileName;
-        });
+        rowIndex++;
     });
-    function updateImageLabel(input) {
-    var fileName = input.files[0].name;
-    var label = input.parentNode.querySelector('.custom-file-label');
-    label.textContent = fileName;
-  }
-   
-   
+
+    document.getElementById('items-table').addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-row')) {
+            e.target.closest('tr').remove();
+        }
+    });
 </script>
-
-
-
-
-
 @endsection

@@ -7,23 +7,23 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Edit Treatement
-                            <a href="{{ url('Treatement') }}" class="btn btn-danger float-end">Back</a>
+                        <h4>Edit Treatment
+                            <a href="{{ url('Treatment') }}" class="btn btn-danger float-end">Back</a>
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('Treatement.update', $Treatement->id) }}" method="POST">
+                        <form action="{{ route('Treatment.update', $Treatment->id) }}" method="POST">
                             @csrf
                             @method('PUT')
 
                             <div class="mb-3">
                                 <label>Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ $Treatement->name }}" />
+                                <input type="text" name="name" class="form-control" value="{{ $Treatment->name }}" />
                                 @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="mb-3">
                                 <label>price</label>
-                                <textarea name="price" rows="3" class="form-control">{!! $Treatement->price !!}</textarea>
+                                <textarea name="price" rows="3" class="form-control">{!! $Treatment->price !!}</textarea>
                                 @error('price') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="mb-3">

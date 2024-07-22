@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Treatement;
+use App\Models\Treatment;
 use Illuminate\Http\Request;
 
-class TreatementController extends Controller
+class TreatmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $Treatements =Treatement::paginate(10);
-        return view('Treatement.index', [
-            'Treatements' => $Treatements
+
+        $Treatments =Treatment::paginate(10);
+        return view('Treatment.index', [
+            'Treatments' => $Treatments
         ]);
     }
 
@@ -24,7 +25,7 @@ class TreatementController extends Controller
      */
     public function create()
     {
-        return view('Treatement.create');
+        return view('Treatment.create');
     }
 
     /**
@@ -34,33 +35,33 @@ class TreatementController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|string|max:255',
+
             'status' => 'nullable',
         ]);
 
-        Treatement::create([
+        Treatment::create([
             'name' => $request->name,
-            'price' => $request->price,
+
             'status' => $request->status == true ? 1:0,
         ]);
-
-        return redirect('/Treatement')->with('status','Treatements Created Successfully');
+        notify()->success(' Treatment Created successfully. ⚡️', 'Success');
+        return redirect('/Treatment')->with('status','Treatments Created Successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Treatement $Treatement)
+    public function show(Treatment $Treatment)
     {
-        return view(' Treatement.show', compact('Treatement'));
+        return view('Treatment.show', compact('Treatment'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( Treatement $Treatement)
+    public function edit( Treatment $Treatment)
     {
-        return view(' Treatement.edit', compact('Treatement'));
+        return view('Treatment.edit', compact('Treatment'));
     }
 
     /**
@@ -74,23 +75,30 @@ class TreatementController extends Controller
         'status' => 'required|boolean',
     ]);
 
-    $treatment = Treatement::findOrFail($id);
+    $treatment = Treatment::findOrFail($id);
     $treatment->update([
         'name' => $request->name,
         'price' => $request->price,
         'status' => $request->status,
     ]);
 
-    return redirect()->route('Treatement.index')->with('status', 'Treatment updated successfully');
+    return redirect()->route('Treatment.index')->with('status', 'Treatment updated successfully');
 }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Treatement $Treatement)
+    public function destroy($id)
     {
-        $Treatement->delete();
-        return redirect('/Treatement')->with('status','Treatement Deleted Successfully');
-    }
+        $Treatment = Treatment::find($id);
+        if ($Treatment) {
+            $Treatment->delete();
+            //return redirect()->route('customer.index')->with('success', 'Customer deleted successfully.');
+            notify()->success(' Treatment deleted successfully. ⚡️', 'Success');
+            return redirect()->route('Treatment');
+        } else {
+            return redirect()->route('Treatment')->with('error', 'Customer not found.');
+        }
+}
 }

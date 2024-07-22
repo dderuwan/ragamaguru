@@ -38,7 +38,7 @@
         </li>
          <li class="nav-item active sidebar_li">
             <i class="fe fe-home fe-16"></i>
-          <a href="{{route('treatement')}}" class="sidebar_text" >
+          <a href="{{route('Treatment')}}" class="sidebar_text" >
             <span class="ml-3 item-text">Treatment</span><span class="sr-only">(current)</span>
           </a>
         </li>
@@ -55,7 +55,7 @@
         </li>
         <li class="nav-item dropdown">
             <a href="#item" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-menu fe-16"></i>
+            <i class="fe fe-box fe-16"></i></i>
             <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="item">
@@ -64,12 +64,14 @@
             </li>
             </ul>
         </li>
+
+
         <li class="nav-item dropdown">
-            <a href="#purchase" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-shopping-cart fe-16"></i>
-            <span class="ml-3 item-text">Purchase Manage</span><span class="sr-only">(current)</span>
+            <a href="#orderrequest" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-shopping-cart fe-16 mb-2"></i>
+            <span class="ml-3 item-text">OrderRequests</span><span class="sr-only">(current)</span>
             </a>
-            <ul class="collapse list-unstyled pl-4 w-100" id="purchase">
+            <ul class="collapse list-unstyled pl-4 w-100" id="orderrequest">
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('createPurchaseOrder')}}" ><span class="ml-1 item-text"> - Purchase Order Create</span></a>
             </li>
@@ -95,6 +97,33 @@
             </li>
             </ul>
         </li>
+                <a class="nav-link pl-3" href="{{route('allorderrequests')}}" ><span class="ml-1 item-text">OrderRequests List</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('allgins')}}" ><span class="ml-1 item-text">GIN List</span></a>
+            </li>
+            </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+              <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-users fe-16"></i>
+                <span class="ml-3 item-text">Invoices</span><span class="sr-only">(current)</span>
+              </a>
+              <ul class="collapse list-unstyled pl-1 w-100 ml-4" id="invoice">
+                <li class="nav-item mb-2">
+                <a href="{{route('pospage')}}" class="sidebar_text text-decoration-none"  >
+                  <span class="ml-3 item-text">POS Invoice</span><span class="sr-only">(current)</span>
+                </a>
+                </li>
+                
+              </ul>
+        </li>
+
       </ul>
+
+
+
     </nav>
   </aside>
+

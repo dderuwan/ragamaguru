@@ -8,6 +8,7 @@
             <div class="col-12">
                 <h2 class="mb-2 page-title">All Customers</h2>
                 <p class="card-text"></p>
+
                 <div class="row my-4">
                     <!-- Small table -->
                     <div class="col-md-12">

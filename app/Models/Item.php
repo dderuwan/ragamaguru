@@ -21,8 +21,6 @@ class Item extends Model
         'supplier_code',
     ];
 
-   
-
     /**
      * Boot function from Laravel.
      */

@@ -1,5 +1,6 @@
 @extends('layouts.main.master')
 
+
 @section('content')
    <main role="main" class="main-content">
     <div class="container-fluid">
