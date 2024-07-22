@@ -32,6 +32,8 @@
 
 </style>
 
+
+
 <main role="main" class="main-content">
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -41,6 +43,17 @@
                         <h2 class="page-title">Users</h2>
                     </div>
                 </div>
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <p class="card-text"></p>
                 <div class="row my-4">
                     <!-- Small table -->

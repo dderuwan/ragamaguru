@@ -46,7 +46,7 @@ class UserController extends Controller
                 $user->save();
             }
 
-            return redirect()->back()->with('success', 'User details saved successfully.');
+            return redirect()->route('user.show')->with('success', 'User details saved successfully'); 
         } catch (\Exception $e) {
             Log::error('Error saving user: ' . $e->getMessage());
 
@@ -68,19 +68,19 @@ class UserController extends Controller
         {
             try {
                 Log::info('User ID: ' . $id . ' - Starting update process.');
-        
+            
                 // Find the user by ID
                 $user = User::find($id);
-        
+            
                 if (!$user) {
                     Log::error('User not found: ID ' . $id);
                     return redirect()->back()->with('error', 'User not found.');
                 }
-        
+            
                 // Validate and get validated data
                 $validatedData = $request->validated();
                 Log::info('Validated Data: ', $validatedData);
-        
+            
                 $user->firstname = $validatedData['firstname'];
                 $user->lastname = $validatedData['lastname'];
                 $user->email = $validatedData['email'];
@@ -90,7 +90,7 @@ class UserController extends Controller
                 $user->about = $validatedData['about'];
                 $user->user_type = $validatedData['user_type'];
                 $user->status = $validatedData['status'];
-        
+            
                 // Handle optional image upload
                 if ($request->hasFile('image')) {
                     $image = $request->file('image');
@@ -98,17 +98,17 @@ class UserController extends Controller
                     $image->storeAs('public', $imageName);
                     $user->image = $imageName;
                 }
-        
-                
+            
                 $user->save();
                 Log::info('User ID: ' . $id . ' - Update successful.');      
-                return redirect()->route('user.show')->with('success', 'User updated successfully.');      
+                
+                return redirect()->route('user.show', ['id' => $id])->with('success', 'User updated successfully.');      
             } catch (\Exception $e) {
                 Log::error('Error updating user: ' . $e->getMessage());
-        
                 return redirect()->back()->with('error', 'Failed to update user.');
             }
         }
+
         
 
         
