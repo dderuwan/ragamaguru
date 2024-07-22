@@ -81,6 +81,21 @@
             </ul>
         </li>
 
+        <li class="nav-item dropdown">
+              <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-users fe-16"></i>
+                <span class="ml-3 item-text">Invoices</span><span class="sr-only">(current)</span>
+              </a>
+              <ul class="collapse list-unstyled pl-1 w-100 ml-4" id="invoice">
+                <li class="nav-item mb-2">
+                <a href="{{route('pospage')}}" class="sidebar_text text-decoration-none"  >
+                  <span class="ml-3 item-text">POS Invoice</span><span class="sr-only">(current)</span>
+                </a>
+                </li>
+                
+              </ul>
+        </li>
+
       </ul>
 
 

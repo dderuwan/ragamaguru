@@ -5,6 +5,7 @@ use App\Http\Requests\StoreItemRequest;
 use App\Models\Item;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ItemController extends Controller
 {
