@@ -55,7 +55,7 @@
                                             <div class="input-group-yt">
                                                 <select name="customer_code" class="form-control" id="user_id" required>
                                                     <option value="">Select Customer</option>
-                                                    @foreach($customers->unique('user_id') as $customer)
+                                                    @foreach($customers->unique('id') as $customer)
                                                         <option value="{{ $customer->user_id }}" data-name="{{ $customer->name }}" data-code="{{ $customer->user_id }}">{{ $customer->contact }}</option>
                                                     @endforeach
                                                 </select>
@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="button-group">
                                             <button class="btn btn-secondary" id="calculator-btn">
-                                                <i class="fe fe-home fe-16"></i>
+                                                <i class="fa fa-calculator"></i>
                                             </button>
                                             <button class="btn btn-danger ml-2" id="cancel-btn">Cancel</button>
                                             <button type="submit" class="btn btn-primary float-center">Save</button>
@@ -244,62 +244,62 @@
                 </div>
                 <!-- All Orders Section -->
                 <div class="custom-tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <h2>Today's Orders</h2>
-                    </div>
-                </div>
-                <p class="card-text"></p>
-                <div class="row my-4">
-                    <div class="col-md-12">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <table class="table datatables" id="dataTable-1">
-                                    <thead>
-                                        <tr>
-                                            <th style="color: black;">Order Code</th>
-                                            <th style="color: black;">Date</th>
-                                            <th style="color: black;">Customer Code</th>
-                                            <th style="color: black;">Total Cost</th>
-                                            <th style="color: black;" width="200px">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($orders as $order)
-                                            @if ($order->date == $today)
-                                                <tr>
-                                                    <td>{{ $order->order_code }}</td>
-                                                    <td>{{ $order->date }}</td>
-                                                    <td>{{ $order->customer_code }}</td>
-                                                    <td>{{ $order->total_cost_payment }}</td>
-                                                    <td>
-                                                        <!-- Show Button -->
-                                                        <a href="{{ route('showopos', $order->id) }}" class="btn btn-secondary"><i class="fe fe-eye fe-16"></i></a>
+                    <div class="container-fluid">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <h2>Today's Orders</h2>
+                                    </div>
+                                </div>
+                                <p class="card-text"></p>
+                                <div class="row my-4">
+                                    <div class="col-md-12">
+                                        <div class="card shadow">
+                                            <div class="card-body">
+                                                <table class="table datatables" id="dataTable-1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="color: black;">Order Code</th>
+                                                            <th style="color: black;">Date</th>
+                                                            <th style="color: black;">Customer Code</th>
+                                                            <th style="color: black;">Total Cost</th>
+                                                            <th style="color: black;" width="200px">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($orders as $order)
+                                                            @if ($order->date == $today)
+                                                                <tr>
+                                                                    <td>{{ $order->order_code }}</td>
+                                                                    <td>{{ $order->date }}</td>
+                                                                    <td>{{ $order->customer_code }}</td>
+                                                                    <td>{{ $order->total_cost_payment }}</td>
+                                                                    <td>
+                                                                        <!-- Show Button -->
+                                                                        <a href="{{ route('showopos', $order->id) }}" class="btn btn-secondary"><i class="fe fe-eye fe-16"></i></a>
 
-                                                        <!-- Delete Button -->
-                                                        <button class="btn btn-danger" onclick="confirmDelete({{ $order->id }})"><i class="fe fe-trash fe-16"></i></button>
-                                                        <form id="delete-form-{{ $order->id }}" action="{{ route('deletepos', $order->id) }}" method="POST" style="display:none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                                                        <!-- Delete Button -->
+                                                                        <button class="btn btn-danger" onclick="confirmDelete({{ $order->id }})"><i class="fe fe-trash fe-16"></i></button>
+                                                                        <form id="delete-form-{{ $order->id }}" action="{{ route('deletepos', $order->id) }}" method="POST" style="display:none;">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            @endif
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-      
+                    
             </div>   
 
             <!-- Add New Customer Modal -->
@@ -321,24 +321,16 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="contact_number_1">Contact Number 1 : </label>
+                                                    <label for="contact_number_1">Contact Number : </label>
                                                     <input type="text" class="form-control" id="contact_number_1" name="contact_number_1"  required>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="contact_number_2">Contact Number 2 : </label>
-                                                    <input type="text" class="form-control" id="contact_number_2" name="contact_number_2" >
-                                                </div>
                                                 
                                                 <div class="mb-3">
                                                     <label for="address">Address</label>
                                                     <input type="text" class="form-control" id="address" name="address"  required>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="date_of_birth">Date of Birth</label>
-                                                    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"  required>
-                                                </div>
 
 
                                                 <div class="text-center">
@@ -614,3 +606,5 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 @endsection
+
+

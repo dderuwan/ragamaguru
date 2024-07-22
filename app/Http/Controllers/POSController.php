@@ -35,19 +35,21 @@ class POSController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'contact_number_1' => 'required|string|max:20',
-            'contact_number_2' => 'nullable|string|max:20',
             'address' => 'required|string|max:255',
-            'date_of_birth' => 'required|date',
         ]);
+
+        $otp = rand(100000, 999999);
         
         try {
             $customer = new Customer();
             $customer->name = $validatedData['name'];
-            $customer->contact_number_1 = $validatedData['contact_number_1'];
-            $customer->contact_number_2 = $validatedData['contact_number_2'];
+            $customer->contact = $validatedData['contact_number_1'];
             $customer->address = $validatedData['address'];
-            $customer->date_of_birth = $validatedData['date_of_birth'];
-            $customer->supplier_code = 'CUS' . strtoupper(uniqid()); // Generate supplier code
+            $customer->otp = $otp;
+            $customer->isVerified = false;
+            $customer->user_id = 1;
+            $customer->customer_type = 1;
+            $customer->registered_time = now();
             $customer->save();
             
             notify()->success('Customer Registerd successfully. ⚡️', 'Success');
