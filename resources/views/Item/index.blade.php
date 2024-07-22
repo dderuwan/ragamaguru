@@ -85,13 +85,7 @@
                                             <td>{{$item->supplier_code}}</td>
                                             <td>
                                                 <div class="action-icons">
-<<<<<<< HEAD
-                                                    <a href="{{ route('edititem', $item->id) }}" class="action-icon edit-icon" title="Edit">
-                                                        <i class="fe fe-edit text-primary"></i>
-                                                    </a>
-=======
                                                     <a href="{{ route('edititem', $item->id) }}" class="btn btn-warning"><i class="fe fe-edit fe-16"></i></a>
->>>>>>> kavidu
                                                     
                                                     <button class="action-icon delete-icon" onclick="confirmDelete('{{ $item->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>

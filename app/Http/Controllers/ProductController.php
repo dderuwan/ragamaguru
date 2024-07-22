@@ -1,19 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function show(Request $request)
+
+    public function show($id)
     {
-        $name = $request->query('name');
-        $price = $request->query('price');
-        $image = $request->query('image'); 
-        return view('products', compact('name', 'price', 'image'));
+        $item = Item::findOrFail($id); 
+        return view('products', compact('item')); 
     }
 
-
+    
+    
 }
 

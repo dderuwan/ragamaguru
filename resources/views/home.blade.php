@@ -30,6 +30,15 @@
     <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+
+    <style>
+  .product-image {
+    width: 300px; 
+    height: 200px; 
+    object-fit: cover; /* Ensures the image covers the container without stretching */
+  }
+</style>
+
   </head>
   <body>
 
@@ -38,149 +47,48 @@
   @yield('content')
 
 
-  <!-- Home image-->
-  <div class="hero1" style="background-image: url('/assets/web/images/homeimg.jpg');">
+  <!-- Home image -->
+  <div class="hero1" style="background-image: url('{{ asset('assets/web/images/homeimg.jpg') }}');">
     <div class="hero-container">
         <div class="content1">
             <h2 id="content-title">HOME</h2>
         </div>
     </div>
-</div>
+  </div>
 
-
-
-<!-- Products-->
+  <!-- Products -->
 <div class="section">
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-                <div class="section-title text-center mb-5 col-middle">
-                    <h1 class="block-title">Products
-                    </h1>
-                    <div class="sub-title fs-18">
-                    
-                    </div>
-                </div>
-                <!-- /.End of section title -->
-            </div>
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <div class="section-title text-center mb-5 col-middle">
+            <h1 class="block-title">Products</h1>
+            <div class="sub-title fs-18"></div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="product-image img-fluid wd_xs_100" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 01</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
+      </div>
+      <div class="row">
+        @foreach ($item_list as $item)
+          <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100 product-image" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 02</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 300.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
+            <a href="{{ route('products.show', $item->id) }}" class="card-img position-relative product-link">
+    <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
+    <button type="button" class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
+</a>
+
+              <div class="card-body text-center">
+                <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">{{ $item->name }}</h6>
+                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs {{ number_format($item->price, 2) }}</h6>
+              </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100 product-image" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 03</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100 product-image" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 04</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100 product-image" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 05</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 50.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100 product-image" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 06</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100 product-image" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 07</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
-                    <a href="#" class="card-img position-relative product-link">
-                        <img src="assets/web/images/image1.jpg" class="img-fluid wd_xs_100 product-image" alt="...">
-                        <button type="button"
-                            class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-                    </a>
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 08</h6>
-                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                    </div>
-                </div>
-                <!-- /.End of card -->
-            </div>
-         
-        </div>
+          </div>
+        @endforeach
+      </div>
     </div>
-</div>
+  </div>
+
+
+  @include('includes.footer')
 
 
 
@@ -202,7 +110,7 @@
     <script src="assets/web/website_assets/plugins/isotope/isotope.pkgd.js"></script>
     <script src="assets/web/website_assets/plugins/fancybox/dist/jquery.fancybox.min.js"></script>
     <script src="assets/web/website_assets/plugins/theia-sticky-sidebar/dist/ResizeSensor.min.js"></script>
-    <script src="assets/web/website_assets/plugins/theia-sticky-sidebar/dist/theia-sticky-sidebar.min.js"></scrip>
+    <script src="assets/web/website_assets/plugins/theia-sticky-sidebar/dist/theia-sticky-sidebar.min.js"></script>
 
     <script src="assets/web/website_assets/plugins/numscroller/numscroller-1.0.js"></script>
 
@@ -221,15 +129,12 @@
     <script src="assets/web/website_assets/js/script.js"></script>
     <script src="assets/web/website_assets/js/subscriber_email.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=">
-
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key="></script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
-    <script src="assets/web/js/product.js"></script>
-    
 
-    @include('includes.footer')
+
+
 
   </body>
 </html>

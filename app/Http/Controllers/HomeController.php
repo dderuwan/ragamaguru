@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -30,5 +30,18 @@ class HomeController extends Controller
     // {
     //     return view('customer.create');
     // }
+
+
+    public function getItems()
+    {
+        $item_list = Item::all();
+        return view('home', compact('item_list')); 
+    }
+
+    public function getproducts()
+    {
+        $item_list = Item::all();
+        return view('store', compact('item_list')); 
+    }
 
 }

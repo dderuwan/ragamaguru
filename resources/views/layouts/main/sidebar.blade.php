@@ -53,33 +53,39 @@
             </li>
             </ul>
         </li>
-        <li class="nav-item dropdown">
-            <a href="#item" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-box fe-16"></i></i>
+        
+        <li class="nav-item active sidebar_li">
+            <i class="fe fe-box fe-16"></i>
+          <a href="{{route('item.index')}}" class="sidebar_text" >
             <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
-            </a>
-            <ul class="collapse list-unstyled pl-4 w-100" id="item">
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('item.index')}}" ><span class="ml-1 item-text"> - Item List</span></a>
-            </li>
-            </ul>
+          </a>
         </li>
-
+        <li class="nav-item active sidebar_li">
+            <i class="fe fe-shopping-cart fe-16 mb-2"></i>
+          <a href="{{route('allorderrequests')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">OrderRequests List</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item active sidebar_li">
+            <i class="fe fe-shopping-cart fe-16 mb-2"></i>
+          <a href="{{route('allgins')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">GIN List</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
 
         <li class="nav-item dropdown">
-            <a href="#orderrequest" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-shopping-cart fe-16 mb-2"></i>
-            <span class="ml-3 item-text">OrderRequests</span><span class="sr-only">(current)</span>
+            <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-users fe-16"></i>
+            <span class="ml-3 item-text">Invoices</span><span class="sr-only">(current)</span>
             </a>
-            <ul class="collapse list-unstyled pl-4 w-100" id="orderrequest">
+            <ul class="collapse list-unstyled pl-4 w-100" id="invoice">
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('createPurchaseOrder')}}" ><span class="ml-1 item-text"> - Purchase Order Create</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('purchase.purchaseOrder')}}" ><span class="ml-1 item-text"> - All Order Requests</span></a>
+                <a class="nav-link pl-3" href="{{route('pospage')}}" ><span class="ml-1 item-text"> -POS Invoice</span></a>
             </li>
             </ul>
         </li>
+
+
         <li class="nav-item dropdown">
             <a href="#setting" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
             <i class="fe fe-settings fe-16"></i>
@@ -96,29 +102,10 @@
                 <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text"> - User List</span></a>
             </li>
             </ul>
-        </li>
-                <a class="nav-link pl-3" href="{{route('allorderrequests')}}" ><span class="ml-1 item-text">OrderRequests List</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('allgins')}}" ><span class="ml-1 item-text">GIN List</span></a>
-            </li>
             </ul>
         </li>
 
-        <li class="nav-item dropdown">
-              <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-users fe-16"></i>
-                <span class="ml-3 item-text">Invoices</span><span class="sr-only">(current)</span>
-              </a>
-              <ul class="collapse list-unstyled pl-1 w-100 ml-4" id="invoice">
-                <li class="nav-item mb-2">
-                <a href="{{route('pospage')}}" class="sidebar_text text-decoration-none"  >
-                  <span class="ml-3 item-text">POS Invoice</span><span class="sr-only">(current)</span>
-                </a>
-                </li>
-                
-              </ul>
-        </li>
+        
 
       </ul>
 

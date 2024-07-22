@@ -67,9 +67,6 @@
 </header>
 
 
-
-
-
 <section class="h-100 h-custom">
   <div class="container h-80 py-1">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -93,7 +90,8 @@
                 <!-- Image -->
                 <td>
                   <div class="d-flex align-items-center">
-                    <img src="assets/web/images/image3.jpg" class="img-fluid rounded-3" style="width: 80px;" alt="product">
+                    <img src="{{ $item['image'] ? asset('images/items/' . $item['image']) : asset('images/items/default.png') }}" 
+                    class="img-fluid rounded-3" style="width: 80px;" alt="product">
                   </div>
                 </td>
 
