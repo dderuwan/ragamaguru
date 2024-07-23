@@ -132,7 +132,6 @@ Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateU
 Route::view('/add_role', 'setting.roles.add_roles')->name('add_roles');
 Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
 Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
-
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
 
