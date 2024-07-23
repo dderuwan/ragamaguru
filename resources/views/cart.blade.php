@@ -147,11 +147,11 @@
               <div class="card-body p-4">
                 <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
                   <p class="mb-2" style="font-weight: bold;">Total Price</p>
-                  <p class="mb-2" style="font-weight: bold;" id="total-cart-price">Rs 100.00</p>
+                  <p class="mb-2" style="font-weight: bold;" id="total-cart-price"></p>
                 </div>
                 <button type="button" data-mdb-button-init data-mdb-ripple-init 
                   class="btn btn-primary btn-block btn-lg text-center">
-                  Proceed To Checkout
+                  Place the Order
                 </button>
               </div>
             </div>
@@ -195,8 +195,8 @@
 <script src="assets/web/js/cart.js"></script>
 
 <script>
+   
    // Function to delete product from cart
-  
    function deleteProduct(rowId, index) {
   fetch('{{ route("deleteFromCart") }}', {
     method: 'POST',

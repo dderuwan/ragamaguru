@@ -134,6 +134,12 @@ Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
 Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
+//attendance
+Route::view('/attendance_list', 'humanResources.attendance.attendance_list')->name('attendance_list');
+Route::view('/manage_attendance_list', 'humanResources.attendance.manage_attendance_list')->name('manage_attendance_list');
+Route::view('/update_attendance', 'humanResources.attendance.update_attendance')->name('update_attendance');
+Route::view('/attendance_reports', 'humanResources.attendance.attendance_reports')->name('attendance_reports');
+
 
 
 
