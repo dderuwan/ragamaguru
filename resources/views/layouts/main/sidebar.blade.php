@@ -100,6 +100,21 @@
                   </ul>
                 </li>
             </ul>
+            <ul class="collapse list-unstyled pl-4 w-100" id="HR">
+                <li class="nav-item dropdown">
+                  <a href="#leave" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                      <span class="ml-3 item-text">Leave</span><span class="sr-only">(current)</span>
+                  </a>
+                  <ul class="collapse list-unstyled pl-4 w-100" id="leave">  
+                    <li class="nav-item active">
+                        <a class="nav-link pl-3" href="{{route('weekly_holiday')}}" ><span class="ml-1 item-text"> - Weekly Holiday</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link pl-3" href="{{route('attendance_reports')}}" ><span class="ml-1 item-text"> </span></a>
+                    </li>          
+                  </ul>
+                </li>
+            </ul>
         </li>
 
 
