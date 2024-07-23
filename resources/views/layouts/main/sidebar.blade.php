@@ -42,16 +42,11 @@
             <span class="ml-3 item-text">Treatment</span><span class="sr-only">(current)</span>
           </a>
         </li>
-        <li class="nav-item dropdown">
-            <a href="#supplier" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+        <li class="nav-item active sidebar_li">
             <i class="fe fe-user fe-16"></i>
-            <span class="ml-3 item-text">Supplier</span><span class="sr-only">(current)</span>
-            </a>
-            <ul class="collapse list-unstyled pl-4 w-100" id="supplier">
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('allsuppliers')}}" ><span class="ml-1 item-text"> - Supplier List</span></a>
-            </li>
-            </ul>
+          <a href="{{route('allsuppliers')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Suppliers</span><span class="sr-only">(current)</span>
+          </a>
         </li>
         
         <li class="nav-item active sidebar_li">
@@ -101,7 +96,16 @@
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text"> - User List</span></a>
             </li>
-            </ul>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('add_roles')}}" ><span class="ml-1 item-text"> - Add Role</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('role_list')}}" ><span class="ml-1 item-text"> - Role List</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('assign_user_role')}}" ><span class="ml-1 item-text"> - Assign User Roles</span></a>
+            </li>
+            
             </ul>
         </li>
 

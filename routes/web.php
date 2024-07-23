@@ -2,6 +2,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
@@ -126,6 +127,14 @@ Route::post('/users/user-list', [UserController::class, 'show'])->name('user.sho
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateUser');
+
+//roles
+Route::view('/add_role', 'setting.roles.add_roles')->name('add_roles');
+Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
+Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
+
+Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
+
 
 
 
