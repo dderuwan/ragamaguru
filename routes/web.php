@@ -62,6 +62,10 @@ Route::post('/verifyCustomer', [CustomerController::class, 'verify'])->name('ver
 Route::get('/editCustomer/{id}', [CustomerController::class, 'edit'])->name('editcustomer');
 Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('updatecustomer');
 Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
+Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
+Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
+
+
 
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');

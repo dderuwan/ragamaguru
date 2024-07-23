@@ -5,7 +5,16 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title p-2">Update Customer</h2>
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <h2 class="page-title p-2">Update Customer</h2>
+          </div>
+          <div class="col-md-6 text-right">
+            <a href="{{ route('allcustomers') }}"><button type="button" class="btn btn-primary float-end">
+                All Customers
+              </button></a>
+          </div>
+        </div>
         <p class="text-muted"></p>
 
         <div class="card-deck p-2">
@@ -17,17 +26,17 @@
               <form method="POST" action="{{ route('updatecustomer', $customer->id) }}">
                 @csrf
                 <div class="form-row">
-                <input id="id" type="hidden" name="id" value={{$customer->id}}>
+                  <input id="id" type="hidden" name="id" value={{$customer->id}}>
                   <div class="form-group col-md-6">
                     <label for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="{{$customer->name}}" >
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="{{$customer->name}}">
                     @error('name')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputContact">Contact Number</label>
-                    <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number" readonly value="{{$customer->contact}}" >
+                    <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number" readonly value="{{$customer->contact}}">
                     @error('contact')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -35,7 +44,7 @@
                 </div>
                 <div class="form-group">
                   <label for="inputAddress">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" value="{{$customer->address}}" >
+                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" value="{{$customer->address}}">
                   @error('address')
                   <p class="text-danger">{{ $message }}</p>
                   @enderror

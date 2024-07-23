@@ -5,7 +5,17 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title p-2">Customer Registration</h2>
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <h2 class="page-title p-2">Customer Registration</h2>
+          </div>
+          <div class="col-md-6 text-right">
+            <a href="{{ route('allcustomers') }}"><button type="button" class="btn btn-primary float-end">
+                All Customers
+              </button></a>
+          </div>
+        </div>
+
         <p class="text-muted"></p>
 
         <div class="card-deck p-2">
@@ -78,11 +88,11 @@
                   <input type="text" class="form-control" id="addedContact" name="addedContact" value="{{ session('contactNo') }}" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="inputOTP">OTP</label>
-                    <input type="text" class="form-control @error('otp') is-invalid @enderror" id="inputOTP" name="otp" placeholder="Type the OTP received on the mobile number..">
-                    @error('otp')
-                    <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                  <label for="inputOTP">OTP</label>
+                  <input type="text" class="form-control @error('otp') is-invalid @enderror" id="inputOTP" name="otp" placeholder="Type the OTP received on the mobile number..">
+                  @error('otp')
+                  <p class="text-danger">{{ $message }}</p>
+                  @enderror
                 </div>
 
                 <button type="submit" class="btn btn-primary">Verify</button>
