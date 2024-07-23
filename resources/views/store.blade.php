@@ -44,6 +44,13 @@
             overflow: hidden;
         }
 
+    .product-image {
+        width: 300px; 
+        height: 200px; 
+        object-fit: cover; /* Ensures the image covers the container without stretching */
+    }
+</style>
+
     </style>
   </head>
   <body>
@@ -51,7 +58,7 @@
 
   @include('includes.navbar')
   @yield('content')
-
+  
 
   <!-- Home image-->
   <div class="hero1" style="background-image: url('/assets/web/images/homeimg.jpg');">
@@ -95,104 +102,20 @@
                 </div>
             </div>
             <div class="row" >
+            @foreach ($item_list as $item)
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0" data-name="Product 01">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
+                        <a href="{{ route('products.show', $item->id) }}" class="card2-img position-relative product-link">
+                        <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" 
+                        class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
                         </a>
                         <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 01</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">{{ $item->name }}</h6>
+                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs {{ number_format($item->price, 2) }}</h6>
                         </div>
                     </div>
-                    <!-- /.End of card -->
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 02</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 50.00</h6>
-                        </div>
-                    </div>
-                    <!-- /.End of card -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 03</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                        </div>
-                    </div>
-                    <!-- /.End of card -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 04</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                        </div>
-                    </div>
-                    <!-- /.End of card -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product05 product05</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                        </div>
-                    </div>
-                    <!-- /.End of card -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 06</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 50.00</h6>
-                        </div>
-                    </div>
-                    <!-- /.End of card -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 07</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                        </div>
-                    </div>
-                    <!-- /.End of card -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0">
-                        <a href="#" class="card2-img position-relative product-link">
-                            <img src="assets/web/images/image1.jpg" class="img-fluid product-image" alt="...">
-
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">Product 08</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs 100.00</h6>
-                        </div>
-                    </div>
-                    <!-- /.End of card -->
-                </div>
-                
+                @endforeach
             </div>
         </div>
     </div>
@@ -263,7 +186,7 @@
     </script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
-    <script src="assets/web/js/product.js"></script>
+   
     <script src="assets/web/js/pagination.js"></script>
 
 

@@ -32,15 +32,28 @@
 
 </style>
 
+
+
 <main role="main" class="main-content">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Purchase Order Requests</h2>
+                        <h2 class="page-title">Users</h2>
                     </div>
                 </div>
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <p class="card-text"></p>
                 <div class="row my-4">
                     <!-- Small table -->
@@ -52,41 +65,40 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
-                                            <th style="color: black;">Order Request Code</th>
-                                            <th style="color: black;">Supplier code</th>
-                                            <th style="color: black;">Date</th>
+                                            <th style="color: black;">Image</th>
+                                            <th style="color: black;">Username</th>
+                                            <th style="color: black;">Email</th>
                                             <th style="color: black;">Status</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($purchase_list as  $index => $purchase)
+                                        @foreach ($user_list as $index => $user)
                                         <tr>
-                                            <td><?= $index + 1 ?></td>
-                                            <td>{{$purchase->request_code}}</td>
-                                            <td>{{$purchase->supplier_code}}</td>
-                                            <td>{{$purchase->date}}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>
-                                                @if ($purchase->status == 0)
-                                                <span>Pending</span>
-                                                @elseif ($purchase->status == 1)
-                                                <span>Received</span>
+                                                @if ($user->image)
+                                                    <img src="{{ asset('storage/' . $user->image) }}" alt="User Image" style="max-width: 70px; max-height: 70px;">
                                                 @else
-                                                <span class="badge badge-secondary">Unknown</span>
+                                                    No Image
                                                 @endif
                                             </td>
+                                            <td>{{ $user->firstname }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->status }}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('purchase.show', $purchase->request_code) }}" class="action-icon edit-icon" title="View">
-                                                        <i class="fe fe-clipboard text-primary"></i>
+                                                    <a href="{{ route('user.edit', $user->id) }}" class="action-icon edit-icon" title="Edit">
+                                                        <i class="fe fe-edit text-primary"></i>
                                                     </a>
-                                                    
-                                                    <form id="delete-form-{{ $purchase->id }}" action="{{ route('purchase.destroy', $purchase->id) }}" method="POST">
+
+                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $user->id }}')" title="Delete">
+                                                        <i class="fe fe-trash-2 text-danger"></i>
+                                                    </button>
+
+                                                    <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="action-icon delete-icon" onclick="confirmDelete('{{ $purchase->id }}')" title="Delete">
-                                                            <i class="fe fe-trash-2 text-danger"></i>
-                                                        </button>
                                                     </form>
                                                 </div>
                                             </td>                                         
@@ -115,7 +127,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this Purchase order request?
+                    Are you sure you want to delete this User?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

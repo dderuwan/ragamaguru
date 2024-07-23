@@ -2,7 +2,10 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CompanySettingController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
@@ -26,7 +29,7 @@ Route::view('/appointment', 'appointment')->name('appointment');
 Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
-Route::get('/products', [ProductController::class, 'show'])->name('products');
+
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
 Route::post('/delete-from-cart', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
@@ -52,6 +55,13 @@ Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController
 
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/home', [HomeController::class, 'getItems'])->name('home');
+Route::get('/store', [HomeController::class, 'getproducts'])->name('store');
+Route::get('/product/{id}', [ProductController::class, 'showItems'])->name('products.show');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+
+
 
 // customer module
 Route::resource('customer', CustomerController::class);
@@ -108,6 +118,26 @@ Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getIt
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
 
+
+//Settings module
+Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
+Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
+
+//users
+Route::resource('users', UserController::class);
+Route::get('/users', [UserController::class, 'index'])->name('user.index');
+Route::post('/users/add-user', [UserController::class, 'store'])->name('user.store');
+Route::post('/users/user-list', [UserController::class, 'show'])->name('user.show');
+Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateUser');
+
+//roles
+Route::view('/add_role', 'setting.roles.add_roles')->name('add_roles');
+Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
+Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
+
+Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
 
 

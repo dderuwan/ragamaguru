@@ -17,7 +17,7 @@ class CartController extends Controller
         $cart[] = $product;
         session()->put('cart', $cart);
 
-        return response()->json(['success' => true]);
+        return redirect()->route('cart');
     }
 
 

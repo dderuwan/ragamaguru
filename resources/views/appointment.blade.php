@@ -333,7 +333,8 @@
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/Food_cart/menu/menu-item-1.png" class="glightbox"><img src="assets/img/Food_cart/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/Food_cart/menu/menu-item-1.png" class="glightbox">
+                  <img src="assets/img/Food_cart/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
                 <h4>Magnam Tiste</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
