@@ -98,7 +98,7 @@ class TreatmentController extends Controller
             notify()->success(' Treatment deleted successfully. ⚡️', 'Success');
             return redirect()->route('Treatment');
         } else {
-            return redirect()->route('Treatment')->with('error', 'Customer not found.');
+            return redirect()->route('Treatment')->with('error', 'Treatment not found.');
         }
 }
 }
