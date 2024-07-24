@@ -13,40 +13,41 @@
             <h3><strong class="card-title">Attendance Update</strong></h3>
           </div>
           <div class="card-body">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('attendance.update', $attendance->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group row">
                 <label for="inputfirstname" class="col-sm-2 col-form-label" style="color:black;">Employee Name <i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <select class="form-control" id="inputfirstname" name="firstname[]" required>
-                    <option value="" disabled selected>Select Employee</option>
-                    <option value="1">Employee 01</option>
-                    <option value="2">Employee 02</option>
+                  <select class="form-control" id="inputfirstname" name="emp_id" required>
+                    <option value="" disabled>Select Employee</option>
+                    @foreach($employees as $employee)
+                      <option value="{{ $employee->id }}" {{ $attendance->emp_id == $employee->id ? 'selected' : '' }}>{{ $employee->id }}-{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputdate" class="col-sm-2 col-form-label" style="color:black;">Date<i class="text-danger">*</i></label>
+                <label for="inputdate" class="col-sm-2 col-form-label" style="color:black;">Date <i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputdate" name="date[]" required>
+                  <input type="text" class="form-control" id="inputdate" name="date" value="{{ $attendance->date }}" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputcheckin" class="col-sm-2 col-form-label" style="color:black;">Check In</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputcheckin" name="checkin">
+                  <input type="text" class="form-control" id="inputcheckin" name="checkin" value="{{ $attendance->sign_in }}">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputcheckout" class="col-sm-2 col-form-label" style="color:black;">Check Out</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputcheckout" name="checkout">
+                  <input type="text" class="form-control" id="inputcheckout" name="checkout" value="{{ $attendance->sign_out }}">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputstaytime" class="col-sm-2 col-form-label" style="color:black;">Stayed Time</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputstaytime" name="staytime">
+                  <input type="text" class="form-control" id="inputstaytime" name="staytime" value="{{ $attendance->stayed_time }}" readonly>
                 </div>
               </div>
               <div class="form-group row">
@@ -57,23 +58,10 @@
             </form>
           </div>
         </div>
-
-        @if (session('success'))
-          <div class="alert alert-success">
-            {{ session('success') }}
-          </div>
-        @endif
-        @if (session('error'))
-          <div class="alert alert-danger">
-            {{ session('error') }}
-          </div>
-        @endif
-
       </div>
     </div>
   </div>
 </main>
-
 
 <!-- Flatpickr JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -85,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFormat: "Y-m-d"
     });
 
-    // Initialize flatpickr for check-in and check-out
     flatpickr("#inputcheckin", {
         enableTime: true,
         noCalendar: true,
@@ -99,8 +86,32 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFormat: "h:i:S K",
         time_24hr: false
     });
+
+    // Function to calculate stayed time
+    function calculateStayedTime() {
+        const checkin = document.getElementById('inputcheckin').value;
+        const checkout = document.getElementById('inputcheckout').value;
+
+        if (checkin && checkout) {
+            const checkinTime = new Date('1970-01-01T' + checkin);
+            const checkoutTime = new Date('1970-01-01T' + checkout);
+
+            if (checkoutTime < checkinTime) {
+                checkoutTime.setDate(checkoutTime.getDate() + 1);
+            }
+
+            const diff = new Date(checkoutTime - checkinTime);
+            const hours = String(diff.getUTCHours()).padStart(2, '0');
+            const minutes = String(diff.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(diff.getUTCSeconds()).padStart(2, '0');
+
+            document.getElementById('inputstaytime').value = `${hours}:${minutes}:${seconds}`;
+        }
+    }
+
+    document.getElementById('inputcheckin').addEventListener('change', calculateStayedTime);
+    document.getElementById('inputcheckout').addEventListener('change', calculateStayedTime);
 });
 </script>
 
-
-@endSection
+@endsection

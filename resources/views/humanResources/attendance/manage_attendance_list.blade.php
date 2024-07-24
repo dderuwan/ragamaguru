@@ -38,8 +38,18 @@
                 <div class="row mb-2">
                     <div class="col-md-6">
                         <h2 class="page-title">Attendance List</h2>
-                    </div>                   
+                    </div>                                     
                 </div>
+                    @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+                    @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
                 <p class="card-text"></p>
                 <div class="row my-4">
                     <div class="col-md-12">
@@ -55,47 +65,40 @@
                                             <th style="color: black; width:15%">Check In</th>
                                             <th style="color: black; width:15%">Check Out</th>
                                             <th style="color: black; width:15%">Stayed Time</th>
-                                            <th class="text-center" style="color: black; width:15%">Action</th>
+                                            <th class="text-center" style="color: black; width:10%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($attendance_list as $index => $attendance)
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $attendance->employee->firstname }} {{ $attendance->employee->lastname }}</td>
+                                            <td>{{ $attendance->date }}</td>
+                                            <td>{{ $attendance->sign_in }}</td>
+                                            <td>{{ $attendance->sign_out }}</td>
+                                            <td>{{ $attendance->stayed_time }}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                <a href="{{ route('update_attendance') }}" class="action-icon edit-icon" title="Edit">
+                                                <a href="{{ route('attendance.edit', $attendance->id) }}" class="action-icon edit-icon" title="Edit">
                                                     <i class="fe fe-edit text-primary"></i>
                                                 </a>
-                                                <button class="action-icon delete-icon" onclick="confirmDelete('')" title="Delete">
+                                                <button class="action-icon delete-icon" onclick="confirmDelete('{{ $attendance->id }}')" title="Delete">
                                                     <i class="fe fe-trash-2 text-danger"></i>
                                                 </button>
-                                                    <form id="" action="" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $attendance->id }}" action="{{ route('attendance.destroy', $attendance->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
                                                 </div>
-                                            </td>                                          
+                                            </td>
+                                            @endforeach                                          
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-                    @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
+                   
                 </div>
             </div>
         </div>
@@ -113,7 +116,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this User?
+                    Are you sure you want to delete?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

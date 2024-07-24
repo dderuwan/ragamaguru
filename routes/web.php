@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -142,11 +143,19 @@ Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
 Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
+
 //attendance
-Route::view('/hrm/attendance_list', 'humanResources.attendance.attendance_list')->name('attendance_list');
-Route::view('/hrm/manage_attendance_list', 'humanResources.attendance.manage_attendance_list')->name('manage_attendance_list');
+Route::resource('attendance', AttendanceController::class);
+Route::get('/attendance-list', [AttendanceController::class, 'show'])->name('show.employees');
+Route::get('/hrm/attendance_list', [AttendanceController::class, 'show'])->name('attendance_list');
+Route::get('/hrm/manage_attendance_list', [AttendanceController::class, 'manageAttendance'])->name('manage_attendance_list');
+Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn'])->name('attendance.check-in');
+Route::post('/attendance/check-out', [AttendanceController::class, 'checkOut'])->name('attendance.check-out');
+Route::get('/attendance/{id}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
+Route::post('/attendance/{id}/update', [AttendanceController::class, 'update'])->name('attendance.update');
 Route::view('/hrm/update_attendance', 'humanResources.attendance.update_attendance')->name('update_attendance');
-Route::view('/hrm/attendance_reports', 'humanResources.attendance.attendance_reports')->name('attendance_reports');
+Route::get('/hrm/attendance_reports', [AttendanceController::class, 'attendanceReport'])->name('attendance_reports');
+
 
 //Leave
 Route::view('/hrm/weekly_holidays', 'humanResources.leave.weekly_holiday')->name('weekly_holiday');

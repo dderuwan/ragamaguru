@@ -34,25 +34,27 @@
                                 <table class="table datatables table-bordered" id="dataTable-1">
                                     <thead>
                                         <tr>
-                                            <th style="color: black; width:5%">SL</th>
+                                            <th style="color: black;">SL</th>
                                             <th style="color: black; width:30%">Name</th>
-                                            <th style="color: black;">ID</th>
-                                            <th style="color: black;">Date</th>
-                                            <th style="color: black;">Check In</th>
-                                            <th style="color: black;">Check Out</th>
-                                            <th style="color: black;">Stay</th>
+                                            <th style="color: black; width:10%">ID</th>
+                                            <th style="color: black; width:15%">Date</th>
+                                            <th style="color: black; width:15%">Check In</th>
+                                            <th style="color: black; width:15%">Check Out</th>
+                                            <th style="color: black; width:15%">Stayed Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($attendance_list as $index => $attendance)
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                       
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $attendance->employee->firstname }} {{ $attendance->employee->lastname }}</td>
+                                            <td>{{ $attendance->employee->id }}</td>
+                                            <td>{{ $attendance->date }}</td>
+                                            <td>{{ $attendance->sign_in }}</td>
+                                            <td>{{ $attendance->sign_out }}</td>
+                                            <td>{{ $attendance->stayed_time }}</td>                                     
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
