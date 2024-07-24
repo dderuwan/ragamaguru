@@ -20,58 +20,57 @@
                         <div class="card shadow">
                             <div class="card-body">
                                 <!-- table -->
-                                <table class="table datatables" id="dataTable-1">
-                                    <thead>
-                                        <tr>
-
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Last Name</th>
-                                            <th>Date of Birth</th>
-                                            <th>NIC</th>
-                                            <th>Contact No</th>
-                                            <th>Email</th>
-                                            <th>Address</th>
-                                            <th>City</th>
-                                            <th>Zip Code</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($employees as $employee)
-                                    <tr>
-
-                                        <td>{{ $employee->firstname }}</td>
-                                        <td>{{ $employee->middlename }}</td>
-                                        <td>{{ $employee->lastname }}</td>
-                                        <td>{{ $employee->DOB }}</td>
-                                        <td>{{ $employee->NIC }}</td>
-                                        <td>{{ $employee->contactno }}</td>
-                                        <td>{{ $employee->Email }}</td>
-                                        <td>{{ $employee->address }}</td>
-                                        <td>{{ $employee->city }}</td>
-                                        <td>{{ $employee->zipecode }}</td>
-                                        <td>{{ $employee->status == 1 ? 'Active' : 'Inactive' }}</td>
-                                        <td>
-                                                <!-- Edit Button -->
-                                                <a href="{{ route('editemployee', $employee->id) }}" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <!-- Delete Button -->
-                                                <form id="delete-form-{{ $employee->id }}" action="{{ route('deleteemployee', $employee->id) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
+                                <div style="overflow-x: auto;">
+                                    <table class="table datatables" id="dataTable-1">
+                                        <thead>
+                                            <tr>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Last Name</th>
+                                                <th>Date of Birth</th>
+                                                <th>NIC</th>
+                                                <th>Contact No</th>
+                                                <th>Email</th>
+                                                <th>Address</th>
+                                                <th>City</th>
+                                                <th>Zip Code</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($employees as $employee)
+                                            <tr>
+                                                <td>{{ $employee->firstname }}</td>
+                                                <td>{{ $employee->middlename }}</td>
+                                                <td>{{ $employee->lastname }}</td>
+                                                <td>{{ $employee->DOB }}</td>
+                                                <td>{{ $employee->NIC }}</td>
+                                                <td>{{ $employee->contactno }}</td>
+                                                <td>{{ $employee->Email }}</td>
+                                                <td>{{ $employee->address }}</td>
+                                                <td>{{ $employee->city }}</td>
+                                                <td>{{ $employee->zipecode }}</td>
+                                                <td>{{ $employee->status == 1 ? 'Active' : 'Inactive' }}</td>
+                                                <td>
+                                                    <!-- Edit Button -->
+                                                    <a href="{{ route('editemployee', $employee->id) }}" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <!-- Delete Button -->
+                                                    <form id="delete-form-{{ $employee->id }}" action="{{ route('deleteemployee', $employee->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
