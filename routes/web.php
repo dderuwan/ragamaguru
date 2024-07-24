@@ -76,11 +76,19 @@ Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->n
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
 Route::get('/createTreatment', [App\Http\Controllers\TreatmentController::class, 'create'])->name('createTreatment');
-Route::get('/editTreatment', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
-Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
+Route::get('/editTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
+Route::post('/updateTreatment',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
 Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
 Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
 
+
+//employee module
+Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
+Route::get('/createemployee', [App\Http\Controllers\EmployeeController::class, 'create'])->name('createemployee');
+Route::get('/editemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('editemployee');
+Route::post('/updateemployee',[App\Http\Controllers\EmployeeController::class, 'update'])->name('updateemployee');
+Route::post('/storeemployee', [App\Http\Controllers\EmployeeController::class, 'store'])->name('storeemployee');
+Route::delete('/deleteemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('deleteemployee');
 
 
 // supplier module
