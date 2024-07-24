@@ -3,8 +3,6 @@
 @section('content')
 <!-- Flatpickr CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<!-- Custom CSS for Modal Width -->
-
 
 
 <main role="main" class="main-content">

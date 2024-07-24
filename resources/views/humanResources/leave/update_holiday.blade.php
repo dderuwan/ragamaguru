@@ -10,43 +10,33 @@
       <div class="col-12">
         <div class="card shadow mb-4 p-2 pl-3">
           <div class="card-header">
-            <h3><strong class="card-title">Attendance Update</strong></h3>
+            <h4><strong class="card-title">Update Holiday</strong></h4>
           </div>
           <div class="card-body">
             <form action="" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group row">
-                <label for="inputfirstname" class="col-sm-2 col-form-label" style="color:black;">Employee Name <i class="text-danger">*</i></label>
+                <label for="inputfirstname" class="col-sm-2 col-form-label" style="color:black;">Holiday Name <i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <select class="form-control" id="inputfirstname" name="firstname[]" required>
-                    <option value="" disabled selected>Select Employee</option>
-                    <option value="1">Employee 01</option>
-                    <option value="2">Employee 02</option>
-                  </select>
+                <input type="text" class="form-control" id="holidayName" name="holiday_name" placeholder="Enter Holiday Name" value="">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputdate" class="col-sm-2 col-form-label" style="color:black;">Date<i class="text-danger">*</i></label>
+                <label for="inputdatefrom" class="col-sm-2 col-form-label" style="color:black;">From<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputdate" name="date[]" required>
+                  <input type="text" class="form-control" id="inputdatefrom" name="datefrom[]" required>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputcheckin" class="col-sm-2 col-form-label" style="color:black;">Check In</label>
+                <label for="inputdateto" class="col-sm-2 col-form-label" style="color:black;">To<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputcheckin" name="checkin">
+                  <input type="text" class="form-control" id="inputdateto" name="dateto[]" required>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputcheckout" class="col-sm-2 col-form-label" style="color:black;">Check Out</label>
+                <label for="numberOfDays" class="col-sm-2 col-form-label" style="color:black;">Number of Days<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputcheckout" name="checkout">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputstaytime" class="col-sm-2 col-form-label" style="color:black;">Stayed Time</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputstaytime" name="staytime">
+                <input type="number" class="form-control" id="numberOfDays" name="number_of_days" placeholder="Enter Number of Days">
                 </div>
               </div>
               <div class="form-group row">
@@ -81,23 +71,11 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Initialize flatpickr for date input
-    flatpickr("#inputdate", {
+    flatpickr("#inputdatefrom", {
         dateFormat: "Y-m-d"
     });
-
-    // Initialize flatpickr for check-in and check-out
-    flatpickr("#inputcheckin", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "h:i:S K",
-        time_24hr: false
-    });
-
-    flatpickr("#inputcheckout", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "h:i:S K",
-        time_24hr: false
+    flatpickr("#inputdateto", {
+        dateFormat: "Y-m-d"
     });
 });
 </script>

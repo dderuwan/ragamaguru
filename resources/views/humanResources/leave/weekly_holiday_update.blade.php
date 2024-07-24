@@ -10,7 +10,7 @@
       <div class="col-12">
         <div class="card shadow mb-4 p-2 pl-3">
           <div class="card-header">
-            <h3><strong class="card-title">Update</strong></h3>
+            <h4><strong class="card-title">Update</strong></h4>
           </div>
           <div class="card-body">
             <form action="" method="POST">

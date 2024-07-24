@@ -143,7 +143,12 @@ Route::view('/hrm/attendance_reports', 'humanResources.attendance.attendance_rep
 //Leave
 Route::view('/hrm/weekly_holidays', 'humanResources.leave.weekly_holiday')->name('weekly_holiday');
 Route::view('/hrm/weekly_holidays_update', 'humanResources.leave.weekly_holiday_update')->name('weekly_holiday_update');
-
+Route::view('/hrm/holiday', 'humanResources.leave.holiday')->name('holiday');
+Route::view('/hrm/manage_holiday', 'humanResources.leave.manage_holiday')->name('manage_holiday');
+Route::view('/hrm/update_holiday', 'humanResources.leave.update_holiday')->name('update_holiday');
+Route::view('/hrm/add_leave', 'humanResources.leave.add_leave')->name('add_leave');
+Route::view('/hrm/update_leaveType', 'humanResources.leave.update_leaveType')->name('update_leaveType');
+Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')->name('leave_application');
 
 
 

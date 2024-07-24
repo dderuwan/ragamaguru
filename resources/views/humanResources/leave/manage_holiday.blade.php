@@ -31,45 +31,51 @@
 
 </style>
 
+
 <main role="main" class="main-content">
   <div class="container-fluid">
     <div class="row justify-content-center p-2">
       <div class="col-12">
         <div class="card shadow mb-4 p-2 pl-3">
-          <div class="card-header">
-            <h3><strong class="card-title">Weekly Leave</strong></h3>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h3><strong class="card-title">Holiday</strong></h3>
           </div>
           <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width:10%; color:black;">SL</th>
-                                <th style="width:30%;color:black;">Weekly Leave Day</th>
-                                <th style="width:15%; color:black;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <div class="action-icons">
-                                    <a href="{{ route('weekly_holiday_update') }}" class="action-icon edit-icon" title="Edit">
-                                        <i class="fe fe-edit text-primary"></i>
-                                    </a>
-                                    <button class="action-icon delete-icon" onclick="confirmDelete('')" title="Delete">
-                                        <i class="fe fe-trash-2 text-danger"></i>
-                                    </button>
-                                        <form id="" action="" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </div>
-                                </td> 
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="width:10%; color:black;">SL</th>
+                  <th style="width:35%; color:black;">Holiday Name</th>
+                  <th style="width:15%; color:black;">From</th>
+                  <th style="width:15%; color:black;">To</th>
+                  <th style="color:black;">Number of days</th>
+                  <th class="text-center" style="color: black; width:10%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                      <div class="action-icons">
+                          <a href="{{ route('update_holiday') }}" class="action-icon edit-icon" title="Edit">
+                            <i class="fe fe-edit text-primary"></i>
+                          </a>
+                        <button class="action-icon delete-icon" onclick="confirmDelete('')" title="Delete">
+                            <i class="fe fe-trash-2 text-danger"></i>
+                        </button>
+                            <form id="" action="" method="POST" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                            </form>
+                      </div>
+                  </td>     
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         @if (session('success'))
@@ -85,8 +91,9 @@
       </div>
     </div>
   </div>
-  <!-- Delete Confirmation Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  
+      <!-- Delete Confirmation Modal -->
+      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -106,6 +113,7 @@
         </div>
     </div>
 </main>
+
 <script>
     function confirmDelete(purchaseId) {
         const deleteForm = document.getElementById('delete-form-' + purchaseId);
