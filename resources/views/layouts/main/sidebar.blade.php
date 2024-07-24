@@ -95,6 +95,63 @@
               </ul>
         </li>
 
+        <li class="nav-item dropdown">
+              <a href="#reports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fa-solid fa-book-open"></i>
+                <span class="ml-3 item-text">Reports</span><span class="sr-only">(current)</span>
+              </a>
+              <ul class="collapse list-unstyled pl-1 w-100 ml-4" id="reports">
+              <li class="nav-item mb-2">
+
+              <a href="{{route('customerreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Customer Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('supplierreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Supplier Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('productreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Products Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('purchaseorderreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Purchase Order Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('ginreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">GIN Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('orderreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Sales Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+                
+              </ul>
+            </li>
+
       </ul>
 
 
