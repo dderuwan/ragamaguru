@@ -53,27 +53,29 @@
                 </tr>
               </thead>
               <tbody>
+              @foreach($holiday_list as $index=> $Holiday)
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ $index + 1 }}</td>
+                  <td>{{ $Holiday->holiday_name }}</td>
+                  <td>{{ $Holiday->start_date }}</td>
+                  <td>{{ $Holiday->end_date }}</td>
+                  <td>{{ $Holiday->no_of_days }}</td>
                   <td>
                       <div class="action-icons">
-                          <a href="{{ route('update_holiday') }}" class="action-icon edit-icon" title="Edit">
+                          <a href="{{ route('holiday.edit', $Holiday->id) }}" class="action-icon edit-icon" title="Edit">
                             <i class="fe fe-edit text-primary"></i>
                           </a>
-                        <button class="action-icon delete-icon" onclick="confirmDelete('')" title="Delete">
+                        <button class="action-icon delete-icon" onclick="confirmDelete('{{ $Holiday->id }}')" title="Delete">
                             <i class="fe fe-trash-2 text-danger"></i>
                         </button>
-                            <form id="" action="" method="POST" style="display: none;">
+                            <form id="delete-form-{{  $Holiday->id }}" action="{{ route('holiday.destroy',  $Holiday->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
                             </form>
                       </div>
                   </td>     
                 </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -103,7 +105,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this User?
+                    Are you sure you want to delete this Holiday?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

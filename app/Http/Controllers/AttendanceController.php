@@ -126,7 +126,7 @@ class AttendanceController extends Controller
             notify()->success('deleted successfully. ⚡️', 'Success');
             return redirect()->route('manage_attendance_list');
         } else {
-            return redirect()->route('manage_attendance_list')->with('error', 'Item not found.');
+            return redirect()->route('manage_attendance_list')->with('error', 'not found.');
         }
     }
 

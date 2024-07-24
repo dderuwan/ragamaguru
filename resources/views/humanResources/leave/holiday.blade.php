@@ -34,67 +34,61 @@
                 </tr>
               </thead>
               <tbody>
+              @foreach($holiday_list as $index=> $Holiday)
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ $index + 1 }}</td>
+                  <td>{{ $Holiday->holiday_name }}</td>
+                  <td>{{ $Holiday->start_date }}</td>
+                  <td>{{ $Holiday->end_date }}</td>
+                  <td>{{ $Holiday->no_of_days }}</td>
                 </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
         </div>
-        @if (session('success'))
-          <div class="alert alert-success">
-            {{ session('success') }}
-          </div>
-        @endif
-        @if (session('error'))
-          <div class="alert alert-danger">
-            {{ session('error') }}
-          </div>
-        @endif
       </div>
     </div>
   </div>
 
-  <!-- Add more holiday modal -->
-  <div class="modal fade" id="addMoreHoliday" tabindex="-1" role="dialog" aria-labelledby="addMoreHolidayModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addMoreHolidayModalLabel">Add more holiday</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="holidaynameInput" style="color:black;">Holiday Name<i class="text-danger">*</i></label>
-                            <input type="text" class="form-control" id="holidayName" name="holiday_name" placeholder="Enter Holiday Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="dateFrom" style="color:black;">From <i class="text-danger">*</i></label>
-                            <input type="text" class="form-control" id="dateFrom" placeholder="Select Date">
-                        </div>
-                        <div class="form-group">
-                            <label for="dateTo" style="color:black;">To <i class="text-danger">*</i></label>
-                            <input type="text" class="form-control" id="dateTo" placeholder="Select Date">
-                        </div>
-                        <div class="form-group">
-                            <label for="numberOfDaysInput" style="color:black;">Number of Days<i class="text-danger">*</i></label>
-                            <input type="number" class="form-control" id="numberOfDays" name="number_of_days" placeholder="Enter Number of Days">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" style="color:white; background-color:green;" class="btn">Add</button>
-                </div>
+ <!-- Add more holiday modal -->
+<div class="modal fade" id="addMoreHoliday" tabindex="-1" role="dialog" aria-labelledby="addMoreHolidayModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMoreHolidayModalLabel">Add more holiday</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('holiday.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="holidaynameInput" style="color:black;">Holiday Name<i class="text-danger">*</i></label>
+                        <input type="text" class="form-control" id="holidayName" name="holiday_name" placeholder="Enter Holiday Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateFrom" style="color:black;">From <i class="text-danger">*</i></label>
+                        <input type="text" class="form-control" id="dateFrom" name="start_date" placeholder="Select Date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateTo" style="color:black;">To <i class="text-danger">*</i></label>
+                        <input type="text" class="form-control" id="dateTo" name="end_date" placeholder="Select Date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numberOfDaysInput" style="color:black;">Number of Days<i class="text-danger">*</i></label>
+                        <input type="number" class="form-control" id="numberOfDays" name="number_of_days" placeholder="Enter Number of Days" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" style="color:white; background-color:green;" class="btn">Add</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 </main>
 
 

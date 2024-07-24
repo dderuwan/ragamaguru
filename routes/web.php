@@ -4,6 +4,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
@@ -158,11 +159,19 @@ Route::get('/hrm/attendance_reports', [AttendanceController::class, 'attendanceR
 
 
 //Leave
-Route::view('/hrm/weekly_holidays', 'humanResources.leave.weekly_holiday')->name('weekly_holiday');
+Route::resource('leave', LeaveController::class);
+Route::post('/leave/update', [LeaveController::class, 'update'])->name('leave.update');
+Route::get('/hrm/weekly_holidays', [LeaveController::class, 'show'])->name('weekly_holiday');
+Route::get('/hrm/holiday', [LeaveController::class, 'showHolidays'])->name('holiday');
+Route::get('/hrm/manage_holiday', [LeaveController::class, 'manageHolidays'])->name('manage_holiday');
+Route::post('/holiday/store', [LeaveController::class, 'storeHolidays'])->name('holiday.store');
+Route::delete('/holiday/{holiday}', [LeaveController::class, 'destroy'])->name('holiday.destroy');
 Route::view('/hrm/weekly_holidays_update', 'humanResources.leave.weekly_holiday_update')->name('weekly_holiday_update');
-Route::view('/hrm/holiday', 'humanResources.leave.holiday')->name('holiday');
-Route::view('/hrm/manage_holiday', 'humanResources.leave.manage_holiday')->name('manage_holiday');
-Route::view('/hrm/update_holiday', 'humanResources.leave.update_holiday')->name('update_holiday');
+Route::get('/holiday/{id}/edit', [LeaveController::class, 'edit'])->name('holiday.edit');
+Route::post('/holiday/{id}/update', [LeaveController::class, 'updateHoliday'])->name('update_holiday');
+
+
+
 Route::view('/hrm/add_leave', 'humanResources.leave.add_leave')->name('add_leave');
 Route::view('/hrm/update_leaveType', 'humanResources.leave.update_leaveType')->name('update_leaveType');
 Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')->name('leave_application');

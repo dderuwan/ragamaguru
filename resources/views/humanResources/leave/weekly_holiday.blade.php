@@ -12,9 +12,9 @@
 
 .action-icon {
     display: inline-block;
-    width: 36px; 
-    height: 36px; 
-    line-height: 36px; 
+    width: 30px; 
+    height: 30px; 
+    line-height: 30px; 
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -25,9 +25,6 @@
     background-color: #f0f0f0; 
 }
 
-.delete-icon {
-    background-color: #f8d7da; 
-}
 
 </style>
 
@@ -43,45 +40,30 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th style="width:10%; color:black;">SL</th>
+                                <th style="width:5%; color:black;">SL</th>
                                 <th style="width:30%;color:black;">Weekly Leave Day</th>
-                                <th style="width:15%; color:black;">Action</th>
+                                <th style="width:10%; color:black;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($weeklyHoliday as $weeklyHoliday)
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $weeklyHoliday->id }}</td>
+                                <td>{{ $weeklyHoliday->dayname }}</td>
                                 <td>
                                     <div class="action-icons">
-                                    <a href="{{ route('weekly_holiday_update') }}" class="action-icon edit-icon" title="Edit">
+                                    <a href="{{ route('weekly_holiday_update', $weeklyHoliday->id) }}" class="action-icon edit-icon" title="Edit">
                                         <i class="fe fe-edit text-primary"></i>
                                     </a>
-                                    <button class="action-icon delete-icon" onclick="confirmDelete('')" title="Delete">
-                                        <i class="fe fe-trash-2 text-danger"></i>
-                                    </button>
-                                        <form id="" action="" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
                                     </div>
                                 </td> 
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
           </div>
         </div>
-        @if (session('success'))
-          <div class="alert alert-success">
-            {{ session('success') }}
-          </div>
-        @endif
-        @if (session('error'))
-          <div class="alert alert-danger">
-            {{ session('error') }}
-          </div>
-        @endif
       </div>
     </div>
   </div>
@@ -106,18 +88,8 @@
         </div>
     </div>
 </main>
-<script>
-    function confirmDelete(purchaseId) {
-        const deleteForm = document.getElementById('delete-form-' + purchaseId);
-        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
-        $('#deleteModal').modal('show');
 
-        confirmDeleteButton.onclick = function() {
-            deleteForm.submit();
-        }
-    }
-</script>
 
 
 @endsection

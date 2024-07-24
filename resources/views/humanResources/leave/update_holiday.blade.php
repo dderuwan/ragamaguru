@@ -1,8 +1,6 @@
 @extends('layouts.main.master')
 
 @section('content')
-<!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <main role="main" class="main-content">
   <div class="container-fluid">
@@ -13,30 +11,30 @@
             <h4><strong class="card-title">Update Holiday</strong></h4>
           </div>
           <div class="card-body">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('update_holiday', $holiday->id) }}" method="POST">
               @csrf
               <div class="form-group row">
-                <label for="inputfirstname" class="col-sm-2 col-form-label" style="color:black;">Holiday Name <i class="text-danger">*</i></label>
+                <label for="holidayName" class="col-sm-2 col-form-label" style="color:black;">Holiday Name <i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                <input type="text" class="form-control" id="holidayName" name="holiday_name" placeholder="Enter Holiday Name" value="">
+                  <input type="text" class="form-control" id="holidayName" name="holiday_name" placeholder="Enter Holiday Name" value="{{ $holiday->holiday_name }}" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputdatefrom" class="col-sm-2 col-form-label" style="color:black;">From<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputdatefrom" name="datefrom[]" required>
+                  <input type="date" class="form-control" id="inputdatefrom" name="datefrom" value="{{ $holiday->start_date }}" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputdateto" class="col-sm-2 col-form-label" style="color:black;">To<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputdateto" name="dateto[]" required>
+                  <input type="date" class="form-control" id="inputdateto" name="dateto" value="{{ $holiday->end_date }}" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="numberOfDays" class="col-sm-2 col-form-label" style="color:black;">Number of Days<i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                <input type="number" class="form-control" id="numberOfDays" name="number_of_days" placeholder="Enter Number of Days">
+                  <input type="number" class="form-control" id="numberOfDays" name="number_of_days" placeholder="Enter Number of Days" value="{{ $holiday->no_of_days }}" required>
                 </div>
               </div>
               <div class="form-group row">
@@ -64,21 +62,4 @@
   </div>
 </main>
 
-
-<!-- Flatpickr JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Initialize flatpickr for date input
-    flatpickr("#inputdatefrom", {
-        dateFormat: "Y-m-d"
-    });
-    flatpickr("#inputdateto", {
-        dateFormat: "Y-m-d"
-    });
-});
-</script>
-
-
-@endSection
+@endsection
