@@ -98,7 +98,7 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-3">
                   <label for="inputStatus">Status</label>
                   <select class="form-control" id="inputStatus" name="status">
                       <option value="1" {{ old('status', $employee->status ?? '') == 1 ? 'selected' : '' }}>Active</option>
