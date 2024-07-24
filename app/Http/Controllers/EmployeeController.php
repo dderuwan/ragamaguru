@@ -86,38 +86,27 @@ class EmployeeController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'firstname' => 'required|string|max:255',
-        'middlename' => 'nullable|string|max:255',
-        'lastname' => 'required|string|max:255',
-        'DOB' => 'required|date',
-        'NIC' => 'required|string|max:20',
-        'contactno' => 'required|string|max:20',
-        'Email' => 'required|email|max:255',
-        'address' => 'required|string|max:255',
-        'city' => 'required|string|max:255',
-        'zipecode' => 'required|string|max:10',
-        'status' => 'required|boolean',
-    ]);
+    {
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'DOB' => 'required|date',
+            'NIC' => 'required|string|max:20',
+            'contactno' => 'required|string|max:20',
+            'Email' => 'required|email|max:255',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'zipecode' => 'required|string|max:10',
+            'status' => 'required|boolean',
+        ]);
 
-    $employee = Employee::findOrFail($id);
-    $employee->update([
-        'firstname' => $request->firstname,
-        'middlename' => $request->middlename,
-        'lastname' => $request->lastname,
-        'DOB' => $request->DOB,
-        'NIC' => $request->NIC,
-        'contactno' => $request->contactno,
-        'Email' => $request->Email,
-        'address' => $request->address,
-        'city' => $request->city,
-        'zipecode' => $request->zipecode,
-        'status' => $request->status,
-    ]);
+        $employee = Employee::findOrFail($id);
+        $employee->update($request->all());
 
-    return redirect()->route('employee.index')->with('status', 'Employee updated successfully');
-}
+        return redirect()->route('employee')->with('status', 'Employee updated successfully');
+    }
+
 
 
     /**
