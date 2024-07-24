@@ -48,7 +48,7 @@
             <span class="ml-3 item-text">Suppliers</span><span class="sr-only">(current)</span>
           </a>
         </li>
-        
+
         <li class="nav-item active sidebar_li">
             <i class="fe fe-box fe-16"></i>
           <a href="{{route('item.index')}}" class="sidebar_text" >
@@ -90,13 +90,13 @@
                   <a href="#attendance" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                       <span class="ml-3 item-text">Attendance</span><span class="sr-only">(current)</span>
                   </a>
-                  <ul class="collapse list-unstyled pl-4 w-100" id="attendance">  
+                  <ul class="collapse list-unstyled pl-4 w-100" id="attendance">
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('attendance_list')}}" ><span class="ml-1 item-text"> - Attendance List</span></a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('attendance_reports')}}" ><span class="ml-1 item-text"> - Attendance Reports</span></a>
-                    </li>          
+                    </li>
                   </ul>
                 </li>
             </ul>
@@ -105,7 +105,7 @@
                   <a href="#leave" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                       <span class="ml-3 item-text">Leave</span><span class="sr-only">(current)</span>
                   </a>
-                  <ul class="collapse list-unstyled pl-4 w-100" id="leave">  
+                  <ul class="collapse list-unstyled pl-4 w-100" id="leave">
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('weekly_holiday')}}" ><span class="ml-1 item-text"> - Weekly Holiday</span></a>
                     </li>
@@ -118,6 +118,8 @@
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('leave_application')}}" ><span class="ml-1 item-text">- Leave Application </span></a>
                     </li>          
+                        <a class="nav-link pl-3" href="{{route('attendance_reports')}}" ><span class="ml-1 item-text"> </span></a>
+                    </li>
                   </ul>
                 </li>
             </ul>
@@ -148,12 +150,17 @@
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('assign_user_role')}}" ><span class="ml-1 item-text"> - Assign User Roles</span></a>
             </li>
-            
+
             </ul>
         </li>
 
-        
 
+
+            <i class="fe fe-home fe-16"></i>
+          <a href="{{route('employee')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Employee</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
       </ul>
 
 
