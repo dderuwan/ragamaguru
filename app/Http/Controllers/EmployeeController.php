@@ -76,10 +76,11 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( Employee $employee)
-    {
-        return view('employee.edit', compact('employee'));
-    }
+    public function edit($id)
+{
+    $employee = Employee::findOrFail($id);
+    return view('employee.edit', compact('employee'));
+}
 
     /**
      * Update the specified resource in storage.
