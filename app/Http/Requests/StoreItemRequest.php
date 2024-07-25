@@ -24,7 +24,7 @@ class StoreItemRequest extends FormRequest
         return [
             'item_name.*' => 'required|string|max:255',
             'item_description.*' => 'required|string',
-            'item_quantity.*' => 'required|integer|min:1',
+            'item_quantity.*' => 'nullable|integer',
             'item_price.*' => 'required|numeric|min:0',
             'item_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'supplier_code' => 'required|string',

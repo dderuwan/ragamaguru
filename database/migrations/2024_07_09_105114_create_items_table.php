@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->binary('image')->nullable();
-            $table->integer('quantity');
+            $table->integer('quantity')->nullable();
             $table->decimal('price', 10, 2);
             $table->string('supplier_code');
             $table->timestamps();

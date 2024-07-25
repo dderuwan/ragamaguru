@@ -1,46 +1,58 @@
 @extends('layouts.main.master')
 
 @section('content')
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <h2 class="page-title">Update Treatment</h2>
+        <p class="text-muted"></p>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Edit Treatment
-                            <a href="{{ url('Treatment') }}" class="btn btn-danger float-end">Back</a>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('Treatment.update', $Treatment->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="mb-3">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ $Treatment->name }}" />
-                                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label>price</label>
-                                <textarea name="price" rows="3" class="form-control">{!! $Treatment->price !!}</textarea>
-                                @error('price') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label>Status</label>
-                                <br/>
-                                <input type="checkbox" name="status" {{ $Treatement->status == 1 ? 'checked':'' }} style="width:30px;height:30px;" /> Checked=visible, unchecked=hidden
-                                @error('status') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
+        <div class="card-deck">
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Update</strong>
             </div>
-        </div>
-    </div>
+            <div class="card-body">
+              <form method="post" action="{{route('updateTreatment')}}">
+                @csrf
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputName">Treatment Name</label>
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name">
+                    @error('name')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputStatus">Treatment Status</label>
+                    <select class="form-control" id="inputStatus" name="status">
+                        <option value="1" {{ old('status', $treatment->status ?? '') == 1 ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ old('status', $treatment->status ?? '') == 0 ? 'selected' : '' }}>Inactive</option>
+                    </select>
+                    @error('status')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+                </div>
 
+
+                <button type="submit" class="btn btn-primary">update</button>
+              </form>
+            </div>
+          </div>
+
+        </div> <!-- / .card-desk-->
+
+
+
+
+
+
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+
+
+</main> <!-- main -->
 @endsection

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreItemRequest;
-use App\Models\Item; 
+use App\Models\Item;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,7 +33,7 @@ class ItemController extends Controller
 
     public function store(StoreItemRequest $request)
     {
-        
+
 
         try {
             $request->validate([
@@ -73,7 +73,7 @@ class ItemController extends Controller
     {
         return 'ITEM-' . time() . '-' . rand(1000, 9999);
     }
-    
+
 
      /**
      * Remove the specified resource from storage.
@@ -138,5 +138,8 @@ class ItemController extends Controller
             return back()->withError($e->getMessage())->withInput();
         }
     }
-    
+
+
+   
+
 }

@@ -1,8 +1,14 @@
 <?php
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\CompanySettingController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -25,7 +31,7 @@ Route::view('/appointment', 'appointment')->name('appointment');
 Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
-Route::get('/products', [ProductController::class, 'show'])->name('products');
+
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
 Route::post('/delete-from-cart', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
@@ -51,6 +57,13 @@ Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController
 
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/home', [HomeController::class, 'getItems'])->name('home');
+Route::get('/store', [HomeController::class, 'getproducts'])->name('store');
+Route::get('/product/{id}', [ProductController::class, 'showItems'])->name('products.show');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+
+
 
 // customer module
 Route::resource('customer', CustomerController::class);
@@ -65,11 +78,19 @@ Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->n
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
 Route::get('/createTreatment', [App\Http\Controllers\TreatmentController::class, 'create'])->name('createTreatment');
-Route::get('/editTreatment', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
-Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
+Route::get('/editTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
+Route::post('/updateTreatment',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
 Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
 Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
 
+
+//employee module
+Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
+Route::get('/createemployee', [App\Http\Controllers\EmployeeController::class, 'create'])->name('createemployee');
+Route::get('/editemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('editemployee');
+Route::post('/updateemployee',[App\Http\Controllers\EmployeeController::class, 'update'])->name('updateemployee');
+Route::post('/storeemployee', [App\Http\Controllers\EmployeeController::class, 'store'])->name('storeemployee');
+Route::delete('/deleteemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('deleteemployee');
 
 
 // supplier module
@@ -82,9 +103,6 @@ Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('upd
 
 
 
-
-
-
 // Item module
 Route::resource('item', ItemController::class);
 Route::get('/items', [ItemController::class, 'index'])->name('item.index'); 
@@ -93,6 +111,71 @@ Route::post('/items', [ItemController::class, 'store'])->name('items.store');
 Route::get('/edititem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateitem');
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
+Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
+Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
+
+
+//Purchase module
+Route::resource('purchase', PurchaseController::class)->except(['show']);
+Route::get('/purchase/order-create', [PurchaseController::class, 'create'])->name('createPurchaseOrder');
+Route::get('/allpurchaseRequests', [PurchaseController::class, 'index'])->name('purchase.purchaseOrder');
+Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
+Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getItemsBySupplier'])->name('get-items-by-supplier');
+Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
+Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
+
+
+//Settings module
+Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
+Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
+
+//users
+Route::resource('users', UserController::class);
+Route::get('/users', [UserController::class, 'index'])->name('user.index');
+Route::post('/users/add-user', [UserController::class, 'store'])->name('user.store');
+Route::post('/users/user-list', [UserController::class, 'show'])->name('user.show');
+Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateUser');
+
+//roles
+Route::view('/add_role', 'setting.roles.add_roles')->name('add_roles');
+Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
+Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
+Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
+
+
+//attendance
+Route::resource('attendance', AttendanceController::class);
+Route::get('/attendance-list', [AttendanceController::class, 'show'])->name('show.employees');
+Route::get('/hrm/attendance_list', [AttendanceController::class, 'show'])->name('attendance_list');
+Route::get('/hrm/manage_attendance_list', [AttendanceController::class, 'manageAttendance'])->name('manage_attendance_list');
+Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn'])->name('attendance.check-in');
+Route::post('/attendance/check-out', [AttendanceController::class, 'checkOut'])->name('attendance.check-out');
+Route::get('/attendance/{id}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
+Route::post('/attendance/{id}/update', [AttendanceController::class, 'update'])->name('attendance.update');
+Route::view('/hrm/update_attendance', 'humanResources.attendance.update_attendance')->name('update_attendance');
+Route::get('/hrm/attendance_reports', [AttendanceController::class, 'attendanceReport'])->name('attendance_reports');
+
+
+//Leave
+Route::resource('leave', LeaveController::class);
+Route::post('/leave/update', [LeaveController::class, 'update'])->name('leave.update');
+Route::get('/hrm/weekly_holidays', [LeaveController::class, 'show'])->name('weekly_holiday');
+Route::get('/hrm/holiday', [LeaveController::class, 'showHolidays'])->name('holiday');
+Route::get('/hrm/manage_holiday', [LeaveController::class, 'manageHolidays'])->name('manage_holiday');
+Route::post('/holiday/store', [LeaveController::class, 'storeHolidays'])->name('holiday.store');
+Route::delete('/holiday/{holiday}', [LeaveController::class, 'destroy'])->name('holiday.destroy');
+Route::view('/hrm/weekly_holidays_update', 'humanResources.leave.weekly_holiday_update')->name('weekly_holiday_update');
+Route::get('/holiday/{id}/edit', [LeaveController::class, 'edit'])->name('holiday.edit');
+Route::post('/holiday/{id}/update', [LeaveController::class, 'updateHoliday'])->name('update_holiday');
+
+
+
+Route::view('/hrm/add_leave', 'humanResources.leave.add_leave')->name('add_leave');
+Route::view('/hrm/update_leaveType', 'humanResources.leave.update_leaveType')->name('update_leaveType');
+Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')->name('leave_application');
+
 
 
 //OrderRequests module

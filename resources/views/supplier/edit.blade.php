@@ -5,14 +5,12 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title">Update Supplier</h2>
+        <h2 class="page-title p-2">Update Supplier</h2>
         <p class="text-muted"></p>
 
-        <div class="card-deck">
+        <div class="card-deck p-2">
           <div class="card shadow mb-4">
-            <div class="card-header">
-              <strong class="card-title">Update</strong>
-            </div>
+            
             <div class="card-body">
               <form method="POST" action="{{route('updatesupplier', $supplier->id)}}">
                 @csrf

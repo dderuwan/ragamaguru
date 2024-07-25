@@ -37,7 +37,7 @@ class Supplier extends Model
     private static function generateSupplierCode()
     {
         // Generate a random string of characters
-        $randomString = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 7); 
+        $randomString = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 10); 
 
         // Combine with prefix
         return 'SUP-' . $randomString;
