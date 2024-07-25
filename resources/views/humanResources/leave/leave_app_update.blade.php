@@ -14,7 +14,7 @@
             <div class="card-body p-4">
               <form method="POST" action="{{ route('leave_app_update', $leave_applications->id) }}" enctype="multipart/form-data">
                 @csrf
-                @method('PUT') <!-- Add this line for updating -->
+                @method('PUT') 
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputEmployee" style="color:black;">Employee Name <i class="text-danger">*</i></label>
@@ -45,7 +45,7 @@
                     @enderror
                   </div>
                 </div>
-
+              
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="apply_strt_date" style="color:black;">Application Start Date<i class="text-danger">*</i></label>
