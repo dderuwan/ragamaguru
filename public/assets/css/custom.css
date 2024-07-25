@@ -5,3 +5,43 @@
 .sidebar_text{
     color:#000;
 }
+
+
+div.dt {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-left: 25%;
+}
+
+div.dt-buttons {
+    
+    margin-left: 35%;
+}
+
+
+div.dt-date-range {
+    display: flex;
+    align-items: center;
+}
+div.dt-date-range label {
+    margin: 0 5px;
+}
+div.dt-date-range input {
+    margin: 0 5px;
+    width: 150px;
+}
+
+.dataTables_filter {
+    margin-left: 50%;
+}
+.dataTables_filter input {
+    width: 200px !important;
+}
+
+/* Align pagination to the right */
+.dataTables_paginate {
+    display: flex;
+    justify-content: flex-end;
+}
