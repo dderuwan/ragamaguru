@@ -35,7 +35,7 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Leave Application</h2>
+                        <h2 class="page-title">Manage Leave Application</h2>
                     </div>
                 </div>
                 <p class="card-text"></p>
