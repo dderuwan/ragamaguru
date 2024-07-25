@@ -145,6 +145,7 @@ Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
 
+//HR module
 //attendance
 Route::resource('attendance', AttendanceController::class);
 Route::get('/attendance-list', [AttendanceController::class, 'show'])->name('show.employees');

@@ -29,46 +29,60 @@
 </style>
 
 <main role="main" class="main-content">
-  <div class="container-fluid">
-    <div class="row justify-content-center p-2">
-      <div class="col-12">
-        <div class="card shadow mb-4 p-2 pl-3">
-          <div class="card-header">
-            <h3><strong class="card-title">Weekly Leave</strong></h3>
-          </div>
-          <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width:5%; color:black;">SL</th>
-                                <th style="width:30%;color:black;">Weekly Leave Day</th>
-                                <th style="width:10%; color:black;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($weeklyHoliday as $weeklyHoliday)
-                            <tr>
-                                <td>{{ $weeklyHoliday->id }}</td>
-                                <td>{{ $weeklyHoliday->dayname }}</td>
-                                <td>
-                                    <div class="action-icons">
-                                    <a href="{{ route('weekly_holiday_update', $weeklyHoliday->id) }}" class="action-icon edit-icon" title="Edit">
-                                        <i class="fe fe-edit text-primary"></i>
-                                    </a>
-                                    </div>
-                                </td> 
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+    <div class="container-fluid">
+        <div class="row justify-content-center p-2">
+            <div class="col-12">
+                <div class="card shadow mb-4 p-2 pl-3">
+                    <div class="card-header">
+                        <h3><strong class="card-title">Weekly Leave</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%; color:black;">SL</th>
+                                    <th style="width:30%;color:black;">Weekly Leave Day</th>
+                                    <th style="width:10%; color:black;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($weeklyHoliday->isEmpty())
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div class="action-icons">
+                                                <a href="{{ route('weekly_holiday_update', 0) }}" class="action-icon edit-icon" title="Edit">
+                                                    <i class="fe fe-edit text-primary"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @else
+                                    @foreach($weeklyHoliday as $index => $holiday)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $holiday->dayname }}</td>
+                                        <td>
+                                            <div class="action-icons">
+                                                <a href="{{ route('weekly_holiday_update', $holiday->id) }}" class="action-icon edit-icon" title="Edit">
+                                                    <i class="fe fe-edit text-primary"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- Delete Confirmation Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -88,6 +102,8 @@
         </div>
     </div>
 </main>
+
+
 
 
 
