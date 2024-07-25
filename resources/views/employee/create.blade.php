@@ -5,7 +5,11 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title">Add Employee</h2>
+        <h2 class="page-title">Add Employee
+            <a href="{{ route('employee') }}" class="btn btn-secondary float-right">
+                Back to Employee List
+              </a>
+        </h2>
         <p class="text-muted"></p>
 
         <div class="card-deck">
