@@ -117,8 +117,8 @@
 </main>
 
 <script>
-    function confirmDelete(purchaseId) {
-        const deleteForm = document.getElementById('delete-form-' + purchaseId);
+    function confirmDelete(holidayId) {
+        const deleteForm = document.getElementById('delete-form-' + holidayId);
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
         $('#deleteModal').modal('show');

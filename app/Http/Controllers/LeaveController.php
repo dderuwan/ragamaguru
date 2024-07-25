@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\WeeklyHoliday;
 use App\Models\Holiday;
+use App\Models\Leave_type;
 
 class LeaveController extends Controller
 {
 
+    //weekly holiday
     public function show()
     {
         $weeklyHoliday = WeeklyHoliday::all();
@@ -24,17 +26,16 @@ class LeaveController extends Controller
         ]);
 
         $selected_days = implode(', ', $request->input('weekly_leave'));
-
         WeeklyHoliday::updateOrCreate(
             ['id' => 1], 
             ['dayname' => $selected_days]
         );
         return redirect()->route('weekly_holiday')->with('success', 'Weekly leave days updated successfully');
-
     }
 
 
 
+    //holiday
     public function storeHolidays(Request $request)
     {
         $request->validate([
@@ -43,45 +44,43 @@ class LeaveController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'number_of_days' => 'required|integer|min:1',
         ]);
-
         Holiday::create([
             'holiday_name' => $request->holiday_name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'no_of_days' => $request->number_of_days,
         ]);
-
         return redirect()->back()->with('success', 'Holiday added successfully.');
     }
 
 
-        public function showHolidays()
-        {
-            $holiday_list = Holiday::all();
-            return view('humanResources.leave.holiday', compact('holiday_list'));
+    public function showHolidays()
+    {
+        $holiday_list = Holiday::all();
+        return view('humanResources.leave.holiday', compact('holiday_list'));
+    }
+
+
+    public function manageHolidays()
+    {
+        $holiday_list = Holiday::all();
+         return view('humanResources.leave.manage_holiday', compact('holiday_list'));
+    }
+
+
+    public function destroy($id)
+    {
+        $holiday = Holiday::find($id);
+        if ($holiday) {
+            $holiday->delete();
+            notify()->success('Deleted successfully. ⚡️', 'Success');
+            return redirect()->route('manage_holiday');
+        } else {
+            return redirect()->route('manage_holiday')->with('error', 'not found.');
         }
-
-        public function manageHolidays()
-        {
-            $holiday_list = Holiday::all();
-            return view('humanResources.leave.manage_holiday', compact('holiday_list'));
-        }
+    }
 
 
-        public function destroy($id)
-        {
-            $holiday = Holiday::find($id);
-            if ($holiday) {
-                $holiday->delete();
-                notify()->success('Deleted successfully. ⚡️', 'Success');
-                return redirect()->route('manage_holiday');
-            } else {
-                return redirect()->route('manage_holiday')->with('error', 'not found.');
-            }
-        }
-
-
- 
     public function edit($id)
     {
         $holiday = Holiday::findOrFail($id);
@@ -108,6 +107,67 @@ class LeaveController extends Controller
         return redirect()->route('holiday');
     }
 
+
+
+    //leave types
+    public function showLeavetypes()
+    {
+        $leave_types = Leave_type::all();
+        return view('humanResources.leave.add_leave_type', compact('leave_types'));
+    }
+
+
+    public function storeLeavetypes(Request $request)
+    {
+        $request->validate([
+            'leave_type' => 'required|string|max:255',
+            'leave_days' => 'required|integer|min:1',
+        ]);
+
+        Leave_type::create([
+            'leave_type' => $request->leave_type,
+            'leave_days' => $request->leave_days,
+        ]);
+
+        return redirect()->back()->with('success', 'Leave type added successfully.');
+    }
+
+
+    public function destroyLeave_type($id)
+    {
+        $leave_type = Leave_type::find($id);
+        if ($leave_type) {
+            $leave_type->delete();
+            notify()->success('Deleted successfully. ⚡️', 'Success');
+            return redirect()->route('add_leave_type');
+        } else {
+            return redirect()->route('add_leave_type')->with('error', 'not found.');
+        }
+    }
+
+
+    public function editLeavetype($id)
+    {
+        $leave_type = Leave_type::findOrFail($id);
+        return view('humanResources.leave.update_leaveType', compact('leave_type'));
+    }
+
+    
+    public function updateLeavetype(Request $request, $id)
+    {
+        $request->validate([
+            'leave_type' => 'required|string|max:255',
+            'leave_days' => 'required|integer',
+        ]);
+
+        $leave_type = Leave_type::findOrFail($id);
+        $leave_type->leave_type = $request->input('leave_type');
+        $leave_type->leave_days = $request->input('leave_days');
+        $leave_type->save();
+
+        notify()->success('leave type updated successfully. ⚡️', 'Success');
+        return redirect()->route('add_leave_type');
+    }
 }
 
 

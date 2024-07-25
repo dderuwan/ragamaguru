@@ -169,11 +169,12 @@ Route::delete('/holiday/{holiday}', [LeaveController::class, 'destroy'])->name('
 Route::view('/hrm/weekly_holidays_update', 'humanResources.leave.weekly_holiday_update')->name('weekly_holiday_update');
 Route::get('/holiday/{id}/edit', [LeaveController::class, 'edit'])->name('holiday.edit');
 Route::post('/holiday/{id}/update', [LeaveController::class, 'updateHoliday'])->name('update_holiday');
+Route::get('/hrm/add_leave_type', [LeaveController::class, 'showLeavetypes'])->name('add_leave_type');
+Route::post('/hrm/add_leave_type/store', [LeaveController::class, 'storeLeavetypes'])->name('Leave_type.store');
+Route::delete('/hrm/add_leave_type/{leave_type}', [LeaveController::class, 'destroyLeave_type'])->name('leave_type.destroy');
+Route::post('/hrm/add_leave_type/{id}/update', [LeaveController::class, 'updateLeavetype'])->name('update_leave_type');
+Route::get('/hrm/add_leave_type/{id}/edit', [LeaveController::class, 'editLeavetype'])->name('leave_type.edit');
 
-
-
-Route::view('/hrm/add_leave', 'humanResources.leave.add_leave')->name('add_leave');
-Route::view('/hrm/update_leaveType', 'humanResources.leave.update_leaveType')->name('update_leaveType');
 Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')->name('leave_application');
 
 

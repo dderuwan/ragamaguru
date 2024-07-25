@@ -11,9 +11,9 @@
 
 .action-icon {
     display: inline-block;
-    width: 36px; 
-    height: 36px; 
-    line-height: 36px; 
+    width: 30px; 
+    height: 30px; 
+    line-height: 30px; 
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -54,25 +54,27 @@
                 </tr>
               </thead>
               <tbody>
+              @foreach($leave_types as $index=> $leave_type)
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ $index + 1 }}</td>
+                  <td>{{ $leave_type->leave_type}}</td>
+                  <td>{{ $leave_type->leave_days}}</td>
                   <td>
                       <div class="action-icons">
-                          <a href="{{ route('update_leaveType') }}" class="action-icon edit-icon" title="Edit">
+                          <a href="{{ route('leave_type.edit', $leave_type->id) }}" class="action-icon edit-icon" title="Edit">
                             <i class="fe fe-edit text-primary"></i>
                           </a>
-                        <button class="action-icon delete-icon" onclick="confirmDelete('')" title="Delete">
+                        <button class="action-icon delete-icon" onclick="confirmDelete('{{ $leave_type->id }}')" title="Delete">
                             <i class="fe fe-trash-2 text-danger"></i>
                         </button>
-                            <form id="" action="" method="POST" style="display: none;">
+                            <form id="delete-form-{{ $leave_type->id }}" action="{{ route('leave_type.destroy',  $leave_type->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
                             </form>
                       </div>
                   </td>    
                 </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -91,8 +93,8 @@
     </div>
   </div>
 
-  <!-- Add leave type modal -->
-  <div class="modal fade" id="addLeaveType" tabindex="-1" role="dialog" aria-labelledby="addLeaveTypeModalLabel" aria-hidden="true">
+    <!-- Add leave type modal -->
+    <div class="modal fade" id="addLeaveType" tabindex="-1" role="dialog" aria-labelledby="addLeaveTypeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,24 +104,58 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="{{ route('Leave_type.store') }}" method="POST">
+                        @csrf
                         <div class="form-group">
                             <label for="leaveTypeInput" style="color:black;">Leave Type<i class="text-danger">*</i></label>
-                            <input type="text" class="form-control" id="leaveType" name="leaveType" placeholder="Enter Leave Type">
+                            <input type="text" class="form-control" id="leave_type" name="leave_type" placeholder="Enter Leave Type" required>
                         </div>
                         <div class="form-group">
                             <label for="numberOfDaysInput" style="color:black;">Number of Days<i class="text-danger">*</i></label>
-                            <input type="number" class="form-control" id="numberOfDays" name="number_of_days" placeholder="Enter Number of Days">
+                            <input type="number" class="form-control" id="leave_days" name="leave_days" placeholder="Enter Number of Days" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" style="color:white; background-color:green;" class="btn">Add</button>
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this Leave Type?
+                </div>
                 <div class="modal-footer">
-                    <button type="button" style="color:white; background-color:green;" class="btn">Add</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes, Delete</button>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
+<script>
+    function confirmDelete(LeaveTypeId) {
+        const deleteForm = document.getElementById('delete-form-' + LeaveTypeId);
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+        $('#deleteModal').modal('show');
+
+        confirmDeleteButton.onclick = function() {
+            deleteForm.submit();
+        }
+    }
+</script>
 
 @endsection

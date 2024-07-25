@@ -119,7 +119,7 @@
                         <a class="nav-link pl-3" href="{{route('holiday')}}" ><span class="ml-1 item-text">- Holiday </span></a>
                     </li> 
                     <li class="nav-item active">
-                        <a class="nav-link pl-3" href="{{route('add_leave')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
+                        <a class="nav-link pl-3" href="{{route('add_leave_type')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
                     </li> 
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('leave_application')}}" ><span class="ml-1 item-text">- Leave Application </span></a>
