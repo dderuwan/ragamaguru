@@ -82,58 +82,50 @@
     <div class="container">
       <div class="row gy-3 justify-content-center">
         <div class="col-lg-6 col-md-8 col-12">
-            <div class="row">
-                <div class="input-group col-10">
-                    <div class="form-outline flex-grow-1">
-                    <input type="search" id="searchInput" class="form-control" placeholder="Search"/>
-                    </div>
-                    <button type="button" class="btn btn-primary shadow-0" style="min-width: 100px;">
-                    <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <a href="{{route('cart')}}" type="button" class="col-1 ms-1 btn btn-primary center-icon" >
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                </a>
+          <div class="input-group">
+            <div class="form-outline flex-grow-1">
+              <input type="search" id="searchInput" class="form-control" placeholder="Search"/>
             </div>
-          
-          
+            <button type="button" class="btn btn-primary shadow-0" style="min-width: 100px;">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
         </div>
-        
       </div>
     </div>
   </div>
 </header>
 
             
-<!--products-->
- <div class="section menu" id="product-list">
-        <div class="container"  data-aos="fade-up">
+<!-- Products -->
+<div class="section menu" id="product-list">
+        <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-title text-center mb-5 col-middle">
                         <h1 class="block-title">Products</h1>
                     </div>
-                    <!-- /.End of section title -->
                 </div>
             </div>
-            <div class="row" >
-            @foreach ($item_list as $item)
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0" data-name="Product 01">
-                        <a href="{{ route('products.show', $item->id) }}" class="card2-img position-relative product-link">
-                        <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" 
-                        class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
-                        </a>
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">{{ $item->name }}</h6>
-                            <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs {{ number_format($item->price, 2) }}</h6>
+            <div class="row" id="products-container">
+                @foreach ($item_list as $item)
+                    <div class="col-lg-4 col-md-6 mb-4 product-item" data-name="{{ $item->name }}">
+                        <div class="card border-0 menu-item box-shadow-lg rounded-0">
+                            <a href="{{ route('products.show', $item->id) }}" class="card2-img position-relative product-link">
+                                <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" 
+                                class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
+                            </a>
+                            <div class="card-body text-center">
+                                <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">{{ $item->name }}</h6>
+                                <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs {{ number_format($item->price, 2) }}</h6>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
     </div>
+
 
 
 
@@ -203,6 +195,25 @@
     <script src="assets/web/website_assets/js/loadMap.js"></script>
    
     <script src="assets/web/js/pagination.js"></script>
+
+     <script>
+        document.getElementById('searchInput').addEventListener('input', searchProducts);
+
+        function searchProducts() {
+            var query = document.getElementById('searchInput').value.toLowerCase();
+            var products = document.querySelectorAll('.product-item');
+
+            products.forEach(function(product) {
+                var productName = product.getAttribute('data-name').toLowerCase();
+                if (productName.includes(query)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
 
 
     @include('includes.footer')

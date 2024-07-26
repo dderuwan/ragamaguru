@@ -71,14 +71,14 @@ class TreatmentController extends Controller
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'price' => 'required|numeric',
+
         'status' => 'required|boolean',
     ]);
 
     $treatment = Treatment::findOrFail($id);
     $treatment->update([
         'name' => $request->name,
-        'price' => $request->price,
+
         'status' => $request->status,
     ]);
 
@@ -98,7 +98,7 @@ class TreatmentController extends Controller
             notify()->success(' Treatment deleted successfully. ⚡️', 'Success');
             return redirect()->route('Treatment');
         } else {
-            return redirect()->route('Treatment')->with('error', 'Customer not found.');
+            return redirect()->route('Treatment')->with('error', 'Treatment not found.');
         }
 }
 }

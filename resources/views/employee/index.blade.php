@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12">
-                <h2 class="mb-2 page-title">All Treatments</h2>
+                <h2 class="mb-2 page-title">All Employees</h2>
                 <p class="card-text"></p>
                 <div class="card-header">
 
-                    <button type="button" class="btn btn-primary float-end" onclick="window.location.href='{{ route('createTreatment') }}'">
-                        Add Treatment
+                    <button type="button" class="btn btn-primary float-end" onclick="window.location.href='{{ route('createemployee') }}'">
+                        Add Employee
                     </button>
                 </div>
                 <div class="row my-4">
@@ -23,79 +23,58 @@
                                 <table class="table datatables" id="dataTable-1">
                                     <thead>
                                         <tr>
-                                            <th>Treatment ID</th>
-                                            <th>Treatment Name</th>
+
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Last Name</th>
+                                            <th>Date of Birth</th>
+                                            <th>NIC</th>
+                                            <th>Contact No</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>City</th>
+                                            <th>Zip Code</th>
                                             <th>Status</th>
                                             <th>Action</th>
-
-
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($Treatments as $Treatment)
-                                        <tr>
-                                            <td>{{ $Treatment->id }}</td>
-                                            <td>{{ $Treatment->name }}</td>
+                                        @foreach ($employees as $employee)
+                                    <tr>
 
-                                            <td>{{ $Treatment->status == 1 ? 'Active':'Inactive' }}</td>
-                                            <td>
+                                        <td>{{ $employee->firstname }}</td>
+                                        <td>{{ $employee->middlename }}</td>
+                                        <td>{{ $employee->lastname }}</td>
+                                        <td>{{ $employee->DOB }}</td>
+                                        <td>{{ $employee->NIC }}</td>
+                                        <td>{{ $employee->contactno }}</td>
+                                        <td>{{ $employee->Email }}</td>
+                                        <td>{{ $employee->address }}</td>
+                                        <td>{{ $employee->city }}</td>
+                                        <td>{{ $employee->zipecode }}</td>
+                                        <td>{{ $employee->status == 1 ? 'Active' : 'Inactive' }}</td>
+                                        <td>
                                                 <!-- Edit Button -->
-                                                <a href="{{ route('editTreatment', $Treatment->id) }}" class="btn btn-primary btn-sm">
+                                                <a href="{{ route('editemployee', $employee->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-
-
                                                 <!-- Delete Button -->
-                                                <form id="delete-form-{{ $Treatment->id }}" action="{{ route('deleteTreatment', $Treatment->id) }}" method="POST" class="d-inline">
+                                                <form id="delete-form-{{ $employee->id }}" action="{{ route('deleteemployee', $employee->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this treatment?');">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
-
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editModal{{ $Treatment->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $Treatment->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel{{ $Treatment->id }}">Edit Treatment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('updateTreatment', $Treatment->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mb-3">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control" value="{{ $Treatment->name }}" required />
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Status</label>
-                            <select name="status" class="form-control" required>
-                                <option value="1" {{ $Treatment->status == 1 ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ $Treatment->status == 0 ? 'selected' : '' }}>Inactive</option>
-                            </select>
-                            @error('status') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>

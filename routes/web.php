@@ -5,9 +5,11 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -88,11 +90,19 @@ Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('rese
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
 Route::get('/createTreatment', [App\Http\Controllers\TreatmentController::class, 'create'])->name('createTreatment');
-Route::get('/editTreatment', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
-Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
+Route::get('/editTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
+Route::post('/updateTreatment',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
 Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
 Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
 
+
+//employee module
+Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
+Route::get('/createemployee', [App\Http\Controllers\EmployeeController::class, 'create'])->name('createemployee');
+Route::get('/editemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('editemployee');
+Route::post('/updateemployee',[App\Http\Controllers\EmployeeController::class, 'update'])->name('updateemployee');
+Route::post('/storeemployee', [App\Http\Controllers\EmployeeController::class, 'store'])->name('storeemployee');
+Route::delete('/deleteemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('deleteemployee');
 
 
 // supplier module
@@ -144,11 +154,39 @@ Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateU
 Route::view('/add_role', 'setting.roles.add_roles')->name('add_roles');
 Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
 Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
-
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
 
+//attendance
+Route::resource('attendance', AttendanceController::class);
+Route::get('/attendance-list', [AttendanceController::class, 'show'])->name('show.employees');
+Route::get('/hrm/attendance_list', [AttendanceController::class, 'show'])->name('attendance_list');
+Route::get('/hrm/manage_attendance_list', [AttendanceController::class, 'manageAttendance'])->name('manage_attendance_list');
+Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn'])->name('attendance.check-in');
+Route::post('/attendance/check-out', [AttendanceController::class, 'checkOut'])->name('attendance.check-out');
+Route::get('/attendance/{id}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
+Route::post('/attendance/{id}/update', [AttendanceController::class, 'update'])->name('attendance.update');
+Route::view('/hrm/update_attendance', 'humanResources.attendance.update_attendance')->name('update_attendance');
+Route::get('/hrm/attendance_reports', [AttendanceController::class, 'attendanceReport'])->name('attendance_reports');
 
+
+//Leave
+Route::resource('leave', LeaveController::class);
+Route::post('/leave/update', [LeaveController::class, 'update'])->name('leave.update');
+Route::get('/hrm/weekly_holidays', [LeaveController::class, 'show'])->name('weekly_holiday');
+Route::get('/hrm/holiday', [LeaveController::class, 'showHolidays'])->name('holiday');
+Route::get('/hrm/manage_holiday', [LeaveController::class, 'manageHolidays'])->name('manage_holiday');
+Route::post('/holiday/store', [LeaveController::class, 'storeHolidays'])->name('holiday.store');
+Route::delete('/holiday/{holiday}', [LeaveController::class, 'destroy'])->name('holiday.destroy');
+Route::view('/hrm/weekly_holidays_update', 'humanResources.leave.weekly_holiday_update')->name('weekly_holiday_update');
+Route::get('/holiday/{id}/edit', [LeaveController::class, 'edit'])->name('holiday.edit');
+Route::post('/holiday/{id}/update', [LeaveController::class, 'updateHoliday'])->name('update_holiday');
+
+
+
+Route::view('/hrm/add_leave', 'humanResources.leave.add_leave')->name('add_leave');
+Route::view('/hrm/update_leaveType', 'humanResources.leave.update_leaveType')->name('update_leaveType');
+Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')->name('leave_application');
 
 
 
@@ -171,6 +209,22 @@ Route::post('/insertgin', [App\Http\Controllers\GinController::class, 'store'])-
 Route::get('/showogins/{id}', [App\Http\Controllers\GinController::class, 'show'])->name('showogins');
 Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'destroy'])->name('deletegins');
 
+//reports
+Route::get('/orderreport', [App\Http\Controllers\ReportController::class, 'orderreport'])->name('orderreport');
+Route::get('/productreport', [App\Http\Controllers\ReportController::class, 'productreport'])->name('productreport');
+Route::get('/customerreport', [App\Http\Controllers\ReportController::class, 'customerreport'])->name('customerreport');
+Route::get('/supplierreport', [App\Http\Controllers\ReportController::class, 'supplierreport'])->name('supplierreport');
+Route::get('/ginreport', [App\Http\Controllers\ReportController::class, 'ginreport'])->name('ginreport');
+Route::get('/ginshow/{id}', [App\Http\Controllers\ReportController::class, 'ginshow'])->name('ginshow');
+Route::get('/purchaseorderreport', [App\Http\Controllers\ReportController::class, 'purchaseorderreport'])->name('purchaseorderreport');
+Route::get('/purchaseordershow/{id}', [App\Http\Controllers\ReportController::class, 'purchaseordershow'])->name('purchaseordershow');
+Route::get('orderreport/print/{id}', [App\Http\Controllers\ReportController::class, 'printOrderReport'])->name('orderreport.print');
+Route::delete('/deleteorderreport/{id}', [App\Http\Controllers\ReportController::class, 'destroy'])->name('orderreport.destroy');
+Route::delete('/customerdestroy/{id}', [App\Http\Controllers\ReportController::class, 'customerdestroy'])->name('customerdestroy');
+Route::delete('/supplierdestroy/{id}',[App\Http\Controllers\ReportController::class,'supplierdestroy'])->name('supplierdestroy');
+Route::delete('/gindestroy/{id}', [App\Http\Controllers\ReportController::class, 'gindestroy'])->name('gindestroy');
+Route::delete('/purchaseorderdestroy/{id}', [App\Http\Controllers\ReportController::class, 'purchaseorderdestroy'])->name('purchaseorderdestroy');
+
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
 
@@ -186,5 +240,7 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
 
 
 ?>
+
+
 
 
