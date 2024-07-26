@@ -11,6 +11,7 @@
 body .fc {
   /* extra precedence to overcome jqui */
   font-size: 1em;
+
 }
 
 /* Colors
@@ -123,6 +124,7 @@ hr.fc-divider {
   padding: 0;
   vertical-align: top;
 }
+
 
 .fc td.fc-today {
   border-style: double;
@@ -885,6 +887,8 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
     border-color: #ccc !important;
     background: #fff !important;
   }
+  
+
 
   /* kill the overlaid, absolutely-positioned components */
   /* common... */

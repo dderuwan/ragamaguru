@@ -4,6 +4,7 @@
 <!-- Icons CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/feather.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/select2.css')}}">
+<link rel="stylesheet" href="{{asset('assets/css//fullcalendar.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/dropzone.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/uppy.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/jquery.steps.css')}}">
@@ -15,7 +16,7 @@
 <!-- App CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/app-light.css')}}" id="lightTheme">
 <link rel="stylesheet" href="{{asset('assets/css/app-dark.css')}}" id="darkTheme" disabled>
-{{-- custome css --}}
+<!-- custom CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" >
 <link rel="stylesheet" href="{{asset('assets/css/posinvoice.css')}}">
 

@@ -73,6 +73,12 @@
             <span class="ml-3 item-text">Employee</span><span class="sr-only">(current)</span>
           </a>
         </li>
+        <li class="nav-item active sidebar_li">
+            <i class="fe fe fe-calendar fe-16"></i>
+          <a href="{{route('appointment')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Appointments</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
 
         <li class="nav-item dropdown">
             <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">

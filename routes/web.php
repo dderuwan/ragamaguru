@@ -9,6 +9,7 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -124,6 +125,15 @@ Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getIt
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
 
+ 
+//appointment module
+Route::view('/Appointments', 'appointment.index')->name('appointment');
+Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
+Route::get('/Appointments/New-appointment/customers/{id}', [AppointmentController::class, 'getCustomerDetails']);
+Route::post('/Appointments/New-appointment/store', [AppointmentController::class, 'storeAppointments'])->name('appointment.store');
+
+
+
 
 //Settings module
 Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
@@ -188,8 +198,6 @@ Route::put('/hrm/leave-applications/update/{id}', [LeaveController::class, 'upda
 
 
 
-
-
 //OrderRequests module
 Route::get('/allorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'index'])->name('allorderrequests');
 Route::get('/createorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'create'])->name('OrderRequests.create');
@@ -220,6 +228,8 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
 
  Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
+
+
 
 
 
