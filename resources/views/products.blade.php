@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'RagamaGuru')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    
      <!-- Bootstrap CSS -->
     <link href="{{ asset('assets/web/website_assets/css/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/website_assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -26,17 +26,18 @@
     <link href="{{ asset('assets/web/css/foodcart/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/aos/aos.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
- 
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
-.product-section {
-  min-height:500px;
-}
+      .product-section {
+        min-height:500px;
+      }
 
 
-</style>
+    </style>
 </head>
 <body>
-    @include('includes.navbar')
+    @include('includes.navbar')       
 
     <header class="header-bg">
       <div class="p-3 text-center border-bottom">
@@ -89,19 +90,21 @@
                           @if($item->quantity > 0)
                               <form id="addToCartForm" action="{{ route('addToCart') }}" method="POST">
                                   @csrf
+                                  <input type="hidden" name="item_code" value="{{ $item->item_code }}">
                                   <input type="hidden" name="name" value="{{ $item->name }}">
                                   <input type="hidden" name="price" value="{{ $item->price }}">
                                   <input type="hidden" name="image" value="{{ $item->image }}">
-                                  <button type="submit" class="btn btn-primary shadow-0">
+                                  <button type="submit" name="btn_name" value="cart" class="btn btn-primary shadow-0">
                                       <i class="me-1 fas fa-shopping-cart"></i> Add to cart
                                   </button>
+                                  <button type="submit" name="btn_name" value="buy" class="btn btn-warning shadow-0 me-2">Buy now</button>
                               </form>
                           @else
                               <button type="button" class="btn btn-primary shadow-0" disabled>
-                                  <i class="me-1 fas fa-shopping-cart"></i> Out of stock
+                                  <i class="me-1 fa fa-ban" aria-hidden="true"></i> Out of stock
                               </button>
                           @endif
-                          <a href="#" class="btn btn-warning shadow-0 me-2">Buy now</a>
+                          
                       </div>
                   </div>
               </main>
@@ -145,6 +148,17 @@
 <script src="{{ asset('assets/web/website_assets/js/loadMap.js') }}"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key="></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    @if (session('success'))
+        <script>
+            toastr.success('{{ session('success') }}'); 
+        </script>
+    @endif
 
 
 

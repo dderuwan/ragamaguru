@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
@@ -34,6 +35,13 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCa
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
 Route::post('/delete-from-cart', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
 Route::get('/cart-item-count', [CartController::class, 'getItemCount'])->name('cartItemCount');
+Route::get('/cart-checkout', [CartController::class, 'cartCheckout'])->name('cartCheckout');
+Route::post('/store-cart-details', [CartController::class, 'storeCartDetails'])->name('storeCartDetails');
+
+Route::post('/update-address/{id}', [CustomerController::class, 'updateAddress'])->name('updateAddress');
+
+Route::post('/place-order', [CustomerOrderController::class, 'placeOrder'])->name('placeOrder');
+Route::post('/clear-checkout', [CustomerOrderController::class, 'clearCheckout'])->name('clearCheckout');
 
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('clearCart');
 

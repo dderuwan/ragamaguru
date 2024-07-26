@@ -164,4 +164,21 @@ class CustomerController extends Controller
         return response()->json(['success' => 'OTP has been resent.']);
         
     }
+
+    public function updateAddress(Request $request, $id)
+    {
+        $request->validate([
+            'newAddress' => 'required|string|max:255',
+        ]);
+
+        $customer = Customer::find($id);
+        if (!$customer) {
+            return redirect()->back()->with('error', 'User not found');
+        }
+
+        $customer->address = $request->input('newAddress');
+        $customer->save();
+
+        return redirect()->back()->with('success', 'Address updated successfully');
+    }
 }

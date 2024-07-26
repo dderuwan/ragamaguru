@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,10 @@ class HomeController extends Controller
 
     public function getproducts()
     {
+        
+        //add user to session - id is 1
+        Session::put('user_id', 1); //testing purpose 
+        
         $item_list = Item::all();
         return view('store', compact('item_list')); 
     }
