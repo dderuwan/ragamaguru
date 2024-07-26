@@ -37,7 +37,7 @@
                                             <td>{{ $Treatment->status == 1 ? 'Active':'Inactive' }}</td>
                                             <td>
                                                 <!-- Edit Button -->
-                                                <a href="{}" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $Treatment->id }}">
+                                                <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $Treatment->id }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
