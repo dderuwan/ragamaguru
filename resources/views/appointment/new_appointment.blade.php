@@ -19,27 +19,27 @@
 
 #timeSlots {
     padding: 10px;
-    border: 1px solid #ddd; /* Light grey border */
-    border-radius: 4px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
-    background-color: #FAF9F9; /* Background color */
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    background-color: #FAF9F9; 
 }
 
 .time-slot {
     padding: 10px;
     margin: 5px;
-    width: 100px; /* Adjust as needed */
+    width: 100px; 
     text-align: center;
-    border: 1px solid #ccc; /* Border color */
-    border-radius: 4px; /* Rounded corners */
-    background-color: #fff; /* Background color */
-    cursor: pointer; /* Pointer cursor */
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+    background-color: #fff; 
+    cursor: pointer; 
     transition: background-color 0.3s, border-color 0.3s;
 }
 
 .time-slot:hover {
-    background-color: #f0f0f0; /* Background color on hover */
-    border-color: #999; /* Border color on hover */
+    background-color: #f0f0f0; 
+    border-color: #999; 
 }
 </style>
 
