@@ -43,29 +43,25 @@ class AppointmentController extends Controller
             'note' => 'nullable|string|max:255',
             'event_type' => 'nullable|string|max:255',
             'start_date' => 'required|date_format:Y-m-d',
-            'end_date' => 'nullable|date_format:Y-m-d',
-            'start_time' => 'nullable|date_format:H:i',
-            'end_time' => 'nullable|date_format:H:i',
+            'appointment_time' => 'nullable|date_format:H:i',
         ]);
     
         $start_date = $request->start_date;
-        $end_date = $request->end_date ? $request->end_date : null;
     
         // Convert times to 12-hour format with AM/PM
-        $start_time = $request->start_time ? (new \DateTime($request->start_time))->format('h:i A') : null;
-        $end_time = $request->end_time ? (new \DateTime($request->end_time))->format('h:i A') : null;
+        $appointment_time = $request->appointment_time ? (new \DateTime($request->appointment_time))->format('h:i A') : null;
     
         Appointment::create([
             'customer_id' => $request->customer_id,
             'note' => $request->note,
             'event_type' => $request->event_type,
             'start_date' => $start_date,
-            'end_date' => $end_date,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
+            'appointment_time' => $appointment_time,
         ]);
     
         return redirect()->back()->with('success', 'Appointment added successfully.');
     }
+
+
     
 }

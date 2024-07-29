@@ -15,9 +15,7 @@ class Appointment extends Model
         'note' ,
         'event_type' ,
         'start_date' ,
-        'end_date',
-        'start_time' ,
-        'end_time' 
+        'appointment_time' ,
     ];
 
     public function customer()
@@ -25,13 +23,6 @@ class Appointment extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
     
-    public function getFormattedStartTimeAttribute()
-    {
-        return date('h:i A', strtotime($this->attributes['start_time']));
-    }
+    
 
-    public function getFormattedEndTimeAttribute()
-    {
-        return date('h:i A', strtotime($this->attributes['end_time']));
-    }
 }

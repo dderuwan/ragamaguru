@@ -154,7 +154,6 @@
         start: '2024-07-26T09:00:00',
         className: 'fc-event-custom event'
       }
-      // Add more events here as needed
     ];
 
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -173,15 +172,14 @@
         nextYear: 'right-double-arrow'
       },
       weekNumbers: true,
-      eventLimit: true, // allow "more" link when too many events
+      eventLimit: true, 
       events: useDatabaseEvents ? '/api/events' : hardcodedEvents,
-      eventTimeFormat: { // Format the event time
+      eventTimeFormat: { 
         hour: 'numeric',
         minute: '2-digit',
         meridiem: 'short'
       },
       eventContent: function(arg) {
-        // Custom rendering of the event content
         return {
           html: `
             <div class="fc-time">${arg.timeText}</div>
@@ -190,7 +188,6 @@
         };
       },
       eventRender: function(info) {
-        // This callback is optional if you're using className directly in the events
         if (info.event.extendedProps.className) {
           info.el.classList.add(info.event.extendedProps.className);
         }

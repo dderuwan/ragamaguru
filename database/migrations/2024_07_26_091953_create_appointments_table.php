@@ -17,9 +17,7 @@ return new class extends Migration
             $table->string('note')->nullable();
             $table->string('event_type')->nullable();
             $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->string('start_time')->nullable(); 
-            $table->string('end_time')->nullable();
+            $table->string('appointment_time')->nullable(); 
             $table->timestamps();
         });
     }

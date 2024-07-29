@@ -4,7 +4,6 @@
 <style>
 #customerDetails {
     padding: 15px;
-
 }
 
 .customer-info {
@@ -42,7 +41,6 @@
     background-color: #f0f0f0; /* Background color on hover */
     border-color: #999; /* Border color on hover */
 }
-
 </style>
 
 <main role="main" class="main-content">
@@ -70,58 +68,57 @@
                 </div>
               </div>
               <!-- Customer details display section -->
-                <hr>
-                <div id="customerDetails" class="col-sm-8 mt-4 mb-4">
-                    <div class="customer-info">
-                        <strong>Name:</strong> <span id="customerName"></span>
-                    </div>
-                    <div class="customer-info">
-                        <strong>Contact:</strong> <span id="customerContact"></span>
-                    </div>
-                    <div class="customer-info">
-                        <strong>Address:</strong> <span id="customerAddress"></span>
-                    </div>
+              <hr>
+              <div id="customerDetails" class="col-sm-8 mt-4 mb-4">
+                <div class="customer-info">
+                    <strong>Name:</strong> <span id="customerName"></span>
                 </div>
+                <div class="customer-info">
+                    <strong>Contact:</strong> <span id="customerContact"></span>
+                </div>
+                <div class="customer-info">
+                    <strong>Address:</strong> <span id="customerAddress"></span>
+                </div>
+              </div>
 
-             
-              <!-- Start Date -->
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="start_date" style="color:black;">Start Date <i class="text-danger">*</i></label>
-                <input type="date" class="form-control" id="start_date" name="start_date" required>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="start_date" style="color:black;">Date <i class="text-danger">*</i></label>
+                  <input type="date" class="form-control" id="start_date" name="start_date" required>
+                </div>
               </div>
-            </div>
-            <!-- Time Slots -->
-            <div id="timeSlots" class="mt-3">
-              <label style="color:black;">Available Time Slots</label>
-              <div class="d-flex flex-wrap">
-                <div class="time-slot">08:00-08:30 AM</div>
-                <div class="time-slot">08:30-09:00 AM</div>
-                <div class="time-slot">09:00-09:30 AM</div>
-                <div class="time-slot">09:30-10:00 AM</div>
-                <div class="time-slot">10:00-10:30 AM</div>
-                <div class="time-slot">10:30-11:00 AM</div>
-                <div class="time-slot">11:00-11:30 AM</div>
-                <div class="time-slot">11:30-12:00 PM</div>
-                <div class="time-slot">01:00-01:30 PM</div>
-                <div class="time-slot">01:30-02:00 PM</div>
-              </div>
-            </div>
 
-            <div class="form-row mt-3">
-              <div class="form-group col-md-6 ">
-                <label for="appointmentTime" class="col-form-label" style="color:black;">Appointment Time <i class="text-danger">*</i></label>
-                <input type="text" class="form-control" id="appointmentTime" name="appointmentTime">
+              <!-- Time Slots -->
+              <div id="timeSlots" class="mt-3">
+                <label style="color:black;">Available Time Slots</label>
+                <div class="d-flex flex-wrap">
+                  <div class="time-slot">08:00-08:30 AM</div>
+                  <div class="time-slot">08:30-09:00 AM</div>
+                  <div class="time-slot">09:00-09:30 AM</div>
+                  <div class="time-slot">09:30-10:00 AM</div>
+                  <div class="time-slot">10:00-10:30 AM</div>
+                  <div class="time-slot">10:30-11:00 AM</div>
+                  <div class="time-slot">11:00-11:30 AM</div>
+                  <div class="time-slot">11:30-12:00 PM</div>
+                  <div class="time-slot">01:00-01:30 PM</div>
+                  <div class="time-slot">01:30-02:00 PM</div>
+                </div>
               </div>
-              <div class="form-group col-md-6 mt-1">
-                <label for="eventType" style="color:black;">Event Type</label>
-                <select class="form-control" id="eventType" name="event_type">
-                  <option value="">Select Event</option>
-                  <option value="meeting">Meeting</option>
-                  <option value="consultation">Consultation</option>
-                </select>
+
+              <div class="form-row mt-3">
+                <div class="form-group col-md-6">
+                  <label for="appointmentTime" class="col-form-label" style="color:black;">Appointment Time <i class="text-danger">*</i></label>
+                  <input type="text" class="form-control" id="appointmentTime" name="appointment_time">
+                </div>
+                <div class="form-group col-md-6 mt-1">
+                  <label for="eventType" style="color:black;">Event Type</label>
+                  <select class="form-control" id="eventType" name="event_type">
+                    <option value="">Select Event</option>
+                    <option value="meeting">Meeting</option>
+                    <option value="consultation">Consultation</option>
+                  </select>
+                </div>
               </div>
-            </div>
 
               <div class="form-group">
                 <label for="eventNote" class="col-form-label" style="color:black;">Note</label>
@@ -147,7 +144,6 @@
             {{ session('error') }}
           </div>
         @endif
-
       </div>
     </div>
   </div>
@@ -180,6 +176,16 @@ document.addEventListener('DOMContentLoaded', function() {
             customerContact.textContent = '';
             customerAddress.textContent = '';
         }
+    });
+
+    //display timeslots
+    var timeSlots = document.querySelectorAll('.time-slot');
+    var appointmentTimeInput = document.getElementById('appointmentTime');
+
+    timeSlots.forEach(function(timeSlot) {
+        timeSlot.addEventListener('click', function() {
+            appointmentTimeInput.value = timeSlot.textContent.trim();
+        });
     });
 });
 </script>
