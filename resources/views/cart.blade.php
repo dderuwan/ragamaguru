@@ -106,7 +106,7 @@
 
                   <!-- Price -->
                   <td class="align-middle text-center price-column">
-                    <p class="mb-0" style="font-weight: 500;" id="unit-price-{{ $index }}">{{ $item['price'] }}</p>
+                    <p class="mb-0" style="font-weight: 500;" name="price" id="unit-price-{{ $index }}">{{ $item['price'] }}</p>
                   </td>
 
                   <!-- Quantity -->
@@ -124,7 +124,7 @@
 
                   <!-- Total -->
                   <td class="align-middle text-center total-column">
-                    <p class="mb-0" style="font-weight: 500;" id="total-price-{{ $index }}">{{ $item['price'] }}</p>
+                    <p class="mb-0" style="font-weight: 500;" name="total_price" id="total-price-{{ $index }}">{{ $item['price'] }}</p>
                   </td>
 
                   <!-- Delete -->

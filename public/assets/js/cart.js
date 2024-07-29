@@ -48,11 +48,14 @@ function getCartDetails() {
         let itemCode = row.querySelector('input[name="item_code"]').value;
         let quantity = row.querySelector('input[name="quantity"]').value;
         let itemName = row.querySelector('p[name="item_name"]').textContent;
+        let price = row.querySelector('p[name="price"]').textContent;  
+        let totalPrice = quantity*price;
 
         cartDetails.push({
             item_code: itemCode,
             quantity: quantity,
             item_name: itemName,
+            total_price: totalPrice,
         });
     });
 

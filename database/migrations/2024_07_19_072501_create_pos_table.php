@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('paid_amount', 15, 2)->nullable();
             $table->decimal('change', 15, 2)->nullable();
             $table->string('payment_type');
-            $table->timestamps();
+            $table->timestamps();    
         });
     }
 

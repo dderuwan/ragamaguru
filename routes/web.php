@@ -44,6 +44,10 @@ Route::post('/update-address/{id}', [CustomerController::class, 'updateAddress']
 
 Route::post('/place-order', [CustomerOrderController::class, 'placeOrder'])->name('placeOrder');
 Route::post('/clear-checkout', [CustomerOrderController::class, 'clearCheckout'])->name('clearCheckout');
+Route::get('/onlineorders', [CustomerOrderController::class, 'onlineOrders'])->name('onlineOrders');
+Route::get('/showonlineorder/{id}', [CustomerOrderController::class, 'showOnlineOrder'])->name('showOnlineOrder');
+Route::delete('/deleteorder/{id}', [CustomerOrderController::class, 'destroy'])->name('order.destroy');
+Route::post('/changestatus/{id}', [CustomerOrderController::class, 'changeStatus'])->name('changeStatus');
 
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('clearCart');
 
@@ -238,6 +242,7 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
 
 
+ 
 
 ?>
 

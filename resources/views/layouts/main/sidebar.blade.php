@@ -87,6 +87,18 @@
         </li>
 
         <li class="nav-item dropdown">
+            <a href="#orders" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+            <span class="ml-3 item-text">Orders</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="orders">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('onlineOrders')}}" ><span class="ml-1 item-text"> Online Orders</span></a>
+            </li>        
+            </ul>
+        </li>
+
+        <li class="nav-item dropdown">
             <a href="#HR" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
               <i class="fe fe-users fe-16"></i>
               <span class="ml-3 item-text">Human Resource</span><span class="sr-only">(current)</span>

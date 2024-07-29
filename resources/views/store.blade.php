@@ -81,15 +81,22 @@
   <div class="p-3 text-center bg-white border-bottom">
     <div class="container">
       <div class="row gy-3 justify-content-center">
-        <div class="col-lg-6 col-md-8 col-12">
-          <div class="input-group">
-            <div class="form-outline flex-grow-1">
-              <input type="search" id="searchInput" class="form-control" placeholder="Search"/>
+      <div class="col-lg-6 col-md-8 col-12">
+            <div class="row">
+                <div class="input-group col-10">
+                    <div class="form-outline flex-grow-1">
+                    <input type="search" id="searchInput" class="form-control" placeholder="Search"/>
+                    </div>
+                    <button type="button" class="btn btn-primary shadow-0" style="min-width: 100px;">
+                    <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <a href="{{route('cart')}}" type="button" class="col-1 ms-1 btn btn-primary center-icon" >
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                </a>
             </div>
-            <button type="button" class="btn btn-primary shadow-0" style="min-width: 100px;">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
+          
+                             
         </div>
       </div>
     </div>
