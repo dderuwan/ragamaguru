@@ -14,7 +14,7 @@
 
 .customer-info strong {
     display: inline-block;
-    width: 100px;
+    width: 140px;
 }
 
 #timeSlots {
@@ -69,9 +69,9 @@
               </div>
               <!-- Customer details display section -->
               <hr>
-              <div id="customerDetails" class="col-sm-8 mt-4 mb-4">
+              <div id="customerDetails" class="col-sm-10 mt-4 mb-4">
                 <div class="customer-info">
-                    <strong>Name:</strong> <span id="customerName"></span>
+                    <strong>Customer Name:</strong> <span id="customerName"></span>
                 </div>
                 <div class="customer-info">
                     <strong>Contact:</strong> <span id="customerContact"></span>

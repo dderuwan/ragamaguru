@@ -61,7 +61,7 @@
   <body>
 
 
-<!-- /.End of navbar -->
+
 
 
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
@@ -94,9 +94,9 @@
   <div class="hero-header">
     <div class="header-slider header-slider-preloader slider-two" id="home">
         <div class="animation-slide owl-carousel owl-theme" id="animation-slide">
-            <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>
-            <div class="item bg-img-hero" data-image-src="/assets/web/images/homeimg3.jpg"></div>
-            <div class="item bg-img-hero" data-image-src="assets/web/images/default1.jpg"></div>
+          <div class="item bg-img-hero" data-image-src="/assets/web/images/homeimg3.jpg"></div>
+          <div class="item bg-img-hero" data-image-src="assets/web/images/slider1.png"></div>
+          <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>       
         </div>
     </div>
     <!-- /.End of header slider -->

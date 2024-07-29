@@ -28,7 +28,7 @@ Auth::routes();
 
 Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
-Route::view('/appointment', 'appointment')->name('appointment');
+Route::view('/appointment', 'appointment')->name('appointmentPage');
 Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
