@@ -3,6 +3,7 @@
 @section('content')
 <style>
 #customerDetails {
+    display: none; 
     padding: 15px;
 }
 
@@ -88,7 +89,7 @@
                 </div>
               </div>
 
-              <!-- Time Slots -->
+              
               <div id="timeSlots" class="mt-3">
                 <label style="color:black;">Available Time Slots</label>
                 <div class="d-flex flex-wrap">
@@ -155,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var customerName = document.getElementById('customerName');
     var customerContact = document.getElementById('customerContact');
     var customerAddress = document.getElementById('customerAddress');
+    var customerDetails = document.getElementById('customerDetails');
 
     customerSelect.addEventListener('change', function() {
         var customerId = this.value;
@@ -167,14 +169,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         customerName.textContent = data.name || '';
                         customerContact.textContent = data.contact || '';
                         customerAddress.textContent = data.address || '';
+                        customerDetails.style.display = 'block';
                     }
                 })
                 .catch(error => console.error('Error fetching customer details:', error));
         } else {
-            // Clear fields if no customer is selected
             customerName.textContent = '';
             customerContact.textContent = '';
             customerAddress.textContent = '';
+            customerDetails.style.display = 'none';
         }
     });
 
