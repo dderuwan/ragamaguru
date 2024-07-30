@@ -12,6 +12,8 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -220,7 +222,7 @@ Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'd
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
 
- //POS
+//POS
  Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
  Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
  Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
@@ -228,6 +230,19 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
 
  Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
+
+
+ //dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//revenue
+Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
+Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
+Route::get('/api/grouped-revenue', [RevenueController::class, 'getGroupedRevenueForThisAndLastMonth']);
+
+
+
+
 
 
 
