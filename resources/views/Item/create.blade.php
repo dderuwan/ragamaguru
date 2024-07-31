@@ -20,11 +20,7 @@
                     <tr>
                         <th>Item Name *</th>
                         <th>Description</th>
-<<<<<<< HEAD
                         <th>Quentity</th>
-=======
-                        <th>Quantity</th>
->>>>>>> development
                         <th>Selling Price</th>
                         <th>Image</th>
                         <th>Actions</th>
