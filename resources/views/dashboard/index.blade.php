@@ -141,21 +141,22 @@
                   </div>
               </div><!-- .row -->
 
-                <!-- column chart -->
-                <div class="row items-align-baseline">
-                    <div class="col-md-9 mb-4">
+           
+
+                 <!-- line chart -->
+                 <div class="row items-align-baseline">
+                    <div class="col-md-12 mb-4">
                         <div class="card shadow">
                             <div class="card-body">
                                 <div class="total-revenue">
                                     <span id="totalThisMonth">This Month Total Revenue: </span><br>
                                     <span id="totalLastMonth">Last Month Total Revenue: </span>
                                 </div>
-                                <div id="columnChart1"></div>
+                                <div id="lineChart1"></div>
                             </div>
                         </div> 
                     </div> 
                 </div><!-- .row -->
-   
 
 
 
@@ -173,10 +174,16 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('/api/monthly-revenue')
         .then(response => response.json())
         .then(data => {
+            // Sort data by year and month
+            data.sort((a, b) => {
+                return (a.year - b.year) || (a.month - b.month);
+            });
+
             const labels = data.map(item => {
                 const date = new Date(item.year, item.month - 1); 
                 return date.toLocaleString('default', { month: 'short' }) + ' ' + date.getFullYear().toString().slice(-2);
             });
+
             const revenue = data.map(item => item.monthly_revenue);
 
             var options = {
@@ -245,9 +252,12 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
-  <!-- Column Chart -->
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script>
+
+       
+
+
+<!-- Line Chart -->
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     fetch('/api/daily-revenue-column-chart')
         .then(response => response.json())
@@ -264,15 +274,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var options = {
                 series: [{
-                    name: 'Current Month',
+                    name: 'This Month',
                     data: currentMonthSeries
                 }, {
                     name: 'Last Month',
                     data: lastMonthSeries
                 }],
                 chart: {
-                    type: 'bar',
-                    height: 350
+                    type: 'line',
+                    height: 350,
+                    toolbar: {
+                        show: false 
+                    }
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                markers: {
+                    size: 0
+                },
+                dataLabels: {
+                    enabled: false
                 },
                 xaxis: {
                     categories: categories,
@@ -306,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 colors: ['#602082', '#f5991c']
             };
 
-            var chart = new ApexCharts(document.querySelector("#columnChart1"), options);
+            var chart = new ApexCharts(document.querySelector("#lineChart1"), options);
             chart.render();
         })
         .catch(error => console.error('Error fetching daily revenue data:', error));
