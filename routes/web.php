@@ -10,6 +10,7 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -140,6 +141,15 @@ Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getIt
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
 
+ 
+//appointment module
+Route::view('/Appointments', 'appointment.index')->name('appointment');
+Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
+Route::get('/Appointments/New-appointment/customers/{id}', [AppointmentController::class, 'getCustomerDetails']);
+Route::post('/Appointments/New-appointment/store', [AppointmentController::class, 'storeAppointments'])->name('appointment.store');
+
+
+
 
 //Settings module
 Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
@@ -161,6 +171,7 @@ Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
 
+//HR module
 //attendance
 Route::resource('attendance', AttendanceController::class);
 Route::get('/attendance-list', [AttendanceController::class, 'show'])->name('show.employees');
@@ -186,11 +197,20 @@ Route::view('/hrm/weekly_holidays_update', 'humanResources.leave.weekly_holiday_
 Route::get('/holiday/{id}/edit', [LeaveController::class, 'edit'])->name('holiday.edit');
 Route::post('/holiday/{id}/update', [LeaveController::class, 'updateHoliday'])->name('update_holiday');
 
+Route::get('/hrm/add_leave_type', [LeaveController::class, 'showLeavetypes'])->name('add_leave_type');
+Route::post('/hrm/add_leave_type/store', [LeaveController::class, 'storeLeavetypes'])->name('Leave_type.store');
+Route::delete('/hrm/add_leave_type/{leave_type}', [LeaveController::class, 'destroyLeave_type'])->name('leave_type.destroy');
+Route::post('/hrm/add_leave_type/{id}/update', [LeaveController::class, 'updateLeavetype'])->name('update_leave_type');
+Route::get('/hrm/add_leave_type/{id}/edit', [LeaveController::class, 'editLeavetype'])->name('leave_type.edit');
 
+Route::post('/hrm/leave_application/store', [LeaveController::class, 'storeleavApp'])->name('leave.store');
+Route::get('/hrm/leave_application/apply', [LeaveController::class, 'createLeaveApp'])->name('apply_leave');
+Route::get('/hrm/leave_application', [LeaveController::class, 'showLeaveApp'])->name('leave_application');
+Route::get('/hrm/leave_application/manage', [LeaveController::class, 'manageLeaveApp'])->name('manage_leave_application');
+Route::delete('/hrm/leave_application/{leave_application}', [LeaveController::class, 'destroyLeaveapp'])->name('leave_application.destroy');
+Route::get('/hrm/leave-applications/edit/{id}', [LeaveController::class, 'editLeaveApp'])->name('leave_app_edit');
+Route::put('/hrm/leave-applications/update/{id}', [LeaveController::class, 'updateLeaveApp'])->name('leave_app_update');
 
-Route::view('/hrm/add_leave', 'humanResources.leave.add_leave')->name('add_leave');
-Route::view('/hrm/update_leaveType', 'humanResources.leave.update_leaveType')->name('update_leaveType');
-Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')->name('leave_application');
 
 
 
@@ -243,6 +263,8 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
 
 
  
+
+
 
 ?>
 

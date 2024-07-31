@@ -73,6 +73,12 @@
             <span class="ml-3 item-text">Employee</span><span class="sr-only">(current)</span>
           </a>
         </li>
+        <li class="nav-item active sidebar_li">
+            <i class="fe fe fe-calendar fe-16"></i>
+          <a href="{{route('appointment')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Appointments</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
 
         <li class="nav-item dropdown">
             <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -130,9 +136,11 @@
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('holiday')}}" ><span class="ml-1 item-text">- Holiday </span></a>
                     </li>
-                    <li class="nav-item active">
+                    {{-- <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('add_leave')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
                     </li>
+                        <a class="nav-link pl-3" href="{{route('add_leave_type')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
+                    </li> --}}
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('leave_application')}}" ><span class="ml-1 item-text">- Leave Application </span></a>
                     </li>
