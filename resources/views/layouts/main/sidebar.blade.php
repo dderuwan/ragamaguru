@@ -49,12 +49,28 @@
           </a>
         </li>
 
-        <li class="nav-item active sidebar_li">
+        <!-- <li class="nav-item active sidebar_li">
             <i class="fe fe-box fe-16"></i>
           <a href="{{route('item.index')}}" class="sidebar_text" >
             <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
           </a>
+        </li> -->
+
+        <li class="nav-item dropdown">
+            <a href="#items" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-box fe-16"></i>
+            <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="items">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('item.index')}}" ><span class="ml-1 item-text"> Items</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('offerIndex')}}" ><span class="ml-1 item-text"> Special offers</span></a>
+            </li>
+            </ul>
         </li>
+
         <li class="nav-item active sidebar_li">
             <i class="fe fe-shopping-cart fe-16 mb-2"></i>
           <a href="{{route('allorderrequests')}}" class="sidebar_text" >

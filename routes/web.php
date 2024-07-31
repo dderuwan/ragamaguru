@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\OfferItemsController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
@@ -70,7 +71,7 @@ Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController
 
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-Route::get('/home', [HomeController::class, 'getItems'])->name('home');
+Route::get('/home', [HomeController::class, 'getHomeData'])->name('home');
 Route::get('/store', [HomeController::class, 'getproducts'])->name('store');
 Route::get('/product/{id}', [ProductController::class, 'showItems'])->name('products.show');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -130,6 +131,10 @@ Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'upd
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
 Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
+
+Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex'); 
+Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate'); 
+Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore'); 
 
 
 //Purchase module
