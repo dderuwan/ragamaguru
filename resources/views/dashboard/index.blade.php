@@ -143,7 +143,7 @@
 
                 <!-- column chart -->
                 <div class="row items-align-baseline">
-                    <div class="col-md-8 mb-4">
+                    <div class="col-md-9 mb-4">
                         <div class="card shadow">
                             <div class="card-body">
                                 <div class="total-revenue">
@@ -155,6 +155,7 @@
                         </div> 
                     </div> 
                 </div><!-- .row -->
+   
 
 
 
@@ -245,89 +246,75 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   <!-- Column Chart -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/grouped-revenue')
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/api/daily-revenue-column-chart')
         .then(response => response.json())
         .then(data => {
-            const dates = data.dates;
-            const thisMonthRevenue = data.thisMonth;
-            const lastMonthRevenue = data.lastMonth;
+            console.log('Fetched Data:', data); // Debugging line
 
-            // Set total revenue
-            document.getElementById('totalThisMonth').textContent += `${data.totalCurrentMonthRevenue}`;
-            document.getElementById('totalLastMonth').textContent += `${data.totalLastMonthRevenue}`;
+            const categories = data.categories;
+            const currentMonthSeries = data.currentMonth;
+            const lastMonthSeries = data.lastMonth;
 
-            const options = {
-                chart: {
-                    type: 'bar',
-                    height: 400,
-                    toolbar: {
-                        show: false
-                    }
-                },
+            // Update total revenue display
+            document.getElementById('totalThisMonth').innerText = `This Month Total Revenue: ${data.totalCurrentMonthRevenue.toFixed(2)}`;
+            document.getElementById('totalLastMonth').innerText = `Last Month Total Revenue: ${data.totalLastMonthRevenue.toFixed(2)}`;
+
+            var options = {
                 series: [{
-                    name: 'This Month',
-                    data: thisMonthRevenue
+                    name: 'Current Month',
+                    data: currentMonthSeries
                 }, {
                     name: 'Last Month',
-                    data: lastMonthRevenue
+                    data: lastMonthSeries
                 }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
                 xaxis: {
-                    categories: dates,
+                    categories: categories,
                     axisBorder: {
-                        show: true,
-                        color: '#cccccc'
+                        show: false
                     },
                     axisTicks: {
-                        show: true,
-                        color: '#cccccc'
+                        show: false
+                    },
+                    labels: {
+                        rotate: -45
                     }
                 },
                 yaxis: {
                     labels: {
-                        formatter: function(value) {
-                            return `${value.toFixed(0)}`;
+                        formatter: function (value) {
+                            return "" + value;
                         }
-                    },
-                    axisBorder: {
-                        show: true,
-                        color: '#cccccc'
-                    },
-                    axisTicks: {
-                        show: true,
-                        color: '#cccccc'
                     }
                 },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '75%',
-                        horizontal: false
-                    }
-                },
-                colors: ['#4a1e67', '#fdab10'],
-                dataLabels: {
-                    enabled: true
-                },
-                grid: {
-                    show: true,
-                    borderColor: '#cccccc'
+                fill: {
+                    opacity: 1
                 },
                 tooltip: {
                     y: {
-                        formatter: function(val, opts) {
-                            return `${dates[opts.dataPointIndex]}: ${val}`;
+                        formatter: function (value) {
+                            return "" + value;
                         }
                     }
-                }
+                },
+                colors: ['#602082', '#f5991c']
             };
 
-            const chart = new ApexCharts(document.querySelector('#columnChart1'), options);
+            var chart = new ApexCharts(document.querySelector("#columnChart1"), options);
             chart.render();
         })
-        .catch(error => console.error('Error fetching revenue data:', error));
+        .catch(error => console.error('Error fetching daily revenue data:', error));
 });
 </script>
+
+
+
 
 
 

@@ -238,7 +238,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 //revenue
 Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
 Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
-Route::get('/api/grouped-revenue', [RevenueController::class, 'getGroupedRevenueForThisAndLastMonth']);
+Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
+
 
 
 

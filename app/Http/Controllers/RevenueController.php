@@ -52,83 +52,84 @@ class RevenueController extends Controller
     }
 
 
-
-    public function getGroupedRevenueForThisAndLastMonth()
-    {
-        $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->month;
-        $lastMonth = Carbon::now()->subMonth()->month;
-
-        // Get revenue for this month and last month
-        $currentMonthRevenue = $this->getGroupedRevenue($currentYear, $currentMonth);
-        $lastMonthRevenue = $this->getGroupedRevenue($currentYear, $lastMonth);
-
-        // Total revenue for this month and last month
-        $totalCurrentMonthRevenue = array_sum($currentMonthRevenue['revenue']);
-        $totalLastMonthRevenue = array_sum($lastMonthRevenue['revenue']);
-
-        $response = [
-            'dates' => $currentMonthRevenue['dates'],
-            'thisMonth' => $currentMonthRevenue['revenue'],
-            'lastMonth' => $lastMonthRevenue['revenue'],
-            'totalCurrentMonthRevenue' => $totalCurrentMonthRevenue,
-            'totalLastMonthRevenue' => $totalLastMonthRevenue
-        ];
-
-        return response()->json($response);
-    }
-
-
-    private function getGroupedRevenue($year, $month)
-    {
-        $startDate = Carbon::create($year, $month, 1);
-        $endDate = $startDate->copy()->endOfMonth();
     
-        $revenues = DB::table('pos')
-            ->select(DB::raw('DATE(date) as date, SUM(total_cost_payment) as revenue'))
-            ->whereBetween('date', [$startDate, $endDate])
+    public function getDailyRevenueForColumnChart()
+    {
+        $currentDate = Carbon::now();
+        
+        // Define the start and end of the current month
+        $currentMonthStart = $currentDate->startOfMonth();
+        $currentMonthEnd = $currentDate->endOfMonth();
+
+        // Define the start and end of the last month
+        $lastMonthStart = $currentDate->copy()->subMonth()->startOfMonth();
+        $lastMonthEnd = $currentDate->copy()->subMonth()->endOfMonth();
+
+        // Retrieve revenue data for the current month
+        $currentMonthRevenue = DB::table('pos')
+            ->select(DB::raw('DATE(date) as date'), DB::raw('SUM(total_cost_payment) as total_revenue'))
+            ->whereBetween('date', [$currentMonthStart, $currentMonthEnd])
             ->groupBy(DB::raw('DATE(date)'))
-            ->orderBy(DB::raw('DATE(date)'))
-            ->get();
-    
-        // Prepare data
-        $dates = [];
-        $revenuesGrouped = [];
-        $start = $startDate->copy();
-        $groupSize = 5; // Number of days per group
-    
-        while ($start->lte($endDate)) {
-            // Set the end date of the current group
-            $end = $start->copy()->addDays($groupSize - 1);
-    
-            if ($end->gt($endDate)) {
-                $end = $endDate;
+            ->orderBy('date', 'ASC')
+            ->get()
+            ->keyBy('date');
+
+        // Retrieve revenue data for the last month
+        $lastMonthRevenue = DB::table('pos')
+            ->select(DB::raw('DATE(date) as date'), DB::raw('SUM(total_cost_payment) as total_revenue'))
+            ->whereBetween('date', [$lastMonthStart, $lastMonthEnd])
+            ->groupBy(DB::raw('DATE(date)'))
+            ->orderBy('date', 'ASC')
+            ->get()
+            ->keyBy('date');
+
+        // Calculate total revenue for the current and last months
+        $totalCurrentMonthRevenue = $currentMonthRevenue->sum('total_revenue');
+        $totalLastMonthRevenue = $lastMonthRevenue->sum('total_revenue');
+
+        // Prepare data for the chart
+        $currentMonthDays = [];
+        $lastMonthDays = [];
+        $categories = [];
+
+        $currentMonthDaysInMonth = $currentMonthEnd->day;
+        $lastMonthDaysInMonth = $lastMonthEnd->day;
+
+        for ($day = 1; $day <= max($currentMonthDaysInMonth, $lastMonthDaysInMonth); $day++) {
+            $currentDate = $currentMonthStart->copy()->day($day)->format('Y-m-d');
+            $lastDate = $lastMonthStart->copy()->day($day)->format('Y-m-d');
+
+            // Populate current month's revenue
+            if ($day <= $currentMonthDaysInMonth) {
+                $categories[] = $day;
+                $currentMonthDays[] = isset($currentMonthRevenue[$currentDate]) ? $currentMonthRevenue[$currentDate]->total_revenue : 0;
             }
-    
-            $dates[] = $start->format('d M') . ' - ' . $end->format('d M');
-    
-            $totalRevenue = 0;
-            foreach ($revenues as $revenue) {
-                if (Carbon::parse($revenue->date)->between($start, $end)) {
-                    $totalRevenue += $revenue->revenue;
-                }
-            }
-            $revenuesGrouped[] = $totalRevenue;
-    
-            // Move to the next group
-            $start->addDays($groupSize);
-    
-            if ($start->gt($endDate)) {
-                break;
+
+            // Populate last month's revenue
+            if ($day <= $lastMonthDaysInMonth) {
+                $lastMonthDays[] = isset($lastMonthRevenue[$lastDate]) ? $lastMonthRevenue[$lastDate]->total_revenue : 0;
             }
         }
-    
-        return [
-            'dates' => $dates,
-            'revenue' => $revenuesGrouped
-        ];
+
+        // Ensure arrays have the same length
+        $currentMonthDays = array_pad($currentMonthDays, $currentMonthDaysInMonth, 0);
+        $lastMonthDays = array_pad($lastMonthDays, $lastMonthDaysInMonth, 0);
+        
+        \Log::info('Current Month Revenue Data:', ['currentMonthRevenue' => $currentMonthRevenue]);
+\Log::info('Last Month Revenue Data:', ['lastMonthRevenue' => $lastMonthRevenue]);
+\Log::info('Categories:', ['categories' => $categories]);
+
+
+        return response()->json([
+            'categories' => $categories,
+            'currentMonth' => $currentMonthDays,
+            'lastMonth' => $lastMonthDays,
+            'totalCurrentMonthRevenue' => $totalCurrentMonthRevenue,
+            'totalLastMonthRevenue' => $totalLastMonthRevenue
+        ]);
     }
-    
-
-
 }
+
+
+
+
