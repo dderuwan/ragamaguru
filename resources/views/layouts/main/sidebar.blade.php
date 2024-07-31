@@ -123,13 +123,15 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('holiday')}}" ><span class="ml-1 item-text">- Holiday </span></a>
-                    </li> 
-                    <li class="nav-item active">
+                    </li>
+                    {{-- <li class="nav-item active">
+                        <a class="nav-link pl-3" href="{{route('add_leave')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
+                    </li>
                         <a class="nav-link pl-3" href="{{route('add_leave_type')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
-                    </li> 
+                    </li> --}}
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('leave_application')}}" ><span class="ml-1 item-text">- Leave Application </span></a>
-                    </li>          
+                    </li>
                         <a class="nav-link pl-3" href="{{route('attendance_reports')}}" ><span class="ml-1 item-text"> </span></a>
                     </li>
                   </ul>
@@ -165,6 +167,63 @@
 
             </ul>
         </li>
+        <li class="nav-item dropdown">
+              <a href="#reports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fa-solid fa-book-open"></i>
+                <span class="ml-3 item-text">Reports</span><span class="sr-only">(current)</span>
+              </a>
+              <ul class="collapse list-unstyled pl-1 w-100 ml-4" id="reports">
+              <li class="nav-item mb-2">
+
+              <a href="{{route('customerreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Customer Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('supplierreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Supplier Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('productreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Products Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('purchaseorderreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Purchase Order Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('ginreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">GIN Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              <li class="nav-item mb-2">
+
+              <a href="{{route('orderreport')}}" class="sidebar_text text-decoration-none"  >
+                <span class="ml-3 item-text">Sales Report</span><span class="sr-only">(current)</span>
+              </a>
+
+              </li>
+
+              </ul>
+            </li>
+
       </ul>
 
 

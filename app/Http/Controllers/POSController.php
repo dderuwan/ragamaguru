@@ -68,7 +68,6 @@ class POSController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request);
         $validator = Validator::make($request->all(),[
             'customer_code' => 'required',
             'items' => 'required|array',
@@ -87,48 +86,68 @@ class POSController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        //dd($request);
 
+        DB::beginTransaction();
 
-        $pos = Order::create([
-            'order_code' => $this->generateOrderCode(),
-            'customer_code' => $request->customer_code,
-            'date' => Carbon::today(),
-            'total_cost_payment' => $request->grand_total,
-            'discount' => $request->discount,
-            'vat' => $request->vat,
-            'paid_amount' => $request->paid_amount,
-            'change' => $request->change,
-            'payment_type' =>$request->payment_type,
-        ]);
-
-        foreach ($request->items as $item) {
-            OrderItems::create([
-                'pos_id' => $pos->id,
-                'item_code' => $item['item_code'],
-                'item_name' => $item['item_name'],
-                'quantity' => $item['quantity'],
-                'total_cost' => $item['total'],
+        try {
+            $pos = Order::create([
+                'order_code' => $this->generateOrderCode(),
+                'customer_code' => $request->customer_code,
+                'date' => Carbon::today(),
+                'total_cost_payment' => $request->grand_total,
+                'discount' => $request->discount,
+                'vat' => $request->vat,
+                'paid_amount' => $request->paid_amount,
+                'change' => $request->change,
+                'payment_type' =>$request->payment_type,
             ]);
-        } 
+
+            foreach ($request->items as $item) {
+                $orderItem = OrderItems::create([
+                    'pos_id' => $pos->id,
+                    'item_code' => $item['item_code'],
+                    'item_name' => $item['item_name'],
+                    'quantity' => $item['quantity'],
+                    'total_cost' => $item['total'],
+                ]);
+
+                // Decrease item quantity in Item table
+                $itemModel = Item::where('item_code', $item['item_code'])->first();
+                if ($itemModel) {
+                    $itemModel->quantity -= $item['quantity'];
+                    $itemModel->save();
+                } else {
+                    throw new Exception("Item not found: " . $item['item_code']);
+                }
+            }
+
+            DB::commit();
+
+            $this->generateAndDownloadBill($pos->id);
+
+            notify()->success('Order created successfully. ⚡️', 'Success');
+            return redirect()->route('pospage')->with('success', 'Order created successfully.');
+        
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create order: ' . $e->getMessage());
+            return redirect()->route('pospage')->withErrors(['error' => 'Failed to create order.']);
+        }
+    }
 
 
-       
-        $order = Order::with('items')->find($pos->id);
+    protected function generateAndDownloadBill($orderId)
+    {
+        $order = Order::with('items')->find($orderId);
 
-        // Generate the PDF and save it to a temporary location
+        // Generate the PDF
         $pdf = PDF::loadView('bill', compact('order'));
-        $filePath = storage_path('app/public/orders/order_bill_' . $order->id . '.pdf');
-        $pdf->save($filePath);
 
-        // Notify and redirect
-        notify()->success('Order created successfully. ⚡️', 'Success');
-        return redirect()->route('pospage')->with([
-            'success' => 'Order created successfully.',
-            'order_id' => $order->id,
-            'downloadLink' => $filePath
-        ]);
-    
+        // Download the PDF
+        $pdf->download('order_bill.pdf');
+
+        // Optionally, you can also display the PDF in the browser
+        // $pdf->stream('order_bill.pdf');
     }
 
     private function generateOrderCode()
@@ -136,7 +155,7 @@ class POSController extends Controller
         return 'ORD-'  . rand(1000, 9999);
     }
 
-     // Display the specified order request
+    // Display the specified order request
     public function show($id)
     {
         $order = Order::with('items')->findOrFail($id);
@@ -153,14 +172,4 @@ class POSController extends Controller
         return redirect()->route('pospage')->with('success', 'Requested Order deleted successfully.');
     }
 
-    public function downloadOrderPdf($fileName)
-{
-    $filePath = 'public/orders/' . $fileName;
-
-    if (Storage::exists($filePath)) {
-        return Storage::download($filePath);
-    }
-
-    return redirect()->route('pospage')->with('error', 'The requested file does not exist.');
-}
 }
