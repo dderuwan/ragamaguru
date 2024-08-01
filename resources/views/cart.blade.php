@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'RagamaGuru')</title>
-  
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  
+
   <!-- Additional CSS files -->
   <link href="assets/web/website_assets/css/animate.min.css" rel="stylesheet">
   <link href="assets/web/website_assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,6 +40,12 @@
       text-align: center;
     }
   }
+
+    .logoContent{
+        color: black;
+        margin-top:30px;
+    }
+   
 </style>
 
 </head>
@@ -90,7 +96,7 @@
                 <!-- Image -->
                 <td>
                   <div class="d-flex align-items-center">
-                    <img src="{{ $item['image'] ? asset('images/items/' . $item['image']) : asset('images/items/default.png') }}" 
+                    <img src="{{ $item['image'] ? asset('images/items/' . $item['image']) : asset('images/items/default.png') }}"
                     class="img-fluid rounded-3" style="width: 80px;" alt="product">
                   </div>
                 </td>
@@ -108,14 +114,14 @@
                 <!-- Quantity -->
                 <td class="align-middle text-center quantity-column">
                   <div class="d-flex flex-row justify-content-center">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" 
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
                       onclick="updateQuantity(-1, 'quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')">
                       <i class="fas fa-minus"></i>
                     </button>
-                    <input id="quantity-{{ $index }}" min="0" name="quantity" value="1" type="number" 
-                      class="form-control form-control-sm no-spinner text-center" style="width: 50px;" 
+                    <input id="quantity-{{ $index }}" min="0" name="quantity" value="1" type="number"
+                      class="form-control form-control-sm no-spinner text-center" style="width: 50px;"
                       onchange="updateTotalPrice('quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')" />
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" 
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
                       onclick="updateQuantity(1, 'quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')">
                       <i class="fas fa-plus"></i>
                     </button>
@@ -126,7 +132,7 @@
                 <td class="align-middle text-center total-column">
                   <p class="mb-0" style="font-weight: 500;" id="total-price-{{ $index }}">{{ $item['price'] }}</p>
                 </td>
-                
+
                 <!-- Delete -->
                 <td class="align-middle">
                   <div class="col-md-1 col-lg-1 col-xl-1 text-end">
@@ -139,7 +145,7 @@
             </tbody>
           </table>
         </div>
-      
+
 
         <div class="row mt-3 justify-content-end">
           <div class="col-md-4">
@@ -149,7 +155,7 @@
                   <p class="mb-2" style="font-weight: bold;">Total Price</p>
                   <p class="mb-2" style="font-weight: bold;" id="total-cart-price"></p>
                 </div>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init 
+                <button type="button" data-mdb-button-init data-mdb-ripple-init
                   class="btn btn-primary btn-block btn-lg text-center">
                   Place the Order
                 </button>
@@ -195,7 +201,7 @@
 <script src="assets/web/js/cart.js"></script>
 
 <script>
-   
+
    // Function to delete product from cart
    function deleteProduct(rowId, index) {
   fetch('{{ route("deleteFromCart") }}', {
@@ -266,7 +272,7 @@
       });
   }
 
-  
+
 </script>
 
 @include('includes.footer')

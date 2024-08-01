@@ -45,10 +45,16 @@
         }
 
     .product-image {
-        width: 300px; 
-        height: 200px; 
+        width: 300px;
+        height: 200px;
         object-fit: cover; /* Ensures the image covers the container without stretching */
     }
+
+    .logoContent{
+        color: black;
+        margin-top:30px;
+    }
+   
 </style>
 
     </style>
@@ -58,7 +64,7 @@
 
   @include('includes.navbar')
   @yield('content')
-  
+
 
   <!-- Home image-->
   <div class="hero1" style="background-image: url('/assets/web/images/homeimg.jpg');">
@@ -68,7 +74,7 @@
         </div>
     </div>
 </div>
-   
+
 
 <header>
         <div class="p-3 text-center bg-white border-bottom">
@@ -89,7 +95,7 @@
         </div>
     </header>
 
-            
+
 <!-- Products -->
 <div class="section menu" id="product-list">
         <div class="container" data-aos="fade-up">
@@ -105,7 +111,7 @@
                     <div class="col-lg-4 col-md-6 mb-4 product-item" data-name="{{ $item->name }}">
                         <div class="card border-0 menu-item box-shadow-lg rounded-0">
                             <a href="{{ route('products.show', $item->id) }}" class="card2-img position-relative product-link">
-                                <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" 
+                                <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}"
                                 class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
                             </a>
                             <div class="card-body text-center">
@@ -145,13 +151,13 @@
 
 
 
-                
+
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    
+
     <script src="assets/web/website_assets/plugins/bootstrap/js/popper.min.js"></script>
     <script src="assets/web/website_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/web/website_assets/plugins/owl-carousel/dist/owl.carousel.min.js"></script>
@@ -174,7 +180,7 @@
     <script src="assets/web/js/Food_cart/swiper/swiper-bundle.min.js"></script>
     <script src="assets/web/js/Food_cart/php-email-form/validate.js"></script>
     <script src="assets/web/js/Food_cart/main.js"></script>
-    
+
     <!-- sweetalert -->
 
     <script src="assets/sweetalert/sweetalert.min.js" type="text/javascript"></script>
@@ -186,7 +192,7 @@
     </script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
-   
+
     <script src="assets/web/js/pagination.js"></script>
 
      <script>

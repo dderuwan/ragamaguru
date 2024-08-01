@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
-     <a class="navbar-brand" href="{{ route('welcome') }}"><img src="assets/img/2023-12-25/I.png" alt=""></a>
+     <a class="navbar-brand" href="{{ route('welcome') }}"><span class="logoContent">RAGAMA  ASAPUWA</span></a>
         <div class="d-flex order-lg-last">
         <ul class="navbar-right">
             <div class="mt-4 btn-container" style="margin-right:50px; ">

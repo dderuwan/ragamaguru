@@ -32,7 +32,12 @@
     <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
-
+    <style>
+    .logoContent{
+        color: black;
+        margin-top:30px;
+    }
+    </style>
   </head>
   <body>
 
@@ -40,28 +45,23 @@
   @include('includes.navbar')
   @yield('content')
 
-
-
-
-
-
 <div class="section section-feature bg-gray position-relative">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6 col-md-3 mb-4 mb-md-0">
-                <div class="feature-box text-center">                   
+            {{-- <div class="col-sm-6 col-md-3 mb-4 mb-md-0">
+                <div class="feature-box text-center">
                     <div class="feature-box-icon mb-3">
                     <img src="assets\img\banner\2023-08-30\i.png"
                             alt="Card image" class="img-fluid">
                     </div>
                     <h4 class="feature-box-title fs-21 font-weight-600">Premium Facilities</h4>
-                    <p class="mb-0">Indulge in luxury at our resort's Premium Facilities, 
+                    <p class="mb-0">Indulge in luxury at our resort's Premium Facilities,
                       where opulent comfort meets exceptional service for an unforgettable retreat.</p>
                 </div>
-            </div>
+            </div> --}}
             <!-- /.End of feature -->
 
-            <div class="col-sm-6 col-md-3 mb-4 mb-md-0">
+            {{-- <div class="col-sm-6 col-md-3 mb-4 mb-md-0">
                 <div class="feature-box text-center">
                     <div class="feature-box-icon mb-3">
                         <img src="assets\img\banner\2023-08-30\i1.png"
@@ -69,13 +69,13 @@
                     </div>
                     <h4 class="feature-box-title fs-21 font-weight-600">Delicious Foods
                     </h4>
-                    <p class="mb-0">Savor exquisite flavors at our resort's Delicious Foods, 
+                    <p class="mb-0">Savor exquisite flavors at our resort's Delicious Foods,
                       where culinary artistry transforms every meal into a delectable experience.</p>
                 </div>
-            </div>
+            </div> --}}
             <!-- /.End of feature -->
 
-            <div class="col-sm-6 col-md-3 mb-4 mb-sm-0">
+            {{-- <div class="col-sm-6 col-md-3 mb-4 mb-sm-0">
                 <div class="feature-box text-center">
                     <div class="feature-box-icon mb-3">
                     <img src="assets\img\banner\2023-08-30\i2.png"
@@ -83,13 +83,13 @@
                     </div>
                     <h4 class="feature-box-title fs-21 font-weight-600">Free Wi-Fi
                     </h4>
-                    <p class="mb-0">Stay connected seamlessly with complimentary Wi-Fi at our resort, 
+                    <p class="mb-0">Stay connected seamlessly with complimentary Wi-Fi at our resort,
                       ensuring you're always in touch while you unwind.</p>
                 </div>
-            </div>
+            </div> --}}
             <!-- /.End of feature -->
 
-            <div class="col-sm-6 col-md-3">
+            {{-- <div class="col-sm-6 col-md-3">
                 <div class="feature-box text-center">
                     <div class="feature-box-icon mb-3">
                     <img src="assets\img\banner\2023-08-30\i3.png"
@@ -97,10 +97,10 @@
                     </div>
                     <h4 class="feature-box-title fs-21 font-weight-600">Swimming Pool
                     </h4>
-                    <p class="mb-0">Dive into relaxation at our resort's refreshing pool, 
+                    <p class="mb-0">Dive into relaxation at our resort's refreshing pool,
                       the perfect oasis to soak up leisure and sun.</p>
                 </div>
-            </div>
+            </div> --}}
             <!-- /.End of feature -->
         </div>
     </div>
@@ -110,7 +110,7 @@
 <div class="section section-about">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-5 col-md-6 col-12">
+            {{-- <div class="col-lg-5 col-md-6 col-12">
                 <div class="position-relative">
                 <img src="assets\img\banner\2023-08-30\W1.jpg"
                         class="rounded img-fluid mx-auto d-block" alt=""  style="height: 400px;">
@@ -120,41 +120,41 @@
                         </a>
                     </div>
                 </div>
-            
-            </div>
+
+            </div> --}}
             <!--end col-->
 
-              <div class="col-lg-7 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+              {{-- <div class="col-lg-7 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <div class="ml-lg-5 ml-md-4">
                     <div class="section-title">
                         <span class="badge badge-pill badge-soft-primary">About</span>
                         <h4 class="title mt-3 mb-4">Comfort are Perfectly Combined Here<span class="text-primary"></span></h4>
-                        <p class="text-muted para-desc mx-auto mb-0">This charming private 21th-century mansion, which originally belonged to the family, has been completely renovated with care &amp; 
+                        <p class="text-muted para-desc mx-auto mb-0">This charming private 21th-century mansion, which originally belonged to the family, has been completely renovated with care &amp;
                           passion while respecting the spirit of place. SRI LANKA BEACH HOTEL AND SPA</p>
                         <div class="mt-4">
                             <a href="#" class="btn btn-primary">We provide</a>
                         </div>
                     </div>
                 </div>
-              </div>
+              </div> --}}
 </div>
 </div>
 </div>
-
+{{--
 <div class="section container rounded join-content box-shadow mb-5 shadow">
     <div class="text-center col-middle">
         <h2 class="fs-32 text-white mb-4 ">This charming private 19th century mansion, which originally</h2>
         <a href="user/login" class="btn btn-outline-white mr-3">Sign In</a>
         <a href="register" class="btn btn-white">Join Us</a>
     </div>
-</div>
+</div> --}}
 <!-- /.End of join box -->
 
 
 <!-- Products-->
-<div class="section bg-gray">
-    <div class="container">
-        <div class="row">
+{{-- <div class="section bg-gray">
+    <div class="container"> --}}
+        {{-- <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="section-title text-center mb-5 col-middle">
                     <h1 class="block-title fs-25 mb-2 font-weight-bold">Products
@@ -165,8 +165,8 @@
                 </div>
                 <!-- /.End of section title -->
             </div>
-        </div>
-        <div class="row">
+        </div> --}}
+        {{-- <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card border-0 box-shadow rounded-0 mb-4">
                 <a href="" class="card-img position-relative">
@@ -279,15 +279,15 @@
                 </div>
                 <!-- /.End of card -->
             </div>
-         
-        </div>
-    </div>
-</div>
+
+        </div> --}}
+    {{-- </div>
+</div> --}}
 
 
 
 <section id="menu" class="menu">
-      <div class="container" data-aos="fade-up">
+      {{-- <div class="container" data-aos="fade-up">
 
         <div class="section-header">
           <h2>Our Menu</h2>
@@ -638,15 +638,15 @@
 
         </div>
 
-      </div>
+      </div> --}}
     </section><!-- End Menu Section -->
 
 
 
- 
-<div class="section section-destination">
-    <div class="container">
-        <div class="row">
+
+{{-- <div class="section section-destination">
+    <div class="container"> --}}
+        {{-- <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="section-title text-center mb-5 col-middle">
                     <h2 class="block-title fs-25 mb-2 font-weight-bold">Explore Destinations & Experiences
@@ -657,9 +657,9 @@
                 </div>
                 <!-- /.End of section title -->
             </div>
-        </div>
-                
-        <div class="destinations-carousel owl-carousel owl-theme">
+        </div> --}}
+
+        {{-- <div class="destinations-carousel owl-carousel owl-theme">
             <div class="card card-poster text-white flex-row align-items-end border-0">
                 <a href=""
                     class="tile-link position-absolute w-100 h-100 top-0 left-0"></a>
@@ -676,10 +676,10 @@
                     </h5>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-    </div>
-</div>
+    {{-- </div>
+</div> --}}
 <!-- /.End of destination -->
 
 
@@ -687,7 +687,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    
+
     <script src="assets/web/website_assets/plugins/bootstrap/js/popper.min.js"></script>
     <script src="assets/web/website_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/web/website_assets/plugins/owl-carousel/dist/owl.carousel.min.js"></script>
@@ -710,7 +710,7 @@
     <script src="assets/web/js/Food_cart/swiper/swiper-bundle.min.js"></script>
     <script src="assets/web/js/Food_cart/php-email-form/validate.js"></script>
     <script src="assets/web/js/Food_cart/main.js"></script>
-    
+
     <!-- sweetalert -->
 
     <script src="assets/sweetalert/sweetalert.min.js" type="text/javascript"></script>

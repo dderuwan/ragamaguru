@@ -19,18 +19,23 @@
     <link href="{{ asset('assets/web/website_assets/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/website_assets/plugins/fancybox/dist/jquery.fancybox.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Caveat:400,700|Playfair+Display:400,400i,700,700i,900,900i|Sarabun:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800&display=swap" rel="stylesheet" />
-      
+
     <link href="{{ asset('assets/web/website_assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/main.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/aos/aos.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
- 
+
     <style>
-.product-section {
-  min-height:500px;
-}
+    .product-section {
+    min-height:500px;
+    }
+
+    .logoContent{
+        color: black;
+        margin-top:30px;
+    }
 
 
 </style>
@@ -44,8 +49,8 @@
           <div class="row gy-3 justify-content-between align-items-center">
             <div class="col-lg-2 col-md-4 col-0"></div>
             <div class="order-lg-last col-lg-5 col-sm-8 col-12">
-              <div class="d-flex justify-content-end">               
-                <a href="{{ route('cart') }}" class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative"> 
+              <div class="d-flex justify-content-end">
+                <a href="{{ route('cart') }}" class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative">
                     <i class="fas fa-shopping-cart m-1 me-md-2 text-white"></i>
                     <p class="d-none d-md-block mb-0">My cart</p>
                     <span id="cart-count" class="badge bg-warning text-dark rounded-circle position-absolute top-0 start-100 translate-middle p-1 small">0</span>
@@ -64,7 +69,7 @@
                 <aside class="col-lg-6">
                     <div class="rounded-4 mb-3 d-flex justify-content-end">
                     <a href="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" class="glightbox">
-                        <img style="max-width: 85%; max-height: 100vh; margin-left: 80px;" class="rounded-4 fit" 
+                        <img style="max-width: 85%; max-height: 100vh; margin-left: 80px;" class="rounded-4 fit"
                         src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" /></a>
                     </div>
                 </aside>
@@ -168,7 +173,7 @@
           if (data.success) {
             // Update cart count on product and cart pages
             updateCartCount();
-            localStorage.setItem('cartCount', data.cartCount); 
+            localStorage.setItem('cartCount', data.cartCount);
 
             // Redirect to cart page
             window.location.href = '{{ route("cart") }}';
@@ -203,7 +208,7 @@
 
 
 
-   
+
 
   </body>
 </html>

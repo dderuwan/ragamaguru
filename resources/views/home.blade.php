@@ -24,7 +24,7 @@
       <link href="https://fonts.googleapis.com/css?family=Caveat:400,700|Playfair+Display:400,400i,700,700i,900,900i|Sarabun:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800&display=swap" rel="stylesheet" />
       <link href="assets/web/website_assets/css/style.css?v=3" rel="stylesheet">
 
-   
+
     <link href="assets/web/css/foodcart/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/aos/aos.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
@@ -33,10 +33,14 @@
 
     <style>
   .product-image {
-    width: 300px; 
-    height: 200px; 
+    width: 300px;
+    height: 200px;
     object-fit: cover; /* Ensures the image covers the container without stretching */
   }
+    .logoContent{
+    color: black;
+    margin-top:30px;
+}
 </style>
 
   </head>
@@ -93,7 +97,7 @@
 
 
 
- 
+
 
 
 
@@ -122,7 +126,7 @@
     <script src="assets/web/js/Food_cart/swiper/swiper-bundle.min.js"></script>
     <script src="assets/web/js/Food_cart/php-email-form/validate.js"></script>
     <script src="assets/web/js/Food_cart/main.js"></script>
-    
+
     <!-- sweetalert -->
 
     <script src="assets/sweetalert/sweetalert.min.js" type="text/javascript"></script>

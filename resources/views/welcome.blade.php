@@ -22,9 +22,6 @@
       <script src="assets/web/website_assets/plugins/jQuery/jquery-3.5.1.min.js"></script>
       <link href="https://fonts.googleapis.com/css?family=Caveat:400,700|Playfair+Display:400,400i,700,700i,900,900i|Sarabun:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800&display=swap" rel="stylesheet" />
       <link href="assets/web/website_assets/css/style.css?v=3" rel="stylesheet">
-
-
-
       <!-- Food cart CSS File -->
     <link href="assets/web/css/foodcart/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/aos/aos.css" rel="stylesheet">
@@ -51,6 +48,9 @@
         width: 10px;
         height:30px;
     }
+    .logoContent{
+        color: white;
+    }
 
 
 
@@ -66,7 +66,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ route('welcome') }}"><img src="assets/img/2023-12-25/I.png" alt=""></a>
+    <a class="navbar-brand " href="{{ route('welcome') }}"  ><span class="logoContent">RAGAMA  ASAPUWA</span></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
