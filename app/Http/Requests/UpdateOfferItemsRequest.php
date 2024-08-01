@@ -11,7 +11,7 @@ class UpdateOfferItemsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateOfferItemsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'month_year' => 'required|date_format:Y-m',
+            'offer_rate' => 'required|numeric|min:0|max:100',
+            'offer_price' => 'required|numeric|min:0',
+            'status' => 'required|in:Active,Inactive',
         ];
     }
 }

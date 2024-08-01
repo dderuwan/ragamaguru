@@ -6,7 +6,10 @@ use App\Models\OfferItems;
 use App\Http\Requests\StoreOfferItemsRequest;
 use App\Http\Requests\UpdateOfferItemsRequest;
 use App\Models\Item;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OfferItemsController extends Controller
 {
@@ -14,6 +17,12 @@ class OfferItemsController extends Controller
     public function index()
     {
         $item_list = Item::all();
+
+        $item_list = DB::table('offer_item')
+            ->join('item', 'offer_item.item_id', '=', 'item.id')
+            ->select('offer_item.id as offer_item_id', 'item.*', 'offer_item.*')
+            ->get();
+
         return view('item.offerindex', compact('item_list'));
     }
 
@@ -44,7 +53,7 @@ class OfferItemsController extends Controller
         }
 
         notify()->success('Offers added successfully. ⚡️', 'Success');
-        return redirect()->back()->with('success', 'Offer items saved successfully.');
+        return redirect()->route('offerIndex');
     }
 
     
@@ -54,20 +63,56 @@ class OfferItemsController extends Controller
     }
 
     
-    public function edit(OfferItems $offerItems)
+    public function edit($id)
     {
-        //
+        try {
+            $offeritem = OfferItems::findOrFail($id);
+            $item = Item::where('id', $offeritem->item_id)
+                          ->first();
+            return view('item.offeredit', compact('item', 'offeritem'));
+        } catch (ModelNotFoundException $e) {
+            return back()->withError('Item not found')->withInput();
+        } catch (Exception $e) {  
+            return back()->withError($e->getMessage())->withInput();
+        }
     }
 
     
-    public function update(UpdateOfferItemsRequest $request, OfferItems $offerItems)
+    public function update(UpdateOfferItemsRequest $request,$id)
     {
-        //
+        $validated = $request->validated();
+
+        $offeritem = OfferItems::where('id', $id)
+                     ->first();
+
+    if ($offeritem) {
+        $offeritem->month = $validated['month_year'];
+        $offeritem->offer_rate = $validated['offer_rate'];
+        $offeritem->offer_price = $validated['offer_price'];
+        $offeritem->status = $validated['status'];
+        $offeritem->save();
+
+        notify()->success('Offer updated successfully. ⚡️', 'Success');
+        return redirect()->route('offerIndex');
+    } else {
+        notify()->error('Invalid details.. Please try again. ⚡️', 'Error');
+        return redirect()->route('offerIndex');
+    }
+        // Update the offer item with new data
+        
     }
 
     
-    public function destroy(OfferItems $offerItems)
+    public function destroy(OfferItems $offerItems,$id)
     {
-        //
+        $offeritem = OfferItems::find($id);
+        if ($offeritem) {
+            $offeritem->delete();
+            
+            notify()->success('Offer deleted successfully. ⚡️', 'Success');
+            return redirect()->route('offerIndex');
+        } else {
+            return redirect()->route('offerIndex')->with('error', 'Offer not found.');
+        }
     }
 }

@@ -132,10 +132,13 @@ Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
 Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
 
+// offer items
 Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex'); 
 Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate'); 
 Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore'); 
-
+Route::get('/offer-items/edit/{id}', [OfferItemsController::class, 'edit'])->name('offerItemEdit'); 
+Route::put('/offer-items/update/{id}', [OfferItemsController::class, 'update'])->name('offerItemUpdate');
+Route::delete('/offer-items/destroy/{id}', [OfferItemsController::class, 'destroy'])->name('offerItemDestroy');
 
 //Purchase module
 Route::resource('purchase', PurchaseController::class)->except(['show']);

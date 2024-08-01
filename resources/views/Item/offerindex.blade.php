@@ -55,14 +55,15 @@
                                 <table class="table datatables" id="dataTable-1">
                                     <thead>
                                         <tr>
-                                            <th style="color: black;">#</th>
+                                            <th style="color: black;">#</th>  
                                             <th style="color: black;">Item code</th>
                                             <th style="color: black;">Image</th>
                                             <th style="color: black;">Name</th>
-                                            <th style="color: black;">Description</th>
-                                            <th style="color: black;">Quantity</th>
-                                            <th style="color: black;">Individual Item cost</th>
-                                            <th style="color: black;">Supplier</th>
+                                            <th style="color: black;">Offer Month</th>                                            
+                                            <th style="color: black;">Normal Price</th>
+                                            <th style="color: black;">Offer Rate (%)</th>
+                                            <th style="color: black;">Offer Price</th>
+                                            <th style="color: black;">Status</th>     
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
@@ -73,25 +74,26 @@
                                             <td>{{$item->item_code}}</td>
                                             <td> 
                                                 @if($item->image)
-                                                    <img src="{{ asset('images/items/' . $item->image) }}" alt="{{ $item->item_name }}" style="width: 50px; height: 50px;">
+                                                    <img src="{{ asset('images/items/' . $item->image) }}" alt="{{ $item->name }}" style="width: 50px; height: 50px;">
                                                 @else
                                                     No image
                                                 @endif
                                             </td>
                                             <td>{{$item->name}}</td>
-                                            <td>{{$item->description}}</td>
-                                            <td>{{$item->quantity}}</td>
-                                            <td>Rs. {{$item->price}}</td>
-                                            <td>{{$item->supplier_code}}</td>
+                                            <td>{{$item->month}}</td>
+                                            <td>Rs. {{$item->normal_price}}</td>
+                                            <td>{{$item->offer_rate}}</td>
+                                            <td>Rs. {{$item->offer_price}}</td>
+                                            <td>{{$item->status}}</td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('edititem', $item->id) }}" class="btn btn-warning"><i class="fe fe-edit fe-16"></i></a>
+                                                    <a href="{{ route('offerItemEdit', $item->offer_item_id) }}" class="btn btn-warning"><i class="fe fe-edit fe-16"></i></a>
                                                     
-                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $item->id }}')" title="Delete">
+                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $item->offer_item_id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
                                                     
-                                                    <form id="delete-form-{{ $item->id }}" action="{{ route('item.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $item->offer_item_id }}" action="{{ route('offerItemDestroy', $item->offer_item_id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -120,7 +122,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this Item?
+                    Are you sure you want to delete this Offer?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

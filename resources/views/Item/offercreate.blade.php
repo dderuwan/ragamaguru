@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="form-group col-4">
                     <label for="month_year">Month *</label>
-                    <input type="month" class="form-control" id="month_year" name="month_year" placeholder="Select Month" required>
+                    <input type="month" class="form-control" id="month_year" name="month_year" required>
                 </div>
             </div>
 
@@ -42,6 +42,12 @@
                     </tr>
                 </tbody>
             </table>
+            @error('items.*.offer_rate')
+                <p class="text-danger">Please check offer rate.</p>
+            @enderror
+            @error('month_year')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
             <button type="button" class="btn btn-primary" id="add-row">Add New Item</button>
             <button type="submit" class="btn btn-success">Submit</button> 
         </form>
@@ -109,5 +115,16 @@
             offerPriceInput.value = '';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const monthYearInput = document.getElementById('month_year');
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        const currentMonth = `${year}-${month}`;
+
+        monthYearInput.value = currentMonth;
+    });
+
 </script>
 @endsection

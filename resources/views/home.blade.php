@@ -107,7 +107,7 @@
   </div>
 
 
-  <!-- Products -->
+  <!-- special offers -->
   <div class="section">
     <div class="container">
       <div class="row">
@@ -119,6 +119,9 @@
         </div>
       </div>
       <div class="row">
+        @if ($offer_items->isEmpty())    
+        <p class="text-danger">No special offers at this time..</p>     
+        @endif
         @foreach ($offer_items as $offeritem)
         <div class="col-lg-3 col-md-4 col-sm-6">
           <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
@@ -130,9 +133,9 @@
               </div>
             </a>
             <div class="card-body text-center">
-              <h6 class="card-title mb-0 text-dark product-name">{{ $offeritem->name }}</h6>
-              <h6 class="card-title mb-0 text-muted" style="text-decoration: line-through;">Rs {{ number_format($offeritem->normal_price, 2) }}</h6>
-              <h6 class="card-title mb-0 text-primary price">Rs {{ number_format($offeritem->offer_price, 2) }}</h6>
+              <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">{{ $offeritem->name }}</h6>
+              <h6 class="card-title mb-0 weeklyoffer-title text-muted" style="text-decoration: line-through;">Rs {{ number_format($offeritem->normal_price, 2) }}</h6>
+              <h6 class="card-title mb-0 weeklyoffer-title text-primary price">Rs {{ number_format($offeritem->offer_price, 2) }}</h6>
             </div>
           </div>
         </div>

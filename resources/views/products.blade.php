@@ -59,58 +59,70 @@
     </header>
 
     <!-- Product Details Section -->
-    <section class="product-section py-5 mb-5 mt-5">
-        <div class="container">
-            <div class="row gx-5">
-                <aside class="col-lg-6">
-                    <div class="rounded-4 mb-3 d-flex justify-content-end">
+    <!-- Product Details Section -->
+<section class="product-section py-5 mb-5 mt-5">
+    <div class="container">
+        <div class="row gx-5">
+            <aside class="col-lg-6">
+                <div class="rounded-4 mb-3 d-flex justify-content-end">
                     <a href="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" class="glightbox">
                         <img style="max-width: 85%; max-height: 100vh; margin-left: 80px;" class="rounded-4 fit" 
                         src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" /></a>
-                    </div>
-                </aside>
+                </div>
+            </aside>
 
-                <main class="col-lg-6">
-                  <div class="ps-lg-3">
-                      <h4 class="title text-dark fw-bold">{{ $item->name }}</h4>
-                      <div class="d-flex flex-row my-3">
-                          <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>orders</span>
-                          @if($item->quantity > 0)
-                              <span class="text-success ms-2">In stock</span>
-                          @else
-                              <span class="text-danger ms-2">Out of stock</span>
-                          @endif
-                      </div>
-                      <div class="mb-3">
-                          <span class="h5 text-primary fw-bold">Rs {{ number_format($item->price, 2) }}</span>
-                      </div>
-                      <p>{{ $item->description }}</p>
-                      <hr />
-                      <div class="btn-group" role="group">
-                          @if($item->quantity > 0)
-                              <form id="addToCartForm" action="{{ route('addToCart') }}" method="POST">
-                                  @csrf
-                                  <input type="hidden" name="item_code" value="{{ $item->item_code }}">
-                                  <input type="hidden" name="name" value="{{ $item->name }}">
-                                  <input type="hidden" name="price" value="{{ $item->price }}">
-                                  <input type="hidden" name="image" value="{{ $item->image }}">
-                                  <button type="submit" name="btn_name" value="cart" class="btn btn-primary shadow-0">
-                                      <i class="me-1 fas fa-shopping-cart"></i> Add to cart
-                                  </button>
-                                  <button type="submit" name="btn_name" value="buy" class="btn btn-warning shadow-0 me-2">Buy now</button>
-                              </form>
-                          @else
-                              <button type="button" class="btn btn-primary shadow-0" disabled>
-                                  <i class="me-1 fa fa-ban" aria-hidden="true"></i> Out of stock
-                              </button>
-                          @endif
-                          
-                      </div>
-                  </div>
-              </main>
-            </div>
+            <main class="col-lg-6">
+                <div class="ps-lg-3">
+                    <h4 class="title text-dark fw-bold">{{ $item->name }}</h4>
+                    <div class="d-flex flex-row my-3">
+                        <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>orders</span>
+                        @if($item->quantity > 0)
+                            <span class="text-success ms-2">In stock</span>
+                        @else
+                            <span class="text-danger ms-2">Out of stock</span> 
+                        @endif
+                    </div>
+                    <div class="mb-3">
+                        @if($offer)
+                            <span class="h5 text-muted fw-bold" style="text-decoration: line-through;">
+                                Rs {{ number_format($item->price, 2) }}
+                            </span>
+                            <span class="h5 text-primary fw-bold ms-2">
+                                Rs {{ number_format($offer->offer_price, 2) }}
+                            </span>
+                            <div class="offer-badge position-absolute bg-danger text-white p-1" style="top: 10px; right: 10px; z-index: 1; border-radius: 50%;">
+                                {{ rtrim(rtrim(number_format($offer->offer_rate, 2), '0'), '.') }}% OFF
+                            </div>
+                        @else
+                            <span class="h5 text-primary fw-bold">Rs {{ number_format($item->price, 2) }}</span>
+                        @endif
+                    </div>
+                    <p>{{ $item->description }}</p>
+                    <hr />
+                    <div class="btn-group" role="group">
+                        @if($item->quantity > 0)
+                            <form id="addToCartForm" action="{{ route('addToCart') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="item_code" value="{{ $item->item_code }}">
+                                <input type="hidden" name="name" value="{{ $item->name }}">
+                                <input type="hidden" name="price" value="{{ $offer ? $offer->offer_price : $item->price }}">
+                                <input type="hidden" name="image" value="{{ $item->image }}">
+                                <button type="submit" name="btn_name" value="cart" class="btn btn-primary shadow-0">
+                                    <i class="me-1 fas fa-shopping-cart"></i> Add to cart
+                                </button>
+                                <button type="submit" name="btn_name" value="buy" class="btn btn-warning shadow-0 me-2">Buy now</button>
+                            </form>
+                        @else
+                            <button type="button" class="btn btn-primary shadow-0" disabled>
+                                <i class="me-1 fa fa-ban" aria-hidden="true"></i> Out of stock
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </main>
         </div>
-    </section>
+    </div>
+</section>
 
     @include('includes.footer')
 
