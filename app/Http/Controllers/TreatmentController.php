@@ -59,15 +59,16 @@ class TreatmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( Treatment $Treatment)
+    public function edit( Treatment $Treatment,$id)
     {
+        $Treatment = Treatment::find($id);
         return view('Treatment.edit', compact('Treatment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
 {
     $request->validate([
         'name' => 'required|string|max:255',
@@ -75,14 +76,14 @@ class TreatmentController extends Controller
         'status' => 'required|boolean',
     ]);
 
-    $treatment = Treatment::findOrFail($id);
+    $treatment = Treatment::findOrFail($request->id);
     $treatment->update([
         'name' => $request->name,
 
         'status' => $request->status,
     ]);
 
-    return redirect()->route('Treatment.index')->with('status', 'Treatment updated successfully');
+    return redirect()->route('Treatment')->with('status', 'Treatment updated successfully');
 }
 
 

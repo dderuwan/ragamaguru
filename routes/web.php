@@ -105,9 +105,9 @@ Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('upd
 
 // Item module
 Route::resource('item', ItemController::class);
-Route::get('/items', [ItemController::class, 'index'])->name('item.index'); 
-Route::get('/items/create', [ItemController::class, 'create'])->name('createitem'); 
-Route::post('/items', [ItemController::class, 'store'])->name('items.store'); 
+Route::get('/items', [ItemController::class, 'index'])->name('item.index');
+Route::get('/items/create', [ItemController::class, 'create'])->name('createitem');
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
 Route::get('/edititem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateitem');
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
@@ -181,7 +181,7 @@ Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')-
 //OrderRequests module
 Route::get('/allorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'index'])->name('allorderrequests');
 Route::get('/createorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'create'])->name('OrderRequests.create');
-Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store'); 
+Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store');
 Route::get('/showorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'show'])->name('OrderRequests.show');
 Route::delete('/deleteorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'destroy'])->name('OrderRequests.destroy');
 

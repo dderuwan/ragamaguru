@@ -16,10 +16,11 @@
             <div class="card-body">
               <form method="post" action="{{route('updateTreatment')}}">
                 @csrf
+                 <input type="text" class="form-control" id="id"  name="id" value="{{$Treatment->id}}">
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputName">Treatment Name</label>
-                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name">
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="{{$Treatment->name}}">
                     @error('name')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -27,8 +28,8 @@
                   <div class="form-group col-md-6">
                     <label for="inputStatus">Treatment Status</label>
                     <select class="form-control" id="inputStatus" name="status">
-                        <option value="1" {{ old('status', $treatment->status ?? '') == 1 ? 'selected' : '' }}>Active</option>
-                        <option value="0" {{ old('status', $treatment->status ?? '') == 0 ? 'selected' : '' }}>Inactive</option>
+                        <option value="1" {{ old('status', $Treatment->status ?? '') == 1 ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ old('status', $Treatment->status ?? '') == 0 ? 'selected' : '' }}>Inactive</option>
                     </select>
                     @error('status')
                     <p class="text-danger">{{ $message }}</p>

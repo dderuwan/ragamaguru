@@ -45,14 +45,12 @@
 
 
                                                 <!-- Delete Button -->
-                                                <form id="delete-form-{{ $Treatment->id }}" action="{{ route('deleteTreatment', $Treatment->id) }}" method="POST" class="d-inline">
+
+                                                 <button class="btn btn-danger" onclick="confirmDelete({{ $Treatment->id }})"><i class="fe fe-trash fe-16"></i></button>
+                                                <form id="delete-form-{{ $Treatment->id }}" action="{{ route('deleteTreatment', $Treatment->id) }}" method="POST" style="display:none;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this treatment?');">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
                                                 </form>
-
                                             </td>
                                         </tr>
                                         @endforeach
@@ -65,72 +63,30 @@
             </div>
         </div>
     </div>
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editModal{{ $Treatment->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $Treatment->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel{{ $Treatment->id }}">Edit Treatment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('updateTreatment', $Treatment->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
 
-                        <div class="mb-3">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control" value="{{ $Treatment->name }}" required />
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
 
-                        <div class="mb-3">
-                            <label>Status</label>
-                            <select name="status" class="form-control" required>
-                                <option value="1" {{ $Treatment->status == 1 ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ $Treatment->status == 0 ? 'selected' : '' }}>Inactive</option>
-                            </select>
-                            @error('status') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this customer?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes, Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
 
 @endsection
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function confirmDelete(id) {
-        if(confirm('Are you sure you want to delete this treatment?')) {
-            document.getElementById('deleteForm' + id).submit();
-        }
+   
+      function confirmDelete(supplierId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + supplierId).submit();
+            }
+        })
     }
 </script>
 @endsection

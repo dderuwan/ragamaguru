@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
-     <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
+     <a class="navbar-brand" href="{{ route('welcome') }}"><img src="assets/img/2023-12-25/I.png" alt=""></a>
         <div class="d-flex order-lg-last">
         <ul class="navbar-right">
             <div class="mt-4 btn-container" style="margin-right:50px; ">
@@ -8,8 +8,8 @@
             <div class="mt-4 btn-container" style="margin-right:50px; ">
                 <a href="{{ route('register') }}" class="btn btn-primary btn-custom" style="padding: 7px 10px;color: #fff;font-size:12px;">JOIN US</a>
             </div>
-            
-        </ul>   
+
+        </ul>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
