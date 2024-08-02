@@ -77,12 +77,12 @@
           <a href="{{route('allorderrequests')}}" class="sidebar_text" >
             <span class="ml-3 item-text">OrderRequests List</span><span class="sr-only">(current)</span>
           </a>
-        </li>
+        </li>                                                                                                     
         <li class="nav-item active sidebar_li">
             <i class="fe fe-shopping-cart fe-16 mb-2"></i>
           <a href="{{route('allgins')}}" class="sidebar_text" >
             <span class="ml-3 item-text">GIN List</span><span class="sr-only">(current)</span>
-          </a>
+          </a>  
         </li>
         <li class="nav-item active sidebar_li">
             <i class="fe fe-home fe-16 mb-2"></i>

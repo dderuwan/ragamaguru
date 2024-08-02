@@ -30,14 +30,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($Treatments as $Treatment)
+                                        @foreach ($Treatments as $index => $Treatment)
                                         <tr>
-                                            <td>{{ $Treatment->id }}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{ $Treatment->name }}</td>
                                             <td>{{ $Treatment->status == 1 ? 'Active':'Inactive' }}</td>
                                             <td>
                                                 <!-- Edit Button -->
-                                                <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $Treatment->id }}">
+                                                <a href="{{ route('editTreatment', $Treatment->id) }}" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $Treatment->id }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 

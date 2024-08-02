@@ -38,6 +38,8 @@
         margin-top:30px;
     }
     </style>
+    @include('includes.css')
+
   </head>
   <body>
 
@@ -726,6 +728,8 @@
 
 
     @include('includes.footer')
+
+    @include('includes.script')
 
   </body>
 </html>

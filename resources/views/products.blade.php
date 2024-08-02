@@ -27,6 +27,10 @@
     <link href="{{ asset('assets/web/css/foodcart/aos/aos.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/foodcart/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    @include('includes.css')
+
     <style>
     .product-section {
     min-height:500px;

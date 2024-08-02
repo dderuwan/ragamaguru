@@ -23,13 +23,12 @@
   <script src="assets/web/website_assets/plugins/jQuery/jquery-3.5.1.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Caveat:400,700|Playfair+Display:400,400i,700,700i,900,900i|Sarabun:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800&display=swap" rel="stylesheet" />
   <link href="assets/web/website_assets/css/style.css?v=3" rel="stylesheet">
-
-
-    <link href="assets/web/css/foodcart/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/web/css/foodcart/aos/aos.css" rel="stylesheet">
-    <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+  <link href="assets/web/css/foodcart/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/web/css/foodcart/aos/aos.css" rel="stylesheet">
+  <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+    @include('includes.css')
 
     <style>
   .product-image {
@@ -41,6 +40,7 @@
     color: black;
     margin-top:30px;
 }
+
 
     .product-image {
       width: 300px;
@@ -156,10 +156,7 @@
 
 
   @include('includes.footer')
-
-
-
-
+  @include('includes.script')
 
 
 

@@ -29,6 +29,7 @@
     <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+    @include('includes.css')
 
     <style>
         .card {
@@ -134,7 +135,7 @@
 
 
 
-                          
+
                 <div class="col-lg-4 col-md-6 mb-4 product-item" data-name="{{ $item->name }}">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0 ">
                         <a href="{{ route('products.show', $item->id) }}" class="card2-img position-relative product-link">
@@ -232,6 +233,9 @@
     <script src="assets/web/website_assets/js/loadMap.js"></script>
 
     <script src="assets/web/js/pagination.js"></script>
+@include('includes.script')
+
+
 
     <script>
         document.getElementById('searchInput').addEventListener('input', searchProducts);

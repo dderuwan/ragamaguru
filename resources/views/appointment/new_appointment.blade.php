@@ -3,6 +3,7 @@
 @section('content')
 <style>
 #customerDetails {
+    display: none; 
     padding: 15px;
 }
 
@@ -14,7 +15,7 @@
 
 .customer-info strong {
     display: inline-block;
-    width: 100px;
+    width: 140px;
 }
 
 #timeSlots {
@@ -69,9 +70,9 @@
               </div>
               <!-- Customer details display section -->
               <hr>
-              <div id="customerDetails" class="col-sm-8 mt-4 mb-4">
+              <div id="customerDetails" class="col-sm-10 mt-4 mb-4">
                 <div class="customer-info">
-                    <strong>Name:</strong> <span id="customerName"></span>
+                    <strong>Customer Name:</strong> <span id="customerName"></span>
                 </div>
                 <div class="customer-info">
                     <strong>Contact:</strong> <span id="customerContact"></span>
@@ -88,7 +89,7 @@
                 </div>
               </div>
 
-              <!-- Time Slots -->
+              
               <div id="timeSlots" class="mt-3">
                 <label style="color:black;">Available Time Slots</label>
                 <div class="d-flex flex-wrap">
@@ -155,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var customerName = document.getElementById('customerName');
     var customerContact = document.getElementById('customerContact');
     var customerAddress = document.getElementById('customerAddress');
+    var customerDetails = document.getElementById('customerDetails');
 
     customerSelect.addEventListener('change', function() {
         var customerId = this.value;
@@ -167,14 +169,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         customerName.textContent = data.name || '';
                         customerContact.textContent = data.contact || '';
                         customerAddress.textContent = data.address || '';
+                        customerDetails.style.display = 'block';
                     }
                 })
                 .catch(error => console.error('Error fetching customer details:', error));
         } else {
-            // Clear fields if no customer is selected
             customerName.textContent = '';
             customerContact.textContent = '';
             customerAddress.textContent = '';
+            customerDetails.style.display = 'none';
         }
     });
 
