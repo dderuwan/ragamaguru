@@ -29,6 +29,7 @@
     <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+    @include('includes.css')
 
     <style>
         .card {
@@ -117,7 +118,7 @@
             <div class="row" id="products-container">
                 @foreach ($item_list as $item)
                 <div class="col-lg-4 col-md-6 mb-4 product-item" data-name="{{ $item->name }}">
-                    <div class="card border-0 menu-item box-shadow-lg rounded-0 ">    
+                    <div class="card border-0 menu-item box-shadow-lg rounded-0 ">
                         <a href="{{ route('products.show', $item->id) }}" class="card2-img position-relative product-link">
                             <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
                             @if ($item->offer_rate)
@@ -172,6 +173,7 @@
 
 
 
+<<<<<<< HEAD
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -212,6 +214,11 @@
     <script src="assets/web/website_assets/js/loadMap.js"></script>
 
     <script src="assets/web/js/pagination.js"></script>
+=======
+@include('includes.script')
+
+
+>>>>>>> manushi
 
     <script>
         document.getElementById('searchInput').addEventListener('input', searchProducts);
@@ -235,7 +242,7 @@
 
     @include('includes.footer')
 
-    
+
 
 </body>
 

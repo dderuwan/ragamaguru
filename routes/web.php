@@ -14,6 +14,8 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +32,7 @@ Auth::routes();
 
 Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
-Route::view('/appointment', 'appointment')->name('appointment');
+Route::view('/appointment', 'appointment')->name('appointmentPage');
 Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
@@ -123,9 +125,9 @@ Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('upd
 
 // Item module
 Route::resource('item', ItemController::class);
-Route::get('/items', [ItemController::class, 'index'])->name('item.index'); 
-Route::get('/items/create', [ItemController::class, 'create'])->name('createitem'); 
-Route::post('/items', [ItemController::class, 'store'])->name('items.store'); 
+Route::get('/items', [ItemController::class, 'index'])->name('item.index');
+Route::get('/items/create', [ItemController::class, 'create'])->name('createitem');
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
 Route::get('/edititem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateitem');
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
@@ -133,10 +135,10 @@ Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
 
 // offer items
-Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex'); 
-Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate'); 
-Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore'); 
-Route::get('/offer-items/edit/{id}', [OfferItemsController::class, 'edit'])->name('offerItemEdit'); 
+Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex');
+Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate');
+Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore');
+Route::get('/offer-items/edit/{id}', [OfferItemsController::class, 'edit'])->name('offerItemEdit');
 Route::put('/offer-items/update/{id}', [OfferItemsController::class, 'update'])->name('offerItemUpdate');
 Route::delete('/offer-items/destroy/{id}', [OfferItemsController::class, 'destroy'])->name('offerItemDestroy');
 
@@ -149,7 +151,7 @@ Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getIt
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
 
- 
+
 //appointment module
 Route::view('/Appointments', 'appointment.index')->name('appointment');
 Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
@@ -225,7 +227,7 @@ Route::put('/hrm/leave-applications/update/{id}', [LeaveController::class, 'upda
 //OrderRequests module
 Route::get('/allorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'index'])->name('allorderrequests');
 Route::get('/createorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'create'])->name('OrderRequests.create');
-Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store'); 
+Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store');
 Route::get('/showorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'show'])->name('OrderRequests.show');
 Route::delete('/deleteorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'destroy'])->name('OrderRequests.destroy');
 
@@ -260,7 +262,7 @@ Route::delete('/purchaseorderdestroy/{id}', [App\Http\Controllers\ReportControll
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
 
- //POS
+//POS
  Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
  Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
  Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
@@ -270,7 +272,21 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
 
 
- 
+
+ //dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//revenue
+Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
+Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
+Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
+
+
+
+
+
+
+
 
 
 

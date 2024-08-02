@@ -30,6 +30,15 @@
   <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+    @include('includes.css')
+
+    <style>
+  .product-image {
+    width: 300px;
+    height: 200px;
+    object-fit: cover; /* Ensures the image covers the container without stretching */
+  }
+</style>
 
   <style>
     .product-image {
@@ -119,8 +128,8 @@
         </div>
       </div>
       <div class="row">
-        @if ($offer_items->isEmpty())    
-        <p class="text-danger">No special offers at this time..</p>     
+        @if ($offer_items->isEmpty())
+        <p class="text-danger">No special offers at this time..</p>
         @endif
         @foreach ($offer_items as $offeritem)
         <div class="col-lg-3 col-md-4 col-sm-6">
@@ -146,10 +155,7 @@
 
 
   @include('includes.footer')
-
-
-
-
+  @include('includes.script')
 
 
 
