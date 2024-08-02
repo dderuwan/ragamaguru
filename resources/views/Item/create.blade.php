@@ -20,7 +20,7 @@
                     <tr>
                         <th>Item Name *</th>
                         <th>Description</th>
-                        <th>Quantity</th>
+                        <th>Quentity</th>
                         <th>Selling Price</th>
                         <th>Image</th>
                         <th>Actions</th>

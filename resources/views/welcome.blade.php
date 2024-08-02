@@ -96,6 +96,7 @@
         <div class="animation-slide owl-carousel owl-theme" id="animation-slide">
             <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>
             <div class="item bg-img-hero" data-image-src="/assets/web/images/homeimg3.jpg"></div>
+            <div class="item bg-img-hero" data-image-src="assets/web/images/default1.jpg"></div>
         </div>
     </div>
     <!-- /.End of header slider -->
@@ -118,11 +119,11 @@
                                                 <a href="{{ route('register') }}" id="btn-join" class="btn btn-white">JOIN US</a>
                                             </div>
                                         </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- /.End of hero header -->
     <div class="slider_preloader">
         <div class="slider_preloader_status">&nbsp;</div>

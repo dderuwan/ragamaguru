@@ -1,5 +1,7 @@
 <?php
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\OfferItemsController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -36,6 +39,17 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCa
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
 Route::post('/delete-from-cart', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
 Route::get('/cart-item-count', [CartController::class, 'getItemCount'])->name('cartItemCount');
+Route::get('/cart-checkout', [CartController::class, 'cartCheckout'])->name('cartCheckout');
+Route::post('/store-cart-details', [CartController::class, 'storeCartDetails'])->name('storeCartDetails');
+
+Route::post('/update-address/{id}', [CustomerController::class, 'updateAddress'])->name('updateAddress');
+
+Route::post('/place-order', [CustomerOrderController::class, 'placeOrder'])->name('placeOrder');
+Route::post('/clear-checkout', [CustomerOrderController::class, 'clearCheckout'])->name('clearCheckout');
+Route::get('/onlineorders', [CustomerOrderController::class, 'onlineOrders'])->name('onlineOrders');
+Route::get('/showonlineorder/{id}', [CustomerOrderController::class, 'showOnlineOrder'])->name('showOnlineOrder');
+Route::delete('/deleteorder/{id}', [CustomerOrderController::class, 'destroy'])->name('order.destroy');
+Route::post('/changestatus/{id}', [CustomerOrderController::class, 'changeStatus'])->name('changeStatus');
 
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('clearCart');
 
@@ -57,7 +71,7 @@ Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController
 
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-Route::get('/home', [HomeController::class, 'getItems'])->name('home');
+Route::get('/home', [HomeController::class, 'getHomeData'])->name('home');
 Route::get('/store', [HomeController::class, 'getproducts'])->name('store');
 Route::get('/product/{id}', [ProductController::class, 'showItems'])->name('products.show');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -74,6 +88,10 @@ Route::post('/verifyCustomer', [CustomerController::class, 'verify'])->name('ver
 Route::get('/editCustomer/{id}', [CustomerController::class, 'edit'])->name('editcustomer');
 Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('updatecustomer');
 Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
+Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
+Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
+
+
 
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
@@ -114,6 +132,13 @@ Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
 Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
 
+// offer items
+Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex'); 
+Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate'); 
+Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore'); 
+Route::get('/offer-items/edit/{id}', [OfferItemsController::class, 'edit'])->name('offerItemEdit'); 
+Route::put('/offer-items/update/{id}', [OfferItemsController::class, 'update'])->name('offerItemUpdate');
+Route::delete('/offer-items/destroy/{id}', [OfferItemsController::class, 'destroy'])->name('offerItemDestroy');
 
 //Purchase module
 Route::resource('purchase', PurchaseController::class)->except(['show']);
@@ -123,6 +148,15 @@ Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->n
 Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getItemsBySupplier'])->name('get-items-by-supplier');
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
+
+ 
+//appointment module
+Route::view('/Appointments', 'appointment.index')->name('appointment');
+Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
+Route::get('/Appointments/New-appointment/customers/{id}', [AppointmentController::class, 'getCustomerDetails']);
+Route::post('/Appointments/New-appointment/store', [AppointmentController::class, 'storeAppointments'])->name('appointment.store');
+
+
 
 
 //Settings module
@@ -145,6 +179,7 @@ Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 
 
+//HR module
 //attendance
 Route::resource('attendance', AttendanceController::class);
 Route::get('/attendance-list', [AttendanceController::class, 'show'])->name('show.employees');
@@ -170,11 +205,20 @@ Route::view('/hrm/weekly_holidays_update', 'humanResources.leave.weekly_holiday_
 Route::get('/holiday/{id}/edit', [LeaveController::class, 'edit'])->name('holiday.edit');
 Route::post('/holiday/{id}/update', [LeaveController::class, 'updateHoliday'])->name('update_holiday');
 
+Route::get('/hrm/add_leave_type', [LeaveController::class, 'showLeavetypes'])->name('add_leave_type');
+Route::post('/hrm/add_leave_type/store', [LeaveController::class, 'storeLeavetypes'])->name('Leave_type.store');
+Route::delete('/hrm/add_leave_type/{leave_type}', [LeaveController::class, 'destroyLeave_type'])->name('leave_type.destroy');
+Route::post('/hrm/add_leave_type/{id}/update', [LeaveController::class, 'updateLeavetype'])->name('update_leave_type');
+Route::get('/hrm/add_leave_type/{id}/edit', [LeaveController::class, 'editLeavetype'])->name('leave_type.edit');
 
+Route::post('/hrm/leave_application/store', [LeaveController::class, 'storeleavApp'])->name('leave.store');
+Route::get('/hrm/leave_application/apply', [LeaveController::class, 'createLeaveApp'])->name('apply_leave');
+Route::get('/hrm/leave_application', [LeaveController::class, 'showLeaveApp'])->name('leave_application');
+Route::get('/hrm/leave_application/manage', [LeaveController::class, 'manageLeaveApp'])->name('manage_leave_application');
+Route::delete('/hrm/leave_application/{leave_application}', [LeaveController::class, 'destroyLeaveapp'])->name('leave_application.destroy');
+Route::get('/hrm/leave-applications/edit/{id}', [LeaveController::class, 'editLeaveApp'])->name('leave_app_edit');
+Route::put('/hrm/leave-applications/update/{id}', [LeaveController::class, 'updateLeaveApp'])->name('leave_app_update');
 
-Route::view('/hrm/add_leave', 'humanResources.leave.add_leave')->name('add_leave');
-Route::view('/hrm/update_leaveType', 'humanResources.leave.update_leaveType')->name('update_leaveType');
-Route::view('/hrm/leave_application', 'humanResources.leave.leave_application')->name('leave_application');
 
 
 
@@ -224,6 +268,9 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
 
  Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
+
+
+ 
 
 
 

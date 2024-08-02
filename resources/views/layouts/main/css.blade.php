@@ -4,6 +4,7 @@
 <!-- Icons CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/feather.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/select2.css')}}">
+<link rel="stylesheet" href="{{asset('assets/css//fullcalendar.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/dropzone.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/uppy.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/jquery.steps.css')}}">
@@ -17,6 +18,7 @@
 <link rel="stylesheet" href="{{asset('assets/css/app-dark.css')}}" id="darkTheme" disabled>
 
 {{-- custome css --}}
+<!-- custom CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" >
 <link rel="stylesheet" href="{{asset('assets/css/posinvoice.css')}}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
