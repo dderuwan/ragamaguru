@@ -19,7 +19,7 @@
                 </li>
             </ul>
 
-            <div class="custom-tab-content" id="myTabContent">
+            <div class="custom-tab-content" id="myTabContent"> 
                     
                 <div class="custom-tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <form action="{{ route('POS.store') }}" method="POST" enctype="multipart/form-data">
@@ -36,8 +36,14 @@
                                                     <div class="custom-card">
                                                         <img src="{{ asset('images/items/' . $item->image) }}" class="custom-card-img-top" alt="{{ $item->name }}">
                                                         <div class="custom-card-body-item">
-                                                            <h6 class="custom-card-title">{{ $item->name }}</h6>
+                                                            @if ($item->offer_price)
+                                                                <h6 class="custom-card-title">{{ $item->name }}</h6>
+                                                                <span class="text-danger">{{ rtrim(rtrim(number_format($item->offer_rate, 2), '0'), '.') }}%</span>
+                                                            @else
+                                                                <h6 class="custom-card-title">{{ $item->name }}</h6> 
+                                                            @endif
                                                         </div>
+                                                        
                                                     </div>
                                                 </div>
                                             @endif
@@ -425,6 +431,7 @@ document.addEventListener('DOMContentLoaded', function () {
         item.addEventListener('click', function() {
             const itemData = JSON.parse(this.getAttribute('data-item'));
             let existingRow = null;
+            let itemPrice = itemData.offer_price ? itemData.offer_price : itemData.price;
 
             itemDetailsTable.querySelectorAll('tr').forEach(row => {
                 if (row.dataset.itemId === String(itemData.id)) {
@@ -436,24 +443,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 const quantityInput = existingRow.querySelector('.quantity-input');
                 const totalCostCell = existingRow.querySelector('.total-cost');
                 quantityInput.value = parseInt(quantityInput.value) + 1;
-                if (parseInt(quantityInput.value) > itemData.item_quentity) {
-                    notifyExceedQuantity(itemData.item_quentity);
-                    quantityInput.value = itemData.item_quentity;
+                if (parseInt(quantityInput.value) > itemData.quantity) {
+                    notifyExceedQuantity(itemData.quantity);
+                    quantityInput.value = itemData.quantity;                 
                 }
-                updateTotalCost(quantityInput, totalCostCell, itemData.unit_price);
+                updateTotalCost(quantityInput.value, totalCostCell, itemPrice);
             } else {
                 const newRow = document.createElement('tr');
                 newRow.setAttribute('data-item-id', itemData.id);
                 newRow.innerHTML = `
                     <td>${itemData.name}</td>
-                    <td>${itemData.price}</td>
+                    <td>${itemPrice}</td>
                     <td class="quantity-display" contenteditable="true">1</td>
-                    <td class="total-cost">${itemData.price}</td>
+                    <td class="total-cost">${itemPrice}</td>
                     <td><button class="btn btn-danger btn-sm remove-item"><i class="fe fe-trash fe-16"></i></button></td>
                     <input type="hidden" name="items[${itemData.id}][item_code]" value="${itemData.item_code}">
                     <input type="hidden" name="items[${itemData.id}][item_name]" value="${itemData.item_name}">
                     <input type="hidden" name="items[${itemData.id}][quantity]" class="hidden-quantity" value="1">
-                    <input type="hidden" name="items[${itemData.id}][total]" class="hidden-total" value="${itemData.price}">
+                    <input type="hidden" name="items[${itemData.id}][total]" class="hidden-total" value="${itemPrice}">
                 `;
 
                 const quantityElement = newRow.querySelector('.quantity-display');
@@ -461,14 +468,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 quantityElement.addEventListener('input', function() {
                     let quantity = parseInt(quantityElement.textContent);
-                    if (quantity > itemData.quentity) {
-                        notifyExceedQuantity(itemData.quentity);
-                        quantity = itemData.quentity;
+                    if (quantity > itemData.quantity) {
+                        notifyExceedQuantity(itemData.quantity);
+                        quantity = itemData.quantity;
                         quantityElement.textContent = quantity;
                     }
-                    updateTotalCost(quantity, totalCostCell, itemData.price);
+                    updateTotalCost(quantity, totalCostCell, itemPrice);
                     newRow.querySelector('.hidden-quantity').value = quantity;
-                    newRow.querySelector('.hidden-total').value = (quantity * itemData.price).toFixed(2);
+                    newRow.querySelector('.hidden-total').value = (quantity * itemPrice).toFixed(2);
                     updateNetTotal();
                 });
 

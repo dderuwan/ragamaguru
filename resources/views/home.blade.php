@@ -1,3 +1,15 @@
+<?php
+$channelId = 'channelID'; // Replace channel ID
+$rssFeedUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=$channelId";
+$rss = simplexml_load_file($rssFeedUrl);
+$videoIds = [];
+for ($i = 0; $i < 2; $i++) {
+  if (isset($rss->entry[$i])) {
+    $videoIds[] = (string)$rss->entry[$i]->children('yt', true)->videoId;
+  }
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -30,15 +42,16 @@
   <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
-    @include('includes.css')
+  @include('includes.css')
 
-    <style>
-  .product-image {
-    width: 300px;
-    height: 200px;
-    object-fit: cover; /* Ensures the image covers the container without stretching */
-  }
-</style>
+  <style>
+    .product-image {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      /* Ensures the image covers the container without stretching */
+    }
+  </style>
 
   <style>
     .product-image {
@@ -152,6 +165,56 @@
       </div>
     </div>
   </div>
+
+
+  <!-- special offers -->
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 ">
+          <div class="section-title mb-2 ">
+            <h2 class="title-left">Youtube Videos</h2>
+            <div class="sub-title fs-18"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-end">
+          <a href="https://www.youtube.com/channel/<?php echo $channelId; ?>" class="btn btn-primary btn-sm">
+            View More >>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <?php foreach ($videoIds as $videoId) : ?>
+          <div class="col-md-6 mb-4">
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/<?php echo $videoId; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- special offers -->
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 ">
+          <div class="section-title mb-2 ">
+            <h2 class="title-left">Facebook</h2>
+            <div class="sub-title fs-18"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fesupporttechnolgies%3Fmibextid%3DLQQJ4d&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="100%" height="550" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 
   @include('includes.footer')
