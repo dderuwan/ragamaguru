@@ -1,13 +1,16 @@
 <?php
-$channelId = 'channelID'; // Replace channel ID
-$rssFeedUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=$channelId";
-$rss = simplexml_load_file($rssFeedUrl);
-$videoIds = [];
-for ($i = 0; $i < 2; $i++) {
-  if (isset($rss->entry[$i])) {
-    $videoIds[] = (string)$rss->entry[$i]->children('yt', true)->videoId;
+$channelId = 'UCDjaHxBOztUajVEOO3B5mkQ'; // Replace channel ID
+if (!empty($channelId)) {
+  $rssFeedUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=$channelId";
+  $rss = simplexml_load_file($rssFeedUrl);
+  $videoIds = [];
+  for ($i = 0; $i < 2; $i++) {
+    if (isset($rss->entry[$i])) {
+      $videoIds[] = (string)$rss->entry[$i]->children('yt', true)->videoId;
+    }
   }
 }
+
 ?>
 
 <!doctype html>
@@ -178,6 +181,9 @@ for ($i = 0; $i < 2; $i++) {
           </div>
         </div>
       </div>
+      @if (empty($channelId))  
+      <p class="text-danger">No any latest videos yet..</p>
+      @else
       <div class="row mb-3">
         <div class="col-12 d-flex justify-content-end">
           <a href="https://www.youtube.com/channel/<?php echo $channelId; ?>" class="btn btn-primary btn-sm">
@@ -192,6 +198,8 @@ for ($i = 0; $i < 2; $i++) {
           </div>
         <?php endforeach; ?>
       </div>
+      @endif
+
     </div>
   </div>
 
@@ -209,7 +217,7 @@ for ($i = 0; $i < 2; $i++) {
       </div>
       <div class="row justify-content-center">
         <div class="col-md-6">
-      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fesupporttechnolgies%3Fmibextid%3DLQQJ4d&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="100%" height="550" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fesupporttechnolgies%3Fmibextid%3DLQQJ4d&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="100%" height="550" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
         </div>
       </div>
     </div>
