@@ -28,9 +28,11 @@ Route::get('/', function () {
 Auth::routes();
 
 
+
+
 Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
-Route::view('/appointment', 'appointment')->name('appointmentPage');
+Route::view('/appointments', 'appointment')->name('appointmentPage');
 Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
@@ -140,6 +142,9 @@ Route::post('/Appointments/New-appointment/store', [AppointmentController::class
 //Settings module
 Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
 Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
+Route::get('/footer', [CompanySettingController::class, 'getCompanyDetails']);
+
+
 
 //users
 Route::resource('users', UserController::class);

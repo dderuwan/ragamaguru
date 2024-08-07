@@ -1,5 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
-     <a class="navbar-brand" href=""><img src="assets/img/2023-12-25/I.png" alt=""></a>
+     <a class="navbar-brand" href="{{ route('home') }}">
+        <img src="{{ asset('images/logos/' . app(\App\Http\Controllers\CompanySettingController::class)->getCompanyLogo()) }}" 
+        style="width:auto; height:35px;" class="mt-4" alt="Company Logo">
+    </a>
         <div class="d-flex order-lg-last">
         <ul class="navbar-right">
             <div class="mt-4 btn-container" style="margin-right:50px; ">

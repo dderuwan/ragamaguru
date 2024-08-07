@@ -8,7 +8,7 @@
 
 
     <!-- Bootstrap CSS -->
-    <link href="assets/web/website_assets/css/animate.min.css" rel="stylesheet">
+      <link href="assets/web/website_assets/css/animate.min.css" rel="stylesheet">
       <link href="assets/web/website_assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       <link href="assets/web/website_assets/plugins/themify/themify-icons.css" rel="stylesheet">
       <link href="assets/web/website_assets/plugins/fontawesome/css/all.min.css" rel="stylesheet">
@@ -66,7 +66,10 @@
 
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="assets/img/2023-12-25/I.png" alt=""></a>
+    <a class="navbar-brand" href="#">
+    <img src="{{ asset('images/logos/' . app(\App\Http\Controllers\CompanySettingController::class)->getCompanyLogo()) }}" 
+    style="width:auto; height: 35px;"class="mt-2" alt="Company Logo">
+  </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -79,7 +82,7 @@
           <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ route('appointment') }}">Appointments</a>
+          <a class="nav-link active" aria-current="page" href="{{ route('appointmentPage') }}">Appointments</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
