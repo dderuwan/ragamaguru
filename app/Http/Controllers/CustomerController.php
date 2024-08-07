@@ -63,14 +63,11 @@ class CustomerController extends Controller
     public function verify(Request $request)
     {
 
-        // Find the customer with the given contact and OTP
         $customer = Customer::where('contact', $request->addedContact)
             ->where('otp', $request->otp)
             ->first();
 
-        // Check if customer exists and OTP is correct
         if ($customer) {
-            // Update customer's verification status
             $customer->isVerified = true;
             $customer->save();
 
@@ -128,5 +125,60 @@ class CustomerController extends Controller
         } else {
             return redirect()->route('customer.index')->with('error', 'Customer not found.');
         }
+    }
+
+
+    public function reverify(Request $request){
+        
+        $customer = Customer::where('contact', $request->addedContact)
+            ->where('otp', $request->otp)
+            ->first();
+
+        if ($customer) {
+            $customer->isVerified = true;
+            $customer->save();
+
+            notify()->success('Customer verified successfully. ⚡️', 'Success');
+            return redirect()->route('customer.index');
+        } else {
+            notify()->error('Invalid details.. Please try again. ⚡️', 'Error');
+            return redirect()->route('customer.index');
+        }
+    }
+
+
+    public function resendOtp(Request $request)
+    {
+
+        $request->validate([
+            'customer_id' => 'required|exists:customer,id',
+        ]);
+
+        $customer = Customer::findOrFail($request->customer_id);
+
+        $otp = rand(100000, 999999);
+
+        $customer->otp = $otp;
+        $customer->save();
+
+        return response()->json(['success' => 'OTP has been resent.']);
+        
+    }
+
+    public function updateAddress(Request $request, $id)
+    {
+        $request->validate([
+            'newAddress' => 'required|string|max:255',
+        ]);
+
+        $customer = Customer::find($id);
+        if (!$customer) {
+            return redirect()->back()->with('error', 'User not found');
+        }
+
+        $customer->address = $request->input('newAddress');
+        $customer->save();
+
+        return redirect()->back()->with('success', 'Address updated successfully');
     }
 }

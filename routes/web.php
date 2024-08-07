@@ -1,5 +1,7 @@
 <?php
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\OfferItemsController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
@@ -41,6 +43,17 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCa
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
 Route::post('/delete-from-cart', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
 Route::get('/cart-item-count', [CartController::class, 'getItemCount'])->name('cartItemCount');
+Route::get('/cart-checkout', [CartController::class, 'cartCheckout'])->name('cartCheckout');
+Route::post('/store-cart-details', [CartController::class, 'storeCartDetails'])->name('storeCartDetails');
+
+Route::post('/update-address/{id}', [CustomerController::class, 'updateAddress'])->name('updateAddress');
+
+Route::post('/place-order', [CustomerOrderController::class, 'placeOrder'])->name('placeOrder');
+Route::post('/clear-checkout', [CustomerOrderController::class, 'clearCheckout'])->name('clearCheckout');
+Route::get('/onlineorders', [CustomerOrderController::class, 'onlineOrders'])->name('onlineOrders');
+Route::get('/showonlineorder/{id}', [CustomerOrderController::class, 'showOnlineOrder'])->name('showOnlineOrder');
+Route::delete('/deleteorder/{id}', [CustomerOrderController::class, 'destroy'])->name('order.destroy');
+Route::post('/changestatus/{id}', [CustomerOrderController::class, 'changeStatus'])->name('changeStatus');
 
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('clearCart');
 
@@ -62,7 +75,7 @@ Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController
 
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-Route::get('/home', [HomeController::class, 'getItems'])->name('home');
+Route::get('/home', [HomeController::class, 'getHomeData'])->name('home');
 Route::get('/store', [HomeController::class, 'getproducts'])->name('store');
 Route::get('/product/{id}', [ProductController::class, 'showItems'])->name('products.show');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -79,6 +92,10 @@ Route::post('/verifyCustomer', [CustomerController::class, 'verify'])->name('ver
 Route::get('/editCustomer/{id}', [CustomerController::class, 'edit'])->name('editcustomer');
 Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('updatecustomer');
 Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
+Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
+Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
+
+
 
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
@@ -110,15 +127,22 @@ Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('upd
 
 // Item module
 Route::resource('item', ItemController::class);
-Route::get('/items', [ItemController::class, 'index'])->name('item.index'); 
-Route::get('/items/create', [ItemController::class, 'create'])->name('createitem'); 
-Route::post('/items', [ItemController::class, 'store'])->name('items.store'); 
+Route::get('/items', [ItemController::class, 'index'])->name('item.index');
+Route::get('/items/create', [ItemController::class, 'create'])->name('createitem');
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
 Route::get('/edititem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateitem');
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
 Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
 
+// offer items
+Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex');
+Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate');
+Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore');
+Route::get('/offer-items/edit/{id}', [OfferItemsController::class, 'edit'])->name('offerItemEdit');
+Route::put('/offer-items/update/{id}', [OfferItemsController::class, 'update'])->name('offerItemUpdate');
+Route::delete('/offer-items/destroy/{id}', [OfferItemsController::class, 'destroy'])->name('offerItemDestroy');
 
 //Purchase module
 Route::resource('purchase', PurchaseController::class)->except(['show']);
@@ -129,7 +153,7 @@ Route::get('/purchase/get-items-by-supplier', [PurchaseController::class, 'getIt
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name('purchase.show');
 
- 
+
 //appointment module
 Route::view('/Appointments', 'appointment.index')->name('appointment');
 Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
@@ -208,7 +232,7 @@ Route::put('/hrm/leave-applications/update/{id}', [LeaveController::class, 'upda
 //OrderRequests module
 Route::get('/allorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'index'])->name('allorderrequests');
 Route::get('/createorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'create'])->name('OrderRequests.create');
-Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store'); 
+Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store');
 Route::get('/showorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'show'])->name('OrderRequests.show');
 Route::delete('/deleteorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'destroy'])->name('OrderRequests.destroy');
 
@@ -251,6 +275,7 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
 
  Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
+
 
 
  //dashboard

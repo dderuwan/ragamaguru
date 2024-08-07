@@ -13,25 +13,32 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator; 
-use Illuminate\Support\Carbon; 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 use PDF;
 
 class POSController extends Controller
 {
     public function showHomepage()
     {
-        $items = Item::all();
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        $items = Item::leftJoin('offer_item', function ($join) use ($currentMonth) {
+            $join->on('item.id', '=', 'offer_item.item_id')
+                ->where('offer_item.month', '=', $currentMonth)
+                ->where('offer_item.status', '=', 'Active');
+            })
+            ->select('item.*', 'offer_item.offer_price', 'offer_item.offer_rate')
+            ->get();
         $customers = Customer::all();
         $orders = Order::all();
         $today = Carbon::today()->toDateString();
-        return view('POS.homepage', compact('items','customers','orders','today'));
-
+        return view('POS.homepage', compact('items', 'customers', 'orders', 'today'));
     }
 
     public function customerstore(Request $request)
     {
-        
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'contact_number_1' => 'required|string|max:20',
@@ -39,7 +46,7 @@ class POSController extends Controller
         ]);
 
         $otp = rand(100000, 999999);
-        
+
         try {
             $customer = new Customer();
             $customer->name = $validatedData['name'];
@@ -51,16 +58,15 @@ class POSController extends Controller
             $customer->customer_type = 1;
             $customer->registered_time = now();
             $customer->save();
-            
+
             notify()->success('Customer Registerd successfully. ⚡️', 'Success');
             return redirect()->route('pospage')->with('success', 'Customer Registerd successfully.');
-
         } catch (ModelNotFoundException $e) {
 
             notify()->success('Customer not Found. ⚡️', 'Fail');
             return redirect()->route('pospage')->withErrors(['error' => 'Customer not found.']);
         } catch (Exception $e) {
-            
+
             notify()->success('Failed to update Customer. ⚡️', 'Fail');
             return redirect()->route('pospage')->withErrors(['error' => 'Failed to update Customer.']);
         }
@@ -68,7 +74,7 @@ class POSController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'customer_code' => 'required',
             'items' => 'required|array',
             'item_code.*' => 'required',
@@ -77,7 +83,7 @@ class POSController extends Controller
             'total.*' => 'required|numeric',
             'discount' => 'nullable|numeric',
             'vat' => 'nullable|numeric',
-            'payment_type'=>'required|string',
+            'payment_type' => 'required|string',
             'paid_amount' => 'required|numeric',
             'change' => 'required|numeric',
             'grand_total' => 'required|numeric',
@@ -99,7 +105,8 @@ class POSController extends Controller
                 'vat' => $request->vat,
                 'paid_amount' => $request->paid_amount,
                 'change' => $request->change,
-                'payment_type' =>$request->payment_type,
+                'payment_type' => $request->payment_type,
+                'order_type' => 'Pos',
             ]);
 
             foreach ($request->items as $item) {
@@ -127,7 +134,6 @@ class POSController extends Controller
 
             notify()->success('Order created successfully. ⚡️', 'Success');
             return redirect()->route('pospage')->with('success', 'Order created successfully.');
-        
         } catch (Exception $e) {
             DB::rollback();
             Log::error('Failed to create order: ' . $e->getMessage());
@@ -171,5 +177,4 @@ class POSController extends Controller
         notify()->success('Requested Order deleted successfully. ⚡️', 'Success');
         return redirect()->route('pospage')->with('success', 'Requested Order deleted successfully.');
     }
-
 }
