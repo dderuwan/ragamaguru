@@ -79,7 +79,7 @@
           <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ route('appointment') }}">Appointments</a>
+          <a class="nav-link active" aria-current="page" href="">Appointments</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
