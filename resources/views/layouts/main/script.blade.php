@@ -7,6 +7,8 @@
 <script src="{{asset('assets/js/jquery.stickOnScroll.js')}}"></script>
 <script src="{{asset('assets/js/tinycolor-min.js')}}"></script>
 <script src="{{asset('assets/js/config.js')}}"></script>
+<script src="{{asset('assets/js/fullcalendar.js')}}"></script>
+<script src="{{asset('assets/js/fullcalendar.custom.js')}}"></script>
 <script src="{{asset('assets/js/d3.min.js')}}"></script>
 <script src="{{asset('assets/js/topojson.min.js')}}"></script>
 <script src="{{asset('assets/js/datamaps.all.min.js')}}"></script>
@@ -239,5 +241,9 @@
     ]
   });
 </script>
+
+
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+
 
 @notifyJs

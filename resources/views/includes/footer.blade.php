@@ -4,23 +4,41 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-12">
                     <div class="">
-                        <h2 class="text-center text-white">Ragama Guru Asapuwa</h2>
-                        <div class="container1 mt-3">
-                            <ul class="list-unstyled social-icon d-flex justify-content-around">
-                                <li><a href="" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-map-marker-alt icon-wrap"></i> <span>Raagama Guru, Pahalawatta Rd, Kadawatha</span></a></li>
-                                <li><a href="" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-phone icon-wrap"></i> <span>0117 557 878</span></a></li>
-                                <li><a href="" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-envelope icon-wrap"></i> <span>info@raagamaguru.lk</span></a></li>
-                            </ul>
-                        </div>
+                        @if($companyDetail)
+                            <h2 class="text-center text-white">{{ $companyDetail->title }}</h2>
+                            <div class="container1 mt-3">
+                                <ul class="list-unstyled social-icon d-flex justify-content-around">
+                                    <li>
+                                        <a href="" rel="noopener noreferrer">
+                                            <i class="fas fa-map-marker-alt icon-wrap"></i>
+                                            <span>{{ $companyDetail->address }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" rel="noopener noreferrer">
+                                            <i class="fas fa-phone icon-wrap"></i>
+                                            <span>{{ $companyDetail->contact }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" rel="noopener noreferrer">
+                                            <i class="fas fa-envelope icon-wrap"></i>
+                                            <span>{{ $companyDetail->email }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        @else
+                            <h2 class="text-center text-white">No Details Available</h2>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+
+
 
 <!-- /.End of footer -->
 

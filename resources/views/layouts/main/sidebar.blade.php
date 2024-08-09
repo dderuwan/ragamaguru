@@ -49,25 +49,52 @@
           </a>
         </li>
 
-        <li class="nav-item active sidebar_li">
+        <!-- <li class="nav-item active sidebar_li">
             <i class="fe fe-box fe-16"></i>
           <a href="{{route('item.index')}}" class="sidebar_text" >
             <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
           </a>
+        </li> -->
+
+        <li class="nav-item dropdown">
+            <a href="#items" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-box fe-16"></i>
+            <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="items">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('item.index')}}" ><span class="ml-1 item-text"> Items</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('offerIndex')}}" ><span class="ml-1 item-text"> Special offers</span></a>
+            </li>
+            </ul>
         </li>
+
         <li class="nav-item active sidebar_li">
             <i class="fe fe-shopping-cart fe-16 mb-2"></i>
           <a href="{{route('allorderrequests')}}" class="sidebar_text" >
             <span class="ml-3 item-text">OrderRequests List</span><span class="sr-only">(current)</span>
           </a>
-        </li>
+        </li>                                                                                                     
         <li class="nav-item active sidebar_li">
             <i class="fe fe-shopping-cart fe-16 mb-2"></i>
           <a href="{{route('allgins')}}" class="sidebar_text" >
             <span class="ml-3 item-text">GIN List</span><span class="sr-only">(current)</span>
+          </a>  
+        </li>
+        <li class="nav-item active sidebar_li">
+            <i class="fe fe-home fe-16 mb-2"></i>
+          <a href="{{route('employee')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Employee</span><span class="sr-only">(current)</span>
           </a>
         </li>
-        
+        <li class="nav-item active sidebar_li">
+            <i class="fe fe fe-calendar fe-16"></i>
+          <a href="{{route('appointments.index')}}" class="sidebar_text" >
+            <span class="ml-3 item-text">Appointments</span><span class="sr-only">(current)</span>
+          </a>
+        </li>
 
         <li class="nav-item dropdown">
             <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -78,6 +105,18 @@
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('pospage')}}" ><span class="ml-1 item-text"> -POS Invoice</span></a>
             </li>
+            </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a href="#orders" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+            <span class="ml-3 item-text">Orders</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="orders">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('onlineOrders')}}" ><span class="ml-1 item-text"> Online Orders</span></a>
+            </li>        
             </ul>
         </li>
 
@@ -117,13 +156,15 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('holiday')}}" ><span class="ml-1 item-text">- Holiday </span></a>
-                    </li> 
-                    <li class="nav-item active">
+                    </li>
+                    {{-- <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('add_leave')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
-                    </li> 
+                    </li>
+                        <a class="nav-link pl-3" href="{{route('add_leave_type')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
+                    </li> --}}
                     <li class="nav-item active">
                         <a class="nav-link pl-3" href="{{route('leave_application')}}" ><span class="ml-1 item-text">- Leave Application </span></a>
-                    </li>          
+                    </li>
                         <a class="nav-link pl-3" href="{{route('attendance_reports')}}" ><span class="ml-1 item-text"> </span></a>
                     </li>
                   </ul>
@@ -133,8 +174,34 @@
           </li>
 
 
-        
-            <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
+            <a href="#setting" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-settings fe-16"></i>
+            <span class="ml-3 item-text">Settings</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="setting">
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('company.index')}}" ><span class="ml-1 item-text"> - Manage Company</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('user.index')}}" ><span class="ml-1 item-text"> - Add User</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text"> - User List</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('add_roles')}}" ><span class="ml-1 item-text"> - Add Role</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('role_list')}}" ><span class="ml-1 item-text"> - Role List</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link pl-3" href="{{route('assign_user_role')}}" ><span class="ml-1 item-text"> - Assign User Roles</span></a>
+            </li>
+
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
               <a href="#reports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                 <i class="fa-solid fa-book-open"></i>
                 <span class="ml-3 item-text">Reports</span><span class="sr-only">(current)</span>
@@ -187,41 +254,7 @@
               </a>
 
               </li>
-                
-              </ul>
-            </li>
 
-
-            <li class="nav-item dropdown">
-              <a href="#setting" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-              <i class="fe fe-settings fe-16"></i>
-              <span class="ml-3 item-text">Settings</span><span class="sr-only">(current)</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="setting">
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('company.index')}}" ><span class="ml-1 item-text"> - Manage Company</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('user.index')}}" ><span class="ml-1 item-text"> - Add User</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text"> - User List</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('addPermission')}}" ><span class="ml-1 item-text"> - Add Permission</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('addRole')}}" ><span class="ml-1 item-text"> -Permission List</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('addRole')}}" ><span class="ml-1 item-text"> - Add Role</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('showRole')}}" ><span class="ml-1 item-text"> - Role List</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{route('assign_user_role')}}" ><span class="ml-1 item-text"> - Assign User Roles</span></a>
-                </li>
               </ul>
             </li>
 
