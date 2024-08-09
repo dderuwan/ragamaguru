@@ -198,7 +198,6 @@ Route::post('/storePermission', [RoleController::class, 'storePermission'])->nam
 Route::get('/showPermission', [RoleController::class, 'showPermission'])->name('showPermission');
 
 
-
 //HR module
 //attendance
 Route::resource('attendance', AttendanceController::class);
@@ -287,45 +286,28 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::get('/showpos/{id}', [App\Http\Controllers\POSController::class, 'show'])->name('showopos');
  Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
  Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
-Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
+
 
 
 
  Route::group(['middleware' => ['checkRole:manager']], function () {
     Route::resource('customer', CustomerController::class);
     // other routes for manager
-});
+ });
 
-Route::group(['middleware' => ['checkRole:hr']], function () {
+ Route::group(['middleware' => ['checkRole:hr']], function () {
     Route::get('/allcustomers', [CustomerController::class, 'index'])->name('allcustomers');
     Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
     // other routes for HR
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ });
 
  //dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-//revenue
-Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
-Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
-Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
+ //revenue
+ Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
+ Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
+ Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
 
 
 

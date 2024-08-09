@@ -190,10 +190,10 @@
                 <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text"> - User List</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('add_roles')}}" ><span class="ml-1 item-text"> - Add Role</span></a>
+                <a class="nav-link pl-3" href="{{route('addRole')}}" ><span class="ml-1 item-text"> - Add Role</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('role_list')}}" ><span class="ml-1 item-text"> - Role List</span></a>
+                <a class="nav-link pl-3" href="{{route('showRole')}}" ><span class="ml-1 item-text"> - Role List</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('assign_user_role')}}" ><span class="ml-1 item-text"> - Assign User Roles</span></a>
