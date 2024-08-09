@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CartPaymentTypes;
 use App\Models\Customer;
+use App\Models\Item;
 use App\Models\PaymentTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -38,6 +39,17 @@ class CartController extends Controller
     public function showCart()
     {
         $cart = session()->get('cart', []);
+
+    // Retrieve product data including available quantity
+    foreach ($cart as &$item) {
+        // Fetch product from the database using item_code
+        $product = Item::where('item_code', $item['item_code'])->first();
+        if ($product) {
+            $item['available_quantity'] = $product->quantity;
+        } else {
+            $item['available_quantity'] = 0; // Default if product not found
+        }
+    }
         $cartCount = count($cart);
         return view('cart', compact('cart', 'cartCount'));
     }

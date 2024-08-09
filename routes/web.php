@@ -1,7 +1,9 @@
 <?php
+use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\OfferItemsController;
+use App\Http\Controllers\POSController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
@@ -11,7 +13,6 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RevenueController;
@@ -30,9 +31,10 @@ Route::get('/', function () {
 Auth::routes();
 
 
+
+
 Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
-Route::view('/appointment', 'appointment')->name('appointmentPage');
 Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
@@ -153,10 +155,14 @@ Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name
 
 
 //appointment module
-Route::view('/Appointments', 'appointment.index')->name('appointment');
-Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
-Route::get('/Appointments/New-appointment/customers/{id}', [AppointmentController::class, 'getCustomerDetails']);
-Route::post('/Appointments/New-appointment/store', [AppointmentController::class, 'storeAppointments'])->name('appointment.store');
+// Route::view('/Appointments', 'appointment.index')->name('appointment');
+// Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
+// Route::get('/Appointments/New-appointment/customers/{id}', [AppointmentController::class, 'getCustomerDetails']);
+// Route::post('/Appointments/New-appointment/store', [AppointmentController::class, 'storeAppointments'])->name('appointment.store');
+Route::get('/appointments/add/{id}', [AppointmentsController::class, 'create'])->name('appointments.create');
+Route::post('/appointments/save', [AppointmentsController::class, 'store'])->name('appointments.store');
+Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
+Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
 
 
 
@@ -164,6 +170,9 @@ Route::post('/Appointments/New-appointment/store', [AppointmentController::class
 //Settings module
 Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
 Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
+Route::get('/footer', [CompanySettingController::class, 'getCompanyDetails']);
+
+
 
 //users
 Route::resource('users', UserController::class);

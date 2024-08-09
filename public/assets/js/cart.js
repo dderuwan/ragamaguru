@@ -1,25 +1,22 @@
-function updateQuantity(change, quantityId, totalPriceId, unitPriceId) {
-    const quantityInput = document.getElementById(quantityId);
-    const unitPrice = parseFloat(
-        document.getElementById(unitPriceId).innerText.replace("Rs ", "")
-    );
+function updateQuantity(change, index, maxQuantity) {
+    const quantityInput = document.getElementById('quantity-' + index);
     let quantity = parseInt(quantityInput.value) + change;
-    if (quantity < 0) {
-        quantity = 0;
+    
+    if (quantity < 1) {
+        quantity = 1;
+    } else if (quantity > maxQuantity) {
+        quantity = maxQuantity;
+        alert(`Maximum available quantity is ${maxQuantity}`);
     }
+
     quantityInput.value = quantity;
-    document.getElementById(totalPriceId).innerText =
-        "Rs " + (quantity * unitPrice).toFixed(2);
-    updateCartTotal();
+    updateTotalPrice(index);
 }
 
-function updateTotalPrice(quantityId, totalPriceId, unitPriceId) {
-    const quantity = parseInt(document.getElementById(quantityId).value);
-    const unitPrice = parseFloat(
-        document.getElementById(unitPriceId).innerText.replace("Rs ", "")
-    );
-    document.getElementById(totalPriceId).innerText =
-        "Rs " + (quantity * unitPrice).toFixed(2);
+function updateTotalPrice(index) {
+    const quantity = parseInt(document.getElementById('quantity-' + index).value);
+    const unitPrice = parseFloat(document.getElementById('unit-price-' + index).innerText.replace("Rs ", ""));
+    document.getElementById('total-price-' + index).innerText = "Rs " + (quantity * unitPrice).toFixed(2);
     updateCartTotal();
 }
 
@@ -30,8 +27,7 @@ function updateCartTotal() {
     totalPrices.forEach((price) => {
         cartTotal += parseFloat(price.innerText.replace("Rs ", ""));
     });
-    document.getElementById("total-cart-price").innerText =
-        "Rs " + cartTotal.toFixed(2);
+    document.getElementById("total-cart-price").innerText = "Rs " + cartTotal.toFixed(2);
     subTotal = cartTotal;
 }
 

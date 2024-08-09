@@ -92,7 +92,7 @@
         </li>
         <li class="nav-item active sidebar_li">
             <i class="fe fe fe-calendar fe-16"></i>
-          <a href="{{route('appointment')}}" class="sidebar_text" >
+          <a href="{{route('appointments.index')}}" class="sidebar_text" >
             <span class="ml-3 item-text">Appointments</span><span class="sr-only">(current)</span>
           </a>
         </li>

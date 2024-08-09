@@ -1,5 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
-     <a class="navbar-brand" href="{{ route('welcome') }}"><span class="logoContent">RAGAMA  ASAPUWA</span></a>
+     <a class="navbar-brand" href="{{ route('home') }}">
+        <img src="{{ asset('images/logos/' . app(\App\Http\Controllers\CompanySettingController::class)->getCompanyLogo()) }}"
+        style="width:auto; height:35px;" class="mt-4" alt="Company Logo">
+    </a>
         <div class="d-flex order-lg-last">
         <ul class="navbar-right">
             <div class="mt-4 btn-container" style="margin-right:50px; ">
@@ -25,7 +28,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('appointmentPage') }}">Appointments</a>
+                <a class="nav-link active" aria-current="page" href="">Appointments</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>

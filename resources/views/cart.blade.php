@@ -120,11 +120,11 @@
                   <!-- Quantity -->
                   <td class="align-middle text-center quantity-column">
                     <div class="d-flex flex-row justify-content-center">
-                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="updateQuantity(-1, 'quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')">
+                      <button type="button" class="btn btn-link px-2" onclick="updateQuantity(-1, '{{ $index }}', {{ $item['available_quantity'] }})">
                         <i class="fas fa-minus"></i>
                       </button>
-                      <input id="quantity-{{ $index }}" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm no-spinner text-center" style="width: 50px;" onchange="updateTotalPrice('quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')" />
-                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" onclick="updateQuantity(1, 'quantity-{{ $index }}', 'total-price-{{ $index }}', 'unit-price-{{ $index }}')">
+                      <input id="quantity-{{ $index }}" min="1" name="quantity" value="1" type="number" class="form-control form-control-sm no-spinner text-center" style="width: 50px;" onchange="updateTotalPrice('{{ $index }}')" />
+                      <button type="button" class="btn btn-link px-2" onclick="updateQuantity(1, '{{ $index }}', {{ $item['available_quantity'] }})">
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
@@ -132,7 +132,7 @@
 
                   <!-- Total -->
                   <td class="align-middle text-center total-column">
-                    <p class="mb-0" style="font-weight: 500;" name="total_price" id="total-price-{{ $index }}">{{ $item['price'] }}</p>
+                    <p class="mb-0" style="font-weight: 500;" name="total_price" id="total-price-{{ $index }}">Rs {{ $item['price'] }}</p>
                   </td>
 
                   <!-- Delete -->
@@ -144,6 +144,7 @@
                   </td>
                 </tr>
                 @endforeach
+
               </tbody>
             </table>
           </div>
