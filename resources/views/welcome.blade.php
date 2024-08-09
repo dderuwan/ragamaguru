@@ -8,7 +8,7 @@
 
 
     <!-- Bootstrap CSS -->
-    <link href="assets/web/website_assets/css/animate.min.css" rel="stylesheet">
+      <link href="assets/web/website_assets/css/animate.min.css" rel="stylesheet">
       <link href="assets/web/website_assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       <link href="assets/web/website_assets/plugins/themify/themify-icons.css" rel="stylesheet">
       <link href="assets/web/website_assets/plugins/fontawesome/css/all.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
       .navbar {
       z-index: 2;
       padding: 0 1rem;
-      background-color: transparent; /* Make navbar transparent */ 
+      background-color: transparent; /* Make navbar transparent */
       height: 80px;
       position: absolute; /* Position navbar absolutely */
       top: 0; /* Align to the top */
@@ -51,7 +51,7 @@
         width: 10px;
         height:30px;
     }
-  
+
 
 
 </style>
@@ -66,7 +66,10 @@
 
 <nav class="navbar navbar-expand-lg navbar-light header-sticky shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="assets/img/2023-12-25/I.png" alt=""></a>
+    <a class="navbar-brand" href="#">
+    <img src="{{ asset('images/logos/' . app(\App\Http\Controllers\CompanySettingController::class)->getCompanyLogo()) }}"
+    style="width:auto; height: 35px;"class="mt-2" alt="Company Logo">
+  </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -80,6 +83,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="">Appointments</a>
+
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ route('store') }}">Online Store</a>
@@ -96,7 +100,7 @@
         <div class="animation-slide owl-carousel owl-theme" id="animation-slide">
           <div class="item bg-img-hero" data-image-src="/assets/web/images/homeimg3.jpg"></div>
           <div class="item bg-img-hero" data-image-src="assets/web/images/slider1.png"></div>
-          <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>       
+          <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>
         </div>
     </div>
     <!-- /.End of header slider -->
@@ -132,7 +136,7 @@
 </div>
 <!-- /.End of hero header -->
 
-  
+
 
 
 
@@ -142,7 +146,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    
+
     <script src="assets/web/website_assets/plugins/bootstrap/js/popper.min.js"></script>
     <script src="assets/web/website_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/web/website_assets/plugins/owl-carousel/dist/owl.carousel.min.js"></script>
@@ -165,7 +169,7 @@
     <script src="assets/web/js/Food_cart/swiper/swiper-bundle.min.js"></script>
     <script src="assets/web/js/Food_cart/php-email-form/validate.js"></script>
     <script src="assets/web/js/Food_cart/main.js"></script>
-    
+
     <!-- sweetalert -->
 
     <script src="assets/sweetalert/sweetalert.min.js" type="text/javascript"></script>
@@ -179,7 +183,7 @@
     <script src="assets/web/website_assets/js/loadMap.js"></script>
 
 
-    
+
 
   </body>
 </html>

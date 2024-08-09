@@ -58,5 +58,19 @@ class CompanySettingController extends Controller
         
         return redirect()->back()->with('success', 'Company details saved successfully.');
     }
+
+
+    public function getCompanyDetails()
+    {
+        $companyDetail = CompanyDetails::first();
+        return view('includes.footer', compact('companyDetail'));
+    }
+    
+    public function getCompanyLogo()
+    {
+        $companyDetail = CompanyDetails::first();
+        return $companyDetail ? $companyDetail->logo : 'default-logo.png';
+    }
+    
 }
 

@@ -118,6 +118,7 @@ if (!empty($channelId)) {
             <a href="{{ route('products.show', $item->id) }}" class="card-img position-relative product-link">
               <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
               <button type="button" class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
+               
             </a>
 
             <div class="card-body text-center">
@@ -181,7 +182,7 @@ if (!empty($channelId)) {
           </div>
         </div>
       </div>
-      @if (empty($channelId))  
+      @if (empty($channelId))
       <p class="text-danger">No any latest videos yet..</p>
       @else
       <div class="row mb-3">
