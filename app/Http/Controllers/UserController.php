@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
+
 class UserController extends Controller
 {
     public function index()
@@ -122,5 +123,11 @@ class UserController extends Controller
 
         return redirect()->route('user.show')->with('success', 'User deleted successfully.');
     }
+
+
+
+
+    
+
 
 }

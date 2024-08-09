@@ -129,17 +129,24 @@ class POSController extends Controller
             }
 
             DB::commit();
-
-            $this->generateAndDownloadBill($pos->id);
+            
 
             notify()->success('Order created successfully. ⚡️', 'Success');
-            return redirect()->route('pospage')->with('success', 'Order created successfully.');
+            return redirect()->route('printAndRedirect', ['id' => $pos->id]);
+        
         } catch (Exception $e) {
             DB::rollback();
             Log::error('Failed to create order: ' . $e->getMessage());
             return redirect()->route('pospage')->withErrors(['error' => 'Failed to create order.']);
         }
     }
+
+    public function printAndRedirect($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('POS.print', compact('order'));
+    }
+
 
 
     protected function generateAndDownloadBill($orderId)

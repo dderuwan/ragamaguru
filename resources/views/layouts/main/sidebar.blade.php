@@ -126,6 +126,11 @@
               <i class="fe fe-users fe-16"></i>
               <span class="ml-3 item-text">Human Resource</span><span class="sr-only">(current)</span>
             </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="HR">
+            <li class="nav-item active">
+                    <a href="{{route('employee')}}" class="nav-link" ><span class="ml-3 item-text">Employee</span><span class="sr-only">(current)</span></a>
+                    </li>
+            </ul>
               <ul class="collapse list-unstyled pl-4 w-100" id="HR">
                 <li class="nav-item dropdown">
                   <a href="#attendance" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -165,8 +170,9 @@
                     </li>
                   </ul>
                 </li>
-            </ul>
-        </li>
+              </ul>
+                 
+          </li>
 
 
         <li class="nav-item dropdown">
@@ -185,10 +191,10 @@
                 <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text"> - User List</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('add_roles')}}" ><span class="ml-1 item-text"> - Add Role</span></a>
+                <a class="nav-link pl-3" href="{{route('addRole')}}" ><span class="ml-1 item-text"> - Add Role</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('role_list')}}" ><span class="ml-1 item-text"> - Role List</span></a>
+                <a class="nav-link pl-3" href="{{route('showRole')}}" ><span class="ml-1 item-text"> - Role List</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link pl-3" href="{{route('assign_user_role')}}" ><span class="ml-1 item-text"> - Assign User Roles</span></a>
