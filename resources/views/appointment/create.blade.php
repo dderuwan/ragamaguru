@@ -108,6 +108,19 @@
                 </div>
               </div>
 
+              <div class="form-row mt-1">
+                <div class="form-group col-md-6">
+                  <label for="reg_type" style="color:black;">Registered Type: <strong>{{$customerType->name}}</strong></label>
+                </div>
+              </div> 
+
+              @if (!empty($onlinebooking))
+              <div class="form-row mt-1">
+                <div class="form-group col-md-6">
+                  <label for="online_booking_date" style="color:black;">Online Booking Date: <strong>{{$onlinebooking->booking_date}}</strong></label>
+                </div>
+              </div> 
+              @endif
 
               <div class="form-row mt-1">
                 <div class="form-group col-md-6">

@@ -13,11 +13,14 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\RegisterController as ControllersRegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,6 +65,11 @@ Route::get('lang/change', [LangController::class,'change'])->name('changeLang');
 // Authentication Routes
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+
+
+// register
+Route::get('/register',[ControllersRegisterController::class, 'index'])->name('register.index');  
+Route::post('/register/store',[ControllersRegisterController::class, 'store'])->name('register.store');  
 
 
 // Password Reset Routes
@@ -162,6 +170,14 @@ Route::post('/appointments/save', [AppointmentsController::class, 'store'])->nam
 Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
 Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
 
+Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+Route::get('/bookings/date/{date}', [BookingController::class, 'getBookingsByDate'])->name('bookings.date');
+// website appointment
+Route::get('/customerappointments', [AppointmentsController::class, 'cusAppointmentCreate'])->name('cusAppointmentCreate');
+Route::post('/check-date', [BookingController::class, 'checkDate'])->name('checkDate');
+Route::post('/generate-otp', [BookingController::class, 'generateOtp'])->name('generate.otp');
+Route::post('/verify-otp', [BookingController::class, 'verifyOtp'])->name('verify.otp');
+Route::post('/bookingstore', [BookingController::class, 'store'])->name('booking.store');
 
 
 

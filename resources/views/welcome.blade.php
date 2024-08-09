@@ -116,7 +116,7 @@
                                                 <a href="{{ route('login') }}" id="btn-sign" class="btn btn-primary">SIGN IN</a>
                                             </div>
                                             <div class="btn-container">
-                                                <a href="{{ route('register') }}" id="btn-join" class="btn btn-white">JOIN US</a>
+                                                <a href="{{ route('register.index') }}" id="btn-join" class="btn btn-white">JOIN US</a>
                                             </div>
                                         </ul>
                                     </div>

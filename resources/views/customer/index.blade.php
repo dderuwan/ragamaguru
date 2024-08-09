@@ -33,7 +33,8 @@
                                             <th>Address</th>
                                             <th>Registered Time</th>
                                             <th>User_ID</th>
-                                            <th>Type</th>
+                                            <th>Reg. Type</th>
+                                            <th>Country Type</th>
                                             <th>Verify</th>
                                             <th>Action</th>
                                         </tr>
@@ -45,9 +46,10 @@
                                             <td>{{$customer->name}}</td>
                                             <td>{{$customer->contact}}</td>
                                             <td>{{$customer->address}}</td>
-                                            <td>{{$customer->registered_time}}</td>
+                                            <td>{{$customer->registered_time}}</td> 
                                             <td>{{$customer->user_id}}</td>
-                                            <td>{{$customer->customer_type}}</td>
+                                            <td>{{$customer->customerType->name}}</td>
+                                            <td>{{$customer->countryType->name}}</td>
                                             @if ($customer->isVerified)
                                             <td><span class="fe fe-15 fe-check"></span></td>
                                             @else

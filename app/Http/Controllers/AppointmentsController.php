@@ -6,9 +6,12 @@ use App\Models\ApNumbers;
 use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
+use App\Models\Bookings;
 use App\Models\Customer;
+use App\Models\CustomerType;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 
 class AppointmentsController extends Controller
 {
@@ -24,7 +27,7 @@ class AppointmentsController extends Controller
     public function getAppointmentsByDate($date)
     {
         $appointments = Appointments::whereDate('date', $date)
-            ->with('customer','apNumber') 
+            ->with('customer', 'apNumber')
             ->get();
 
         return response()->json($appointments->map(function ($appointment) {
@@ -32,6 +35,7 @@ class AppointmentsController extends Controller
                 'id' => $appointment->id,
                 'ap_number' => $appointment->apNumber->number ?? 'N/A',
                 'customer_name' => $appointment->customer->name ?? 'N/A',
+                'contact' => $appointment->customer->contact ?? 'N/A',
                 'visit_day' => $appointment->visit_day,
             ];
         }));
@@ -51,6 +55,10 @@ class AppointmentsController extends Controller
             $todayAppointments = Appointments::whereDate('date', $today)->pluck('ap_numbers_id')->toArray();
 
             $latestAppointment = Appointments::where('customer_id', $id)->latest()->first();
+
+            $onlinebooking = Bookings::where('customer_id', $id)->latest()->first();
+
+            $customerType = CustomerType::where('id', $customer->customer_type_id)->latest()->first();
 
             $lastVisitDay = null;
             $firstVisit = null;
@@ -86,7 +94,9 @@ class AppointmentsController extends Controller
                 'lastVisitDay',
                 'firstVisit',
                 'secondVisit',
-                'thirdVisit'
+                'thirdVisit',
+                'onlinebooking',
+                'customerType'
             ));
         } else {
             return redirect()->back()->with('error', 'Customer not found.');
@@ -142,6 +152,25 @@ class AppointmentsController extends Controller
 
     public function destroy(Appointments $appointments)
     {
-        //
+    }
+
+    public function cusAppointmentCreate()
+    {
+        //add user to session - id is 1
+        Session::put('user_id', 27); //testing purpose 
+
+        $logged_user_id = Session::get('user_id');
+
+        if (empty($logged_user_id)) {
+            return redirect()->back()->with('error', 'Please Login first');
+        } else {
+            $customer = Customer::findOrFail($logged_user_id);
+
+            $hasAppointment = $customer->appointments()->exists();
+
+            $first_visit = $hasAppointment;
+
+            return view('appointments', compact('customer', 'first_visit'));
+        }
     }
 }

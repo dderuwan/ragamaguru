@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -14,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer_list = Customer::all();
+        $customer_list = Customer::with(['customerType', 'countryType'])->get();
         return view('customer.index', compact('customer_list'));
     }
 
@@ -41,6 +42,8 @@ class CustomerController extends Controller
             ]);
         } else {
 
+            $password = Str::random(8);
+
             $customer = Customer::create([
                 'name' => $request->name,
                 'contact' => $request->contact,
@@ -48,8 +51,10 @@ class CustomerController extends Controller
                 'otp' => $otp,
                 'isVerified' => false,
                 'user_id' => 1,
-                'customer_type' => 1,
+                'customer_type_id' => 2,
+                'country_type_id' => 1,
                 'registered_time' => now(),
+                'password' => bcrypt($password), //need to send password and contact through sms after verify
             ]);
 
             return redirect()->back()->with([
@@ -128,8 +133,9 @@ class CustomerController extends Controller
     }
 
 
-    public function reverify(Request $request){
-        
+    public function reverify(Request $request)
+    {
+
         $customer = Customer::where('contact', $request->addedContact)
             ->where('otp', $request->otp)
             ->first();
@@ -162,7 +168,6 @@ class CustomerController extends Controller
         $customer->save();
 
         return response()->json(['success' => 'OTP has been resent.']);
-        
     }
 
     public function updateAddress(Request $request, $id)
