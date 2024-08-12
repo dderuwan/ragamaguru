@@ -33,7 +33,8 @@
                                             <th>Address</th>
                                             <th>Registered Time</th>
                                             <th>User_ID</th>
-                                            <th>Type</th>
+                                            <th>Reg. Type</th>
+                                            <th>Country Type</th>
                                             <th>Verify</th>
                                             <th>Action</th>
                                         </tr>
@@ -45,9 +46,10 @@
                                             <td>{{$customer->name}}</td>
                                             <td>{{$customer->contact}}</td>
                                             <td>{{$customer->address}}</td>
-                                            <td>{{$customer->registered_time}}</td>
+                                            <td>{{$customer->registered_time}}</td> 
                                             <td>{{$customer->user_id}}</td>
-                                            <td>{{$customer->customer_type}}</td>
+                                            <td>{{$customer->customerType->name}}</td>
+                                            <td>{{$customer->countryType->name}}</td>
                                             @if ($customer->isVerified)
                                             <td><span class="fe fe-15 fe-check"></span></td>
                                             @else
@@ -59,15 +61,15 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     @if (!$customer->isVerified)
-                                                    <button class="dropdown-item" onclick="verifyModal('{{ $customer->id }}','{{ $customer->contact }}')">Verify</button>
+                                                    <button data-toggle="modal" data-target="#verifyModal"  class="dropdown-item" onclick="verifyModal('{{ $customer->id }}','{{ $customer->contact }}')">Verify</button>
                                                     @endif
                                                     <a class="dropdown-item" href="{{route('editcustomer',$customer->id)}}">Edit</a>
-                                                    <button class="dropdown-item text-danger" onclick="confirmDelete('{{ $customer->id }}')">Remove</button>
+                                                    <button data-toggle="modal" data-target="#deleteModal" class="dropdown-item text-danger" onclick="confirmDelete('{{ $customer->id }}')">Remove</button>
                                                     <form id="delete-form-{{ $customer->id }}" action="{{ route('customer.destroy', $customer->id) }}" method="POST" style="display:none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                    <a class="dropdown-item text-success" href="#">Appointment</a>
+                                                    <a class="dropdown-item text-success" href="{{ route('appointments.create',$customer->id) }}">Appointment</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -159,7 +161,7 @@
         const deleteForm = document.getElementById('delete-form-' + customerId);
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
-        $('#deleteModal').modal('show');
+        //$('#deleteModal').modal('show');
 
         confirmDeleteButton.onclick = function() {
             deleteForm.submit();
@@ -172,7 +174,7 @@
         document.getElementById('customer_id').value = customerId;
         document.getElementById('addedContact').value = contactNumber;
         document.getElementById('otpsendmsg').innerText="";
-        $('#verifyModal').modal('show');
+        //$('#verifyModal').modal('show');
     }
 
     document.addEventListener('DOMContentLoaded', function() {

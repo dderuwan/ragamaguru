@@ -6,7 +6,7 @@
         background-color: #27E151;
         border-color: #27E151;
     }
-  
+
     .fc-time {
         padding: 0 0 0 2px;
         font-size: 12px;
@@ -17,185 +17,127 @@
         padding: 0 0 0 2px;
         font-size: 12px;
     }
-    .fc td, .fc th {
+
+    .fc td,
+    .fc th {
         border-left: 1px solid #ddd !important;
     }
 </style>
 
-<div class="wrapper">     
-  <main role="main" class="main-content">
-    <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div class="col-12">
-          <div class="row align-items-center my-3">
-            <div class="col">
-              <h2 class="page-title">All Appointments</h2>
-            </div>
-            <div class="col-auto">
-              <button type="button" class="btn" data-toggle="modal" data-target=".modal-calendar"><span class="fe fe-filter fe-16 text-muted"></span></button>
-              <a href="{{ route('new_appointment') }}"><button type="button" class="btn btn-primary" data-toggle="modal">
-                <span class="fe fe-plus fe-16 mr-3"></span>New Appointment</button></a>
-            </div>
-          </div>
-          <div id='calendar'></div>
-          <!-- new event modal -->
-          <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="varyModalLabel">New Event</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+<div class="wrapper">
+    <main role="main" class="main-content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="row align-items-center my-3">
+                        <div class="col">
+                            <h2 class="page-title">All Appointments</h2>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{{route('customer.index')}}"><button type="button" class="btn btn-primary" data-toggle="modal">
+                                    Customer List</button></a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{{route('bookings.index')}}"><button type="button" class="btn btn-primary" data-toggle="modal">
+                                    Online Bookings</button></a>
+                        </div>
                     </div>
-                    <div class="modal-body p-4">
-                      <form>
-                        <div class="form-group">
-                          <label for="eventTitle" class="col-form-label">Title</label>
-                          <input type="text" class="form-control" id="eventTitle" placeholder="Add event title">
-                        </div>
-                        <div class="form-group">
-                          <label for="eventNote" class="col-form-label">Note</label>
-                          <textarea class="form-control" id="eventNote" placeholder="Add some note for your event"></textarea>
-                        </div>
-                        <div class="form-row">
-                          <div class="form-group col-md-8">
-                            <label for="eventType">Event type</label>
-                            <select id="eventType" class="form-control select2">
-                              <option value="work">Work</option>
-                              <option value="home">Home</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="form-group col-md-6">
-                            <label for="date-input1">Start Date</label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                              </div>
-                              <input type="text" class="form-control drgpicker" id="drgpicker-start" value="04/24/2020">
+
+                    <div class="row my-4">
+                        <!-- Small table -->
+                        <div class="col-md-12">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <label>Select Date:</label>
+                                    <input type="date" class="form-control mb-3 col-md-6" id="appointmentDate" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="loadAppointments()">
+
+                                    <!-- table -->
+                                    <table class="table " id="">
+                                        <thead>
+                                            <tr>
+                                                <th style="color: black;">#</th>
+                                                <th style="color: black;">Appointment Number</th>
+                                                <th style="color: black;">Customer Name</th>
+                                                <th style="color: black;">Contact Number</th>
+                                                <th style="color: black;">Visit Day</th>
+                                                <th class="text-center" style="color: black;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="appointmentsBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label for="startDate">Start Time</label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <div class="input-group-text" id="button-addon-time"><span class="fe fe-clock fe-16"></span></div>
-                              </div>
-                              <input type="text" class="form-control time-input" id="start-time" placeholder="10:00 AM">
-                            </div>
-                          </div>
                         </div>
-                        <div class="form-row">
-                          <div class="form-group col-md-6">
-                            <label for="date-input1">End Date</label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                              </div>
-                              <input type="text" class="form-control drgpicker" id="drgpicker-end" value="04/24/2020">
-                            </div>
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label for="startDate">End Time</label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <div class="input-group-text" id="button-addon-time"><span class="fe fe-clock fe-16"></span></div>
-                              </div>
-                              <input type="text" class="form-control time-input" id="end-time" placeholder="11:00 AM">
-                            </div>
-                          </div>
-                        </div>
-                      </form>
                     </div>
-                    <div class="modal-footer d-flex justify-content-between">
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="RepeatSwitch" checked>
-                        <label class="custom-control-label" for="RepeatSwitch">All day</label>
-                      </div>
-                      <button type="button" class="btn mb-2 btn-primary">Save Event</button>
-                    </div>
-                  </div>
-                </div>
-              </div> <!-- new event modal -->
-        </div> <!-- .col-12 -->
-      </div> <!-- .row -->
-    </div> <!-- .container-fluid -->      
-  </main> <!-- main -->
+
+                </div> <!-- .col-12 -->
+            </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+    </main> <!-- main -->
 </div> <!-- .wrapper -->
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar;
-
-    var useDatabaseEvents = false; // Set to true to fetch events from database
-
-    var hardcodedEvents = [
-      {
-        title: 'Event 1',
-        start: '2024-07-20T10:30:00',
-        end: '2024-07-20T12:30:00',
-        className: 'fc-event-custom event' 
-      },
-      {
-        title: 'Event 2',
-        start: '2024-07-20T14:00:00',
-        className: 'fc-event-custom event'
-      },
-      {
-        title: 'Event 4',
-        start: '2024-07-20T14:00:00',
-        className: 'fc-event-custom event'
-      },
-      {
-        title: 'Event 3',
-        start: '2024-07-26T09:00:00',
-        className: 'fc-event-custom event'
-      }
-    ];
-
-    calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: ['dayGrid', 'timeGrid', 'list', 'bootstrap'],
-      timeZone: 'UTC',
-      themeSystem: 'bootstrap',
-      header: {
-        left: 'today, prev, next',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-      },
-      buttonIcons: {
-        prev: 'fe-arrow-left',
-        next: 'fe-arrow-right',
-        prevYear: 'left-double-arrow',
-        nextYear: 'right-double-arrow'
-      },
-      weekNumbers: true,
-      eventLimit: true, 
-      events: useDatabaseEvents ? '/api/events' : hardcodedEvents,
-      eventTimeFormat: { 
-        hour: 'numeric',
-        minute: '2-digit',
-        meridiem: 'short'
-      },
-      eventContent: function(arg) {
-        return {
-          html: `
-            <div class="fc-time">${arg.timeText}</div>
-            <div class="fc-title">${arg.event.title}</div>
-          `
-        };
-      },
-      eventRender: function(info) {
-        if (info.event.extendedProps.className) {
-          info.el.classList.add(info.event.extendedProps.className);
-        }
-      }
+    document.addEventListener("DOMContentLoaded", function() {
+        loadAppointments();
     });
 
-    calendar.render();
-  });
+    function loadAppointments() {
+        const date = document.getElementById('appointmentDate').value;
+        const url = `{{ route('appointments.date', ':date') }}`.replace(':date', date);
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const appointmentsBody = document.getElementById('appointmentsBody');
+                appointmentsBody.innerHTML = '';
+
+                data.forEach((appointment, index) => {
+                    let visitDayText = '';
+                    switch (appointment.visit_day) {
+                        case '1':
+                            visitDayText = 'First Visit';
+                            break;
+                        case '2':
+                            visitDayText = 'Second Visit';
+                            break;
+                        case '3':
+                            visitDayText = 'Third Visit';
+                            break;
+                        default:
+                            visitDayText = 'Other Visit';
+                            break;
+                    }
+                    
+                    const row = `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${appointment.ap_number}</td>
+                                <td>${appointment.customer_name}</td>
+                                <td>${appointment.contact}</td>
+                                <td>${visitDayText}</td>
+                                <td>
+                                    <div class="action-icons">
+                                        <a href="#" class="btn btn-warning"><i class="fe fe-edit fe-16"></i></a>
+                                        <button class=" btn btn-danger action-icon delete-icon" onclick="confirmDelete(${appointment.id})" title="Delete">
+                                            <i class="fe fe-trash-2 "></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    appointmentsBody.insertAdjacentHTML('beforeend', row);
+                });
+            })
+            .catch(error => console.error('Error fetching appointments:', error));
+    }
+
+    function confirmDelete(appointmentId) {
+        if (confirm('Are you sure you want to delete this appointment?')) {
+            document.getElementById(`delete-form-${appointmentId}`).submit();
+        }
+    }
 </script>
 
 @endsection

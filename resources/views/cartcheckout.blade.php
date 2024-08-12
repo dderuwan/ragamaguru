@@ -46,6 +46,10 @@
                 text-align: center;
             }
         }
+          .logoContent{
+            color: black;
+            margin-top:30px;
+        }
     </style>
 
 </head>
@@ -187,7 +191,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
-                
+
                 </div>
 
             </div>
@@ -257,7 +261,7 @@
             if (paymentMethodSelect == 1) { //card
                 //card payment
             } else if (paymentMethodSelect == 2) { //cod
-                //cash on delivery 
+                //cash on delivery
                 orderAdd(paymentMethodSelect);
             }
 

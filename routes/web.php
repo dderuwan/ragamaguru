@@ -1,7 +1,9 @@
 <?php
+use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\OfferItemsController;
+use App\Http\Controllers\POSController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RoleController;
@@ -11,12 +13,14 @@ use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\RegisterController as ControllersRegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,7 +38,6 @@ Auth::routes();
 
 Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
-Route::view('/appointments', 'appointment')->name('appointmentPage');
 Route::view('/products', 'products')->name('products');
 Route::view('/cart', 'cart')->name('cart');
 
@@ -64,6 +67,11 @@ Route::get('lang/change', [LangController::class,'change'])->name('changeLang');
 // Authentication Routes
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+
+
+// register
+Route::get('/register',[ControllersRegisterController::class, 'index'])->name('register.index');  
+Route::post('/register/store',[ControllersRegisterController::class, 'store'])->name('register.store');  
 
 
 // Password Reset Routes
@@ -155,11 +163,23 @@ Route::get('purchase/{request_code}', [PurchaseController::class, 'show'])->name
 
 
 //appointment module
-Route::view('/Appointments', 'appointment.index')->name('appointment');
-Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
-Route::get('/Appointments/New-appointment/customers/{id}', [AppointmentController::class, 'getCustomerDetails']);
-Route::post('/Appointments/New-appointment/store', [AppointmentController::class, 'storeAppointments'])->name('appointment.store');
+// Route::view('/Appointments', 'appointment.index')->name('appointment');
+// Route::get('/Appointments/New-appointment', [AppointmentController::class, 'showCustomers'])->name('new_appointment');
+// Route::get('/Appointments/New-appointment/customers/{id}', [AppointmentController::class, 'getCustomerDetails']);
+// Route::post('/Appointments/New-appointment/store', [AppointmentController::class, 'storeAppointments'])->name('appointment.store');
+Route::get('/appointments/add/{id}', [AppointmentsController::class, 'create'])->name('appointments.create');
+Route::post('/appointments/save', [AppointmentsController::class, 'store'])->name('appointments.store');
+Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
+Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
 
+Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+Route::get('/bookings/date/{date}', [BookingController::class, 'getBookingsByDate'])->name('bookings.date');
+// website appointment
+Route::get('/customerappointments', [AppointmentsController::class, 'cusAppointmentCreate'])->name('cusAppointmentCreate');
+Route::post('/check-date', [BookingController::class, 'checkDate'])->name('checkDate');
+Route::post('/generate-otp', [BookingController::class, 'generateOtp'])->name('generate.otp');
+Route::post('/verify-otp', [BookingController::class, 'verifyOtp'])->name('verify.otp');
+Route::post('/bookingstore', [BookingController::class, 'store'])->name('booking.store');
 
 
 
@@ -180,10 +200,18 @@ Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('user.edit')
 Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateUser');
 
 //roles
-Route::view('/add_role', 'setting.roles.add_roles')->name('add_roles');
-Route::view('/role_list', 'setting.roles.role_list')->name('role_list');
 Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
 Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
+Route::post('/storeRole', [RoleController::class, 'storeRole'])->name('storeRole');
+Route::get('/addRole', [RoleController::class, 'addRole'])->name('addRole');
+Route::get('/showRole', [RoleController::class, 'showRole'])->name('showRole');
+Route::get('/editRole/{id}', [RoleController::class, 'editRole'])->name('editRole');
+Route::put('/updateRole/{id}', [RoleController::class, 'updateRole'])->name('updateRole');
+Route::delete('/deleteRole/{id}', [RoleController::class, 'deleteRole'])->name('deleteRole');
+Route::post('/assignRole', [RoleController::class, 'assignRole'])->name('assignRole');
+Route::get('/addPermission', [RoleController::class, 'addPermission'])->name('addPermission');
+Route::post('/storePermission', [RoleController::class, 'storePermission'])->name('storePermission');
+Route::get('/showPermission', [RoleController::class, 'showPermission'])->name('showPermission');
 
 
 //HR module
@@ -273,18 +301,29 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
  Route::get('/showpos/{id}', [App\Http\Controllers\POSController::class, 'show'])->name('showopos');
  Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
+ Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
 
- Route::get('/download-order-pdf/{order_id}', [POSController::class, 'downloadOrderPdf'])->name('downloadOrderPdf');
 
 
+
+ Route::group(['middleware' => ['checkRole:manager']], function () {
+    Route::resource('customer', CustomerController::class);
+    // other routes for manager
+ });
+
+ Route::group(['middleware' => ['checkRole:hr']], function () {
+    Route::get('/allcustomers', [CustomerController::class, 'index'])->name('allcustomers');
+    Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
+    // other routes for HR
+ });
 
  //dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-//revenue
-Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
-Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
-Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
+ //revenue
+ Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
+ Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
+ Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
 
 
 
@@ -296,6 +335,8 @@ Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDai
 
 
 ?>
+
+
 
 
 

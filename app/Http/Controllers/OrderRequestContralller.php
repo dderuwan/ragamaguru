@@ -28,13 +28,14 @@ class OrderRequestContralller extends Controller
 
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'supplier_code' => 'required|string|max:255',
             'items.*.item_code' => 'required|string|max:255',
             'items.*.instock' => 'required|integer',
             'items.*.quantity' => 'required|integer',
         ]);
-       
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }

@@ -12,21 +12,21 @@
 
 .action-icon {
     display: inline-block;
-    width: 36px; 
-    height: 36px; 
-    line-height: 36px; 
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 5px; 
+    margin-right: 5px;
 }
 
 .edit-icon {
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
 }
 
 .delete-icon {
-    background-color: #f8d7da; 
+    background-color: #f8d7da;
 }
 
 </style>
@@ -78,17 +78,17 @@
                                                     <a href="{{ route('editsupplier', $supplier->id) }}" class="action-icon edit-icon" title="Edit">
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
-                                                    
+
                                                     <button class="action-icon delete-icon" onclick="confirmDelete('{{ $supplier->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
-                                                    
+
                                                     <form id="delete-form-{{ $supplier->id }}" action="{{ route('supplier.destroy', $supplier->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
                                                 </div>
-                                            </td>                                         
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -101,41 +101,28 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this supplier?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes, Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </main>
 
 @endsection
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function confirmDelete(supplierId) {
-        const deleteForm = document.getElementById('delete-form-' + supplierId);
-        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-
-        $('#deleteModal').modal('show');
-
-        confirmDeleteButton.onclick = function() {
-            deleteForm.submit();
-        }
+     function confirmDelete(supplierId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + supplierId).submit();
+            }
+        })
     }
 </script>
 @endsection

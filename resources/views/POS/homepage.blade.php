@@ -353,6 +353,7 @@
             </div>
         </div>
     </div>
+
 </main>
 @endsection
 
@@ -599,18 +600,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
 </script>
 
-<script>
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-        @if (session('downloadLink'))
-            <br>
-            <a href="{{ route('downloadOrderPdf', basename(session('downloadLink'))) }}" class="btn btn-primary mt-2">Download Bill</a>
-        @endif
-    </div>
-@endif
-
-</script>
 
 @endsection
 

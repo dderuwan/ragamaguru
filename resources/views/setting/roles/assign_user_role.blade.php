@@ -11,33 +11,37 @@
             <h3><strong class="card-title">Assigning User to Role</strong></h3>
           </div>
           <div class="card-body">
-          <form action="" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="form-group row">
-                    <label for="userSelect" class="col-sm-2 col-form-label" style="color:black;">User <i class="text-danger">*</i></label>
-                    <div class="col-sm-8">
-                        <select class="form-control" id="userSelect" name="user_id" required>
-                            <option value="">Select User</option>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+          <form action="{{ route('assignRole') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group row">
+                <label for="userSelect" class="col-sm-2 col-form-label" style="color:black;">User <i class="text-danger">*</i></label>
+                <div class="col-sm-8">
+                    <select class="form-control" id="userSelect" name="user_id" required>
+                        <option value="">Select User</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="form-group row">
-                    <label for="roleSelect" class="col-sm-2 col-form-label" style="color:black;">Role Name <i class="text-danger">*</i></label>
-                    <div class="col-sm-8">
-                        <select class="form-control" id="roleSelect" name="role_id" required>
-                            <option value="">Select Role Name</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="form-group row">
+                <label for="roleSelect" class="col-sm-2 col-form-label" style="color:black;">Role Name <i class="text-danger">*</i></label>
+                <div class="col-sm-8">
+                    <select class="form-control" id="roleSelect" name="role_id" required>
+                        <option value="">Select Role</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="form-group row">
-                    <div class="col-sm-10 mt-5">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 mt-5">
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-            </form>
+            </div>
+        </form>
+
           </div>
         </div>
 

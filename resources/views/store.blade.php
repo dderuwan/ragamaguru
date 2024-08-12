@@ -46,6 +46,18 @@
             overflow: hidden;
         }
 
+    .product-image {
+        width: 300px;
+        height: 200px;
+        object-fit: cover; /* Ensures the image covers the container without stretching */
+    }
+
+    .logoContent{
+        color: black;
+        margin-top:30px;
+    }
+
+
         .product-image {
             width: 300px;
             height: 200px;
@@ -76,6 +88,8 @@
             </div>
         </div>
     </div>
+</div>
+
 
 
     <header>
@@ -105,6 +119,7 @@
     </header>
 
 
+
     <!-- Products -->
     <div class="section menu" id="product-list">
         <div class="container" data-aos="fade-up">
@@ -117,6 +132,10 @@
             </div>
             <div class="row" id="products-container">
                 @foreach ($item_list as $item)
+
+
+
+
                 <div class="col-lg-4 col-md-6 mb-4 product-item" data-name="{{ $item->name }}">
                     <div class="card border-0 menu-item box-shadow-lg rounded-0 ">
                         <a href="{{ route('products.show', $item->id) }}" class="card2-img position-relative product-link">
@@ -165,6 +184,7 @@
             </li>
         </ul>
     </nav>
+
 
 
 

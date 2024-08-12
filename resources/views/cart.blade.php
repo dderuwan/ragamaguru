@@ -37,6 +37,14 @@
       margin-left: 600px;
     }
 
+
+    .logoContent{
+        color: black;
+        margin-top:30px;
+    }
+
+
+
     @media (max-width: 992px) {
       .title {
         margin-left: 0;
@@ -201,6 +209,7 @@
   </script>
 
   <script>
+
     // Function to delete product from cart
 
     function deleteProduct(rowId, index) {

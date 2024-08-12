@@ -42,12 +42,11 @@
                                                 </a>
 
                                                 <!-- Delete Button -->
-                                                <form id="delete-form-{{ $Treatment->id }}" action="{{ route('deleteTreatment', $Treatment->id) }}" method="POST" class="d-inline">
+
+                                                 <button class="btn btn-danger" onclick="confirmDelete({{ $Treatment->id }})"><i class="fe fe-trash fe-16"></i></button>
+                                                <form id="delete-form-{{ $Treatment->id }}" action="{{ route('deleteTreatment', $Treatment->id) }}" method="POST" style="display:none;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this treatment?');">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -98,6 +97,7 @@
         </div>
     </div>
 
+
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -123,11 +123,23 @@
 @endsection
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function confirmDelete(id) {
-        if(confirm('Are you sure you want to delete this treatment?')) {
-            document.getElementById('deleteForm' + id).submit();
-        }
+
+      function confirmDelete(supplierId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + supplierId).submit();
+            }
+        })
     }
 </script>
 @endsection

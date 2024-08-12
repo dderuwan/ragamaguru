@@ -32,9 +32,14 @@
     @include('includes.css')
 
     <style>
-      .product-section {
-        min-height:500px;
-      }
+    .product-section {
+    min-height:500px;
+    }
+
+    .logoContent{
+        color: black;
+        margin-top:30px;
+    }
 
 
     </style>
