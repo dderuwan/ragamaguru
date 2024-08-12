@@ -116,9 +116,9 @@ if (!empty($channelId)) {
         <div class="col-lg-3 col-md-4 col-sm-6">
           <div class="card border-0 menu-item box-shadow-lg rounded-0 mb-4">
             <a href="{{ route('products.show', $item->id) }}" class="card-img position-relative product-link">
-    <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
-    <button type="button" class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
-</a>
+              <img src="{{ $item->image ? asset('images/items/' . $item->image) : asset('images/items/default.png') }}" class="product-image img-fluid wd_xs_100" alt="{{ $item->name }}">
+              <button type="button" class="btn-buy position-absolute btn btn-primary btn-sm">Buy now</button>
+            </a>
 
             <div class="card-body text-center">
               <h6 class="card-title mb-0 weeklyoffer-title text-dark product-name">{{ $item->name }}</h6>

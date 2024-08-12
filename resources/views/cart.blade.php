@@ -88,56 +88,56 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($cart as $index => $item)
-                <tr id="product-row-{{ $index }}">
+                  @foreach($cart as $index => $item)
+                  <tr id="product-row-{{ $index }}">
 
-                  <!-- Image -->
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <img src="{{ $item['image'] ? asset('images/items/' . $item['image']) : asset('images/items/default.png') }}" class="img-fluid rounded-3" style="width: 80px;" alt="product">
-                    </div>
-                  </td>
+                      <!-- Image -->
+                      <td>
+                          <div class="d-flex align-items-center">
+                              <img src="{{ isset($item['image']) ? asset('images/items/' . $item['image']) : asset('images/items/default.png') }}" class="img-fluid rounded-3" style="width: 80px;" alt="product">
+                          </div>
+                      </td>
 
-                  <!-- Product -->
-                  <td class="align-middle">
-                    <p class="mb-0" style="font-weight: 500;" name="item_name">{{ $item['name'] }}</p>
-                    <input type="hidden" name="item_code" value="{{ $item['item_code'] }}">
-                  </td>
+                      <!-- Product -->
+                      <td class="align-middle">
+                          <p class="mb-0" style="font-weight: 500;" name="item_name">{{ $item['name'] ?? 'Unknown' }}</p>
+                          <input type="hidden" name="item_code" value="{{ $item['item_code'] ?? 'N/A' }}">
+                      </td>
 
-                  <!-- Price -->
-                  <td class="align-middle text-center price-column">
-                    <p class="mb-0" style="font-weight: 500;" name="price" id="unit-price-{{ $index }}">{{ $item['price'] }}</p>
-                  </td>
+                      <!-- Price -->
+                      <td class="align-middle text-center price-column">
+                          <p class="mb-0" style="font-weight: 500;" name="price" id="unit-price-{{ $index }}">{{ $item['price'] ?? 'N/A' }}</p>
+                      </td>
 
-                  <!-- Quantity -->
-                  <td class="align-middle text-center quantity-column">
-                    <div class="d-flex flex-row justify-content-center">
-                      <button type="button" class="btn btn-link px-2" onclick="updateQuantity(-1, '{{ $index }}', {{ $item['available_quantity'] }})">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                      <input id="quantity-{{ $index }}" min="1" name="quantity" value="1" type="number" class="form-control form-control-sm no-spinner text-center" style="width: 50px;" onchange="updateTotalPrice('{{ $index }}')" />
-                      <button type="button" class="btn btn-link px-2" onclick="updateQuantity(1, '{{ $index }}', {{ $item['available_quantity'] }})">
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </div>
-                  </td>
+                      <!-- Quantity -->
+                      <td class="align-middle text-center quantity-column">
+                          <div class="d-flex flex-row justify-content-center">
+                              <button type="button" class="btn btn-link px-2" onclick="updateQuantity(-1, '{{ $index }}', {{ $item['available_quantity'] ?? 0 }})">
+                                  <i class="fas fa-minus"></i>
+                              </button>
+                              <input id="quantity-{{ $index }}" min="1" name="quantity" value="1" type="number" class="form-control form-control-sm no-spinner text-center" style="width: 50px;" onchange="updateTotalPrice('{{ $index }}')" />
+                              <button type="button" class="btn btn-link px-2" onclick="updateQuantity(1, '{{ $index }}', {{ $item['available_quantity'] ?? 0 }})">
+                                  <i class="fas fa-plus"></i>
+                              </button>
+                          </div>
+                      </td>
 
-                  <!-- Total -->
-                  <td class="align-middle text-center total-column">
-                    <p class="mb-0" style="font-weight: 500;" name="total_price" id="total-price-{{ $index }}">Rs {{ $item['price'] }}</p>
-                  </td>
+                      <!-- Total -->
+                      <td class="align-middle text-center total-column">
+                          <p class="mb-0" style="font-weight: 500;" name="total_price" id="total-price-{{ $index }}">Rs {{ $item['price'] ?? '0.00' }}</p>
+                      </td>
 
-                  <!-- Delete -->
-                  <td class="align-middle">
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a href="#!" class="text-danger" onclick="deleteProduct('product-row-{{ $index }}', {{ $index }})">
-                        <i class="fas fa-trash fa-lg"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                @endforeach
-
+                      <!-- Delete -->
+                      <td class="align-middle">
+                          <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                              <a href="#!" class="text-danger" onclick="deleteProduct('product-row-{{ $index }}', {{ $index }})">
+                                  <i class="fas fa-trash fa-lg"></i></a>
+                          </div>
+                      </td>
+                  </tr>
+                  @endforeach
               </tbody>
+
             </table>
           </div>
 
