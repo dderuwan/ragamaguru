@@ -90,6 +90,21 @@
         </li>
 
         <li class="nav-item dropdown">
+          <a href="#bookings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-box fe-16"></i>
+            <span class="ml-3 item-text">Bookings</span><span class="sr-only">(current)</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="bookings">
+            <li class="nav-item active">
+              <a class="nav-link pl-3" href="{{route('bookings.indexLocal')}}"><span class="ml-1 item-text">Local</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link pl-3" href="{{route('bookings.indexInternational')}}"><span class="ml-1 item-text">International</span></a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
           <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
             <i class="fe fe-file-text fe-16"></i>
             <span class="ml-3 item-text">Invoices</span><span class="sr-only">(current)</span>

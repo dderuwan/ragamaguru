@@ -19,4 +19,6 @@ class Bookings extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    
 }

@@ -7,6 +7,8 @@ use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
 use App\Models\Bookings;
+use App\Models\Country;
+use App\Models\CountryType;
 use App\Models\Customer;
 use App\Models\CustomerType;
 use Illuminate\Support\Carbon;
@@ -56,9 +58,13 @@ class AppointmentsController extends Controller
 
             $latestAppointment = Appointments::where('customer_id', $id)->latest()->first();
 
-            $onlinebooking = Bookings::where('customer_id', $id)->latest()->first();
+            $onlinebooking = Bookings::where('customer_id', $id)->latest()->first(); 
 
             $customerType = CustomerType::where('id', $customer->customer_type_id)->latest()->first();
+
+            $countryType = CountryType::where('id', $customer->country_type_id)->latest()->first();
+
+            $country = Country::where('id', $customer->country_id)->latest()->first();
 
             $lastVisitDay = null;
             $firstVisit = null;
@@ -96,7 +102,9 @@ class AppointmentsController extends Controller
                 'secondVisit',
                 'thirdVisit',
                 'onlinebooking',
-                'customerType'
+                'customerType',
+                'countryType',
+                'country'
             ));
         } else {
             return redirect()->back()->with('error', 'Customer not found.');
@@ -157,7 +165,7 @@ class AppointmentsController extends Controller
     public function cusAppointmentCreate()
     {
         //add user to session - id is 1
-        Session::put('user_id', 27); //testing purpose 
+        Session::put('user_id', 28); //testing purpose 
 
         $logged_user_id = Session::get('user_id');
 
@@ -166,11 +174,13 @@ class AppointmentsController extends Controller
         } else {
             $customer = Customer::findOrFail($logged_user_id);
 
+            $countries = Country::all();   
+
             $hasAppointment = $customer->appointments()->exists();
 
             $first_visit = $hasAppointment;
 
-            return view('appointments', compact('customer', 'first_visit'));
+            return view('appointments', compact('customer', 'first_visit', 'countries'));
         }
     }
 }

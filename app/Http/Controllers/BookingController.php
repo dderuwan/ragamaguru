@@ -102,6 +102,13 @@ class BookingController extends Controller
         $customer = Customer::find($validated['customer_id']);
 
         if ($customer) {
+
+            $country_id = $request->country;
+            if ($country_id) {
+                $customer->country_id = $country_id;
+                $customer->save();
+            }
+
             $bookings = new Bookings();
             $bookings->customer_id = $validated['customer_id'];
             $bookings->booking_date = $validated['booking_date'];
@@ -114,22 +121,57 @@ class BookingController extends Controller
         }
     }
 
-    public function index()
+    public function indexLocal()
     {
-        return view('appointment.onlinebookings');
+        return view('appointment.localbookings');
     }
 
-    public function getBookingsByDate($date)
+    public function indexInternational()
+    {
+        return view('appointment.internationalbookings');
+    }
+
+    public function getLocalBookingsByDate($date)
     {
         $bookings = Bookings::whereDate('booking_date', $date)
-            ->with('customer')
-            ->get();
+        ->whereHas('customer', function ($query) {
+            $query->where('country_type_id', 1); 
+        })
+        ->with('customer')
+        ->get();
 
         return response()->json($bookings->map(function ($booking) {
             return [
                 'id' => $booking->id,
                 'customer_name' => $booking->customer->name ?? 'N/A',
                 'contact' => $booking->customer->contact ?? 'N/A',
+                'added_date' => $booking->added_date,
+            ];
+        }));          
+    }
+
+    public function getIntBookingsByDate($date)
+    {
+        $bookings = Bookings::whereDate('booking_date', $date)
+        ->whereHas('customer', function ($query) {
+            $query->where('country_type_id', 2); 
+        })
+        ->with(['customer', 'customer.country'])
+        ->get();
+
+        return response()->json($bookings->map(function ($booking) use ($date) {
+
+            $hasAppointment = $booking->customer->appointments()
+            ->whereDate('date', $date)
+            ->exists();
+
+            return [
+                'id' => $booking->id,
+                'customer_name' => $booking->customer->name ?? 'N/A',
+                'customer_id' => $booking->customer->id ?? 'N/A',
+                'contact' => $booking->customer->contact ?? 'N/A',
+                'country' => $booking->customer->country->name ?? 'N/A',
+                'appointment_status' => $hasAppointment ? 'Done' : 'Pending',
                 'added_date' => $booking->added_date,
             ];
         }));
