@@ -11,7 +11,10 @@ use App\Models\Country;
 use App\Models\CountryType;
 use App\Models\Customer;
 use App\Models\CustomerType;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -58,7 +61,7 @@ class AppointmentsController extends Controller
 
             $latestAppointment = Appointments::where('customer_id', $id)->latest()->first();
 
-            $onlinebooking = Bookings::where('customer_id', $id)->latest()->first(); 
+            $onlinebooking = Bookings::where('customer_id', $id)->latest()->first();
 
             $customerType = CustomerType::where('id', $customer->customer_type_id)->latest()->first();
 
@@ -129,38 +132,30 @@ class AppointmentsController extends Controller
                 return redirect()->back()->with('error', 'Invalid appointment number.');
             }
 
-            $appointment = new Appointments();
-            $appointment->customer_id = $validated['customer_id'];
-            $appointment->date = $validated['today_date'];
-            $appointment->ap_numbers_id = $apNumberRecord->id;
-            $appointment->visit_day = $validated['visit_type'];
-            $appointment->added_date = now();
-            $appointment->save();
-
-            notify()->success('Appointment created succesfully. ⚡️', 'Success');
-            return redirect()->back();
+            $appointmentId = DB::table('appointments')->insertGetId([
+                'customer_id' => $validated['customer_id'],
+                'date' => $validated['today_date'],
+                'ap_numbers_id' => $apNumberRecord->id,
+                'visit_day' => $validated['visit_type'],
+                'added_date' => now(),
+            ]);
+    
+            return redirect()->route('appointments.printPreview', ['appointmentId' => $appointmentId])
+                             ->with('success', 'Appointment saved successfully.');
         }
     }
 
 
-    public function show(Appointments $appointments)
-    {
-    }
+    public function show(Appointments $appointments) {}
 
 
-    public function edit(Appointments $appointments)
-    {
-    }
+    public function edit(Appointments $appointments) {}
 
 
-    public function update(UpdateAppointmentsRequest $request, Appointments $appointments)
-    {
-    }
+    public function update(UpdateAppointmentsRequest $request, Appointments $appointments) {}
 
 
-    public function destroy(Appointments $appointments)
-    {
-    }
+    public function destroy(Appointments $appointments) {}
 
     public function cusAppointmentCreate()
     {
@@ -174,7 +169,7 @@ class AppointmentsController extends Controller
         } else {
             $customer = Customer::findOrFail($logged_user_id);
 
-            $countries = Country::all();   
+            $countries = Country::all();
 
             $hasAppointment = $customer->appointments()->exists();
 
@@ -183,4 +178,18 @@ class AppointmentsController extends Controller
             return view('appointments', compact('customer', 'first_visit', 'countries'));
         }
     }
+
+    public function printPreview($appointmentId)
+{
+    $appointment = Appointments::findOrFail($appointmentId);
+    $apNumberRecord = ApNumbers::findOrFail($appointment->ap_numbers_id);
+    $customer = Customer::findOrFail($appointment->customer_id);
+
+    return view('appointment.pdf', [
+        'appointment' => $appointment,
+        'apNumberRecord' => $apNumberRecord,
+        'customer' => $customer
+    ]);
+}
+
 }

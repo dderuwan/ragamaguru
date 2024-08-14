@@ -169,6 +169,8 @@ Route::get('/appointments/add/{id}', [AppointmentsController::class, 'create'])-
 Route::post('/appointments/save', [AppointmentsController::class, 'store'])->name('appointments.store');
 Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
 Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
+Route::get('appointments/print-preview/{appointmentId}', [AppointmentsController::class, 'printPreview'])->name('appointments.printPreview');
+
 
 Route::get('/localbookings', [BookingController::class, 'indexLocal'])->name('bookings.indexLocal');
 Route::get('/inbookings', [BookingController::class, 'indexInternational'])->name('bookings.indexInternational');
