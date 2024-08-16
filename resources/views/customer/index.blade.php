@@ -48,8 +48,8 @@
                                             <td>{{$customer->address}}</td>
                                             <td>{{$customer->registered_time}}</td> 
                                             <td>{{$customer->user_id}}</td>
-                                            <td>{{$customer->customerType->name}}</td>
-                                            <td>{{$customer->countryType->name}}</td>
+                                            <td>{{ optional($customer->customerType)->name }}</td>
+<td>{{ optional($customer->countryType)->name }}</td>
                                             @if ($customer->isVerified)
                                             <td><span class="fe fe-15 fe-check"></span></td>
                                             @else

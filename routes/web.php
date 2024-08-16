@@ -306,16 +306,6 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
 
 
 
- Route::group(['middleware' => ['checkRole:manager']], function () {
-    Route::resource('customer', CustomerController::class);
-    // other routes for manager
- });
-
- Route::group(['middleware' => ['checkRole:hr']], function () {
-    Route::get('/allcustomers', [CustomerController::class, 'index'])->name('allcustomers');
-    Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
-    // other routes for HR
- });
 
  //dashboard
  Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
