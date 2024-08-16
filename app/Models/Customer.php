@@ -29,4 +29,9 @@ class Customer extends Pivot
     {
         return $this->belongsTo(CountryType::class);
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 }

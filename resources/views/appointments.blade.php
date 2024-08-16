@@ -96,9 +96,8 @@
           <button type="button" class="btn btn-primary" id="update-customer">Update</button>
         </form>
       </div>
-
-
     </div>
+
 
     <!-- Date Picker -->
     <div class="card mb-4">
@@ -113,6 +112,20 @@
           <button type="button" class="btn btn-success mt-3" disabled>Submit</button>
           @else
           <input type="hidden" value="{{$customer->id}}">
+
+          @if ($customer->country_type_id==2)
+          <!-- Select Country Type -->
+          <div class="mb-3">
+            <label for="country" class="form-label">Select Country:</label>
+            <select class="form-control col-md-6" id="country" name="country">
+              @foreach($countries as $country)
+              <option value="{{ $country->id }}">{{ $country->name }}</option>
+              @endforeach
+            </select>
+          </div>
+          @endif
+
+          <label for="bookingDate" class="form-label">Select Date:</label>
           <input type="date" class="form-control mb-3 col-md-6" id="bookingDate" name="bookingDate" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
           <button type="button" id="submitbtn" class="btn btn-success mt-3" onclick="checkDate();">Submit</button>
           @endif
@@ -215,7 +228,7 @@
           },
           body: JSON.stringify({
             booking_date: bookingDate,
-            customer_id:customerId
+            customer_id: customerId
           })
         })
         .then(response => response.json())
@@ -291,7 +304,14 @@
 
     function saveBooking() {
       let customerId = document.querySelector('input[type="hidden"]').value;
-      var bookingDate = document.getElementById('bookingDate').value;
+      let bookingDate = document.getElementById('bookingDate').value;
+
+      let countrySelect = document.getElementById('country');
+      let country = null;
+
+      if (countrySelect) {
+        country = countrySelect.value;
+      }
 
       fetch('/bookingstore', {
           method: 'POST',
@@ -301,7 +321,8 @@
           },
           body: JSON.stringify({
             customer_id: customerId,
-            booking_date: bookingDate
+            booking_date: bookingDate,
+            country: country
           })
         })
         .then(response => response.json())

@@ -77,7 +77,13 @@
                         </tr>
                         <tr>
                           <th scope="row">Address</th>
-                          <td>{{$customer->address}}</td> 
+                          <td>
+                            @if ($customer->address)
+                            {{$customer->address}}
+                            @else
+                            No Address
+                            @endif
+                          </td> 
                         </tr>
                       </tbody>
                     </table>
@@ -109,15 +115,24 @@
               </div>
 
               <div class="form-row mt-1">
-                <div class="form-group col-md-6">
-                  <label for="reg_type" style="color:black;">Registered Type: <strong>{{$customerType->name}}</strong></label>
+                <div class="form-group col-md-12">
+                  <label for="reg_type" style="color:black;">Registered Type:&nbsp; 
+                  <strong>{{$customerType->name}}</strong></label>
+                  </br>
+                  <label for="country_type" style="color:black;">Country Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <strong>{{$countryType->name}}</strong></label>
+                  </br>
+                  @if ($country)
+                  <label for="country" style="color:black;">Country:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <strong>{{$country->name}}</strong></label>
+                  @endif
                 </div>
               </div> 
 
               @if (!empty($onlinebooking))
               <div class="form-row mt-1">
                 <div class="form-group col-md-6">
-                  <label for="online_booking_date" style="color:black;">Online Booking Date: <strong>{{$onlinebooking->booking_date}}</strong></label>
+                  <label for="online_booking_date" style="color:blue;">Online Booking Date: <strong>{{$onlinebooking->booking_date}}</strong></label>
                 </div>
               </div> 
               @endif

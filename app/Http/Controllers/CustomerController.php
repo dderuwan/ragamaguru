@@ -6,6 +6,8 @@ use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CustomerController extends Controller
@@ -30,9 +32,26 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+    function formatContactNumber($contact)
+    {
+        // Remove any non-digit characters
+        $contact = preg_replace('/\D/', '', $contact);
+
+        // Check if the number starts with '0' and remove it
+        if (strpos($contact, '0') === 0) {
+            $contact = substr($contact, 1);
+        }
+
+        // Add the country code (94 for Sri Lanka)
+        return '94' . $contact;
+    }
+
     public function store(StoreCustomerRequest $request)
     {
         $otp = rand(100000, 999999);
+
+        $formattedContact = $this->formatContactNumber($request->contact);
 
         $existingCustomer = Customer::where('contact', $request->contact)->first();
 
@@ -42,7 +61,7 @@ class CustomerController extends Controller
             ]);
         } else {
 
-            $password = Str::random(8);
+            // $password = Str::random(8);
 
             $customer = Customer::create([
                 'name' => $request->name,
@@ -54,8 +73,13 @@ class CustomerController extends Controller
                 'customer_type_id' => 2,
                 'country_type_id' => 1,
                 'registered_time' => now(),
-                'password' => bcrypt($password), //need to send password and contact through sms after verify
+                // 'password' => bcrypt($password), //need to send password and contact through sms after verify
             ]);
+
+            $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
+
+            // Send OTP message
+            $this->sendMessage($formattedContact, $msg);
 
             return redirect()->back()->with([
                 'success' => 'Customer created successfully',
@@ -63,6 +87,9 @@ class CustomerController extends Controller
             ]);
         }
     }
+
+
+
 
 
     public function verify(Request $request)
@@ -73,8 +100,21 @@ class CustomerController extends Controller
             ->first();
 
         if ($customer) {
+
+            $password = Str::random(8);
+
             $customer->isVerified = true;
+            $customer->password = bcrypt($password);
             $customer->save();
+
+            $contact = $request->addedContact;
+
+            $formattedContact = $this->formatContactNumber($request->addedContact);
+
+            $msg = "Your account has been verified.\nNow you can login RagamaGuru website using below details.\nMobile : " . $contact . "\nPassword : " . $password . "\nFrom RagamaGuru Office";
+
+            // Send the message
+            $this->sendMessage($formattedContact, $msg);
 
             return redirect()->back()->with('success', 'Customer verified successfully.');
         } else {
@@ -141,8 +181,21 @@ class CustomerController extends Controller
             ->first();
 
         if ($customer) {
+
+            $password = Str::random(8);
+
             $customer->isVerified = true;
+            $customer->password = bcrypt($password);
             $customer->save();
+
+            $contact = $request->addedContact;
+
+            $formattedContact = $this->formatContactNumber($request->addedContact);
+
+            $msg = "Your account has been verified.\nNow you can login RagamaGuru website using below details.\nMobile : " . $contact . "\nPassword : " . $password . "\nFrom RagamaGuru Office";
+
+            // Send the message
+            $this->sendMessage($formattedContact, $msg);
 
             notify()->success('Customer verified successfully. ⚡️', 'Success');
             return redirect()->route('customer.index');
@@ -162,10 +215,17 @@ class CustomerController extends Controller
 
         $customer = Customer::findOrFail($request->customer_id);
 
+        $formattedContact = $this->formatContactNumber($customer->contact);
+
         $otp = rand(100000, 999999);
 
         $customer->otp = $otp;
         $customer->save();
+
+        $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
+
+        // Send OTP message
+        $this->sendMessage($formattedContact, $msg);
 
         return response()->json(['success' => 'OTP has been resent.']);
     }
@@ -185,5 +245,36 @@ class CustomerController extends Controller
         $customer->save();
 
         return redirect()->back()->with('success', 'Address updated successfully');
+    }
+
+
+
+    protected function sendMessage($contact, $msg)
+    {
+        $apiToken = env('RICHMO_API_TOKEN');
+        $senderName = 'RagamaGuru';
+        $message = $msg;
+
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer $apiToken"
+        ])->get('https://portal.richmo.lk/api/sms/send/', [
+            'dst' => $contact,
+            'from' => $senderName,
+            'msg' => $message
+        ]);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+            //Log::info('SMS sent successfully:', $responseData);
+
+            if ($responseData['message'] === 'success') {
+                // SMS was sent successfully
+            } else {
+                //Log::warning('Unexpected response:', $responseData);
+            }
+        } else {
+            $error = $response->json();
+            //Log::error('SMS sending failed:', $error);
+        }
     }
 }
