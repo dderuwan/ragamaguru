@@ -80,8 +80,9 @@
                           <td>
                             @if ($customer->address)
                             {{$customer->address}}
-                            @endif
+                            @else
                             No Address
+                            @endif
                           </td> 
                         </tr>
                       </tbody>

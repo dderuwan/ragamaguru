@@ -10,6 +10,7 @@ use App\Models\Bookings;
 use App\Models\Country;
 use App\Models\CountryType;
 use App\Models\Customer;
+use App\Models\CustomerTreatments;
 use App\Models\CustomerType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
@@ -35,13 +36,20 @@ class AppointmentsController extends Controller
             ->with('customer', 'apNumber')
             ->get();
 
+        
         return response()->json($appointments->map(function ($appointment) {
+            $customerTreat = CustomerTreatments::where('appointment_id', $appointment->id)->first();
+            $haveTreat = "Pending";
+            if($customerTreat){
+               $haveTreat= "Done";
+            }
             return [
                 'id' => $appointment->id,
                 'ap_number' => $appointment->apNumber->number ?? 'N/A',
                 'customer_name' => $appointment->customer->name ?? 'N/A',
                 'contact' => $appointment->customer->contact ?? 'N/A',
                 'visit_day' => $appointment->visit_day,
+                'haveTreat' => $haveTreat,
             ];
         }));
     }
@@ -155,7 +163,18 @@ class AppointmentsController extends Controller
     public function update(UpdateAppointmentsRequest $request, Appointments $appointments) {}
 
 
-    public function destroy(Appointments $appointments) {}
+    public function destroy($id) {
+        $appointment = Appointments::find($id);
+
+        if ($appointment) {
+            $appointment->delete();
+
+            notify()->success('Appointment Deleted Succesfully. ⚡️', 'Success');
+            return redirect()->back();
+        }
+        notify()->error('Appointment not found. ⚡️', 'Error');
+        return redirect()->back();
+    }
 
     public function cusAppointmentCreate()
     {

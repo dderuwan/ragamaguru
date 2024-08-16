@@ -60,6 +60,7 @@
                                                 <th style="color: black;">Customer Name</th>
                                                 <th style="color: black;">Contact Number</th>
                                                 <th style="color: black;">Visit Day</th>
+                                                <th style="color: black;">Treatment</th>
                                                 <th class="text-center" style="color: black;">Action</th>
                                             </tr>
                                         </thead>
@@ -78,6 +79,8 @@
     </main> <!-- main -->
 </div> <!-- .wrapper -->
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         loadAppointments();
@@ -94,6 +97,7 @@
                 appointmentsBody.innerHTML = '';
 
                 data.forEach((appointment, index) => {
+                    let appointmentID = appointment.id;
                     let visitDayText = '';
                     switch (appointment.visit_day) {
                         case '1':
@@ -109,21 +113,26 @@
                             visitDayText = 'Other Visit';
                             break;
                     }
-                    
+
                     const row = `
                             <tr>
                                 <td>${index + 1}</td>
-                                <td>${appointment.ap_number}</td>
+                                <td>${appointment.ap_number}</td>   
                                 <td>${appointment.customer_name}</td>
                                 <td>${appointment.contact}</td>
                                 <td>${visitDayText}</td>
+                                <td>${appointment.haveTreat}</td>
                                 <td>
                                     <div class="action-icons">
-                                        <a href="#" class="btn btn-warning"><i class="fe fe-edit fe-16"></i></a>
-                                        <button class=" btn btn-danger action-icon delete-icon" onclick="confirmDelete(${appointment.id})" title="Delete">
-                                            <i class="fe fe-trash-2 "></i>
+                                        <a href="{{ route('customerTreat', '') }}/${appointment.id}" class="btn btn-success"><i class="fe fe-plus-square fe-16"></i></i></a>
+                                        <button class="btn btn-danger action-icon delete-icon" onclick="confirmDelete(${appointment.id})" title="Delete">
+                                            <i class="fe fe-trash-2"></i>
                                         </button>
                                     </div>
+                                    <form id="delete-form-${appointment.id}" action="{{ route('appointments.destroy', '') }}/${appointment.id}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>    
                                 </td>
                             </tr>
                         `;
@@ -133,10 +142,22 @@
             .catch(error => console.error('Error fetching appointments:', error));
     }
 
+
+
     function confirmDelete(appointmentId) {
-        if (confirm('Are you sure you want to delete this appointment?')) {
-            document.getElementById(`delete-form-${appointmentId}`).submit();
-        }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${appointmentId}`).submit();
+            }
+        });
     }
 </script>
 
