@@ -17,6 +17,10 @@ class CustomerTreatments extends Model
         'treatments', // JSON field to store treatment IDs
         'note',
         'added_date',
+        'total_amount',
+        'paid_amount',
+        'due_amount',
+        'payment_type_id',
         'next_day',
     ];
 

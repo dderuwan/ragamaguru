@@ -31,11 +31,11 @@
                 <div class="col-12">
                     <div class="row align-items-center my-3">
                         <div class="col">
-                            <h2 class="page-title">Add Treatments</h2>
+                            <h2 class="page-title">Treatment History</h2>
                         </div>
                         <div class="col-auto">
-                            <a href="{{route('appointments.index')}}"><button type="button" class="btn btn-primary" data-toggle="modal">
-                                    Appointment List</button></a>
+                            <a href="{{route('customer.index')}}"><button type="button" class="btn btn-primary" data-toggle="modal">
+                                    Customer List</button></a>
                         </div>
                     </div>
 
@@ -115,7 +115,7 @@
                                                     $treatmentNames = \App\Models\Treatment::whereIn('id', $history->treatments)->pluck('name')->toArray();
                                                     @endphp
                                                     @foreach($treatmentNames as $treatmentName)
-                                                    {{ $treatmentName }}<br>
+                                                    {{ $treatmentName }}<br>       
                                                     @endforeach
                                                     @else
                                                     No Treatments
@@ -128,74 +128,12 @@
                                             <tr>
                                                 <td colspan="5" class="text-center">No treatment history</td>
                                             </tr>
-                                            @endforelse
+                                            @endforelse 
                                         </tbody>
                                     </table>
 
 
-                                    <form action="{{ route('saveCustomerTreatments', $appointment->id) }}" method="POST">
-                                        @csrf
-                                        <!-- treatment details table -->
-                                        <label class="mt-2"><strong>Add Treatments:</strong></label>
-                                        <div class="row">
-                                            <!-- First Table -->
-                                            <div class="col-md-6">
-                                                <table class="table table-bordered table-hover" style="background-color: #f9f9f9; color: #333;">
-                                                    <thead style="background-color: #e2e2e2;">
-                                                        <tr>
-                                                            <th style="color: black;">No.</th>
-                                                            <th style="color: black;">Treatment</th>
-                                                            <th style="color: black;">Add</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($treatment->take(ceil($treatment->count() / 2)) as $index => $treat)
-                                                        <tr>
-                                                            <td>{{ $index + 1 }}</td>
-                                                            <td>{{ $treat->name }}</td>
-                                                            <td>
-                                                                <input type="checkbox" name="treatments[]" value="{{ $treat->id }}"
-                                                                    {{ isset($existingCustomerTreatment) && in_array($treat->id, $existingCustomerTreatment->treatments) ? 'checked' : '' }}>
-                                                            </td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
 
-                                            <!-- Second Table -->
-                                            <div class="col-md-6">
-                                                <table class="table table-bordered table-hover" style="background-color: #f9f9f9; color: #333;">
-                                                    <thead style="background-color: #e2e2e2;">
-                                                        <tr>
-                                                            <th style="color: black;">No.</th>
-                                                            <th style="color: black;">Treatment</th>
-                                                            <th style="color: black;">Add</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($treatment->slice(ceil($treatment->count() / 2)) as $index => $treat)
-                                                        <tr>
-                                                            <td>{{ $index + 1 }}</td>
-                                                            <td>{{ $treat->name }}</td>
-                                                            <td>
-                                                                <input type="checkbox" name="treatments[]" value="{{ $treat->id }}"
-                                                                    {{ isset($existingCustomerTreatment) && in_array($treat->id, $existingCustomerTreatment->treatments) ? 'checked' : '' }}>
-                                                            </td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group mt-2">
-                                            <label for="specialNote"><strong>Add Special Note:</strong></label>
-                                            <textarea id="specialNote" name="specialNote" class="form-control" rows="3" placeholder="Enter your special note here...">{{ $existingCustomerTreatment->note ?? '' }}</textarea>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary mt-3">Save Treatments</button>
-                                    </form>
 
                                 </div>
                             </div>

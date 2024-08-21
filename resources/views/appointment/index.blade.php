@@ -125,6 +125,10 @@
                                 <td>
                                     <div class="action-icons">
                                         <a href="{{ route('customerTreat', '') }}/${appointment.id}" class="btn btn-success"><i class="fe fe-plus-square fe-16"></i></i></a>
+                                        ${appointment.haveTreat === "Done" ? `
+                                        <a href="{{ route('viewCustomerTreat', '') }}/${appointment.id}" class="btn btn-warning">
+                                            <i class="fe fe-eye fe-16"></i>
+                                        </a>` : ''}
                                         <button class="btn btn-danger action-icon delete-icon" onclick="confirmDelete(${appointment.id})" title="Delete">
                                             <i class="fe fe-trash-2"></i>
                                         </button>

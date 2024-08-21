@@ -13,6 +13,8 @@ class Treatment extends Model
 
     protected $fillable = [
         'name',
+        'amount',
+        'things_to_bring',
         'status'
     ];
 }
