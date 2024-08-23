@@ -113,8 +113,13 @@ Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController
 
 Route::get('/customertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'customerTreat'])->name('customerTreat');
 Route::post('/savecustomertreatments/{id}', [App\Http\Controllers\TreatmentController::class, 'saveCustomerTreatments'])->name('saveCustomerTreatments');
+Route::post('/saveseconddaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveSecondDayDetails'])->name('saveSecondDayDetails');
+Route::post('/savethirddaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveThirdDayDetails'])->name('saveThirdDayDetails');
+Route::post('/saveotherdaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveOtherDayDetails'])->name('saveOtherDayDetails');
 Route::get('/viewcustomertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'viewCustomerTreat'])->name('viewCustomerTreat');
 Route::post('/savetreatpayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveTreatPayment'])->name('saveTreatPayment');
+Route::get('/viewduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'viewDuePayment'])->name('viewDuePayment');
+Route::post('/saveduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveDuePayment'])->name('saveDuePayment');
 
 
 //employee module

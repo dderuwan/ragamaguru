@@ -83,7 +83,7 @@
                             @else
                             No Address
                             @endif
-                          </td> 
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -116,25 +116,61 @@
 
               <div class="form-row mt-1">
                 <div class="form-group col-md-12">
-                  <label for="reg_type" style="color:black;">Registered Type:&nbsp; 
-                  <strong>{{$customerType->name}}</strong></label>
+                  <label for="reg_type" style="color:black;">Registered Type:&nbsp;
+                    <strong>{{$customerType->name}}</strong></label>
                   </br>
                   <label for="country_type" style="color:black;">Country Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <strong>{{$countryType->name}}</strong></label>
+                    <strong>{{$countryType->name}}</strong></label>
                   </br>
                   @if ($country)
                   <label for="country" style="color:black;">Country:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <strong>{{$country->name}}</strong></label>
+                    <strong>{{$country->name}}</strong></label>
                   @endif
                 </div>
-              </div> 
+              </div>
 
               @if (!empty($onlinebooking))
               <div class="form-row mt-1">
                 <div class="form-group col-md-6">
                   <label for="online_booking_date" style="color:blue;">Online Booking Date: <strong>{{$onlinebooking->booking_date}}</strong></label>
                 </div>
-              </div> 
+              </div>
+              @endif
+
+
+              @if ($lastCustomerTreatment)
+              <div class="row">
+                <div class="col-sm-12 col-md-6">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <th scope="row">Payment Status</th>
+                            @if ($paymentStatus=='due')
+                            <td class="text-danger">Not Completed &nbsp;&nbsp;<a href="{{route('viewDuePayment',$lastCustomerTreatment->id)}}" class="btn btn-sm btn-warning">PAY</a></td>
+                            @endif
+                            @if ($paymentStatus=='not paid')
+                            <td class="text-danger">Not Paid &nbsp;&nbsp;<a href="{{route('viewCustomerTreat',$lastCustomerTreatment->appointment_id)}}" class="btn btn-sm btn-warning">PAY</a></td>
+                            @endif
+                            @if ($paymentStatus=='done')
+                            <td>Completed</td>
+                            @endif
+                        </tr>
+                        <tr>
+                          <th scope="row">Assigned Next Date</th>
+                          <td>
+                            @if ($nextDay)
+                            {{$nextDay}}
+                            @else
+                            Not Assigned
+                            @endif
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
               @endif
 
               <div class="form-row mt-1">
@@ -142,7 +178,7 @@
                   <label for="today_date" style="color:black;">Date <i class="text-danger">*</i></label>
                   <input type="date" class="form-control" id="today_date" name="today_date" value="{{$today}}" required readonly>
                 </div>
-              </div>  
+              </div>
 
 
               <div id="timeSlots" class="mt-3">
@@ -183,20 +219,23 @@
                     @if ($lastVisitDay=='3')
                     <option value="4">Other Visit</option>
                     @endif
+                    @if ($lastVisitDay=='4')
+                    <option value="4">Other Visit</option>
+                    @endif
                   </select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <div class="col-sm-10 mt-5">
-                  <button type="submit" class="btn btn-primary">Save Appointment</button>
-                </div>
+                  <button type="submit" class="btn btn-primary" @if($paymentStatus != 'done') disabled @endif>Save Appointment</button>
+                </div>  
               </div>
             </form>
           </div>
         </div>
 
-       
+
       </div>
     </div>
   </div>

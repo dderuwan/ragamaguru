@@ -21,6 +21,10 @@ class CustomerTreatments extends Model
         'paid_amount',
         'due_amount',
         'payment_type_id',
+        'second_visit_comment',
+        'second_visit_things',
+        'third_visit_comment',
+        'other_visit_comment',
         'next_day',
     ];
 

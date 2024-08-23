@@ -82,8 +82,9 @@
                                         </tbody>
                                     </table>
 
+                                    @if ($visitDay=='1')
                                     <!-- Treatment History Table -->
-                                    <label class="mt-2"><strong>Treatments:</strong></label>
+                                    <label class="mt-2"><strong>Today Visit Details:</strong></label>
                                     <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
                                         <thead style="background-color: #ccffcc;">
                                             <tr>
@@ -144,28 +145,135 @@
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td colspan="5" class="text-center" style="border-color: #000;">No treatment history</td>
+                                                <td colspan="5" class="text-center" style="border-color: #000;">No Details</td>
                                             </tr>
                                             @endforelse
                                         </tbody>
                                     </table>
+                                    @endif
 
-                                    <form action="{{route("saveTreatPayment",$appointment->id)}}" method="POST">
-                                        @csrf
-                                        <input type="hidden" value="{{$appointment->id}}">
-                                        <label><strong>Assign next date:</strong></label>
-                                        <input type="date" class="form-control mb-3 col-md-6" id="nextDay" name="nextDay" required
-                                            value="{{ $paymentDetails->next_day ?? '' }}"
-                                            @if ($paymentDetails) disabled @endif>
-                                        @error('nextDay')
-                                        <p class="text-danger">{{ $message }}</p>
-                                        @enderror
+                                    @if ($visitDay=='2')
+                                    <!-- Treatment History Table -->
+                                    <label class="mt-2"><strong>Today Visit Details:</strong></label>
+                                    <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
+                                        <thead style="background-color: #ccffcc;">
+                                            <tr>
+                                                <th style="color: black;">Visit Day</th>
+                                                <th style="color: black;">Date</th>
+                                                <th style="color: black;">Comment</th>
+                                                <th style="color: black;">Things to bring</th>
+                                                <th style="color: black;">Next Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($treatmentHistory as $history)
+                                            <tr>
+                                                <td>
+                                                    @if($history->appointment->visit_day == 1)
+                                                    First Visit
+                                                    @elseif($history->appointment->visit_day == 2)
+                                                    Second Visit
+                                                    @elseif($history->appointment->visit_day == 3)
+                                                    Third Visit
+                                                    @else
+                                                    Other Visit
+                                                    @endif
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
+                                                <td>{{ $history->second_visit_comment ?? 'No Comments' }}</td>
+                                                <td>{{ $history->second_visit_things ?? 'No items' }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($history->next_day)->format('Y-m-d') }}</td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center" style="border-color: #000;">No Details</td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-primary">Print</button>
+                                    @endif
+
+                                    @if ($visitDay=='3')
+                                    <!-- Treatment History Table -->
+                                    <label class="mt-2"><strong>Today Visit Details:</strong></label>
+                                    <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
+                                        <thead style="background-color: #ccffcc;">
+                                            <tr>
+                                                <th style="color: black;">Visit Day</th>
+                                                <th style="color: black;">Date</th>
+                                                <th style="color: black;">Comment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($treatmentHistory as $history)
+                                            <tr>
+                                                <td>
+                                                    @if($history->appointment->visit_day == 1)
+                                                    First Visit
+                                                    @elseif($history->appointment->visit_day == 2)
+                                                    Second Visit
+                                                    @elseif($history->appointment->visit_day == 3)
+                                                    Third Visit
+                                                    @else
+                                                    Other Visit
+                                                    @endif
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
+                                                <td>{{ $history->third_visit_comment ?? 'No Comments' }}</td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center" style="border-color: #000;">No Details</td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                    @endif
+
+                                    @if ($visitDay=='4')
+                                    <!-- Treatment History Table -->
+                                    <label class="mt-2"><strong>Today Visit Details:</strong></label>
+                                    <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
+                                        <thead style="background-color: #ccffcc;">
+                                            <tr>
+                                                <th style="color: black;">Visit Day</th>
+                                                <th style="color: black;">Date</th>
+                                                <th style="color: black;">Comment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($treatmentHistory as $history)
+                                            <tr>
+                                                <td>
+                                                    @if($history->appointment->visit_day == 1)
+                                                    First Visit
+                                                    @elseif($history->appointment->visit_day == 2)
+                                                    Second Visit
+                                                    @elseif($history->appointment->visit_day == 3)
+                                                    Third Visit
+                                                    @else
+                                                    Other Visit
+                                                    @endif
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
+                                                <td>{{ $history->other_visit_comment ?? 'No Comments' }}</td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center" style="border-color: #000;">No Details</td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                    @endif
 
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    @if ($visitDay=='1')
                     <div class="row justify-content-end mt-4">
                         <div class="col-md-5">
                             <div class="card shadow">
@@ -175,59 +283,71 @@
                                     </div>
                                     <div class="card-body">
 
-                                        <div class="form-group">
-                                            <label for="totalAmount">Total Amount (LKR):</label>
-                                            <input type="text" id="totalAmount" name="totalAmount" class="form-control"
-                                                value="{{ isset($paymentDetails) ? number_format($paymentDetails->total_amount, 2) : number_format($totalAmount, 2) }}"
-                                                readonly>
-                                            @error('totalAmount')
+                                        <form action="{{route("saveTreatPayment",$appointment->id)}}" method="POST">
+                                            @csrf
+                                            <input type="hidden" value="{{$appointment->id}}">
+
+                                            <div class="form-group">
+                                                <label for="totalAmount">Total Amount (LKR):</label>
+                                                <input type="text" id="totalAmount" name="totalAmount" class="form-control"
+                                                    value="{{ isset($paymentDetails) ? number_format($paymentDetails->total_amount, 2) : number_format($totalAmount, 2) }}"
+                                                    readonly>
+                                                @error('totalAmount')
+                                                <p class="text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="paymentType">Payment Type:</label>
+                                                <select id="paymentType" name="paymentType" class="form-control"
+                                                    {{ isset($paymentDetails) ? 'disabled' : '' }} required>
+                                                    @foreach ($paymentTypes as $type )
+                                                    <option value="{{$type->id}}"
+                                                        {{ isset($paymentDetails) && $paymentDetails->payment_type_id == $type->id ? 'selected' : '' }}>
+                                                        {{$type->name}}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('paymentType')
+                                                <p class="text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="paidAmount">Paid Amount (LKR):</label>
+                                                <input type="number" id="paidAmount" name="paidAmount" class="form-control"
+                                                    value="{{ isset($paymentDetails) ? $paymentDetails->paid_amount : '' }}"
+                                                    {{ isset($paymentDetails) ? 'readonly' : '' }} oninput="calculateDueAmount()" required>
+                                                @error('paidAmount')
+                                                <p class="text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="dueAmount">Due Amount (LKR):</label>
+                                                <input type="text" id="dueAmount" name="dueAmount" class="form-control"
+                                                    value="{{ isset($paymentDetails) ? number_format($paymentDetails->due_amount, 2) : number_format($totalAmount, 2) }}"
+                                                    readonly>
+                                                @error('dueAmount')
+                                                <p class="text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <label><strong>Assign next date:</strong></label>
+                                            <input type="date" class="form-control mb-3 " id="nextDay" name="nextDay" required
+                                                value="{{ $paymentDetails->next_day ?? '' }}"
+                                                @if ($paymentDetails) disabled @endif>
+                                            @error('nextDay')
                                             <p class="text-danger">{{ $message }}</p>
                                             @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="paymentType">Payment Type:</label>
-                                            <select id="paymentType" name="paymentType" class="form-control"
-                                                {{ isset($paymentDetails) ? 'disabled' : '' }} required>
-                                                @foreach ($paymentTypes as $type )
-                                                <option value="{{$type->id}}"
-                                                    {{ isset($paymentDetails) && $paymentDetails->payment_type_id == $type->id ? 'selected' : '' }}>
-                                                    {{$type->name}}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            @error('paymentType')
-                                            <p class="text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="paidAmount">Paid Amount (LKR):</label>
-                                            <input type="number" id="paidAmount" name="paidAmount" class="form-control"
-                                                value="{{ isset($paymentDetails) ? $paymentDetails->paid_amount : '' }}"
-                                                {{ isset($paymentDetails) ? 'readonly' : '' }} oninput="calculateDueAmount()" required>
-                                            @error('paidAmount')
-                                            <p class="text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="dueAmount">Due Amount (LKR):</label>
-                                            <input type="text" id="dueAmount" name="dueAmount" class="form-control"
-                                                value="{{ isset($paymentDetails) ? number_format($paymentDetails->due_amount, 2) : number_format($totalAmount, 2) }}"
-                                                readonly>
-                                            @error('dueAmount')
-                                            <p class="text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        @if (!isset($paymentDetails))
-                                        <button type="submit" class="btn btn-primary btn-block">Save Payment</button>
-                                        @else
-                                        <p class="text-info">Payment details have already been recorded for this treatment.</p>
-                                        @endif
+                                            @if (!isset($paymentDetails))
+                                            <button type="submit" class="btn btn-primary btn-block">Save Payment</button>
+                                            @else
+                                            <p class="text-info">Payment details have already been recorded for this treatment.</p>
+                                            @endif
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endif
 
                 </div> <!-- .col-12 -->
             </div> <!-- .row -->

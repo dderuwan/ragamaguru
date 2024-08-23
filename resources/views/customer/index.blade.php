@@ -32,7 +32,7 @@
                                             <th>Contact No.</th>
                                             <th>Address</th>
                                             <th>Registered Time</th>
-                                            <th>User_ID</th>
+                                            <th>Reg. User</th>
                                             <th>Reg. Type</th>
                                             <th>Country Type</th>
                                             <th>Verify</th>
@@ -40,14 +40,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($customer_list as $customer)
+                                        @foreach ($customer_list as $index => $customer)
                                         <tr>
-                                            <td>{{$customer->id}}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{$customer->name}}</td>
                                             <td>{{$customer->contact}}</td>
-                                            <td>{{$customer->address}}</td>
+                                            <td>
+                                                @if ($customer->address)
+                                                {{$customer->address}}
+                                                @else
+                                                No Address
+                                                @endif
+                                            </td>
                                             <td>{{$customer->registered_time}}</td> 
-                                            <td>{{$customer->user_id}}</td>
+                                            <td>
+                                                @if ($customer->user_id)
+                                                {{$customer->user_id}}
+                                                @else
+                                                No User
+                                                @endif 
+                                            </td>
                                             <td>{{$customer->customerType->name}}</td>
                                             <td>{{$customer->countryType->name}}</td>
                                             @if ($customer->isVerified)

@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
- 
+
     public function index()
     {
         $customer_list = Customer::with(['customerType', 'countryType'])->get();
@@ -125,7 +125,7 @@ class CustomerController extends Controller
         //
     }
 
- 
+
     public function edit(Customer $customer, $id)
     {
 
@@ -267,17 +267,51 @@ class CustomerController extends Controller
     }
 
 
-    public function viewTreatmentHistory($id){
+    public function viewTreatmentHistory($id)
+    {
 
-        $customer = Customer::with('customerType','countryType','country')->find($id);
-        if($customer){
-            $treatmentHistory = CustomerTreatments::with('appointment')->where('customer_id', $customer->id)->get();
-            return view('customer.treatment_history',compact('customer','treatmentHistory'));
+        $customer = Customer::with('customerType', 'countryType', 'country')->find($id);
+        if ($customer) {
+
+
+            $firstVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 1);
+                })
+                ->with('appointment')
+                ->get();
+
+            $secondVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 2);
+                })
+                ->with('appointment')
+                ->get();
+
+            $thirdVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 3);
+                })
+                ->with('appointment')
+                ->get();
+
+            $otherVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 4);
+                })
+                ->with('appointment')
+                ->get();
+
+            return view('customer.treatment_history', compact(
+                'customer',
+                'firstVisitHistory',
+                'secondVisitHistory',
+                'thirdVisitHistory',
+                'otherVisitHistory'
+            ));
+
         }
 
-        return redirect()->back()->with('error','customer not found');
-
-
-         
+        return redirect()->back()->with('error', 'customer not found');
     }
 }

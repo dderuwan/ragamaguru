@@ -119,13 +119,51 @@ class TreatmentController extends Controller
 
         $appointment = Appointments::find($id);
         if ($appointment) {
-
+            $visitDay = $appointment->visit_day;
             $customer = Customer::with('customerType', 'countryType', 'country')->find($appointment->customer_id);
             $treatment = Treatment::all()->where('status', 1);
             $existingCustomerTreatment = CustomerTreatments::where('appointment_id', $appointment->id)->first();
-            $treatmentHistory = CustomerTreatments::with('appointment')->where('customer_id', $customer->id)->get();
 
-            return view('treatment.customertreat', compact('appointment', 'customer', 'treatment', 'existingCustomerTreatment', 'treatmentHistory'));
+            $firstVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 1);
+                })
+                ->with('appointment')
+                ->get();
+
+            $secondVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 2);
+                })
+                ->with('appointment')
+                ->get();
+
+            $thirdVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 3);
+                })
+                ->with('appointment')
+                ->get();
+
+            $otherVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 4);
+                })
+                ->with('appointment')
+                ->get();
+
+
+            return view('treatment.add_customer_treat', compact(
+                'appointment',
+                'visitDay',
+                'customer',
+                'treatment',
+                'existingCustomerTreatment',
+                'firstVisitHistory',
+                'secondVisitHistory',
+                'thirdVisitHistory',
+                'otherVisitHistory'
+            ));
         }
 
         return redirect()->back()->with('error', 'Appointment not found.');
@@ -156,25 +194,91 @@ class TreatmentController extends Controller
     }
 
 
+    public function saveSecondDayDetails(Request $request, $id)
+    {
+        $appointment = Appointments::find($id);
+
+        if ($appointment) {
+            $customerTreatment = CustomerTreatments::updateOrCreate(
+                ['appointment_id' => $id],
+                [
+                    'customer_id' => $appointment->customer_id,
+                    'second_visit_comment' => $request->input('secondVisitComment'),
+                    'second_visit_things' => $request->input('thingsToBring'),
+                    'next_day' => $request->nextDay,
+                    'added_date' => now(),
+                ]
+            );
+
+            notify()->success('Details saved successfully. ⚡️', 'Success');
+            return redirect()->route('appointments.index');
+        }
+
+        return redirect()->back()->with('error', 'Appointment not found.');
+    }
+
+    public function saveThirdDayDetails(Request $request, $id)
+    {
+        $appointment = Appointments::find($id);
+
+        if ($appointment) {
+            $customerTreatment = CustomerTreatments::updateOrCreate(
+                ['appointment_id' => $id],
+                [
+                    'customer_id' => $appointment->customer_id,
+                    'third_visit_comment' => $request->input('thirdVisitComment'),
+                    'added_date' => now(),
+                ]
+            );
+
+            notify()->success('Details saved successfully. ⚡️', 'Success');
+            return redirect()->route('appointments.index');
+        }
+
+        return redirect()->back()->with('error', 'Appointment not found.');
+    }
+
+    public function saveOtherDayDetails(Request $request, $id)
+    {
+        $appointment = Appointments::find($id);
+
+        if ($appointment) {
+            $customerTreatment = CustomerTreatments::updateOrCreate(
+                ['appointment_id' => $id],
+                [
+                    'customer_id' => $appointment->customer_id,
+                    'other_visit_comment' => $request->input('otherVisitComment'),
+                    'added_date' => now(),
+                ]
+            );
+
+            notify()->success('Details saved successfully. ⚡️', 'Success');
+            return redirect()->route('appointments.index');
+        }
+
+        return redirect()->back()->with('error', 'Appointment not found.');
+    }
+
+
     public function viewCustomerTreat($id)
     {
 
         $appointment = Appointments::find($id);
         if ($appointment) {
-
+            $visitDay = $appointment->visit_day;
             $customer = Customer::with('customerType', 'countryType', 'country')->find($appointment->customer_id);
             $treatmentHistory = CustomerTreatments::with('appointment')->where('appointment_id', $appointment->id)->get();
             $paymentTypes = PaymentTypes::all();
 
             $paymentDetails = CustomerTreatments::where('appointment_id', $appointment->id)
-            ->whereNotNull('paid_amount')
-            ->whereNotNull('total_amount')
-            ->whereNotNull('due_amount')
-            ->whereNotNull('payment_type_id')
-            ->whereNotNull('next_day')
-            ->first();
+                ->whereNotNull('paid_amount')
+                ->whereNotNull('total_amount')
+                ->whereNotNull('due_amount')
+                ->whereNotNull('payment_type_id')
+                ->whereNotNull('next_day')
+                ->first();
 
-        return view('treatment.view_customer_treat', compact('customer', 'treatmentHistory', 'paymentTypes', 'appointment', 'paymentDetails'));
+            return view('treatment.view_customer_treat', compact('customer', 'visitDay', 'treatmentHistory', 'paymentTypes', 'appointment', 'paymentDetails'));
         }
 
         return redirect()->back()->with('error', 'Appointment not found.');
@@ -206,10 +310,54 @@ class TreatmentController extends Controller
             'payment_type_id' => $request->paymentType,
             'next_day' => $request->nextDay,
         ]);
-            
+
         $customerTreatment->save();
 
         notify()->success('Payment details and next appointment date updated successfully. ⚡️', 'Success');
         return redirect()->route('appointments.index')->with('status', 'Payment updated successfully');
+    }
+
+    public function viewDuePayment($id)
+    {
+        $customerTreatment = CustomerTreatments::find($id);
+
+        if ($customerTreatment) {
+            $customer = Customer::with('customerType', 'countryType', 'country')->find($customerTreatment->customer_id);
+            $paymentTypes = PaymentTypes::all();
+            return view('Treatment.make_due_payment', compact('customerTreatment', 'customer', 'paymentTypes'));
+        }
+
+        return redirect()->back()->with('error', 'Data not found.');
+    }
+
+    public function saveDuePayment(Request $request, $id)
+    {
+        //dd($request);
+        $request->merge([
+            'totalAmount' => str_replace(',', '', $request->totalAmount),
+            'paidAmount' => str_replace(',', '', $request->paidAmount),
+            'dueAmount' => str_replace(',', '', $request->dueAmount),
+        ]);
+
+        $request->validate([
+            'paidAmount' => 'required|numeric|min:0|max:' . $request->totalAmount,
+            'dueAmount' => 'required|numeric|min:0|max:' . $request->totalAmount,
+            'paymentType' => 'required|exists:payment_types,id',
+        ]);
+
+        $customerTreatment = CustomerTreatments::where('id', $id)->firstOrFail();
+
+        $paidAmount = $customerTreatment->paid_amount + $request->paidAmount;
+
+        $customerTreatment->update([
+            'paid_amount' => $paidAmount,
+            'due_amount' => $request->dueAmount,
+            'payment_type_id' => $request->paymentType,
+        ]);
+
+        $customerTreatment->save();
+
+        notify()->success('Payment details updated successfully. ⚡️', 'Success');
+        return redirect()->route('customer.index')->with('status', 'Payment updated successfully');
     }
 }
