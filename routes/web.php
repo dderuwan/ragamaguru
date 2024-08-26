@@ -181,6 +181,9 @@ Route::get('/appointments', [AppointmentsController::class, 'index'])->name('app
 Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
 Route::get('appointments/print-preview/{appointmentId}', [AppointmentsController::class, 'printPreview'])->name('appointments.printPreview');
 Route::delete('/appointments/{id}', [AppointmentsController::class, 'destroy'])->name('appointments.destroy');
+Route::get('/showcalendarschedule', [AppointmentsController::class, 'showCalendarSchedule'])->name('showCalendarSchedule');
+Route::get('/calendar-events', [AppointmentsController::class, 'getCalendarEvents'])->name('calendar.events');
+
 
 Route::get('/localbookings', [BookingController::class, 'indexLocal'])->name('bookings.indexLocal');
 Route::get('/inbookings', [BookingController::class, 'indexInternational'])->name('bookings.indexInternational');
