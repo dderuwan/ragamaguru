@@ -18,7 +18,11 @@
         </div>
 
         <!-- Calendar -->
-        <div id="calendar"></div>
+        <div id="calendar"
+          data-second-visit-dates="{{ json_encode($secondVisitDates) }}"
+          data-third-visit-dates="{{ json_encode($thirdVisitDates) }}"
+          data-online-bookings="{{ json_encode($onlineBookings) }}">
+        </div>
 
       </div>
 
@@ -36,9 +40,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var secondVisitDates = @json($secondVisitDates);
-    var thirdVisitDates = @json($thirdVisitDates);
-    var onlineBookings = @json($onlineBookings);
+    var calendarElement = document.getElementById('calendar');
+
+    var secondVisitDates = JSON.parse(calendarElement.getAttribute('data-second-visit-dates'));
+    var thirdVisitDates = JSON.parse(calendarElement.getAttribute('data-third-visit-dates'));
+    var onlineBookings = JSON.parse(calendarElement.getAttribute('data-online-bookings'));
 
     var events = [
       ...secondVisitDates.map(item => ({
@@ -54,7 +60,7 @@
       ...onlineBookings.map(item => ({
         title: item.title,
         start: item.date,
-        color: item.color    
+        color: item.color
       }))
     ];
 
