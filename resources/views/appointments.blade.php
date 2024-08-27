@@ -93,7 +93,7 @@
             <strong><span> {{$customer->address}} </span></strong>
           </div>
           <p>You can update this information if you want. If not necessary, you can book a date.</p>
-          <button type="button" class="btn btn-primary" id="update-customer">Update</button>
+          <button type="button" class="btn btn-sm btn-primary" id="update-customer">Update</button>
         </form>
       </div>
     </div>
@@ -127,7 +127,7 @@
 
           <label for="bookingDate" class="form-label">Select Date:</label>
           <input type="date" class="form-control mb-3 col-md-6" id="bookingDate" name="bookingDate" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
-          <button type="button" id="submitbtn" class="btn btn-success mt-3" onclick="checkDate();">Submit</button>
+          <button type="button" id="submitbtn" class="btn btn-success mt-3" onclick="checkDate();">Book Now</button>
           @endif
         </div>
       </form>

@@ -6,6 +6,7 @@
   <div class="container-fluid">
     <div class="row justify-content-center p-4">
       <div class="col-12">
+        
         <div class="card shadow mb-4 p-2 pl-3">
           <div class="card-header">
             <h3><strong class="card-title">Manage Company</strong></h3>
@@ -57,6 +58,18 @@
                 <label for="inputWebsite" class="col-sm-2 col-form-label" style="color:black;">Website</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="inputWebsite" name="website" placeholder="Website" value="{{ $companyDetail->website ?? '' }}">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputYoutube" class="col-sm-2 col-form-label" style="color:black;">Youtube Channel ID</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputYoutube" name="youtube" placeholder="Channel ID" value="{{ $companyDetail->yt_channel_id ?? '' }}">
+                </div> 
+              </div>
+              <div class="form-group row">
+                <label for="inputFacebook" class="col-sm-2 col-form-label" style="color:black;">Facebook Page URL</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputFacebook" name="facebook" placeholder="Page URL" value="{{ $companyDetail->fb_page_url ?? '' }}">
                 </div>
               </div>
               <div class="form-group row">

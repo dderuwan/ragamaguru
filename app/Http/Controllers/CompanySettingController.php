@@ -26,6 +26,8 @@ class CompanySettingController extends Controller
             'contact' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'website' => 'nullable|string|max:255',
+            'youtube' => 'nullable|string|max:255',
+            'facebook' => 'nullable|string|max:255',
             'poweredByText' => 'nullable|string|max:255',
             'footertext' => 'nullable|string|max:255',
         ]);
@@ -51,12 +53,20 @@ class CompanySettingController extends Controller
         $companyDetail->contact = $request->contact;
         $companyDetail->logo = $logoName ?? $companyDetail->logo;
         $companyDetail->website = $request->website;
+        $companyDetail->yt_channel_id = $request->youtube;
+        $companyDetail->fb_page_url = $request->facebook;   
         $companyDetail->poweredbytext = $request->poweredByText;
         $companyDetail->footertext = $request->footertext;
         $companyDetail->save();
 
         
         return redirect()->back()->with('success', 'Company details saved successfully.');
+    }
+
+    public function getCompanyLogo()
+    {
+        $companyDetail = CompanyDetails::first();
+        return $companyDetail ? $companyDetail->logo : 'default-logo.png';
     }
 }
 
