@@ -34,6 +34,8 @@ Route::get('/', function () {
 Auth::routes();
 
 
+
+
 Route::view('/home', 'home')->name('home');
 Route::view('/store', 'store')->name('store');
 Route::view('/products', 'products')->name('products');
@@ -202,6 +204,9 @@ Route::post('/bookingstore', [BookingController::class, 'store'])->name('booking
 //Settings module
 Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
 Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
+Route::get('/footer', [CompanySettingController::class, 'getCompanyDetails']);
+
+
 
 //users
 Route::resource('users', UserController::class);

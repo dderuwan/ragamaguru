@@ -126,4 +126,8 @@ return [
     'GoogleTranslate' => Stichoza\GoogleTranslate\GoogleTranslate::class,
     ],
 
+
+
+
+
 ];
