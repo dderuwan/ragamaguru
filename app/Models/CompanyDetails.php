@@ -18,6 +18,8 @@ class CompanyDetails extends Model
         'contact',
         'logo',
         'website',
+        'yt_channel_id',
+        'fb_page_url',
         'poweredbytext',
         'footertext',
     ];

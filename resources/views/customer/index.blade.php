@@ -32,7 +32,7 @@
                                             <th>Contact No.</th>
                                             <th>Address</th>
                                             <th>Registered Time</th>
-                                            <th>User_ID</th>
+                                            <th>Reg. User</th>
                                             <th>Reg. Type</th>
                                             <th>Country Type</th>
                                             <th>Verify</th>
@@ -40,16 +40,28 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($customer_list as $customer)
+                                        @foreach ($customer_list as $index => $customer)
                                         <tr>
-                                            <td>{{$customer->id}}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{$customer->name}}</td>
                                             <td>{{$customer->contact}}</td>
-                                            <td>{{$customer->address}}</td>
+                                            <td>
+                                                @if ($customer->address)
+                                                {{$customer->address}}
+                                                @else
+                                                No Address
+                                                @endif
+                                            </td>
                                             <td>{{$customer->registered_time}}</td> 
-                                            <td>{{$customer->user_id}}</td>
-                                            <td>{{ optional($customer->customerType)->name }}</td>
-<td>{{ optional($customer->countryType)->name }}</td>
+                                            <td>
+                                                @if ($customer->user_id)
+                                                {{$customer->user_id}}
+                                                @else
+                                                No User
+                                                @endif 
+                                            </td>
+                                            <td>{{$customer->customerType->name}}</td>
+                                            <td>{{$customer->countryType->name}}</td>
                                             @if ($customer->isVerified)
                                             <td><span class="fe fe-15 fe-check"></span></td>
                                             @else
@@ -70,6 +82,7 @@
                                                         @method('DELETE')
                                                     </form>
                                                     <a class="dropdown-item text-success" href="{{ route('appointments.create',$customer->id) }}">Appointment</a>
+                                                    <a class="dropdown-item text-warning" href="{{ route('viewTreatmentHistory',$customer->id) }}">Treatments</a>
                                                 </div>
                                             </td>
                                         </tr>

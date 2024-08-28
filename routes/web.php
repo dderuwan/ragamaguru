@@ -102,19 +102,26 @@ Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('upd
 Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
 Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
 Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
-
+Route::get('/treatmenthistory/{id}', [CustomerController::class, 'viewTreatmentHistory'])->name('viewTreatmentHistory');
 
 
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
 Route::get('/createTreatment', [App\Http\Controllers\TreatmentController::class, 'create'])->name('createTreatment');
 Route::get('/editTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
-Route::post('/updateTreatment',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
+Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
 Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
 Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
+
 Route::get('/customertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'customerTreat'])->name('customerTreat');
 Route::post('/savecustomertreatments/{id}', [App\Http\Controllers\TreatmentController::class, 'saveCustomerTreatments'])->name('saveCustomerTreatments');
-
+Route::post('/saveseconddaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveSecondDayDetails'])->name('saveSecondDayDetails');
+Route::post('/savethirddaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveThirdDayDetails'])->name('saveThirdDayDetails');
+Route::post('/saveotherdaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveOtherDayDetails'])->name('saveOtherDayDetails');
+Route::get('/viewcustomertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'viewCustomerTreat'])->name('viewCustomerTreat');
+Route::post('/savetreatpayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveTreatPayment'])->name('saveTreatPayment');
+Route::get('/viewduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'viewDuePayment'])->name('viewDuePayment');
+Route::post('/saveduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveDuePayment'])->name('saveDuePayment');
 
 
 //employee module
@@ -176,6 +183,9 @@ Route::get('/appointments', [AppointmentsController::class, 'index'])->name('app
 Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
 Route::get('appointments/print-preview/{appointmentId}', [AppointmentsController::class, 'printPreview'])->name('appointments.printPreview');
 Route::delete('/appointments/{id}', [AppointmentsController::class, 'destroy'])->name('appointments.destroy');
+Route::get('/showcalendarschedule', [AppointmentsController::class, 'showCalendarSchedule'])->name('showCalendarSchedule');
+Route::get('/calendar-events', [AppointmentsController::class, 'getCalendarEvents'])->name('calendar.events');
+
 
 Route::get('/localbookings', [BookingController::class, 'indexLocal'])->name('bookings.indexLocal');
 Route::get('/inbookings', [BookingController::class, 'indexInternational'])->name('bookings.indexInternational');

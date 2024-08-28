@@ -34,8 +34,12 @@
                             <h2 class="page-title">All Appointments</h2>
                         </div>
                         <div class="col-auto">
-                            <a href="{{route('customer.index')}}"><button type="button" class="btn btn-primary" data-toggle="modal">
-                                    Customer List</button></a>
+                            <a href="{{route('showCalendarSchedule')}}"><button type="button" class="btn btn-primary">
+                            <i class="fa-regular fa-calendar-days"></i></button></a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{{route('customer.index')}}"><button type="button" class="btn btn-primary">
+                            <i class="fe fe-user fe-16"></i></button></a>
                         </div>
                         <!-- <div class="col-auto">
                             <a href=""><button type="button" class="btn btn-primary" data-toggle="modal">
@@ -125,6 +129,10 @@
                                 <td>
                                     <div class="action-icons">
                                         <a href="{{ route('customerTreat', '') }}/${appointment.id}" class="btn btn-success"><i class="fe fe-plus-square fe-16"></i></i></a>
+                                        ${appointment.haveTreat === "Done" ? `
+                                        <a href="{{ route('viewCustomerTreat', '') }}/${appointment.id}" class="btn btn-warning">
+                                            <i class="fe fe-eye fe-16"></i>
+                                        </a>` : ''}
                                         <button class="btn btn-danger action-icon delete-icon" onclick="confirmDelete(${appointment.id})" title="Delete">
                                             <i class="fe fe-trash-2"></i>
                                         </button>

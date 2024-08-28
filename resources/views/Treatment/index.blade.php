@@ -25,6 +25,7 @@
                                         <tr>
                                             <th>Treatment ID</th>
                                             <th>Treatment Name</th>
+                                            <th>Amount (LKR)</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -34,6 +35,7 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $Treatment->name }}</td>
+                                            <td>{{ $Treatment->amount }}</td>
                                             <td>{{ $Treatment->status == 1 ? 'Active':'Inactive' }}</td>
                                             <td>
                                                 <!-- Edit Button -->

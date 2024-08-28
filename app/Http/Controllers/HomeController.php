@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyDetails;
 use App\Models\Item;
 use App\Models\OfferItems;
 use Illuminate\Http\Request;
@@ -57,7 +58,11 @@ class HomeController extends Controller
             ->where('offer_item.status', 'active')
             ->get();
 
-        return view('home', compact('item_list', 'offer_items'));
+        $companyDetails = CompanyDetails::first();
+        $yt_channel_id = $companyDetails ? $companyDetails->yt_channel_id : null;
+        $fb_page_url = $companyDetails ? $companyDetails->fb_page_url : null;
+
+        return view('home', compact('item_list', 'offer_items','yt_channel_id','fb_page_url'));
     }
 
     public function getproducts()

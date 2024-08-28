@@ -36,12 +36,12 @@ class AppointmentsController extends Controller
             ->with('customer', 'apNumber')
             ->get();
 
-        
+
         return response()->json($appointments->map(function ($appointment) {
             $customerTreat = CustomerTreatments::where('appointment_id', $appointment->id)->first();
             $haveTreat = "Pending";
-            if($customerTreat){
-               $haveTreat= "Done";
+            if ($customerTreat) {
+                $haveTreat = "Done";
             }
             return [
                 'id' => $appointment->id,
@@ -96,11 +96,32 @@ class AppointmentsController extends Controller
                     $firstVisit = 'Done';
                     $secondVisit = 'Done';
                     $thirdVisit = 'Done';
+                } else if ($lastVisitDay == '4') {
+                    $firstVisit = 'Done';
+                    $secondVisit = 'Done';
+                    $thirdVisit = 'Done';
                 }
             } else {
                 $firstVisit = 'Pending';
                 $secondVisit = 'Pending';
                 $thirdVisit = 'Pending';
+            }
+
+            // Check the last row in the customer_treatments table
+            $lastCustomerTreatment = CustomerTreatments::where('customer_id', $id)->latest()->first();
+
+            $paymentStatus = 'done';
+            $nextDay = null;
+
+            if ($lastCustomerTreatment) {
+                $nextDay = $lastCustomerTreatment->next_day;
+                if ($lastVisitDay == '1') {
+                    if ($nextDay == null) {
+                        $paymentStatus = 'not paid';
+                    } else if ($nextDay != null && $lastCustomerTreatment->due_amount > 0.00) {
+                        $paymentStatus = 'due';
+                    }
+                }
             }
 
             return view('appointment.create', compact(
@@ -115,7 +136,10 @@ class AppointmentsController extends Controller
                 'onlinebooking',
                 'customerType',
                 'countryType',
-                'country'
+                'country',
+                'lastCustomerTreatment',
+                'paymentStatus',
+                'nextDay'
             ));
         } else {
             return redirect()->back()->with('error', 'Customer not found.');
@@ -146,10 +170,12 @@ class AppointmentsController extends Controller
                 'ap_numbers_id' => $apNumberRecord->id,
                 'visit_day' => $validated['visit_type'],
                 'added_date' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
-    
+
             return redirect()->route('appointments.printPreview', ['appointmentId' => $appointmentId])
-                             ->with('success', 'Appointment saved successfully.');
+                ->with('success', 'Appointment saved successfully.');
         }
     }
 
@@ -163,7 +189,8 @@ class AppointmentsController extends Controller
     public function update(UpdateAppointmentsRequest $request, Appointments $appointments) {}
 
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $appointment = Appointments::find($id);
 
         if ($appointment) {
@@ -199,16 +226,64 @@ class AppointmentsController extends Controller
     }
 
     public function printPreview($appointmentId)
-{
-    $appointment = Appointments::findOrFail($appointmentId);
-    $apNumberRecord = ApNumbers::findOrFail($appointment->ap_numbers_id);
-    $customer = Customer::findOrFail($appointment->customer_id);
+    {
+        $appointment = Appointments::findOrFail($appointmentId);
+        $apNumberRecord = ApNumbers::findOrFail($appointment->ap_numbers_id);
+        $customer = Customer::findOrFail($appointment->customer_id);
 
-    return view('appointment.pdf', [
-        'appointment' => $appointment,
-        'apNumberRecord' => $apNumberRecord,
-        'customer' => $customer
-    ]);
-}
+        return view('appointment.pdf', [
+            'appointment' => $appointment,
+            'apNumberRecord' => $apNumberRecord,
+            'customer' => $customer
+        ]);
+    }
 
+
+    public function showCalendarSchedule()
+    {
+        $appointments = Appointments::select('id', 'visit_day')->get();
+        $customerTreatments = CustomerTreatments::select('next_day', 'appointment_id', 'customer_id')->get();
+        $customers = Customer::select('id', 'contact')->get();
+        $bookings = Bookings::select('customer_id', 'booking_date')->get();
+
+        $secondVisitDates = [];
+        $thirdVisitDates = [];
+        $onlineBookings = [];
+
+        foreach ($customerTreatments as $treatment) {
+            $appointment = $appointments->firstWhere('id', $treatment->appointment_id);
+            $customer = $customers->firstWhere('id', $treatment->customer_id);
+
+            if ($appointment && $customer) {
+                $contact = $customer->contact;
+                if ($appointment->visit_day == 1 && $treatment->next_day) {
+                    $secondVisitDates[] = [
+                        'date' => $treatment->next_day,
+                        'title' => $contact,
+                        'color' => '#b3d9ff'
+                    ];
+                } elseif ($appointment->visit_day == 2 && $treatment->next_day) {
+                    $thirdVisitDates[] = [
+                        'date' => $treatment->next_day,
+                        'title' => $contact,
+                        'color' => '#99ffbb'
+                    ];
+                }
+            }
+        }
+
+        foreach ($bookings as $booking) {
+            $customer = $customers->firstWhere('id', $booking->customer_id);
+            if ($customer) {
+                $contact = $customer->contact;
+                $onlineBookings[] = [
+                    'date' => $booking->booking_date,
+                    'title' => $contact,
+                    'color' => '#ffccb3'
+                ];
+            }
+        }
+
+        return view('appointment.calendar_schedule', compact('secondVisitDates', 'thirdVisitDates', 'onlineBookings'));
+    }
 }

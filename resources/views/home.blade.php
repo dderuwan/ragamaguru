@@ -1,12 +1,16 @@
 <?php
-$channelId = 'UCDjaHxBOztUajVEOO3B5mkQ'; // Replace channel ID
+$channelId = $yt_channel_id;
+$fbURL = $fb_page_url;
+
 if (!empty($channelId)) {
   $rssFeedUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=$channelId";
-  $rss = simplexml_load_file($rssFeedUrl);
-  $videoIds = [];
-  for ($i = 0; $i < 2; $i++) {
-    if (isset($rss->entry[$i])) {
-      $videoIds[] = (string)$rss->entry[$i]->children('yt', true)->videoId;
+  $rss = @simplexml_load_file($rssFeedUrl);
+  if ($rss != false) {
+    $videoIds = [];
+    for ($i = 0; $i < 2; $i++) {
+      if (isset($rss->entry[$i])) {
+        $videoIds[] = (string)$rss->entry[$i]->children('yt', true)->videoId;
+      }
     }
   }
 }
@@ -179,7 +183,7 @@ if (!empty($channelId)) {
   </div>
 
 
-  <!-- special offers -->
+  <!-- youtube -->
   <div class="section">
     <div class="container">
       <div class="row">
@@ -190,7 +194,7 @@ if (!empty($channelId)) {
           </div>
         </div>
       </div>
-      @if (empty($channelId))
+      @if (empty($channelId) || $rss==false)
       <p class="text-danger">No any latest videos yet..</p>
       @else
       <div class="row mb-3">
@@ -213,7 +217,7 @@ if (!empty($channelId)) {
   </div>
 
 
-  <!-- special offers -->
+  <!-- fb -->
   <div class="section">
     <div class="container">
       <div class="row">
@@ -224,11 +228,15 @@ if (!empty($channelId)) {
           </div>
         </div>
       </div>
+      @if (empty($fbURL))
+      <p class="text-danger">Facebook not updated yet..</p>
+      @else
       <div class="row justify-content-center">
         <div class="col-md-6">
-          <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fesupporttechnolgies%3Fmibextid%3DLQQJ4d&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="100%" height="550" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          <iframe src="https://www.facebook.com/plugins/page.php?href={{ urlencode($fbURL) }}%3Fmibextid%3DLQQJ4d&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="100%" height="550" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
         </div>
       </div>
+      @endif
     </div>
   </div>
 

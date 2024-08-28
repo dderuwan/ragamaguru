@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\CustomerTreatments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -12,26 +13,19 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $customer_list = Customer::with(['customerType', 'countryType'])->get();
         return view('customer.index', compact('customer_list'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('customer.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
 
     function formatContactNumber($contact)
     {
@@ -131,9 +125,7 @@ class CustomerController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Customer $customer, $id)
     {
 
@@ -141,9 +133,7 @@ class CustomerController extends Controller
         return view('customer.edit', compact('customer'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
         $customerId = Customer::find($request->id);
@@ -156,9 +146,7 @@ class CustomerController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
         $customer = Customer::find($id);
@@ -276,5 +264,54 @@ class CustomerController extends Controller
             $error = $response->json();
             //Log::error('SMS sending failed:', $error);
         }
+    }
+
+
+    public function viewTreatmentHistory($id)
+    {
+
+        $customer = Customer::with('customerType', 'countryType', 'country')->find($id);
+        if ($customer) {
+
+
+            $firstVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 1);
+                })
+                ->with('appointment')
+                ->get();
+
+            $secondVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 2);
+                })
+                ->with('appointment')
+                ->get();
+
+            $thirdVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 3);
+                })
+                ->with('appointment')
+                ->get();
+
+            $otherVisitHistory = CustomerTreatments::where('customer_treatments.customer_id', $customer->id)
+                ->whereHas('appointment', function ($query) {
+                    $query->where('visit_day', 4);
+                })
+                ->with('appointment')
+                ->get();
+
+            return view('customer.treatment_history', compact(
+                'customer',
+                'firstVisitHistory',
+                'secondVisitHistory',
+                'thirdVisitHistory',
+                'otherVisitHistory'
+            ));
+
+        }
+
+        return redirect()->back()->with('error', 'customer not found');
     }
 }
