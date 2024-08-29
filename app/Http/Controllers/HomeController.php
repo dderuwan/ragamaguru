@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookings;
 use App\Models\CompanyDetails;
+use App\Models\Country;
+use App\Models\Customer;
 use App\Models\Item;
 use App\Models\OfferItems;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -46,9 +50,9 @@ class HomeController extends Controller
 
         $item_list = Item::whereNotIn('id', function ($query) use ($currentMonth) {
             $query->select('item_id')
-                  ->from('offer_item')
-                  ->where('month', $currentMonth)
-                  ->where('status', 'active');  
+                ->from('offer_item')
+                ->where('month', $currentMonth)
+                ->where('status', 'active');
         })->inRandomOrder()->take(4)->get();
 
         $offer_items = DB::table('offer_item')
@@ -62,7 +66,7 @@ class HomeController extends Controller
         $yt_channel_id = $companyDetails ? $companyDetails->yt_channel_id : null;
         $fb_page_url = $companyDetails ? $companyDetails->fb_page_url : null;
 
-        return view('home', compact('item_list', 'offer_items','yt_channel_id','fb_page_url'));
+        return view('home', compact('item_list', 'offer_items', 'yt_channel_id', 'fb_page_url'));
     }
 
     public function getproducts()
@@ -80,6 +84,56 @@ class HomeController extends Controller
             ->select('item.*', 'offer_item.offer_rate', 'offer_item.offer_price', 'offer_item.normal_price')
             ->get();
 
-        return view('store', compact('item_list'));   
+        return view('store', compact('item_list'));
+    }
+
+
+    public function goToProfile()
+    {
+        //add user to session - id is 1
+        Session::put('user_id', 28); //testing purpose 
+
+        $logged_user_id = Session::get('user_id');
+        if (empty($logged_user_id)) {
+            return redirect()->back()->with('error', 'Please Login first');
+        } else {
+            $customer = Customer::with('customerType', 'countryType', 'country')->find($logged_user_id);
+
+            if ($customer) {
+                $countries = Country::all();
+                $booking = Bookings::where('customer_id', $customer->id)->latest()->first();
+                $orders = Order::where('customer_code', $customer->id)
+                    ->where('order_type', 'Online')
+                    ->with('orderStatus')
+                    ->get();
+                return view('profile', compact('customer', 'booking', 'orders', 'countries'));
+            }
+        }
+    }
+
+    public function showOrderDetails($orderId)
+    {
+        $order = Order::with('items', 'orderStatus')->findOrFail($orderId);
+        return response()->json($order);
+    }
+
+    public function updateCusDetails(Request $request, $id)
+    {
+        $customer = Customer::findOrFail($id);
+
+        if ($customer) {
+
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'address' => 'nullable|string|max:255',
+                'country_id' => 'nullable|exists:country,id',
+            ]);
+
+            $customer->update($validated);
+
+            return redirect()->back()->with('success', 'Personal details updated successfully!');
+        } else {
+            return redirect()->back()->with('error', 'User not found');
+        }
     }
 }

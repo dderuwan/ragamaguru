@@ -109,7 +109,7 @@
           @if ($first_visit==1)
           <p class="text-danger">You have already attended the first visit. Therefore, rebooking is not possible. Contact Ragama Guru office for additional details</p>
           <input type="date" class="form-control mb-3 col-md-6" disabled value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
-          <button type="button" class="btn btn-success mt-3" disabled>Submit</button>
+          <button type="button" class="btn btn-success mt-3" disabled>Book Now</button>
           @else
           <input type="hidden" value="{{$customer->id}}">
 

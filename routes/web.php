@@ -87,7 +87,9 @@ Route::get('/home', [HomeController::class, 'getHomeData'])->name('home');
 Route::get('/store', [HomeController::class, 'getproducts'])->name('store');
 Route::get('/product/{id}', [ProductController::class, 'showItems'])->name('products.show');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
-
+Route::get('/profile', [HomeController::class, 'goToProfile'])->name('goToProfile');
+Route::get('/orders/{order}', [HomeController::class, 'showOrderDetails'])->name('showOrderDetails');
+Route::put('/updatedetails/{id}', [HomeController::class, 'updateCusDetails'])->name('updateCusDetails');
 
 
 
