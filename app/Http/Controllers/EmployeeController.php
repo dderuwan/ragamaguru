@@ -13,12 +13,12 @@ class EmployeeController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $employees = Employee::paginate(10);
-    return view('employee.index', [
-        'employees' => $employees
-    ]);
-}
+    {
+        $employees = Employee::all();
+        return view('employee.index', [
+            'employees' => $employees
+        ]);
+    }
 
 
     /**
@@ -39,12 +39,12 @@ class EmployeeController extends Controller
             'middlename' => 'nullable|string|max:255',
             'lastname' => 'required|string|max:255',
             'DOB' => 'required|date',
-            'NIC' => 'required|string|max:20',
+            'NIC' => 'required|string|max:20|unique:employee,NIC',
             'contactno' => 'required|string|max:20',
-            'Email' => 'required|email|max:255',
+            'Email' => 'required|email|max:255|unique:employee,Email',
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'zipecode' => 'required|string|max:10',
+            'zipcode' => 'required|string|max:10',
             'status' => 'nullable|boolean',
         ]);
 
@@ -58,7 +58,7 @@ class EmployeeController extends Controller
             'Email' => $request->Email,
             'address' => $request->address,
             'city' => $request->city,
-            'zipecode' => $request->zipecode,
+            'zipecode' => $request->zipcode,
             'status' => $request->status == true ? 1 : 0,
         ]);
 
@@ -76,47 +76,53 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( Employee $employee)
+    public function edit($id)
     {
-        return view('employee.edit', compact('employee'));
+        $employee = Employee::find($id);
+        if ($employee) {
+            return view('employee.edit', compact('employee'));
+        } else {
+            return redirect()->route('employee')->with('error', 'Employee not found.');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'firstname' => 'required|string|max:255',
-        'middlename' => 'nullable|string|max:255',
-        'lastname' => 'required|string|max:255',
-        'DOB' => 'required|date',
-        'NIC' => 'required|string|max:20',
-        'contactno' => 'required|string|max:20',
-        'Email' => 'required|email|max:255',
-        'address' => 'required|string|max:255',
-        'city' => 'required|string|max:255',
-        'zipecode' => 'required|string|max:10',
-        'status' => 'required|boolean',
-    ]);
+    {
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'DOB' => 'required|date',
+            'NIC' => 'required|string|max:20',
+            'contactno' => 'required|string|max:20',
+            'Email' => 'required|email|max:255',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'zipcode' => 'required|string|max:10',
+            'status' => 'required|boolean',
+        ]);
 
-    $employee = Employee::findOrFail($id);
-    $employee->update([
-        'firstname' => $request->firstname,
-        'middlename' => $request->middlename,
-        'lastname' => $request->lastname,
-        'DOB' => $request->DOB,
-        'NIC' => $request->NIC,
-        'contactno' => $request->contactno,
-        'Email' => $request->Email,
-        'address' => $request->address,
-        'city' => $request->city,
-        'zipecode' => $request->zipecode,
-        'status' => $request->status,
-    ]);
+        $employee = Employee::findOrFail($id);
+        $employee->update([
+            'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
+            'lastname' => $request->lastname,
+            'DOB' => $request->DOB,
+            'NIC' => $request->NIC,
+            'contactno' => $request->contactno,
+            'Email' => $request->Email,
+            'address' => $request->address,
+            'city' => $request->city,
+            'zipecode' => $request->zipcode,
+            'status' => $request->status,
+        ]);
 
-    return redirect()->route('employee.index')->with('status', 'Employee updated successfully');
-}
+        notify()->success(' Employee updated successfully. ⚡️', 'Success');
+        return redirect()->route('employee')->with('status', 'Employee updated successfully');
+    }
 
 
     /**
@@ -133,5 +139,5 @@ class EmployeeController extends Controller
         } else {
             return redirect()->route('employee')->with('error', 'Employee not found.');
         }
-}
+    }
 }

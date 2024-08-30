@@ -130,7 +130,7 @@ Route::post('/saveduepayment/{id}', [App\Http\Controllers\TreatmentController::c
 Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
 Route::get('/createemployee', [App\Http\Controllers\EmployeeController::class, 'create'])->name('createemployee');
 Route::get('/editemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('editemployee');
-Route::post('/updateemployee',[App\Http\Controllers\EmployeeController::class, 'update'])->name('updateemployee');
+Route::put('/updateemployee/{id}',[App\Http\Controllers\EmployeeController::class, 'update'])->name('updateemployee');
 Route::post('/storeemployee', [App\Http\Controllers\EmployeeController::class, 'store'])->name('storeemployee');
 Route::delete('/deleteemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('deleteemployee');
 

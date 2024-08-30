@@ -91,8 +91,8 @@
                   </div>
                   <div class="form-group col-md-3">
                     <label for="inputZipCode">Zip Code</label>
-                    <input type="text" class="form-control" id="inputZipCode" name="zipecode" placeholder="Zip Code">
-                    @error('zipecode')
+                    <input type="text" class="form-control" id="inputZipCode" name="zipcode" placeholder="Zip Code">
+                    @error('zipcode')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                   </div>

@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function index()
     {
         $today = Carbon::today();
-        
+
         $todayOrdersCount = DB::table('pos')
             ->whereDate('date', $today)
             ->count();
@@ -22,7 +22,13 @@ class DashboardController extends Controller
 
         $totalCustomers = DB::table('customer')->count();
 
-        return view('dashboard.index', compact('todayOrdersCount', 'todayRevenue', 'totalCustomers'));
+        $totalBookings = DB::table('bookings')->count();
+
+        return view('dashboard.index', compact(
+            'todayOrdersCount',
+            'todayRevenue',
+            'totalCustomers',
+            'totalBookings'  
+        ));
     }
 }
-

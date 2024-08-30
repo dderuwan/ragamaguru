@@ -109,7 +109,7 @@
                             </div>
                             <div class="card-content">
                                 <p class="card-category">Total Bookings</p>
-                                <h3 class="card-title mb-3">0</h3> 
+                                <h3 class="card-title mb-3">{{$totalBookings}}</h3>   
                             </div>
                         </div>
                     </div>

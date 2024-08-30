@@ -42,6 +42,11 @@
                     <div class="col-md-6">
                         <h2 class="page-title">Users</h2>
                     </div>
+                    <div class="col-md-6 text-right">
+                        <a href="{{ route('user.index') }}"><button type="button" class="btn btn-primary float-end">
+                                Add User
+                            </button></a>
+                    </div>
                 </div>
                 @if(session('success'))
                     <div class="alert alert-success">
@@ -66,8 +71,9 @@
                                         <tr>
                                             <th style="color: black;">#</th>
                                             <th style="color: black;">Image</th>
-                                            <th style="color: black;">Username</th>
+                                            <th style="color: black;">Name</th>
                                             <th style="color: black;">Email</th>
+                                            <th style="color: black;">Type</th>
                                             <th style="color: black;">Status</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
@@ -78,13 +84,14 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>
                                                 @if ($user->image)
-                                                    <img src="{{ asset('storage/' . $user->image) }}" alt="User Image" style="max-width: 70px; max-height: 70px;">
+                                                    <img src="{{ asset('images/users/' . $user->image) }}" alt="User Image" style="max-width: 70px; max-height: 70px;">
                                                 @else
                                                     No Image
                                                 @endif
                                             </td>
-                                            <td>{{ $user->firstname }}</td>
+                                            <td>{{ $user->firstname }} {{$user->lastname}}</td>
                                             <td>{{ $user->email }}</td>
+                                            <td>{{ $user->user_type }}</td>
                                             <td>{{ $user->status }}</td>
                                             <td>
                                                 <div class="action-icons">
@@ -92,7 +99,7 @@
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
 
-                                                    <button class="action-icon delete-icon" onclick="confirmDelete('{{ $user->id }}')" title="Delete">
+                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $user->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
 
@@ -142,11 +149,11 @@
 
 @section('scripts')
 <script>
-    function confirmDelete(purchaseId) {
-        const deleteForm = document.getElementById('delete-form-' + purchaseId);
+    function confirmDelete(userId) {
+        const deleteForm = document.getElementById('delete-form-' + userId);
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
-        $('#deleteModal').modal('show');
+        //$('#deleteModal').modal('show');
 
         confirmDeleteButton.onclick = function() {
             deleteForm.submit();

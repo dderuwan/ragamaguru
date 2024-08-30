@@ -10,9 +10,9 @@
                 <p class="card-text"></p>
                 <div class="card-header">
 
-                    <button type="button" class="btn btn-primary float-end" onclick="window.location.href='{{ route('createemployee') }}'">
+                    <a type="button" class="btn btn-primary float-end" href='{{ route('createemployee') }}'>
                         Add Employee
-                    </button>
+                    </a>
                 </div>
                 <div class="row my-4">
                     <!-- Small table -->
@@ -24,9 +24,7 @@
                                     <thead>
                                         <tr>
 
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Last Name</th>
+                                            <th>Full Name</th>
                                             <th>Date of Birth</th>
                                             <th>NIC</th>
                                             <th>Contact No</th>
@@ -40,31 +38,30 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($employees as $employee)
-                                    <tr>
+                                        <tr>
 
-                                        <td>{{ $employee->firstname }}</td>
-                                        <td>{{ $employee->middlename }}</td>
-                                        <td>{{ $employee->lastname }}</td>
-                                        <td>{{ $employee->DOB }}</td>
-                                        <td>{{ $employee->NIC }}</td>
-                                        <td>{{ $employee->contactno }}</td>
-                                        <td>{{ $employee->Email }}</td>
-                                        <td>{{ $employee->address }}</td>
-                                        <td>{{ $employee->city }}</td>
-                                        <td>{{ $employee->zipecode }}</td>
-                                        <td>{{ $employee->status == 1 ? 'Active' : 'Inactive' }}</td>
-                                        <td>
+                                            <td>{{ $employee->firstname }} {{ $employee->middlename }} {{ $employee->lastname }}</td>
+                                            <td>{{ $employee->DOB }}</td>
+                                            <td>{{ $employee->NIC }}</td>
+                                            <td>{{ $employee->contactno }}</td>
+                                            <td>{{ $employee->Email }}</td>
+                                            <td>{{ $employee->address }}</td>
+                                            <td>{{ $employee->city }}</td>
+                                            <td>{{ $employee->zipecode }}</td>
+                                            <td>{{ $employee->status == 1 ? 'Active' : 'Inactive' }}</td>
+                                            <td>
                                                 <!-- Edit Button -->
                                                 <a href="{{ route('editemployee', $employee->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <!-- Delete Button -->
-                                                <form id="delete-form-{{ $employee->id }}" action="{{ route('deleteemployee', $employee->id) }}" method="POST" class="d-inline">
+                                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $employee->id }}')" title="Delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+
+                                                <form id="delete-form-{{ $employee->id }}" action="{{ route('deleteemployee', $employee->id) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -91,7 +88,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this customer?
+                    Are you sure you want to delete this employee?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -106,9 +103,14 @@
 
 @section('scripts')
 <script>
-    function confirmDelete(id) {
-        if(confirm('Are you sure you want to delete this treatment?')) {
-            document.getElementById('deleteForm' + id).submit();
+    function confirmDelete(empId) {
+        const deleteForm = document.getElementById('delete-form-' + empId);
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+        //$('#deleteModal').modal('show');
+
+        confirmDeleteButton.onclick = function() {
+            deleteForm.submit();
         }
     }
 </script>
