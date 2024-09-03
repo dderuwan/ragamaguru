@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td class="total-cost">${itemPrice}</td>
                     <td><button class="btn btn-danger btn-sm remove-item"><i class="fe fe-trash fe-16"></i></button></td>
                     <input type="hidden" name="items[${itemData.id}][item_code]" value="${itemData.item_code}">
-                    <input type="hidden" name="items[${itemData.id}][item_name]" value="${itemData.item_name}">
+                    <input type="hidden" name="items[${itemData.id}][item_name]" value="${itemData.name}">
                     <input type="hidden" name="items[${itemData.id}][quantity]" class="hidden-quantity" value="1">
                     <input type="hidden" name="items[${itemData.id}][total]" class="hidden-total" value="${itemPrice}">
                 `;
