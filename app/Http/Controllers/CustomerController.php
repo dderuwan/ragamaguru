@@ -14,9 +14,10 @@ use Illuminate\Support\Str;
 class CustomerController extends Controller
 {
 
+
     public function index()
     {
-        $customer_list = Customer::with(['customerType', 'countryType'])->get();
+        $customer_list = Customer::with(['customerType', 'countryType','user'])->get();
         return view('customer.index', compact('customer_list'));
     }
 

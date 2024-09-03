@@ -1,6 +1,7 @@
 <!-- resources/views/reports/print_order.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +16,14 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h2>Order Details</h2>
+        <h2>Ragama Guru - Order Details</h2>
         <p><strong>Order Code:</strong> {{ $order->order_code }}</p>
         <p><strong>Date:</strong> {{ $order->date }}</p>
         <p><strong>Customer Code:</strong> {{ $order->customer_code }}</p>
+        <p><strong>Customer Contact:</strong> {{ $order->customer->contact }}</p>
         <p><strong>Total Cost:</strong> {{ $order->total_cost_payment }}</p>
 
         <h3>Order Items</h3>
@@ -55,4 +58,5 @@
         };
     </script>
 </body>
+
 </html>

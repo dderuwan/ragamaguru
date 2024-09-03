@@ -1,5 +1,7 @@
 @extends('layouts.main.master')
 
+@section('title', 'Ragama Guru - Purchase Order Report')
+
 @section('content')
 <main role="main" class="main-content">
     <div class="container">
@@ -80,17 +82,37 @@ $(document).ready(function() {
                 footer: true
             },
             {
-                extend: 'pdfHtml5',
-                footer: true,
-                customize: function (doc) {
-                    // Set a margin for the footer
-                    doc.content[1].margin = [0, 0, 0, 20];
+                    extend: 'pdfHtml5',
+                    footer: true,
+                    customize: function(doc) {
+                        doc.content[1].margin = [0, 0, 0, 20];
+                    },
+                    exportOptions: {
+                        columns: function(idx, data, node) {
+                            return idx !== 4;
+                        }
+                    }
+                },
+                {
+                    extend: 'print',
+                    footer: true,
+                    title: '',
+                    customize: function(win) {
+                        $(win.document.body)
+                            .prepend(`
+                            <div style="text-align: center; margin: 0 auto; width: 100%; page-break-after: avoid;">
+                                <img src="/images/logos/1723184027.png" style="height: 50px; width: auto; display: block; margin: 0 auto;" />
+                                <h2 style="margin-top: 10px; font-size: 24px; font-weight: bold; text-align: center;">Purchase Order Report</h2>
+                            </div>
+                        `);
+
+                        $(win.document.body).find('table').find('th:eq(4), td:eq(4)').hide();
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
                 }
-            },
-            {
-                extend: 'print',
-                footer: true
-            }
         ],
         
     });

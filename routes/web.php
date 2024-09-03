@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\AppointmentsController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\OfferItemsController;
@@ -64,14 +65,24 @@ Route::get('lang/home', [LangController::class,'index']);
 Route::get('lang/change', [LangController::class,'change'])->name('changeLang');
 
 
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+});
+
+
 // Authentication Routes
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
-Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+// Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+// Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
 
 
 // register
 Route::get('/register',[ControllersRegisterController::class, 'index'])->name('register.index');  
 Route::post('/register/store',[ControllersRegisterController::class, 'store'])->name('register.store');  
+
+
 
 
 // Password Reset Routes
@@ -299,6 +310,7 @@ Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'd
 //reports
 Route::get('/orderreport', [App\Http\Controllers\ReportController::class, 'orderreport'])->name('orderreport');
 Route::get('/productreport', [App\Http\Controllers\ReportController::class, 'productreport'])->name('productreport');
+Route::get('/stockreport', [App\Http\Controllers\ReportController::class, 'stockreport'])->name('stockreport');
 Route::get('/customerreport', [App\Http\Controllers\ReportController::class, 'customerreport'])->name('customerreport');
 Route::get('/supplierreport', [App\Http\Controllers\ReportController::class, 'supplierreport'])->name('supplierreport');
 Route::get('/ginreport', [App\Http\Controllers\ReportController::class, 'ginreport'])->name('ginreport');

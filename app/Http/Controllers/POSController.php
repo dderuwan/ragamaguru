@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyDetails;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Customer;
@@ -148,7 +149,8 @@ class POSController extends Controller
     public function printAndRedirect($id)
     {
         $order = Order::findOrFail($id);
-        return view('POS.print', compact('order'));
+        $companyDetail = CompanyDetails::first();
+        return view('POS.print', compact('order','companyDetail'));
     }
 
 

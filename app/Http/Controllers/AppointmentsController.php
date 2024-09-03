@@ -231,7 +231,7 @@ class AppointmentsController extends Controller
         $apNumberRecord = ApNumbers::findOrFail($appointment->ap_numbers_id);
         $customer = Customer::findOrFail($appointment->customer_id);
 
-        return view('appointment.pdf', [
+        return view('appointment.print', [
             'appointment' => $appointment,
             'apNumberRecord' => $apNumberRecord,
             'customer' => $customer

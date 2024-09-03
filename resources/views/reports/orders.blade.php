@@ -1,5 +1,7 @@
 @extends('layouts.main.master')
 
+@section('title', 'Ragama Guru - Supplier Report')
+
 @section('content')
 <main role="main" class="main-content">
     <div class="container">
@@ -49,7 +51,7 @@
                                             <tr>
                                                 <th style="color: black;">Order Code</th>
                                                 <th style="color: black;">Date</th>
-                                                <th style="color: black;">Customer Code</th>
+                                                <th style="color: black;">Customer Contact</th>
                                                 <th style="color: black;">Total Cost</th>
                                                 <th style="color: black;">Actions</th>
                                             </tr>
@@ -59,7 +61,7 @@
                                             <tr>
                                                 <td>{{ $order->order_code }}</td>
                                                 <td>{{ $order->date }}</td>
-                                                <td>{{ $order->customer_code }}</td>
+                                                <td>{{ $order->customer->contact }}</td>
                                                 <td>{{ $order->total_cost_payment }}</td>
                                                 <td>
                                                     <!-- Show Button -->
@@ -77,7 +79,8 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th colspan="3" style="text-align:right">Total:</th>
+                                                <th colspan="2"></th>
+                                                <th style="text-align:right">Total:</th>
                                                 <th id="totalCost"></th>
                                             </tr>
                                         </tfoot>
@@ -112,17 +115,38 @@ $(document).ready(function() {
                 footer: true
             },
             {
-                extend: 'pdfHtml5',
-                footer: true,
-                customize: function (doc) {
-                    // Set a margin for the footer
-                    doc.content[1].margin = [0, 0, 0, 20];
+                    extend: 'pdfHtml5',
+                    footer: true,
+                    customize: function(doc) {
+                        doc.content[1].margin = [0, 0, 0, 20];
+                    },
+                    exportOptions: {
+                        columns: function(idx, data, node) {
+                            return idx !== 4;
+                        }
+                    }
+                },
+                {
+                    extend: 'print',
+                    footer: true,
+                    title: '',
+                    customize: function(win) {
+                        $(win.document.body)
+                            .prepend(`
+                            <div style="text-align: center; margin: 0 auto; width: 100%; page-break-after: avoid;">
+                                <img src="/images/logos/1723184027.png" style="height: 50px; width: auto; display: block; margin: 0 auto;" />
+                                <h2 style="margin-top: 10px; font-size: 24px; font-weight: bold; text-align: center;">Sale Report</h2>
+                            </div>
+                        `);
+
+                        $(win.document.body).find('table').find('th:eq(4), td:eq(4)').hide();
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
                 }
-            },
-            {
-                extend: 'print',
-                footer: true
-            }
+
         ],
         footerCallback: function (row, data, start, end, display) {
             var api = this.api();

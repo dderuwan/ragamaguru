@@ -32,7 +32,7 @@
                                             <th>Contact No.</th>
                                             <th>Address</th>
                                             <th>Registered Time</th>
-                                            <th>Reg. User</th>
+                                            <th>Reg. UserID</th>
                                             <th>Reg. Type</th>
                                             <th>Country Type</th>
                                             <th>Verify</th>
@@ -68,7 +68,7 @@
                                             <td><span class="fe fe-15 fe-x"></span></td>
                                             @endif
                                             <td>
-                                                <button class="btn fe fe-24 fe-edit more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-info fe fe-24 fe-edit more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="text-muted sr-only">Action</span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">

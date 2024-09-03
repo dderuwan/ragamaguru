@@ -4,11 +4,12 @@
     </a>
     <nav class="vertnav navbar navbar-light">
       <!-- nav bar -->
-        <div class="w-100 mb-2 ml-3 d-flex">
-          <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{{route('dashboard')}}">
-            <img src="{{ asset('images/logos/' . app(\App\Http\Controllers\CompanySettingController::class)->getCompanyLogo()) }}"
+      <div class="w-100 mb-2 ml-3 d-flex justify-content-center">
+        <a class="navbar-brand mt-2 d-flex flex-column align-items-center" href="{{route('dashboard')}}">
+          <img src="{{ asset('images/logos/' . app(\App\Http\Controllers\CompanySettingController::class)->getCompanyLogo()) }}"
             style="width:auto; height: 35px;" class="mt-2" alt="Company Logo">
-          </a>
+          <span class="mt-2">RAGAMA GURU ASAPUWA</span>
+        </a>
       </div>
 
       <ul class="navbar-nav flex-fill w-100 mb-2">
@@ -158,50 +159,50 @@
                   <a class="nav-link pl-3" href="{{route('holiday')}}"><span class="ml-1 item-text">- Holiday </span></a>
                 </li>
                 <li class="nav-item active">
-                        <a class="nav-link pl-3" href="{{route('add_leave_type')}}" ><span class="ml-1 item-text">- Add Leave Type</span></a>
-                    </li> 
-                    <li class="nav-item active">
-                        <a class="nav-link pl-3" href="{{route('leave_application')}}" ><span class="ml-1 item-text">- Leave Application </span></a>
-                    </li>
-                        <a class="nav-link pl-3" href="{{route('attendance_reports')}}" ><span class="ml-1 item-text"> </span></a>
-                    </li>
-                  </ul>
+                  <a class="nav-link pl-3" href="{{route('add_leave_type')}}"><span class="ml-1 item-text">- Add Leave Type</span></a>
                 </li>
-              </ul>
-                 
-          </li>  
-                      
-  
-     
-    
-   
+                <li class="nav-item active">
+                  <a class="nav-link pl-3" href="{{route('leave_application')}}"><span class="ml-1 item-text">- Leave Application </span></a>
+                </li>
+                <a class="nav-link pl-3" href="{{route('attendance_reports')}}"><span class="ml-1 item-text"> </span></a>
+            </li>
+          </ul>
+        </li>
+      </ul>
 
-        <li class="nav-item dropdown">
-            <a href="#setting" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-            <i class="fe fe-settings fe-16"></i>
-            <span class="ml-3 item-text">Settings</span><span class="sr-only">(current)</span>
-            </a>
-            <ul class="collapse list-unstyled pl-4 w-100" id="setting">
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('company.index')}}" ><span class="ml-1 item-text">Manage Company</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('user.index')}}" ><span class="ml-1 item-text">Add User</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('user.show')}}" ><span class="ml-1 item-text">User List</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('addRole')}}" ><span class="ml-1 item-text">Add Role</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('showRole')}}" ><span class="ml-1 item-text">Role List</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link pl-3" href="{{route('assign_user_role')}}" ><span class="ml-1 item-text">Assign User Roles</span></a>
-            </li>
-</ul>
-    
+      </li>
+
+
+
+
+
+
+      <li class="nav-item dropdown">
+        <a href="#setting" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+          <i class="fe fe-settings fe-16"></i>
+          <span class="ml-3 item-text">Settings</span><span class="sr-only">(current)</span>
+        </a>
+        <ul class="collapse list-unstyled pl-4 w-100" id="setting">
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('company.index')}}"><span class="ml-1 item-text">Manage Company</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('user.index')}}"><span class="ml-1 item-text">Add User</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('user.show')}}"><span class="ml-1 item-text">User List</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('addRole')}}"><span class="ml-1 item-text">Add Role</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('showRole')}}"><span class="ml-1 item-text">Role List</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('assign_user_role')}}"><span class="ml-1 item-text">Assign User Roles</span></a>
+          </li>
+        </ul>
+
       <li class="nav-item dropdown">
         <a href="#reports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
           <i class="fe fe-book-open"></i>
@@ -234,6 +235,14 @@
 
           <li class="nav-item mb-2">
 
+            <a href="{{route('stockreport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Stock Report</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
             <a href="{{route('purchaseorderreport')}}" class="sidebar_text text-decoration-none">
               <span class="ml-3 item-text">Purchase Order Report</span><span class="sr-only">(current)</span>
             </a>
@@ -257,9 +266,14 @@
           </li>
 
         </ul>
+        
       </li>
 
+      
+
       </ul>
+
+      
 
 
 

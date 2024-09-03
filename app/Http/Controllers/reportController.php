@@ -46,6 +46,13 @@ class reportController extends Controller
 
     }
 
+    public function stockreport()
+    {
+        $items = Item::all();
+        return view('reports.stock', compact('items'));
+
+    }
+
     
 
     //This is customer report section

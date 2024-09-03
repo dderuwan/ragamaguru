@@ -104,7 +104,7 @@
     </div>
 
     <div class="header">
-        <p>14, 1/1, 37th lane, Wellawatte, Colombo 06</p>
+        <p>{{ $companyDetail->address ?? 'RagamaGuru' }}</p>
         <p>Date: {{ \Carbon\Carbon::now()->format('M d, Y') }}</p>
     </div>
 
