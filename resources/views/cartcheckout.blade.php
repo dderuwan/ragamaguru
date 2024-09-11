@@ -146,7 +146,18 @@
                                 </div>
                                 <div class="row">
                                     <h6 class="text-dark font-weight-bold col-sm-6">Shipping Cost: </h6>
-                                    <h6 class="font-weight-bold text-secondary col-sm-6">Rs. {{ $checkoutDetails['shippingCost'] }}</h6>
+                                    <h6 class="font-weight-bold text-secondary col-sm-6">
+                                        @if ($deliveryAddress)
+                                            @if ($checkoutDetails['shippingCost'] == '0.00' || $checkoutDetails['shippingCost'] == 0)
+                                            Free
+                                            @elseif ($checkoutDetails['shippingCost'] > 0)
+                                            Rs. {{ $checkoutDetails['shippingCost'] }}
+                                            @endif
+                                        @else
+                                        Not Updated
+                                        @endif
+                                    </h6>
+
                                 </div>
                                 <div class="row">
                                     <h6 class="text-dark font-weight-bold col-sm-6">Grand Total: </h6>

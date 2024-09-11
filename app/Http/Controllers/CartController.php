@@ -17,7 +17,7 @@ class CartController extends Controller
         $btnName = $request->input('btn_name');
 
         $product = [
-            'item_code' => $request->input('item_code'), 
+            'item_code' => $request->input('item_code'),
             'name' => $request->input('name'),
             'price' => $request->input('price'),
             'image' => $request->input('image'),
@@ -26,14 +26,12 @@ class CartController extends Controller
         $cart[] = $product;
         session()->put('cart', $cart);
 
-        if($btnName=='buy'){
+        if ($btnName == 'buy') {
             return redirect()->route('cart');
-        }elseif($btnName=='cart'){  
+        } elseif ($btnName == 'cart') {
             session()->flash('success', 'Product added to cart successfully!');
             return redirect()->back();
         }
-
-        
     }
 
 
@@ -41,16 +39,16 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
-    // Retrieve product data including available quantity
-    foreach ($cart as &$item) {
-        // Fetch product from the database using item_code
-        $product = Item::where('item_code', $item['item_code'])->first();
-        if ($product) {
-            $item['available_quantity'] = $product->quantity;
-        } else {
-            $item['available_quantity'] = 0; // Default if product not found
+        // Retrieve product data including available quantity
+        foreach ($cart as &$item) {
+            // Fetch product from the database using item_code
+            $product = Item::where('item_code', $item['item_code'])->first();
+            if ($product) {
+                $item['available_quantity'] = $product->quantity;
+            } else {
+                $item['available_quantity'] = 0; // Default if product not found
+            }
         }
-    }
         $cartCount = count($cart);
         return view('cart', compact('cart', 'cartCount'));
     }
@@ -87,6 +85,23 @@ class CartController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function getShippingCost($userId)
+    {
+        $deliveryAddress = DeliveryAddress::where('customer_id', $userId)->first();
+        $shippingCost = null;
+        if ($deliveryAddress) {
+            $country = $deliveryAddress->country;
+            if ($country != 'LK') {
+                $shippingCost = 500;
+            } else {
+                $shippingCost = 0;
+            }
+        } else {
+            $shippingCost = 0;
+        }
+        return $shippingCost;
+    }
+
 
     public function storeCartDetails(Request $request)
     {
@@ -97,19 +112,15 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (empty($userId)) {
-            return response()->json(['success' => false, 'message'=>'no user']);
-        }else if(empty($cart)){
-            return response()->json(['success' => false, 'message'=>'no cart']);
+            return response()->json(['success' => false, 'message' => 'no user']);
+        } else if (empty($cart)) {
+            return response()->json(['success' => false, 'message' => 'no cart']);
         } else {
             $cartDetails = $request->input('cartDetails');
             $subTotal = $request->input('totalCartPrice');
-            $shippingCost = $request->input('shippingCost');
-            $grandTotal = $request->input('grandTotal');
 
             $data['cartDetails'] = $cartDetails;
-            $data['subTotal'] = $subTotal;
-            $data['shippingCost'] = $shippingCost;
-            $data['grandTotal'] = $grandTotal;
+            $data['subTotal'] = number_format($subTotal, 2);
 
             Session::put('checkoutDetails', $data);
 
@@ -124,10 +135,21 @@ class CartController extends Controller
         $checkoutDetails = Session::get('checkoutDetails', []);
         $logged_user_id = Session::get('user_id');
         $paymentTypes = CartPaymentTypes::all();
-        $userDetails = Customer::findOrFail($logged_user_id); 
+        $userDetails = Customer::findOrFail($logged_user_id);
+
+        $subTotal = $checkoutDetails['subTotal'];
+  
+        $getShippingCost = $this->getShippingCost($userDetails->id);
+        $shippingCost = number_format($getShippingCost, 2);
+        $grandTotal = $subTotal + $shippingCost;
+
+        $checkoutDetails['shippingCost'] = $shippingCost;
+        $checkoutDetails['grandTotal'] = number_format($grandTotal, 2); 
+
+        Session::put('checkoutDetails', $checkoutDetails);
 
         $deliveryAddress = DeliveryAddress::where('customer_id', $logged_user_id)->first();
 
-        return view('cartcheckout', compact('checkoutDetails', 'paymentTypes', 'userDetails','deliveryAddress'));
+        return view('cartcheckout', compact('checkoutDetails', 'paymentTypes', 'userDetails', 'deliveryAddress'));
     }
 }

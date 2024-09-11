@@ -31,14 +31,10 @@ function updateCartTotal() {
     subTotal = cartTotal;
 }
 
+
 function getCartDetails() {
     let cartDetails = [];
-    let totalCartPrice = subTotal.toFixed(2);
-    let shippingCharge = 400; //testing purpose
-    let shippingCost = shippingCharge.toFixed(2);
-    let calculateGrandTotal =
-        parseFloat(shippingCost) + parseFloat(totalCartPrice);
-    let grandTotal = calculateGrandTotal.toFixed(2);
+    let totalCartPrice = subTotal;
 
     document.querySelectorAll('tr[id^="product-row-"]').forEach((row) => {
         let itemCode = row.querySelector('input[name="item_code"]').value;
@@ -58,8 +54,6 @@ function getCartDetails() {
     return {
         cartDetails: cartDetails,
         totalCartPrice: totalCartPrice,
-        shippingCost: shippingCost,
-        grandTotal: grandTotal,
     };
 }
 
