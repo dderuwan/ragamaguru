@@ -178,7 +178,12 @@
                                     @if ($customer->countryType->name==='International')
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Country:</h6>
-                                        <p>{{$customer->country->name}}</p>
+                                        @if ($customer->country_id)
+                                        <p id="countryName">loading country</p> <!-- Placeholder for country name -->
+                                        @else
+                                        <p>Not Added</p>
+                                        @endif
+                                        <p></p>
                                     </div>
                                     @endif
                                     <div class="col-md-6">
@@ -305,11 +310,8 @@
                         <div class="form-group">
                             <label for="country">Country</label>
                             <select class="form-control" id="country" name="country_id">
-                                @foreach($countries as $country)
-                                <option value="{{ $country->id }}" {{ $country->id == $customer->country_id ? 'selected' : '' }}>
-                                    {{ $country->name }}
-                                </option>
-                                @endforeach
+                            <option value="" disabled selected>Select your country</option> 
+                            <!-- Add options dynamically here -->
                             </select>
                             @error('country_id')
                             <p class="text-danger">{{ $message }}</p>
@@ -471,7 +473,67 @@
                 });
             });
         });
+
+
+        $(document).ready(function() {
+            const countryId = '{{ $customer->country_id ?? '
+            ' }}';
+
+            if (countryId) {
+                // Fetch all country data from the API
+                $.ajax({
+                    url: 'https://restcountries.com/v3.1/all',
+                    method: 'GET',
+                    success: function(data) {
+                        // Find the country with the matching `cca2` code
+                        const country = data.find(country => country.cca2 === countryId);
+
+                        if (country) {
+                            $('#countryName').text(country.name.common); // Update the country name
+                        } else {
+                            $('#countryName').text('Country not found');
+                        }
+                    },
+                    error: function() {
+                        $('#countryName').text('Error fetching country name');
+                    }
+                });
+            }
+        });
     </script>
+
+<script>
+    
+
+    $(document).ready(function() {
+      var savedCountryId = "{{ $customer->country_id ?? '' }}"; // The saved country ID from the database
+
+      $.ajax({
+        url: 'https://restcountries.com/v3.1/all',
+        method: 'GET',
+        success: function(data) {
+          var countrySelect = $('#country');
+
+          data.sort(function(a, b) {
+            return a.name.common.localeCompare(b.name.common);
+          });
+
+          data.forEach(function(country) {
+            countrySelect.append('<option value="' + country.cca2 + '">' + country.name.common + '</option>');
+          });
+
+          if (savedCountryId) {
+            countrySelect.val(savedCountryId); 
+          }
+        },
+        error: function(error) {
+          console.log("Error fetching country data: ", error);
+        }
+      });
+    });
+
+
+  </script>
 
 
 

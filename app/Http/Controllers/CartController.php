@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CartPaymentTypes;
 use App\Models\Customer;
+use App\Models\DeliveryAddress;
 use App\Models\Item;
 use App\Models\PaymentTypes;
 use Illuminate\Http\Request;
@@ -120,13 +121,13 @@ class CartController extends Controller
     public function cartCheckout()
     {
 
-
         $checkoutDetails = Session::get('checkoutDetails', []);
         $logged_user_id = Session::get('user_id');
         $paymentTypes = CartPaymentTypes::all();
-        $userDetails = Customer::findOrFail($logged_user_id);
+        $userDetails = Customer::findOrFail($logged_user_id); 
 
+        $deliveryAddress = DeliveryAddress::where('customer_id', $logged_user_id)->first();
 
-        return view('cartcheckout', compact('checkoutDetails', 'paymentTypes', 'userDetails'));
+        return view('cartcheckout', compact('checkoutDetails', 'paymentTypes', 'userDetails','deliveryAddress'));
     }
 }

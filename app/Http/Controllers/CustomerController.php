@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\CustomerTreatments;
+use App\Models\DeliveryAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,7 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customer_list = Customer::with(['customerType', 'countryType','user'])->get();
+        $customer_list = Customer::with(['customerType', 'countryType', 'user'])->get();
         return view('customer.index', compact('customer_list'));
     }
 
@@ -221,19 +222,37 @@ class CustomerController extends Controller
 
     public function updateAddress(Request $request, $id)
     {
-        $request->validate([
-            'newAddress' => 'required|string|max:255',
+        // Validate the form input
+        $validatedData = $request->validate([
+            'line1' => 'required|string|max:255',
+            'line2' => 'nullable|string|max:255',
+            'postal_code' => 'required|string|max:10',
+            'city' => 'required|string|max:255',
+            'country' => 'required|string|max:255'
         ]);
 
-        $customer = Customer::find($id);
-        if (!$customer) {
-            return redirect()->back()->with('error', 'User not found');
+        $deliveryAddress = DeliveryAddress::where('customer_id', $id)->first();
+
+        if ($deliveryAddress) {
+            $deliveryAddress->update([
+                'line1' => $validatedData['line1'],
+                'line2' => $validatedData['line2'],
+                'postal_code' => $validatedData['postal_code'],
+                'city' => $validatedData['city'],
+                'country' => $validatedData['country']
+            ]);
+        } else {
+            DeliveryAddress::create([
+                'customer_id' => $id,
+                'line1' => $validatedData['line1'],
+                'line2' => $validatedData['line2'],
+                'postal_code' => $validatedData['postal_code'],
+                'city' => $validatedData['city'],
+                'country' => $validatedData['country']
+            ]);
         }
 
-        $customer->address = $request->input('newAddress');
-        $customer->save();
-
-        return redirect()->back()->with('success', 'Address updated successfully');
+        return redirect()->back()->with('success', 'Address updated successfully.');
     }
 
 
@@ -310,7 +329,6 @@ class CustomerController extends Controller
                 'thirdVisitHistory',
                 'otherVisitHistory'
             ));
-
         }
 
         return redirect()->back()->with('error', 'customer not found');

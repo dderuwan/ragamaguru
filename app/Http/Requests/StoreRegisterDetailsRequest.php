@@ -24,7 +24,7 @@ class StoreRegisterDetailsRequest extends FormRequest
         return [
             'full_name' => 'required|string|max:255',
             'contact' => 'required|string|max:20',
-            'address' => 'nullable|string|max:255',
+            'address' => 'required|string|max:255',
             'country_type' => 'required|in:1,2', 
             'password' => 'required|string|min:8',
         ];

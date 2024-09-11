@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\AppointmentsController;
+use App\Http\Controllers\AppointmentSettingsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
@@ -211,6 +212,7 @@ Route::post('/check-date', [BookingController::class, 'checkDate'])->name('check
 Route::post('/generate-otp', [BookingController::class, 'generateOtp'])->name('generate.otp');
 Route::post('/verify-otp', [BookingController::class, 'verifyOtp'])->name('verify.otp');
 Route::post('/bookingstore', [BookingController::class, 'store'])->name('booking.store');
+Route::post('/get-apnumber', [BookingController::class, 'getApNumber'])->name('getApnumber');
 
 
 
@@ -219,7 +221,13 @@ Route::get('company-settings', [CompanySettingController::class, 'index'])->name
 Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
 Route::get('/footer', [CompanySettingController::class, 'getCompanyDetails']);
 
-
+// appointment setting
+Route::get('/appointment-settings', [AppointmentSettingsController::class, 'index'])->name('apType.index');
+Route::get('/appointment-settings/create', [AppointmentSettingsController::class, 'create'])->name('apType.create');
+Route::delete('/appointment-type/{id}', [AppointmentSettingsController::class, 'destroy'])->name('apType.destroy');
+Route::post('/store-appointment-type', [AppointmentSettingsController::class, 'store'])->name('apType.store');
+Route::get('/appointment-settings/edit/{id}', [AppointmentSettingsController::class, 'edit'])->name('apType.edit');
+Route::put('/store-appointment-type/update/{id}', [AppointmentSettingsController::class, 'update'])->name('apType.update');
 
 //users
 Route::resource('users', UserController::class);

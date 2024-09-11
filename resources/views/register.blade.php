@@ -97,8 +97,8 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address (Optional)">
+                    <label for="address" class="form-label">Address</label><i class="text-danger">*</i>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" required>
                     @error('address')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror

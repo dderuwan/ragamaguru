@@ -125,8 +125,8 @@ class HomeController extends Controller
 
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'address' => 'nullable|string|max:255',
-                'country_id' => 'nullable|exists:country,id',
+                'address' => 'required|string|max:255',
+                'country_id' => 'nullable',
             ]);
 
             $customer->update($validated);

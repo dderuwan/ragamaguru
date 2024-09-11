@@ -69,70 +69,141 @@
     </div>
   </div>
 
-
-  <div class="container mt-5">
-    <!-- Customer Details Form -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <strong>Your Details</strong>
-      </div>
-      <div class="card-body">
-        <form id="customer-details-form">
-          <div class="mb-3">
-            <label class="form-label">Name:</label> &nbsp;&nbsp;&nbsp;&nbsp;
-            <strong><span> {{$customer->name}} </span></strong>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Contact:</label>&nbsp;&nbsp;
-            <strong><span> {{$customer->contact}} </span></strong>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Address:</label>&nbsp;&nbsp;
-            @if (empty($customer->address))
-            <span>No Address</span>
-            @endif
-            <strong><span> {{$customer->address}} </span></strong>
-          </div>
-          <p>You can update this information if you want. If not necessary, you can book a date.</p>
-          <button type="button" class="btn btn-sm btn-primary" id="update-customer">Update</button>
-        </form>
-      </div>
-    </div>
-
-
-    <!-- Date Picker -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <strong>Book Date For First Visit</strong>
-      </div>
-      <form id="bookingForm">
-        <div class="card-body">
-          @if ($first_visit==1)
-          <p class="text-danger">You have already attended the first visit. Therefore, rebooking is not possible. Contact Ragama Guru office for additional details</p>
-          <input type="date" class="form-control mb-3 col-md-6" disabled value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
-          <button type="button" class="btn btn-success mt-3" disabled>Book Now</button>
-          @else
-          <input type="hidden" value="{{$customer->id}}">
-
-          @if ($customer->country_type_id==2)
-          <!-- Select Country Type -->
-          <div class="mb-3">
-            <label for="country" class="form-label">Select Country:</label>
-            <select class="form-control col-md-6" id="country" name="country">
-              @foreach($countries as $country)
-              <option value="{{ $country->id }}">{{ $country->name }}</option>
-              @endforeach
-            </select>
-          </div>
-          @endif
-
-          <label for="bookingDate" class="form-label">Select Date:</label>
-          <input type="date" class="form-control mb-3 col-md-6" id="bookingDate" name="bookingDate" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
-          <button type="button" id="submitbtn" class="btn btn-success mt-3" onclick="checkDate();">Book Now</button>
-          @endif
+  <!-- Booking Step by Step Process -->
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="progress">
+          <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-      </form>
+      </div>
     </div>
+
+
+    <!-- Step 1: Personal Details (Card Layout) -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-4" id="step1">
+          <div class="card-body">
+            <h4 class="card-title">Step 1: Personal Details</h4>
+            <form id="personalDetailsForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="name" class="form-label">Name<i class="text-danger">*</i></label>
+                  <input type="text" class="form-control" id="name" value="{{$customer->name}}" disabled required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="contact" class="form-label">Contact<i class="text-danger">*</i></label>
+                  <input type="text" class="form-control" id="contact" value="{{$customer->contact}}" required disabled>
+                </div>
+                <div class="{{ $customer->countryType->name == 'International' ? 'col-md-6' : 'col-md-12' }} mb-3">
+                  <label for="address" class="form-label">Address<i class="text-danger">*</i></label>
+                  @if ($customer->address)
+                  <input type="text" class="form-control" id="address" value="{{$customer->address}}" disabled required>
+                  @endif
+                </div>
+                @if ($customer->countryType->name=='International')
+                <div class="col-md-6 mb-3">
+                  <label for="country" class="form-label">Country<i class="text-danger">*</i></label>
+                  <select class="form-control" id="country" required>
+                    <option value="" disabled selected>Select your country</option> 
+                    <!-- Add options dynamically here -->
+                  </select>
+                  <p id="countrymsg" class="text-danger"></p>
+                </div>
+                @endif
+              </div>
+              <a type="button" href="{{route('goToProfile')}}" class="btn btn-secondary">Update</a>
+              <button type="button" class="btn btn-primary float-end" id="nextToStep2">Next</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Date Booking (Card Layout) -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-4" id="step2" style="display: none;">
+          <div class="card-body">
+            <h4 class="card-title">Step 2: Booking</h4>
+            <input type="hidden" id="customerId" value="{{$customer->id}}">
+            <div class="row">
+              <div class="col-md-12 mb-2">
+                <label for="bookingType" class="form-label">Select Booking Type</label>
+                <select class="form-control" id="bookingType" name="bookingType" required>
+                  <option value="" disabled selected>Select booking type</option>
+                  @foreach($appointmentTypes as $type)
+                  <option value="{{ $type->id }}" data-price="{{ $type->price }}">
+                    {{ $type->type }} - LKR {{ number_format($type->price, 2) }}
+                  </option>
+                  @endforeach
+                </select>
+                <p id="bookingtypemsg" class="text-danger"></p>
+              </div>
+              <div class="col-md-12 mb-2">
+                <label for="bookingDate" class="form-label">Select Date</label>
+                <input type="date" class="form-control" id="bookingDate" required>
+                <p id="bookingdatemsg" class="text-danger"></p>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id="backToStep1">Back</button>
+            <button type="button" class="btn btn-primary float-end" id="nextToStep3">Next</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: appointment show Process (Card Layout) -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-4" id="step3" style="display: none;">
+          <div class="card-body">
+            <h4 class="card-title">Step 3: Appointment </h4>
+            <div class="form-group mb-3">
+              <label for="bookedDate" class="form-label">Booked Date</label>
+              <input type="text" class="form-control" id="bookedDate" readonly>
+            </div>
+            <div class="form-group mb-3">
+              <label for="apNumber" class="form-label">Available Appointment Number</label>
+              <input type="text" class="form-control" id="apNumber" readonly>
+            </div>
+            <button type="button" class="btn btn-secondary" id="backToStep2">Back</button>
+            <button type="button" class="btn btn-primary float-end" id="nextToStep4">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Payment Process (Card Layout) -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-4" id="step4" style="display: none;">
+          <div class="card-body">
+            <h4 class="card-title">Step 4: Payment </h4>
+            <div class="form-group mb-3">
+              <label for="paymentMethod" class="form-label">Payment Method</label>
+              <select class="form-control" id="paymentMethod" required>
+                <option value="" disabled selected>Select Method</option>
+                <option value="Office">Pay At Office</option>
+                <option value="Online">Pay At Online</option>
+              </select>
+              <p id="pmethodmsg" class="text-danger"></p>
+            </div>
+            <div class="form-group mb-3">
+              <label for="amount" class="form-label">Amount</label>
+              <input type="text" class="form-control" id="amount" readonly>
+            </div>
+            <button type="button" class="btn btn-secondary" id="backToStep3">Back</button>
+            <button type="submit" class="btn btn-success float-end" id="submitBooking">Confirm Booking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
 
   <!-- OTP Modal -->
@@ -168,8 +239,370 @@
   </div>
 
 
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $.ajax({
+        url: 'https://restcountries.com/v3.1/all',
+        method: 'GET',
+        success: function(data) {
+          var countrySelect = $('#country');
+
+          data.sort(function(a, b) {
+            return a.name.common.localeCompare(b.name.common);
+          });
+
+          data.forEach(function(country) {
+            countrySelect.append('<option value="' + country.cca2 + '">' + country.name.common + '</option>');
+          });
+        },
+        error: function(error) {
+          console.log("Error fetching country data: ", error);
+        } 
+      });
+    });
+
+    $(document).ready(function() {
+      var savedCountryId = "{{ $customer->country_id ?? '' }}"; // The saved country ID from the database
+
+      $.ajax({
+        url: 'https://restcountries.com/v3.1/all',
+        method: 'GET',
+        success: function(data) {
+          var countrySelect = $('#country');
+
+          data.sort(function(a, b) {
+            return a.name.common.localeCompare(b.name.common);
+          });
+
+          data.forEach(function(country) {
+            countrySelect.append('<option value="' + country.cca2 + '">' + country.name.common + '</option>');
+          });
+
+          if (savedCountryId) {
+            countrySelect.val(savedCountryId); 
+            countrySelect.prop('disabled', true);
+          }
+        },
+        error: function(error) {
+          console.log("Error fetching country data: ", error);
+        }
+      });
+    });
+
+
+  </script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+      // Step 1 validation: Ensure country is selected
+      document.getElementById('nextToStep2').addEventListener('click', function() {
+        const countryElement = document.getElementById('country');
+        if (countryElement) {
+          const country = countryElement.value;
+          var countrymsg = document.getElementById('countrymsg');
+          countrymsg.innerText = '';
+          if (!country) {
+            countrymsg.innerText = 'Please select a country';
+            return;
+          }
+          // Hide Step 2 and show Step 3
+          document.getElementById('step1').style.display = 'none';
+          document.getElementById('step2').style.display = 'block';
+          document.getElementById('progress-bar').style.width = '50%';
+        }else{
+          document.getElementById('step1').style.display = 'none';
+          document.getElementById('step2').style.display = 'block';
+          document.getElementById('progress-bar').style.width = '50%';
+        }
+
+      });
+
+      // Step 2 validation: Ensure booking type and date are selected
+      document.getElementById('nextToStep3').addEventListener('click', function() {
+        const bookingType = document.getElementById('bookingType').value;
+        const bookingDate = document.getElementById('bookingDate').value;
+        const bookingtypemsg = document.getElementById('bookingtypemsg');
+        const bookingdatemsg = document.getElementById('bookingdatemsg');
+        bookingtypemsg.innerText = '';
+        bookingdatemsg.innerText = '';
+        if (!bookingType && !bookingDate) {
+          bookingtypemsg.innerText = 'Please select a booking type';
+          bookingdatemsg.innerText = 'Please select a booking date';
+          return;
+        }
+        if (!bookingType) {
+          bookingtypemsg.innerText = 'Please select a booking type';
+          return;
+        }
+        if (!bookingDate) {
+          bookingdatemsg.innerText = 'Please select a booking date';
+          return;
+        }
+
+        checkDate();
+
+      });
+
+      // Step 2 validation: Ensure otp is entered
+      document.getElementById('nextToStep4').addEventListener('click', function() {
+        // Hide Step 2 and show Step 3
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('step4').style.display = 'block';
+        document.getElementById('progress-bar').style.width = '100%';
+      });
+
+      // Back buttons functionality
+      document.getElementById('backToStep1').addEventListener('click', function() {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step1').style.display = 'block';
+        document.getElementById('progress-bar').style.width = '25%';
+      });
+
+      document.getElementById('backToStep2').addEventListener('click', function() {
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        document.getElementById('progress-bar').style.width = '50%';
+      });
+
+      document.getElementById('backToStep3').addEventListener('click', function() {
+        document.getElementById('step4').style.display = 'none';
+        document.getElementById('step3').style.display = 'block';
+        document.getElementById('progress-bar').style.width = '75%';
+      });
+    });
+
+    function checkDate() {
+      var bookingDate = document.getElementById('bookingDate').value;
+      let customerId = document.getElementById('customerId').value;
+
+      fetch('/check-date', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: JSON.stringify({
+            booking_date: bookingDate,
+            customer_id: customerId
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            setApNumber();
+            // Hide Step 2 and show Step 3
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+            document.getElementById('progress-bar').style.width = '75%';
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: data.message,
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+    }
+
+    var apNumberId;
+
+    function setApNumber() {
+      const bookingDate = document.getElementById('bookingDate');
+      const apNumber = document.getElementById('apNumber');
+      const selectedDate = bookingDate.value;
+      if (selectedDate) {
+
+        fetch('/get-apnumber', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+              selected_date: selectedDate
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              bookedDate.value = selectedDate;
+              apNumber.value = data.ap_number;
+              apNumberId = data.ap_number_id;
+            } else {
+              alert(data.message);
+            }
+          });
+
+      }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const bookingTypeSelect = document.getElementById('bookingType');
+      const amountInput = document.getElementById('amount');
+      const bookedDate = document.getElementById('bookedDate');
+      const nextToStep3Button = document.getElementById('nextToStep3');
+      const step2 = document.getElementById('step2');
+      const step3 = document.getElementById('step3');
+      const backToStep2Button = document.getElementById('backToStep2');
+
+      bookingTypeSelect.addEventListener('change', function() {
+        const selectedOption = bookingTypeSelect.options[bookingTypeSelect.selectedIndex];
+        const selectedPrice = selectedOption.getAttribute('data-price');
+
+        if (selectedPrice) {
+          amountInput.value = 'LKR ' + parseFloat(selectedPrice).toFixed(2);
+        }
+      });
+
+    });
+
+
+
+    document.getElementById('submitBooking').addEventListener('click', function() {
+      const pMethod = document.getElementById('paymentMethod').value;
+      const pmethodmsg = document.getElementById('pmethodmsg');
+      pmethodmsg.innerText = '';
+      if (!pMethod) {
+        pmethodmsg.innerText = 'Please select a method';
+        return;
+      }
+      sendOtp();
+    });
+
+    var otpModal = new bootstrap.Modal(document.getElementById('otpModal'), {
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    function sendOtp() {
+      let customerId = document.getElementById('customerId').value;
+      var otpmsg = document.getElementById('otpmsg');
+      otpmsg.innerText = " ";
+
+      fetch('/generate-otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: JSON.stringify({
+            customer_id: customerId
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            otpModal.show();
+          } else {
+            alert(data.message);
+          }
+        });
+    }
+
+    document.getElementById('otp-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      let enteredOtp = document.getElementById('otp').value;
+      let customerId = document.getElementById('customerId').value;
+      var otpmsg = document.getElementById('otpmsg');
+
+      fetch('/verify-otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: JSON.stringify({
+            customer_id: customerId,
+            otp: enteredOtp
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Submit the booking form if OTP is correct
+            $('#otpModal').modal('hide');
+            saveBooking();
+          } else {
+            otpmsg.innerText = "Invalid OTP. Please try again.";   
+          }
+        });
+    });
+
+
+
+    function saveBooking() {
+      let customerId = document.getElementById('customerId').value;
+      let countrySelect = document.getElementById('country');
+      let country = null;
+      if (countrySelect) {
+        country = countrySelect.value;
+      }
+      let bookingDate = document.getElementById('bookingDate').value;
+      let bookingType = document.getElementById('bookingType').value;
+      let paymentMethod = document.getElementById('paymentMethod').value;
+
+      if (paymentMethod == 'Office') {
+
+        let url = window.location.origin + '/bookingstore';
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({
+              customer_id: customerId,
+              country_id: country,
+              booking_date: bookingDate,
+              booking_type: bookingType,
+              payment_method: paymentMethod,
+              ap_number_id: apNumberId
+            })
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.success) {
+              Swal.fire({
+                title: 'Success!',
+                text: 'OTP verified and booking completed successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              }).then(() => {
+                window.location.reload();
+              });
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+
+
+      } else if (paymentMethod == 'Online') {
+
+      }
+    }
+  </script>
+
+
+
+
+
 
 
   <script src="assets/web/website_assets/plugins/bootstrap/js/popper.min.js"></script>
@@ -216,134 +649,6 @@
 
 
 
-  <script>
-    function checkDate() {
-      var bookingDate = document.getElementById('bookingDate').value;
-      let customerId = document.querySelector('input[type="hidden"]').value;
-
-      fetch('/check-date', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: JSON.stringify({
-            booking_date: bookingDate,
-            customer_id: customerId
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            sendOtp();
-            // alert(data.message);
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: data.message,
-              icon: 'error',
-              confirmButtonText: 'OK'
-            });
-          }
-        });
-    }
-
-    function sendOtp() {
-      let customerId = document.querySelector('input[type="hidden"]').value;
-      var otpmsg = document.getElementById('otpmsg');
-      otpmsg.innerText = " ";
-
-      fetch('/generate-otp', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: JSON.stringify({
-            customer_id: customerId
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            $('#otpModal').modal('show');
-          } else {
-            alert(data.message);
-          }
-        });
-    }
-
-    document.getElementById('otp-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      let enteredOtp = document.getElementById('otp').value;
-      let customerId = document.querySelector('input[type="hidden"]').value;
-      var otpmsg = document.getElementById('otpmsg');
-
-      fetch('/verify-otp', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: JSON.stringify({
-            customer_id: customerId,
-            otp: enteredOtp
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            // Submit the booking form if OTP is correct
-            saveBooking();
-          } else {
-            otpmsg.innerText = "Invalid OTP. Please try again.";
-          }
-        });
-    });
-
-
-    function saveBooking() {
-      let customerId = document.querySelector('input[type="hidden"]').value;
-      let bookingDate = document.getElementById('bookingDate').value;
-
-      let countrySelect = document.getElementById('country');
-      let country = null;
-
-      if (countrySelect) {
-        country = countrySelect.value;
-      }
-
-      fetch('/bookingstore', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: JSON.stringify({
-            customer_id: customerId,
-            booking_date: bookingDate,
-            country: country
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            $('#otpModal').modal('hide');
-            Swal.fire({
-              title: 'Success!',
-              text: 'OTP verified and booking completed successfully.',
-              icon: 'success',
-              confirmButtonText: 'OK'
-            }).then(() => {
-              window.location.reload();
-            });
-          } else {
-            alert(data.message);
-          }
-        });
-    }
-  </script>
 
 
 

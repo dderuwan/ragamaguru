@@ -2,14 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Appointments extends Pivot
 {
+
     protected $table = 'appointments';
 
     protected $fillable = [
-        'customer_id','date','ap_numbers_id','visit_day','added_date',
+        'customer_id',
+        'date',
+        'ap_numbers_id',
+        'visit_day',
+        'created_by',
+        'created_user_id',
+        'appointment_type_id',
+        'total_amount',
+        'paid_amount',
+        'due_amount',
+        'payment_method',
+        'payment_type_id',
+        'added_date',
     ];
 
     public function customer()
@@ -18,7 +33,7 @@ class Appointments extends Pivot
     }
 
     public function apNumber()
-{
-    return $this->belongsTo(ApNumbers::class, 'ap_numbers_id');
-}
+    {
+        return $this->belongsTo(ApNumbers::class, 'ap_numbers_id');
+    }
 }

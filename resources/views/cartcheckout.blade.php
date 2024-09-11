@@ -47,9 +47,10 @@
                 text-align: center;
             }
         }
-          .logoContent{
+
+        .logoContent {
             color: black;
-            margin-top:30px;
+            margin-top: 30px;
         }
     </style>
 
@@ -91,9 +92,15 @@
                                     <h6 class="col-md-7">{{$userDetails->contact}}</h6>
                                 </div>
                                 <div class="row">
-                                    <h6 class="font-weight-bold col-md-5">Address:</h6>
-                                    @if (!empty($userDetails->address))
-                                    <h6 id="address" class="col-md-7">{{ $userDetails->address }}</h6>
+                                    <h6 class="font-weight-bold col-md-5">Delivery Address:</h6>
+                                    @if ($deliveryAddress)
+                                    <div class="col-md-7" id="address">
+                                        <h6>{{ $deliveryAddress->line1 }},</h6>
+                                        <h6>{{ $deliveryAddress->line2 }},</h6>
+                                        <h6>{{ $deliveryAddress->postal_code }},</h6>
+                                        <h6>{{ $deliveryAddress->city }},</h6>
+                                        <h6 id="countryName"></h6>
+                                    </div>
                                     @else
                                     <h6 id="address" class="col-md-7 text-danger">Please update your address.</h6>
                                     @endif
@@ -158,7 +165,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                @if (!empty($userDetails->address))
+                                @if ($deliveryAddress)
                                 <button type="button" data-toggle="modal" data-target="#confirmModal" class="btn btn-primary">Submit</button>
                                 @else
                                 <button type="button" id="noaddress" class="btn btn-primary">Submit</button>
@@ -187,8 +194,42 @@
                     <form method="POST" action="{{ route('updateAddress', $userDetails->id) }}">
                         @csrf
                         <div class="form-group">
-                            <label for="street">Address</label>
-                            <textarea class="form-control" id="newAddress" name="newAddress" rows="3" required></textarea>
+                            <label for="line1">Address Line 01</label>
+                            <input type="text" class="form-control" id="line1" name="line1" placeholder="Enter Line 01" required>
+                            @error('line1')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="line2">Address Line 02</label>
+                            <input type="text" class="form-control" id="line2" name="line2" placeholder="Enter Line 02">
+                            @error('line2')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="postal_code">Postal Code / Zip Code</label>
+                            <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Enter Code" required>
+                            @error('postal_code')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="Enter City" required>
+                            @error('city')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select class="form-control" id="country" name="country">
+                                <option value="" disabled selected>Select your country</option>
+                                <!-- Add options dynamically here -->
+                            </select>
+                            @error('country')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
@@ -322,6 +363,42 @@
                     });
                 });
             }
+        });
+
+
+        $(document).ready(function() {
+            // Fetch the list of countries from the API
+            $.ajax({
+                url: 'https://restcountries.com/v3.1/all',
+                method: 'GET',
+                success: function(data) {
+                    var countrySelect = $('#country');
+                    var savedCountryCode = '{{ $deliveryAddress->country ?? "" }}'; // Get saved country code from the server
+
+                    // Sort the countries alphabetically
+                    data.sort(function(a, b) {
+                        return a.name.common.localeCompare(b.name.common);
+                    });
+
+                    // Append countries as options
+                    data.forEach(function(country) {
+                        var option = $('<option></option>')
+                            .attr('value', country.cca2) // Use cca2 for country code
+                            .text(country.name.common);
+
+                        // Check if the country code matches the saved value
+                        if (country.cca2 === savedCountryCode) {
+                            option.attr('selected', 'selected'); // Pre-select the saved country
+                            $('#countryName').text(country.name.common); // Display saved country name in the address section
+                        }
+
+                        countrySelect.append(option);
+                    });
+                },
+                error: function(error) {
+                    console.log('Error fetching country data:', error);
+                }
+            });
         });
     </script>
 

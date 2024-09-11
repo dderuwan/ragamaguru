@@ -6,12 +6,14 @@ use App\Models\ApNumbers;
 use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
+use App\Models\AppointmentType;
 use App\Models\Bookings;
 use App\Models\Country;
 use App\Models\CountryType;
 use App\Models\Customer;
 use App\Models\CustomerTreatments;
 use App\Models\CustomerType;
+use App\Models\PaymentTypes;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -221,7 +223,10 @@ class AppointmentsController extends Controller
 
             $first_visit = $hasAppointment;
 
-            return view('appointments', compact('customer', 'first_visit', 'countries'));
+            $appointmentTypes = AppointmentType::where('status', 1)->get();
+            $paymentTypes = PaymentTypes::all();
+
+            return view('appointments', compact('customer', 'first_visit', 'countries','appointmentTypes','paymentTypes'));
         }
     }
 

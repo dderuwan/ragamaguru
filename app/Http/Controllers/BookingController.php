@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointments;
+use App\Models\AppointmentType;
 use App\Models\Bookings;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -29,24 +32,25 @@ class BookingController extends Controller
             ]);
         }
 
-        $existingBooking = DB::table('bookings')
-            ->whereDate('booking_date', $bookingDate->format('Y-m-d'))
-            ->where('customer_id', $request->customer_id)
-            ->first();
+        // $existingBooking = DB::table('bookings')
+        //     ->whereDate('booking_date', $bookingDate->format('Y-m-d'))
+        //     ->where('customer_id', $request->customer_id)
+        //     ->first();
 
-        if ($existingBooking) {
-            return response()->json([
-                'success' => false,
-                'message' => 'You already have a booking on this date.'
-            ]);
-        }
+        // if ($existingBooking) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'You already have a booking on this date.'
+        //     ]);
+        // }
 
 
-        $bookingCount = DB::table('bookings')
-            ->whereDate('booking_date', $bookingDate->format('Y-m-d'))
+        $bookingCount = DB::table('appointments')
+            ->whereDate('date', $bookingDate->format('Y-m-d'))
+            ->where('created_by', 'Online')
             ->count();
 
-        $maxBookingCount = 10;
+        $maxBookingCount = 5;
 
         if ($bookingCount >= $maxBookingCount) {
             return response()->json([
@@ -61,20 +65,50 @@ class BookingController extends Controller
         ]);
     }
 
+    public function getApNumber(Request $request)
+    {
+        $request->validate([
+            'selected_date' => 'required|date',
+        ]);
+
+        $selectedDate = $request->input('selected_date');
+
+        $bookedApNumbers = DB::table('appointments')
+            ->whereDate('date', $selectedDate)
+            ->pluck('ap_numbers_id');
+
+        $availableApNumber = DB::table('ap_numbers')
+            ->whereNotIn('id', $bookedApNumbers)  
+            ->first();
+
+        if ($availableApNumber) {
+            return response()->json([
+                'success' => true,
+                'ap_number' => $availableApNumber->number,
+                'ap_number_id' => $availableApNumber->id  
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No available appointment numbers for the selected date.'
+            ]);
+        }
+    }
+
     public function generateOtp(Request $request)
     {
         $customer = Customer::find($request->customer_id);
         if ($customer) {
             $otp = rand(100000, 999999);
-            $customer->otp = $otp;  
+            $customer->otp = $otp;
             $customer->save();
 
             $formattedContact = $this->formatContactNumber($customer->contact);
-            
+
             $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
             // Send OTP message
-            $this->sendMessage($formattedContact, $msg);
+            //$this->sendMessage($formattedContact, $msg);
 
 
             return response()->json(['success' => true, 'otp' => $otp]);
@@ -114,43 +148,67 @@ class BookingController extends Controller
 
 
     public function store(Request $request)
-    {
+    {        
+        //Log::info($request->all());
 
         $validated = $request->validate([
             'booking_date' => 'required|date',
             'customer_id' => 'required|exists:customer,id',
+            'booking_type' => 'required|exists:appointment_type,id',
+            'payment_method' => 'required',
+            'ap_number_id' => 'required',
         ]);
 
         $customer = Customer::find($validated['customer_id']);
 
         if ($customer) {
 
-            $country_id = $request->country;
-            if ($country_id) {
-                $customer->country_id = $country_id;
+            $country = $request->country_id;
+            if ($country) {
+                $customer->country_id = $country;
                 $customer->save();
             }
 
-            $bookings = new Bookings();
-            $bookings->customer_id = $validated['customer_id'];
-            $bookings->booking_date = $validated['booking_date'];
-            $bookings->added_date = now();
-            $bookings->save();
+            $apType = DB::table('appointment_type')
+            ->where('id', $validated['booking_type'])  
+            ->first();
+
+            $appointments = new Appointments();
+            $appointments->customer_id = $validated['customer_id'];
+            $appointments->ap_numbers_id = $validated['ap_number_id'];
+            $appointments->date = $validated['booking_date'];
+            $appointments->visit_day = '1';
+            $appointments->appointment_type_id = $validated['booking_type'];
+            $appointments->created_by = 'Online';
+            $appointments->created_user_id = 1;
+            $appointments->total_amount = $apType->price;
+            $appointments->paid_amount = 0;
+            $appointments->due_amount = $apType->price;
+            $appointments->payment_method = $validated['payment_method'];
+            $appointments->added_date = now();
+            $appointments->save();
 
             $ap_date = $validated['booking_date'];
 
-            $formattedContact = $this->formatContactNumber($customer->contact);
-            
-            $msg = "Booking Confirmation\nYour appointment date is: $ap_date\nYou can get appointment number in reception on this date.\nThank You.\nFrom RagamaGuru Office";
+            $ap_numbers = DB::table('ap_numbers')
+            ->where('id', $validated['ap_number_id'])  
+            ->first();
 
-            // Send OTP message
-            $this->sendMessage($formattedContact, $msg);
+            $ap_number = $ap_numbers->number;
+
+            $formattedContact = $this->formatContactNumber($customer->contact);
+
+            $msg = "Booking Confirmation\nAppointment date: $ap_date\nAppointment number: $ap_number\nYou can get appointment number in reception on this date.\nThank You.\nFrom RagamaGuru Office";
+
+            // Send appointment message
+            // $this->sendMessage($formattedContact, $msg);
 
             return response()->json(['success' => true]);
         } else {
             return response()->json(['success' => false, 'message' => 'Customer not found']);
         }
     }
+
 
     public function indexLocal()
     {
@@ -165,11 +223,11 @@ class BookingController extends Controller
     public function getLocalBookingsByDate($date)
     {
         $bookings = Bookings::whereDate('booking_date', $date)
-        ->whereHas('customer', function ($query) {
-            $query->where('country_type_id', 1); 
-        })
-        ->with('customer')
-        ->get();
+            ->whereHas('customer', function ($query) {
+                $query->where('country_type_id', 1);
+            })
+            ->with('customer')
+            ->get();
 
         return response()->json($bookings->map(function ($booking) {
             return [
@@ -178,23 +236,23 @@ class BookingController extends Controller
                 'contact' => $booking->customer->contact ?? 'N/A',
                 'added_date' => $booking->added_date,
             ];
-        }));          
+        }));
     }
 
     public function getIntBookingsByDate($date)
     {
         $bookings = Bookings::whereDate('booking_date', $date)
-        ->whereHas('customer', function ($query) {
-            $query->where('country_type_id', 2); 
-        })
-        ->with(['customer', 'customer.country'])
-        ->get();
+            ->whereHas('customer', function ($query) {
+                $query->where('country_type_id', 2);
+            })
+            ->with(['customer', 'customer.country'])
+            ->get();
 
         return response()->json($bookings->map(function ($booking) use ($date) {
 
             $hasAppointment = $booking->customer->appointments()
-            ->whereDate('date', $date)
-            ->exists();
+                ->whereDate('date', $date)
+                ->exists();
 
             return [
                 'id' => $booking->id,
@@ -236,5 +294,4 @@ class BookingController extends Controller
             //Log::error('SMS sending failed:', $error);
         }
     }
-    
 }
