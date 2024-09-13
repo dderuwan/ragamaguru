@@ -41,13 +41,41 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputAddress">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address">
-                  @error('address')
-                  <p class="text-danger">{{ $message }}</p>
-                  @enderror
+                  <div class="form-group col-md-6">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address">
+                    @error('address')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label class="form-label">Country Type</label>
+                    <div class="mt-1">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="country_type" id="local" value="1" >
+                        <label class="form-check-label" for="local">Local</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="country_type" id="international" value="2" >
+                        <label class="form-check-label" for="international">International</label>
+                      </div>
+                    </div>
+                    @error('country_type')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                  </div>
+                  <div class="form-group col-md-4" id="country-select" style="display: none;">
+                    <div class="form-group">
+                      <label for="country">Country</label>
+                      <select class="form-control" id="country" name="country_id">
+                        <option value="" disabled selected>Select your country</option>
+                        <!-- Add options dynamically here -->
+                      </select>
+                      @error('country_id')
+                      <p class="text-danger">{{ $message }}</p>
+                      @enderror
+                    </div>
+                  </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Register</button>
@@ -111,4 +139,51 @@
 
 
 </main> <!-- main -->
+
+<script>
+  $(document).ready(function() {
+    // Function to toggle the country select dropdown
+    function toggleCountrySelect() {
+        if ($('#international').is(':checked')) {
+            $('#country-select').show();  // Show the country select if "International" is selected
+        } else {
+            $('#country-select').hide();  // Hide it if "Local" is selected
+        }
+    }
+
+    // Call the function on page load to check the initially selected value
+    toggleCountrySelect();
+
+    // Call the function whenever the radio buttons are changed
+    $('input[name="country_type"]').on('change', function() {
+        toggleCountrySelect();
+    });
+});
+
+
+$(document).ready(function() {
+
+      $.ajax({
+        url: 'https://restcountries.com/v3.1/all',
+        method: 'GET',
+        success: function(data) {
+          var countrySelect = $('#country');
+
+          data.sort(function(a, b) {
+            return a.name.common.localeCompare(b.name.common);
+          });
+
+          data.forEach(function(country) {
+            countrySelect.append('<option value="' + country.cca2 + '">' + country.name.common + '</option>');
+          });
+
+        },
+        error: function(error) {
+          console.log("Error fetching country data: ", error);
+        }
+      });
+    });
+
+</script>
+
 @endsection

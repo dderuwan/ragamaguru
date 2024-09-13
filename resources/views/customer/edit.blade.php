@@ -41,14 +41,49 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                   </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" value="{{$customer->address}}">
+                    @error('address')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label class="form-label">Country Type</label>
+                    <input type="hidden" name="country_type" value="{{ $customer->country_type_id }}">
+                    <div class="mt-1">
+                      <div class="form-check form-check-inline" readonly>
+                        <input class="form-check-input" type="radio" name="country_type" id="local" value="1"
+                          {{ $customer->country_type_id == 1 ? 'checked' : '' }} disabled>
+                        <label class="form-check-label" for="local">Local</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="country_type" id="international" value="2"
+                          {{ $customer->country_type_id == 2 ? 'checked' : '' }} disabled>
+                        <label class="form-check-label" for="international">International</label>
+                      </div>
+                    </div>
+                    @error('country_type')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                  </div>
+                  @if ($customer->country_type_id == 2)
+                  <div class="form-group col-md-4" id="country-select" >
+                    <div class="form-group">
+                      <label for="country">Country</label>
+                      <select class="form-control" id="country" name="country_id">
+                        <option value="" disabled selected>Select your country</option>
+                        <!-- Add options dynamically here -->
+                      </select>
+                      @error('country_id')
+                      <p class="text-danger">{{ $message }}</p>
+                      @enderror
+                    </div>
+                  </div>
+                  @endif
+                  
                 </div>
-                <div class="form-group">
-                  <label for="inputAddress">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" value="{{$customer->address}}">
-                  @error('address')
-                  <p class="text-danger">{{ $message }}</p>
-                  @enderror
-                </div>
+
 
                 <button type="submit" class="btn btn-primary">Save</button>
               </form>
@@ -82,4 +117,34 @@
 
 
 </main> <!-- main -->
+
+<script>
+$(document).ready(function() {
+      var savedCountryId = "{{ $customer->country_id ?? '' }}"; // The saved country ID from the database
+
+      $.ajax({
+        url: 'https://restcountries.com/v3.1/all',
+        method: 'GET',
+        success: function(data) {
+          var countrySelect = $('#country');
+
+          data.sort(function(a, b) {
+            return a.name.common.localeCompare(b.name.common);
+          });
+
+          data.forEach(function(country) {
+            countrySelect.append('<option value="' + country.cca2 + '">' + country.name.common + '</option>');
+          });
+
+          if (savedCountryId) {
+            countrySelect.val(savedCountryId); 
+          }
+        },
+        error: function(error) {
+          console.log("Error fetching country data: ", error);
+        }
+      });
+    });
+</script>
+
 @endsection

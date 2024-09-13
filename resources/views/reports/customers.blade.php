@@ -59,7 +59,12 @@
                                                     @endif
                                                 </td>
                                                 <td>{{$customer->customerType->name}}</td>
-                                                <td>{{$customer->countryType->name}}</td>
+                                                <td>
+                                                    {{ $customer->countryType->name }}
+                                                    @if ($customer->country_type_id == 2)
+                                                    <p id="country-{{ $customer->id }}" data-country-id="{{ $customer->country_id }}">Loading...</p> 
+                                                    @endif
+                                                </td>
                                                 @if ($customer->isVerified)
                                                 <td>Done</td>
                                                 @else
@@ -162,6 +167,46 @@
             }
         })
     }
+
+
+
+    $(document).ready(function() {
+        // Fetch all international customers that need country data loaded
+        $('p[id^="country-"]').each(function() {
+            var element = $(this); // The current <p> element
+            var customerId = element.attr('id').split('-')[1]; // Extract customer ID from element ID
+            var savedCountryId = element.data('country-id'); // Get the saved country ID
+
+            if (savedCountryId) {
+                // Fetch the list of all countries
+                $.ajax({
+                    url: 'https://restcountries.com/v3.1/all',
+                    method: 'GET',
+                    success: function(data) {
+                        // Sort the countries alphabetically
+                        data.sort(function(a, b) {
+                            return a.name.common.localeCompare(b.name.common);
+                        });
+
+                        // Find the country with the savedCountryId (cca2)
+                        var selectedCountry = data.find(function(country) {
+                            return country.cca2 == savedCountryId;
+                        });
+
+                        // If a matching country is found, update the <p> element with the country name
+                        if (selectedCountry) {
+                            element.text("("+selectedCountry.name.common+")");
+                        } else {
+                            element.text('Country not found');
+                        }
+                    },
+                    error: function(error) {
+                        console.log("Error fetching country data: ", error);
+                    }
+                });
+            }
+        });
+    });
 </script>
 
 @endsection

@@ -103,10 +103,12 @@
                     $visit = $appointment->visit_day;
                     $visitDay='null';
                     if ($visit==1){
-                    $visitDay = 'First Visit';
+                    $visitDay = 'Checking Visit';
                     }else if($visit==2){
-                        $visitDay = 'Second Visit';
+                        $visitDay = 'First Visit';
                     }else if($visit==3){
+                        $visitDay = 'Second Visit';
+                    }else if($visit==4){
                         $visitDay = 'Third Visit';
                     }else{
                         $visitDay = 'Other Visit';

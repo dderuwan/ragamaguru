@@ -177,7 +177,6 @@ class BookingController extends Controller
             $appointments->customer_id = $validated['customer_id'];
             $appointments->ap_numbers_id = $validated['ap_number_id'];
             $appointments->date = $validated['booking_date'];
-            $appointments->visit_day = '1';
             $appointments->appointment_type_id = $validated['booking_type'];
             $appointments->created_by = 'Online';
             $appointments->created_user_id = 1;

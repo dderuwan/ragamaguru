@@ -25,6 +25,8 @@ class UpdateCustomerRequest extends FormRequest
             'name' => 'required|string|max:255',
             'contact' => 'required|digits:10',
             'address' => 'required|string|max:255',
+            'country_type' => 'required|in:1,2',
+            'country_id' => 'required_if:country_type,2',
         ];
     }
 }

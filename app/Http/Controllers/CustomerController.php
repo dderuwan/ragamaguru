@@ -59,23 +59,29 @@ class CustomerController extends Controller
 
             // $password = Str::random(8);
 
-            $customer = Customer::create([
+            $customerData = [
                 'name' => $request->name,
                 'contact' => $request->contact,
                 'address' => $request->address,
                 'otp' => $otp,
                 'isVerified' => false,
-                'user_id' => 1,
-                'customer_type_id' => 2,
-                'country_type_id' => 1,
+                'user_id' => 1, 
+                'customer_type_id' => 2, 
+                'country_type_id' => $request->country_type,
                 'registered_time' => now(),
-                // 'password' => bcrypt($password), //need to send password and contact through sms after verify
-            ]);
+                // 'password' => bcrypt($password), // Uncomment and modify if you plan to generate a password later
+            ];
+    
+            if ($request->country_type == 2) {
+                $customerData['country_id'] = $request->country_id;
+            }
+    
+            $customer = Customer::create($customerData);
 
             $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
             // Send OTP message
-            $this->sendMessage($formattedContact, $msg);
+            //$this->sendMessage($formattedContact, $msg);
 
             return redirect()->back()->with([
                 'success' => 'Customer created successfully',

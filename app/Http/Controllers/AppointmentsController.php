@@ -14,12 +14,14 @@ use App\Models\Customer;
 use App\Models\CustomerTreatments;
 use App\Models\CustomerType;
 use App\Models\PaymentTypes;
+use App\Models\VisitType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AppointmentsController extends Controller
 {
@@ -78,6 +80,16 @@ class AppointmentsController extends Controller
             $countryType = CountryType::where('id', $customer->country_type_id)->latest()->first();
 
             $country = Country::where('id', $customer->country_id)->latest()->first();
+
+            $bookings = Appointments::where('customer_id', $customer->id)
+                ->whereDate('date', '>=', $today)
+                ->get();
+
+            $visitTypes = VisitType::all();
+
+            $paymentTypes = PaymentTypes::all();
+
+            $appointmentTypes = AppointmentType::all();
 
             $lastVisitDay = null;
             $firstVisit = null;
@@ -141,11 +153,32 @@ class AppointmentsController extends Controller
                 'country',
                 'lastCustomerTreatment',
                 'paymentStatus',
+                'bookings',
+                'visitTypes',
+                'paymentTypes',
+                'appointmentTypes',
                 'nextDay'
             ));
         } else {
             return redirect()->back()->with('error', 'Customer not found.');
         }
+    }
+
+
+    public function checkAppointments(\Illuminate\Http\Request $request)
+    {
+        $selectedDate = $request->input('date');
+
+        $todayAppointments = Appointments::whereDate('date', $selectedDate)
+            ->pluck('ap_numbers_id')
+            ->toArray();
+
+        $appointment_numbers = ApNumbers::all();
+
+        return response()->json([
+            'todayAppointments' => $todayAppointments,
+            'appointment_numbers' => $appointment_numbers,
+        ]);
     }
 
 
@@ -155,30 +188,32 @@ class AppointmentsController extends Controller
 
         $apRecord = Appointments::where('customer_id', $validated['customer_id'])->where('date', $validated['today_date'])->first();
 
-        if ($apRecord) {
-            notify()->error('Customer already booked an appointment today. ⚡️', 'Error');
-            return redirect()->back();
-        } else {
+        $apNumberRecord = ApNumbers::where('number', $validated['appointment_no'])->first();
 
-            $apNumberRecord = ApNumbers::where('number', $validated['appointment_no'])->first();
-
-            if (!$apNumberRecord) {
-                return redirect()->back()->with('error', 'Invalid appointment number.');
-            }
-
-            $appointmentId = DB::table('appointments')->insertGetId([
-                'customer_id' => $validated['customer_id'],
-                'date' => $validated['today_date'],
-                'ap_numbers_id' => $apNumberRecord->id,
-                'visit_day' => $validated['visit_type'],
-                'added_date' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            return redirect()->route('appointments.printPreview', ['appointmentId' => $appointmentId])
-                ->with('success', 'Appointment saved successfully.');
+        if (!$apNumberRecord) {
+            return redirect()->back()->with('error', 'Invalid appointment number.');
         }
+
+        $appointmentId = DB::table('appointments')->insertGetId([
+            'customer_id' => $validated['customer_id'],
+            'date' => $validated['today_date'],
+            'ap_numbers_id' => $apNumberRecord->id,
+            'visit_day' => $validated['visit_type'],
+            'appointment_type_id' => $validated['ap_type'],
+            'created_by' => 'Office',
+            'created_user_id' => 1,
+            'payment_method' => 'Office',
+            'total_amount' => $validated['totalAmount'],
+            'paid_amount' => $validated['paidAmount'],
+            'due_amount' => $validated['dueAmount'],
+            'payment_type_id' => $validated['paymentType'],
+            'added_date' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('appointments.printPreview', ['appointmentId' => $appointmentId])
+            ->with('success', 'Appointment saved successfully.');
     }
 
 
@@ -226,7 +261,7 @@ class AppointmentsController extends Controller
             $appointmentTypes = AppointmentType::where('status', 1)->get();
             $paymentTypes = PaymentTypes::all();
 
-            return view('appointments', compact('customer', 'first_visit', 'countries','appointmentTypes','paymentTypes'));
+            return view('appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes'));
         }
     }
 
@@ -291,4 +326,51 @@ class AppointmentsController extends Controller
 
         return view('appointment.calendar_schedule', compact('secondVisitDates', 'thirdVisitDates', 'onlineBookings'));
     }
+
+
+    public function viewBooking($id)
+    {
+        $bookings = Appointments::where('id', $id)->first();
+        $visitTypes = VisitType::all();
+        $paymentTypes = PaymentTypes::all();
+
+        return view('appointment.booking', compact('bookings', 'visitTypes', 'paymentTypes'));
+    }
+
+    public function addAppointment($id)
+{
+    // Get the request instance
+    $request = Request::instance();
+
+    // Create a validator instance with the request data
+    $validator = Validator::make($request->all(), [
+        'visit_type' => 'required|exists:visit_type,id',
+        'paidAmount' => 'required|numeric|min:0',
+        'paymentType' => 'required|exists:payment_types,id',
+    ]);
+
+    // Check if validation fails
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $booking = Appointments::findOrFail($id);
+
+    $currentPaidAmount = $booking->paid_amount;
+
+    $newPaidAmount = $currentPaidAmount + $request->input('paidAmount');
+
+    $newDueAmount = $booking->total_amount - $newPaidAmount;
+
+    $booking->update([
+        'visit_type' => $request->input('visit_type'),
+        'paid_amount' => $newPaidAmount,
+        'due_amount' => $newDueAmount,
+        'payment_method' =>'Office',
+        'payment_type_id' => $request->input('paymentType'),
+    ]);
+
+    return redirect()->route('appointments.printPreview', ['appointmentId' => $id])
+        ->with('success', 'Appointment saved successfully.');
+}
 }

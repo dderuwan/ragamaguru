@@ -36,4 +36,9 @@ class Appointments extends Pivot
     {
         return $this->belongsTo(ApNumbers::class, 'ap_numbers_id');
     }
+
+    public function appointmentType()
+    {
+        return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
+    }
 }
