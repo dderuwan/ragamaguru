@@ -47,10 +47,7 @@ return new class extends Migration
                 ->on('appointment_type')
                 ->onDelete('cascade');
 
-            $table->foreign('created_user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+            
         });
     }
 

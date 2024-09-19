@@ -140,9 +140,6 @@
                 <li class="nav-item active">
                   <a class="nav-link pl-3" href="{{route('attendance_list')}}"><span class="ml-1 item-text">Attendance List</span></a>
                 </li>
-                <li class="nav-item active">
-                  <a class="nav-link pl-3" href="{{route('attendance_reports')}}"><span class="ml-1 item-text">Attendance Reports</span></a>
-                </li>
               </ul>
             </li>
           </ul>
