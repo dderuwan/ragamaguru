@@ -40,7 +40,6 @@
                     </div>
 
                     <div class="row my-4">
-                        <!-- Small table -->
                         <div class="col-md-12">
                             <div class="card shadow">
                                 <div class="card-body">
@@ -90,25 +89,17 @@
                                             <tr>
                                                 <th style="color: black;">Visit Day</th>
                                                 <th style="color: black;">Date</th>
-                                                <th style="color: black;">Treatments</th>
-                                                <th style="color: black;">Notes</th>
-                                                <th style="color: black;">Next Assign Date</th>
+                                                <th style="color: black;">Added Treatments</th>
+                                                <th style="color: black;">Selected Treatments</th>
+                                                <th style="color: black;">Comments</th>
+                                                <th style="color: black;">Things to bring</th>
+                                                <th style="color: black;">Next Assigned Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse($firstVisitHistory as $history)
+                                            @forelse($visitHistory as $history)
                                             <tr>
-                                                <td>
-                                                    @if($history->appointment->visit_day == 1)
-                                                    First Visit
-                                                    @elseif($history->appointment->visit_day == 2)
-                                                    Second Visit
-                                                    @elseif($history->appointment->visit_day == 3)
-                                                    Third Visit
-                                                    @else
-                                                    Other Visit
-                                                    @endif
-                                                </td>
+                                                <td>{{$history->appointment->visitDay->name}}</td>
                                                 <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
                                                 <td>
                                                     @if($history->treatments)
@@ -122,92 +113,31 @@
                                                     No Treatments
                                                     @endif
                                                 </td>
-                                                <td>{{ $history->note ?? 'No Notes' }}</td>
+                                                <td>
+                                                    @if($history->selected_treatments)
+                                                    @php
+                                                    $selectedTreatmentNames = \App\Models\Treatment::whereIn('id', $history->selected_treatments)->pluck('name')->toArray();
+                                                    @endphp
+                                                    @foreach($selectedTreatmentNames as $treatmentName)
+                                                    {{ $treatmentName }}<br>
+                                                    @endforeach
+                                                    @else
+                                                    No Treatments
+                                                    @endif
+                                                </td>
+                                                <td>{{ $history->comment ?? 'No Comment' }}</td>
+                                                <td>{{ $history->things_to_bring ?? 'No Things' }}</td>
                                                 <td>{{ $history->next_day ? \Carbon\Carbon::parse($history->next_day)->format('Y-m-d') : 'Not yet' }}</td>
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td colspan="5" class="text-center">No first visit history</td>
+                                                <td colspan="5" class="text-center">No visit history</td>
                                             </tr>
                                             @endforelse 
                                         </tbody>
                                     </table>
 
-                                    <!-- second visit -->
-                                    <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
-                                        <thead style="background-color: #ccffcc;">
-                                            <tr>
-                                                <th style="color: black;">Visit Day</th>
-                                                <th style="color: black;">Date</th>
-                                                <th style="color: black;">Comments</th>
-                                                <th style="color: black;">Things to bring</th>
-                                                <th style="color: black;">Next Assign Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse($secondVisitHistory as $history)
-                                            <tr>
-                                                <td>Second Visit</td>
-                                                <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
-                                                <td>{{ $history->second_visit_comment ?? 'No Comments' }}</td>
-                                                <td>{{ $history->second_visit_things ?? 'No Items' }}</td>
-                                                <td>{{ $history->next_day ? \Carbon\Carbon::parse($history->next_day)->format('Y-m-d') : 'Not yet' }}</td>
-                                            </tr>
-                                            @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center">No second visit history</td>
-                                            </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-
-                                    <!-- third visit -->
-                                    <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
-                                        <thead style="background-color: #ccffcc;">
-                                            <tr>
-                                                <th style="color: black;">Visit Day</th>
-                                                <th style="color: black;">Date</th>
-                                                <th style="color: black;">Comments</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse($thirdVisitHistory as $history)
-                                            <tr>
-                                                <td>Third Visit</td>
-                                                <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
-                                                <td>{{ $history->third_visit_comment ?? 'No Comments' }}</td>
-                                            </tr>
-                                            @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center">No third visit history</td>
-                                            </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-
-                                    <!-- third visit -->
-                                    <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
-                                        <thead style="background-color: #ccffcc;">
-                                            <tr>
-                                                <th style="color: black;">Visit Day</th>
-                                                <th style="color: black;">Date</th>
-                                                <th style="color: black;">Comments</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse($otherVisitHistory as $history)
-                                            <tr>
-                                                <td>Other Visit</td>
-                                                <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
-                                                <td>{{ $history->other_visit_comment ?? 'No Comments' }}</td>
-                                            </tr>
-                                            @empty    
-                                            <tr>
-                                                <td colspan="5" class="text-center">No other visit history</td>
-                                            </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
+                                    
 
 
 

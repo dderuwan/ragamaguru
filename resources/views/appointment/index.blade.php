@@ -35,11 +35,11 @@
                         </div>
                         <div class="col-auto">
                             <a href="{{route('showCalendarSchedule')}}"><button type="button" class="btn btn-primary">
-                            <i class="fa-regular fa-calendar-days"></i></button></a>
+                                    <i class="fa-regular fa-calendar-days"></i></button></a>
                         </div>
                         <div class="col-auto">
                             <a href="{{route('customer.index')}}"><button type="button" class="btn btn-primary">
-                            <i class="fe fe-user fe-16"></i></button></a>
+                                    <i class="fe fe-user fe-16"></i></button></a>
                         </div>
                         <!-- <div class="col-auto">
                             <a href=""><button type="button" class="btn btn-primary" data-toggle="modal">
@@ -104,6 +104,9 @@
                     let appointmentID = appointment.id;
                     let visitDayText = '';
                     switch (appointment.visit_day) {
+                        case '0':
+                            visitDayText = 'Checking Visit';
+                            break;
                         case '1':
                             visitDayText = 'First Visit';
                             break;

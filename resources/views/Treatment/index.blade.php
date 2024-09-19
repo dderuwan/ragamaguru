@@ -45,7 +45,7 @@
 
                                                 <!-- Delete Button -->
 
-                                                 <button class="btn btn-danger" onclick="confirmDelete({{ $Treatment->id }})"><i class="fe fe-trash fe-16"></i></button>
+                                                 <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $Treatment->id }})"><i class="fe fe-trash fe-16"></i></button>
                                                 <form id="delete-form-{{ $Treatment->id }}" action="{{ route('deleteTreatment', $Treatment->id) }}" method="POST" style="display:none;">
                                                     @csrf
                                                     @method('DELETE')

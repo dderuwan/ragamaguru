@@ -91,48 +91,28 @@ class AppointmentsController extends Controller
 
             $appointmentTypes = AppointmentType::all();
 
-            $lastVisitDay = null;
-            $firstVisit = null;
-            $secondVisit = null;
-            $thirdVisit = null;
-
-            if ($latestAppointment) {
-                $lastVisitDay = $latestAppointment->visit_day;
-                if ($lastVisitDay == '1') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Pending';
-                    $thirdVisit = 'Pending';
-                } else if ($lastVisitDay == '2') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Done';
-                    $thirdVisit = 'Pending';
-                } else if ($lastVisitDay == '3') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Done';
-                    $thirdVisit = 'Done';
-                } else if ($lastVisitDay == '4') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Done';
-                    $thirdVisit = 'Done';
-                }
-            } else {
-                $firstVisit = 'Pending';
-                $secondVisit = 'Pending';
-                $thirdVisit = 'Pending';
-            }
-
             // Check the last row in the customer_treatments table
             $lastCustomerTreatment = CustomerTreatments::where('customer_id', $id)->latest()->first();
 
-            $paymentStatus = 'done';
+            $lastAppointment = null;
+            $lastVisitDay = null;
+            $lastVisitDate = null;
+
             $nextDay = null;
 
             if ($lastCustomerTreatment) {
                 $nextDay = $lastCustomerTreatment->next_day;
-                if ($lastVisitDay == '1') {
-                    if ($nextDay == null) {
+                $lastAppointmentId = $lastCustomerTreatment->appointment_id;
+                $lastAppointment = Appointments::where('id', $lastAppointmentId)->latest()->first();
+            }
+
+            $paymentStatus = 'done';
+
+            if ($lastCustomerTreatment) {
+                if ($lastCustomerTreatment->treatments !== null) {
+                    if ($lastCustomerTreatment->selected_treatments == null && $lastCustomerTreatment->due_amount == null) {
                         $paymentStatus = 'not paid';
-                    } else if ($nextDay != null && $lastCustomerTreatment->due_amount > 0.00) {
+                    } else if ($lastCustomerTreatment->due_amount > 0) {
                         $paymentStatus = 'due';
                     }
                 }
@@ -143,10 +123,7 @@ class AppointmentsController extends Controller
                 'appointment_numbers',
                 'today',
                 'todayAppointments',
-                'lastVisitDay',
-                'firstVisit',
-                'secondVisit',
-                'thirdVisit',
+                'lastAppointment',
                 'onlinebooking',
                 'customerType',
                 'countryType',
@@ -338,39 +315,39 @@ class AppointmentsController extends Controller
     }
 
     public function addAppointment($id)
-{
-    // Get the request instance
-    $request = Request::instance();
+    {
+        // Get the request instance
+        $request = Request::instance();
 
-    // Create a validator instance with the request data
-    $validator = Validator::make($request->all(), [
-        'visit_type' => 'required|exists:visit_type,id',
-        'paidAmount' => 'required|numeric|min:0',
-        'paymentType' => 'required|exists:payment_types,id',
-    ]);
+        // Create a validator instance with the request data
+        $validator = Validator::make($request->all(), [
+            'visit_type' => 'required|exists:visit_type,id',
+            'paidAmount' => 'required|numeric|min:0',
+            'paymentType' => 'required|exists:payment_types,id',
+        ]);
 
-    // Check if validation fails
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $booking = Appointments::findOrFail($id);
+
+        $currentPaidAmount = $booking->paid_amount;
+
+        $newPaidAmount = $currentPaidAmount + $request->input('paidAmount');
+
+        $newDueAmount = $booking->total_amount - $newPaidAmount;
+
+        $booking->update([
+            'visit_type' => $request->input('visit_type'),
+            'paid_amount' => $newPaidAmount,
+            'due_amount' => $newDueAmount,
+            'payment_method' => 'Office',
+            'payment_type_id' => $request->input('paymentType'),
+        ]);
+
+        return redirect()->route('appointments.printPreview', ['appointmentId' => $id])
+            ->with('success', 'Appointment saved successfully.');
     }
-
-    $booking = Appointments::findOrFail($id);
-
-    $currentPaidAmount = $booking->paid_amount;
-
-    $newPaidAmount = $currentPaidAmount + $request->input('paidAmount');
-
-    $newDueAmount = $booking->total_amount - $newPaidAmount;
-
-    $booking->update([
-        'visit_type' => $request->input('visit_type'),
-        'paid_amount' => $newPaidAmount,
-        'due_amount' => $newDueAmount,
-        'payment_method' =>'Office',
-        'payment_type_id' => $request->input('paymentType'),
-    ]);
-
-    return redirect()->route('appointments.printPreview', ['appointmentId' => $id])
-        ->with('success', 'Appointment saved successfully.');
-}
 }

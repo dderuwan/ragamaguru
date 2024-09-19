@@ -15,22 +15,23 @@ class CustomerTreatments extends Model
         'customer_id',
         'appointment_id',
         'treatments', // JSON field to store treatment IDs
-        'note',
+        'selected_treatments',
         'added_date',
         'total_amount',
         'paid_amount',
         'due_amount',
         'payment_type_id',
-        'second_visit_comment',
-        'second_visit_things',
-        'third_visit_comment',
-        'other_visit_comment',
+        'comment', 
+        'things_to_bring', 
         'next_day',
     ];
 
     protected $casts = [
         'treatments' => 'array', // Automatically cast treatments to array
+        'selected_treatments'=>'array',
     ];
+
+    
 
     public function customer()
     {

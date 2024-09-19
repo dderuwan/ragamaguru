@@ -61,10 +61,10 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="row mb-1">
-                    <h6 class="px-3">Customer Details</h6>
+                    <h6 class="px-3">Customer Details :</h6>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-bordered"> 
+                    <table class="table table-bordered">
                       <input id="customer_id" name="customer_id" value="{{$customer->id}}" type="hidden" />
                       <thead>
                         <tr>
@@ -76,6 +76,7 @@
                           @if ($customer->country_id)
                           <th style="color:black;">Country</th>
                           @endif
+                          <th style="color:black;">Last Meeting</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -94,44 +95,27 @@
                           @if ($customer->country_id)
                           <td id="countryName"></td>
                           @endif
+                          @if ($lastAppointment)
+                          <td>{{$lastAppointment->visitDay->name}} ({{$lastAppointment->date}})</td>
+                          @else
+                          <td>Not yet</td>
+                          @endif
+
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
-                <!-- <div class="col-sm-12 col-md-6">
-                  <div class="row mb-1">
-                    <h6 class="px-3">Visit Details</h6>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-bordered">
-                      <tbody>
-                        <tr>
-                          <th scope="row">First Visit</th>
-                          <td>{{$firstVisit}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Second Visit</th>
-                          <td>{{$secondVisit}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Third Visit</th>
-                          <td>{{$thirdVisit}}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div> -->
+
 
               </div>
 
 
-
-              @if ($bookings->isNotEmpty())
               <div class="row mt-3">
-                <div class="col-md-6">
+                @if ($bookings->isNotEmpty())
+                <div class="col-sm-12 col-md-6">
                   <div class="row mb-1">
-                    <h6 class="px-3 text-warning">Available Bookings</h6>
+                    <h6 class="px-3">Available Appointments :</h6>
                   </div>
                   <div class="table-responsive">
                     <table class="table table-bordered">
@@ -159,13 +143,14 @@
                     </table>
                   </div>
                 </div>
-              </div>
-              @endif
+                @endif
 
 
-              @if ($lastCustomerTreatment)
-              <div class="row">
+                @if ($lastCustomerTreatment)
                 <div class="col-sm-12 col-md-6">
+                  <div class="row mb-1">
+                    <h6 class="px-3">Payment History :</h6>
+                  </div>
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <tbody>
@@ -195,14 +180,19 @@
                     </table>
                   </div>
                 </div>
+                @endif
+
               </div>
-              @endif
+
+
+
+
 
 
               <div class="form-row mt-3">
                 <div class="form-group col-md-6 mt-1">
                   <label for="ap_type" style="color:black;">Appointment Type <i class="text-danger">*</i></label>
-                  <select class="form-control" id="ap_type" name="ap_type" onchange="setTotalAmount()">
+                  <select class="form-control" id="ap_type" name="ap_type" onchange="setTotalAmount()" required>
                     <option value="">Select Appointment Type </option>
                     @foreach ($appointmentTypes as $appointmentType)
                     <option value="{{$appointmentType->id}}" data-price="{{ $appointmentType->price }}">
@@ -210,6 +200,9 @@
                     </option>
                     @endforeach
                   </select>
+                  @error('ap_type')
+                  <p class="text-danger">{{ $message }}</p>
+                  @enderror
                 </div>
                 <div class="form-group col-md-6 mt-1">
                   <label for="vist_type" style="color:black;">Visit Day <i class="text-danger">*</i></label>
@@ -229,7 +222,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="appointment_no" class="col-form-label" style="color:black;">Selected Appointment Number <i class="text-danger">*</i></label>
-                  <input type="text" class="form-control" id="appointment_no" name="appointment_no" readonly>
+                  <input type="text" class="form-control" id="appointment_no" name="appointment_no" required readonly >
                 </div>
               </div>
 
@@ -257,8 +250,7 @@
                 <div class="form-group mt-1">
                   <label for="totalAmount">Total Amount (LKR):</label>
                   <input type="text" id="totalAmount" name="totalAmount" class="form-control"
-                    value=""
-                    readonly>
+                    value="" readonly required>
                   @error('totalAmount')
                   <p class="text-danger">{{ $message }}</p>
                   @enderror
@@ -289,8 +281,7 @@
                 <div class="form-group">
                   <label for="dueAmount">Due Amount (LKR):</label>
                   <input type="text" id="dueAmount" name="dueAmount" class="form-control"
-                    value=""
-                    readonly>
+                    value="" readonly required>
                   @error('dueAmount')
                   <p class="text-danger">{{ $message }}</p>
                   @enderror
@@ -299,7 +290,7 @@
 
               <div class="form-group row">
                 <div class="col-sm-10 mt-5">
-                  <button type="submit" class="btn btn-primary" >Save Appointment</button>
+                  <button type="submit" class="btn btn-primary">Save Appointment</button>
                 </div>
               </div>
             </form>

@@ -136,7 +136,8 @@ Route::get('/viewcustomertreat/{id}', [App\Http\Controllers\TreatmentController:
 Route::post('/savetreatpayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveTreatPayment'])->name('saveTreatPayment');
 Route::get('/viewduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'viewDuePayment'])->name('viewDuePayment');
 Route::post('/saveduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveDuePayment'])->name('saveDuePayment');
-
+Route::put('/treatments/update-next-day/{id}', [App\Http\Controllers\TreatmentController::class, 'updateNextDay'])->name('updateNextDay');
+Route::get('/treatments/print-preview', [App\Http\Controllers\TreatmentController::class, 'printPreview'])->name('treatments.printPreview');
 
 //employee module
 Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
@@ -195,7 +196,7 @@ Route::get('/appointments/add/{id}', [AppointmentsController::class, 'create'])-
 Route::post('/appointments/save', [AppointmentsController::class, 'store'])->name('appointments.store');
 Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
 Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
-Route::get('appointments/print-preview/{appointmentId}', [AppointmentsController::class, 'printPreview'])->name('appointments.printPreview');
+Route::get('/appointments/print-preview/{appointmentId}', [AppointmentsController::class, 'printPreview'])->name('appointments.printPreview');
 Route::delete('/appointments/{id}', [AppointmentsController::class, 'destroy'])->name('appointments.destroy');
 Route::get('/showcalendarschedule', [AppointmentsController::class, 'showCalendarSchedule'])->name('showCalendarSchedule');
 Route::get('/calendar-events', [AppointmentsController::class, 'getCalendarEvents'])->name('calendar.events');
