@@ -53,21 +53,9 @@
                                                 @endif
                                             </td>
                                             <td>{{$customer->registered_time}}</td> 
-<<<<<<< Updated upstream
-                                            <td>
-                                                @if ($customer->user_id)
-                                                {{$customer->user_id}}
-                                                @else
-                                                No User
-                                                @endif 
-                                            </td>
-                                            <td>{{$customer->customerType->name}}</td>
-                                            <td>{{$customer->countryType->name}}</td>
-=======
                                             <td>{{$customer->user_id}}</td>
                                             <td>{{ optional($customer->customerType)->name }}</td>
                                             <td>{{ optional($customer->countryType)->name }}</td>
->>>>>>> Stashed changes
                                             @if ($customer->isVerified)
                                             <td><span class="fe fe-15 fe-check"></span></td>
                                             @else
