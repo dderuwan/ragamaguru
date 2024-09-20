@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointments;
 use App\Models\Bookings;
 use App\Models\CompanyDetails;
 use App\Models\Country;
@@ -91,7 +92,7 @@ class HomeController extends Controller
     public function goToProfile()
     {
         //add user to session - id is 1
-        Session::put('user_id', 28); //testing purpose 
+        Session::put('user_id', 1); //testing purpose 
 
         $logged_user_id = Session::get('user_id');
         if (empty($logged_user_id)) {
@@ -101,12 +102,18 @@ class HomeController extends Controller
 
             if ($customer) {
                 $countries = Country::all();
-                $booking = Bookings::where('customer_id', $customer->id)->latest()->first();
                 $orders = Order::where('customer_code', $customer->id)
                     ->where('order_type', 'Online')
                     ->with('orderStatus')
                     ->get();
-                return view('profile', compact('customer', 'booking', 'orders', 'countries'));
+
+                $today = Carbon::today();
+
+                $bookings = Appointments::where('customer_id', $customer->id)
+                    ->whereDate('date', '>=', $today)
+                    ->get();
+
+                return view('profile', compact('customer', 'bookings', 'orders', 'countries'));
             }
         }
     }
