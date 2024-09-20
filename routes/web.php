@@ -137,7 +137,7 @@ Route::post('/savetreatpayment/{id}', [App\Http\Controllers\TreatmentController:
 Route::get('/viewduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'viewDuePayment'])->name('viewDuePayment');
 Route::post('/saveduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveDuePayment'])->name('saveDuePayment');
 Route::put('/treatments/update-next-day/{id}', [App\Http\Controllers\TreatmentController::class, 'updateNextDay'])->name('updateNextDay');
-Route::get('/treatments/print-preview', [App\Http\Controllers\TreatmentController::class, 'printPreview'])->name('treatments.printPreview');
+Route::get('/treatments/print-preview/{cusTreatId}', [App\Http\Controllers\TreatmentController::class, 'printPreview'])->name('treatments.printPreview');
 
 //employee module
 Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');

@@ -42,4 +42,9 @@ class CustomerTreatments extends Model
     {
         return $this->belongsTo(Appointments::class);
     }
+
+    public function paymentType()
+    {
+        return $this->belongsTo(PaymentTypes::class);
+    }
 }

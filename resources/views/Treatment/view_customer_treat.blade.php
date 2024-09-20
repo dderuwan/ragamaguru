@@ -204,7 +204,7 @@
                                         <div class="form-group">
                                             <label for="paymentType">Payment Type:</label>
                                             <select id="paymentType" name="paymentType" class="form-control"
-                                                {{ isset($paymentDetails) ? 'disabled' : '' }} required>
+                                                {{ isset($paymentDetails) ? 'readonly' : '' }} required>
                                                 @foreach ($paymentTypes as $type )
                                                 <option value="{{$type->id}}"
                                                     {{ isset($paymentDetails) && $paymentDetails->payment_type_id == $type->id ? 'selected' : '' }}>
@@ -269,7 +269,13 @@
                 }
             });
             totalAmountField.value = total.toFixed(2);
-            dueAmountField.value = total.toFixed(2);
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value.replace(/,/g, ''));
+            const paidAmount = parseFloat(document.getElementById('paidAmount').value);
+            if (isNaN(paidAmount)) {
+                paidAmount = 0;
+            }
+            const dueAmount = totalAmount - paidAmount;
+            document.getElementById('dueAmount').value = dueAmount.toFixed(2);
         }
 
         checkboxes.forEach(function(checkbox) {

@@ -8,7 +8,9 @@ use App\Models\Customer;
 use App\Models\CustomerTreatments;
 use App\Models\PaymentTypes;
 use App\Models\Treatment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class TreatmentController extends Controller
 {
@@ -20,6 +22,8 @@ class TreatmentController extends Controller
         return view('Treatment.index', [
             'Treatments' => $Treatments
         ]);
+        // return redirect()->route('treatments.printPreview', ['cusTreatId' => 42])
+        //     ->with('success', 'Treatment and payment saved successfully.');
     }
 
 
@@ -293,7 +297,7 @@ class TreatmentController extends Controller
         $treatmentHistory = CustomerTreatments::findOrFail($id);
         $treatmentHistory->next_day = $request->input('nextDay');
         $treatmentHistory->save();
-        
+
         notify()->success('Date updated successfully. ⚡️', 'Success');
         return redirect()->back();
     }
@@ -328,7 +332,7 @@ class TreatmentController extends Controller
         $customerTreatment->save();
 
         //notify()->success('Payment details updated successfully. ⚡️', 'Success');
-        return redirect()->route('treatments.printPreview')
+        return redirect()->route('treatments.printPreview', ['cusTreatId' => $customerTreatment->id])
             ->with('success', 'Treatment and payment saved successfully.');
         //return redirect()->route('appointments.index')->with('status', 'Payment updated successfully');
     }
@@ -362,6 +366,8 @@ class TreatmentController extends Controller
         ]);
 
         $customerTreatment = CustomerTreatments::where('id', $id)->firstOrFail();
+        
+        $tobepaid = $customerTreatment->due_amount;
 
         $paidAmount = $customerTreatment->paid_amount + $request->paidAmount;
 
@@ -373,17 +379,46 @@ class TreatmentController extends Controller
 
         $customerTreatment->save();
 
+        $treatId = $customerTreatment->id;
+        $pamount = $request->paidAmount;
+        $damount = $request->dueAmount;
+        $ptype = PaymentTypes::find($request->paymentType);
+        $ptypename = $ptype->name;
+
+
         notify()->success('Payment details updated successfully. ⚡️', 'Success');
-        return redirect()->route('customer.index')->with('status', 'Payment updated successfully');
+        return view('treatment.duepay_print',compact('treatId','tobepaid','pamount','damount','ptypename'));
+        //return redirect()->route('customer.index')->with('status', 'Payment updated successfully');
     }
 
 
-    public function printPreview()
+
+    public function printPreview($cusTreatId)
     {
-      
+        $customerTreatment = CustomerTreatments::findOrFail($cusTreatId);
+        $treatments = null;
+        $selectedTreatmentIds = null;
+        if ($customerTreatment->treatments && $customerTreatment->selected_treatments) {
+            $treatmentIds = $customerTreatment->treatments;
+            $selectedTreatmentIds = $customerTreatment->selected_treatments;
+            $treatments = Treatment::whereIn('id', $treatmentIds)->get();
+        }
+        $appointment = Appointments::findOrFail($customerTreatment->appointment_id);
+        $customer = Customer::findOrFail($customerTreatment->customer_id);
 
-        return view('treatment.print');
-        
+        $countryName = null;
+        if ($customer->country_id) {
+            $response = Http::get("https://restcountries.com/v3.1/alpha/{$customer->country_id}");
+
+            if ($response->successful()) {
+                $countryData = $response->json();
+                $countryName = $countryData[0]['name']['common'];
+            }
+        } else {
+            $countryName = 'Sri Lanka';
+        }
+        $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
+
+        return view('treatment.print', compact('customerTreatment', 'appointment', 'customer', 'countryName', 'treatments', 'selectedTreatmentIds','currentDateTime'));
     }
-
 }
