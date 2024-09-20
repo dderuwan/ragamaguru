@@ -60,7 +60,7 @@
                                                 <th style="color: black;">Contact Number</th>
                                                 <th style="color: black;">Country</th>
                                                 <th style="color: black;">Added Date</th>
-                                                <th style="color: black;">Appointment Status</th>
+                                                <!-- <th style="color: black;">Appointment Status</th> -->
                                                 <th style="color: black;">Appointment</th>
                                             </tr>
                                         </thead>
@@ -103,7 +103,6 @@
                                 <td>${booking.contact}</td>
                                 <td>${booking.country}</td>
                                 <td>${booking.added_date}</td>
-                                <td>${booking.appointment_status}</td>
                                 <td>
                                     <a href="/appointments/add/${booking.customer_id}" class="btn btn-success">
                                         <i class="fas fa-calendar-check"></i> 

@@ -52,6 +52,7 @@ class AppointmentsController extends Controller
                 'ap_number' => $appointment->apNumber->number ?? 'N/A',
                 'customer_name' => $appointment->customer->name ?? 'N/A',
                 'contact' => $appointment->customer->contact ?? 'N/A',
+                'ap_type' => $appointment->appointmentType->type ?? 'N/A',
                 'visit_day' => $appointment->visit_day,
                 'haveTreat' => $haveTreat,
             ];
@@ -261,11 +262,12 @@ class AppointmentsController extends Controller
         $appointments = Appointments::select('id', 'visit_day')->get();
         $customerTreatments = CustomerTreatments::select('next_day', 'appointment_id', 'customer_id')->get();
         $customers = Customer::select('id', 'contact')->get();
-        $bookings = Bookings::select('customer_id', 'booking_date')->get();
+        $bookings = Appointments::select('customer_id', 'date')->whereDate('date', '>=', Carbon::today())->get();
 
+        $firstVisitDates = [];
         $secondVisitDates = [];
         $thirdVisitDates = [];
-        $onlineBookings = [];
+        $apBookings = [];
 
         foreach ($customerTreatments as $treatment) {
             $appointment = $appointments->firstWhere('id', $treatment->appointment_id);
@@ -273,13 +275,19 @@ class AppointmentsController extends Controller
 
             if ($appointment && $customer) {
                 $contact = $customer->contact;
-                if ($appointment->visit_day == 1 && $treatment->next_day) {
+                if ($appointment->visit_day == '0' && $treatment->next_day) {
+                    $firstVisitDates[] = [
+                        'date' => $treatment->next_day,
+                        'title' => $contact,
+                        'color' => '#ffffb3'
+                    ];
+                }else if ($appointment->visit_day == '1' && $treatment->next_day) {
                     $secondVisitDates[] = [
                         'date' => $treatment->next_day,
                         'title' => $contact,
                         'color' => '#b3d9ff'
                     ];
-                } elseif ($appointment->visit_day == 2 && $treatment->next_day) {
+                } elseif ($appointment->visit_day == '2' && $treatment->next_day) {
                     $thirdVisitDates[] = [
                         'date' => $treatment->next_day,
                         'title' => $contact,
@@ -293,15 +301,15 @@ class AppointmentsController extends Controller
             $customer = $customers->firstWhere('id', $booking->customer_id);
             if ($customer) {
                 $contact = $customer->contact;
-                $onlineBookings[] = [
-                    'date' => $booking->booking_date,
+                $apBookings[] = [
+                    'date' => $booking->date,
                     'title' => $contact,
                     'color' => '#ffccb3'
                 ];
             }
         }
 
-        return view('appointment.calendar_schedule', compact('secondVisitDates', 'thirdVisitDates', 'onlineBookings'));
+        return view('appointment.calendar_schedule', compact('firstVisitDates','secondVisitDates', 'thirdVisitDates', 'apBookings'));
     }
 
 
@@ -340,7 +348,7 @@ class AppointmentsController extends Controller
         $newDueAmount = $booking->total_amount - $newPaidAmount;
 
         $booking->update([
-            'visit_type' => $request->input('visit_type'),
+            'visit_day' => $request->input('visit_type'),
             'paid_amount' => $newPaidAmount,
             'due_amount' => $newDueAmount,
             'payment_method' => 'Office',

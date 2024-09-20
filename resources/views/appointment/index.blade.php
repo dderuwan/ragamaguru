@@ -63,6 +63,7 @@
                                                 <th style="color: black;">Appointment Number</th>
                                                 <th style="color: black;">Customer Name</th>
                                                 <th style="color: black;">Contact Number</th>
+                                                <th style="color: black;">Type</th>
                                                 <th style="color: black;">Visit Day</th>
                                                 <th style="color: black;">Treatment</th>
                                                 <th class="text-center" style="color: black;">Action</th>
@@ -127,6 +128,7 @@
                                 <td>${appointment.ap_number}</td>   
                                 <td>${appointment.customer_name}</td>
                                 <td>${appointment.contact}</td>
+                                <td>${appointment.ap_type}</td>
                                 <td>${visitDayText}</td>
                                 <td>${appointment.haveTreat}</td>
                                 <td>

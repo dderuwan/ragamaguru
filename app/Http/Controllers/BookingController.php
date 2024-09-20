@@ -221,7 +221,7 @@ class BookingController extends Controller
 
     public function getLocalBookingsByDate($date)
     {
-        $bookings = Bookings::whereDate('booking_date', $date)
+        $bookings = Appointments::whereDate('date', $date)
             ->whereHas('customer', function ($query) {
                 $query->where('country_type_id', 1);
             })
@@ -240,7 +240,7 @@ class BookingController extends Controller
 
     public function getIntBookingsByDate($date)
     {
-        $bookings = Bookings::whereDate('booking_date', $date)
+        $bookings = Appointments::whereDate('date', $date)
             ->whereHas('customer', function ($query) {
                 $query->where('country_type_id', 2);
             })
@@ -249,17 +249,24 @@ class BookingController extends Controller
 
         return response()->json($bookings->map(function ($booking) use ($date) {
 
-            $hasAppointment = $booking->customer->appointments()
-                ->whereDate('date', $date)
-                ->exists();
+            // $hasAppointment = $booking->customer->appointments()
+            //     ->whereDate('date', $date)
+            //     ->exists();
+            $countryId = $booking->customer->country_id;
+            $response = Http::get("https://restcountries.com/v3.1/alpha/{$countryId}");
 
+            $countryName = null;
+            if ($response->successful()) {
+                $countryData = $response->json();
+                $countryName = $countryData[0]['name']['common'];
+            }
             return [
                 'id' => $booking->id,
                 'customer_name' => $booking->customer->name ?? 'N/A',
                 'customer_id' => $booking->customer->id ?? 'N/A',
                 'contact' => $booking->customer->contact ?? 'N/A',
-                'country' => $booking->customer->country->name ?? 'N/A',
-                'appointment_status' => $hasAppointment ? 'Done' : 'Pending',
+                'country' => $countryName ?? 'N/A',
+                // 'appointment_status' => $hasAppointment ? 'Done' : 'Pending',
                 'added_date' => $booking->added_date,
             ];
         }));
