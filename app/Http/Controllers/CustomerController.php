@@ -81,7 +81,7 @@ class CustomerController extends Controller
             $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
             // Send OTP message
-            //$this->sendMessage($formattedContact, $msg);
+            $this->sendMessage($formattedContact, $msg);
 
             return redirect()->back()->with([
                 'success' => 'Customer created successfully',
