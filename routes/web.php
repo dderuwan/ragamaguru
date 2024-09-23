@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentSettingsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\GinController;
 use App\Http\Controllers\OfferItemsController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\SupplierController;
@@ -203,6 +204,8 @@ Route::get('/calendar-events', [AppointmentsController::class, 'getCalendarEvent
 Route::post('/check-appointments', [AppointmentsController::class, 'checkAppointments'])->name('checkAppointments');
 Route::get('/viewbooking/{id}', [AppointmentsController::class, 'viewBooking'])->name('viewBooking');
 Route::post('/add-appointment/{id}', [AppointmentsController::class, 'addAppointment'])->name('addAppointment');
+Route::get('appointments/{type}/{date}', [AppointmentsController::class, 'getAppointmentsByTypeAndDate'])->name('appointments.byTypeAndDate');
+
 
 Route::get('/localbookings', [BookingController::class, 'indexLocal'])->name('bookings.indexLocal');
 Route::get('/inbookings', [BookingController::class, 'indexInternational'])->name('bookings.indexInternational');
@@ -334,6 +337,8 @@ Route::delete('/customerdestroy/{id}', [App\Http\Controllers\ReportController::c
 Route::delete('/supplierdestroy/{id}',[App\Http\Controllers\ReportController::class,'supplierdestroy'])->name('supplierdestroy');
 Route::delete('/gindestroy/{id}', [App\Http\Controllers\ReportController::class, 'gindestroy'])->name('gindestroy');
 Route::delete('/purchaseorderdestroy/{id}', [App\Http\Controllers\ReportController::class, 'purchaseorderdestroy'])->name('purchaseorderdestroy');
+Route::get('/custreatmentsreport', [App\Http\Controllers\ReportController::class, 'cusTreatmentsReport'])->name('cusTreatmentsReport');
+Route::get('/appointmentsreport', [App\Http\Controllers\ReportController::class, 'appointmentsReport'])->name('appointmentsReport');
 
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);

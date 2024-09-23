@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointments;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Item;
 use App\Models\Supplier;
 use App\Models\Customer;
+use App\Models\CustomerTreatments;
 use App\Models\Gin;
 use App\Models\OrderRequest;
 use App\Models\OrderRequestItem;
@@ -154,6 +156,18 @@ class reportController extends Controller
         notify()->success('Order Request deleted successfully. ⚡️', 'Success');
         return redirect()->route('purchaseorderreport')->with('success', 'Order Request deleted successfully.');
     }
+
+
+    public function appointmentsReport(){
+        $appointments = Appointments::all();
+        return view('reports.appointments', compact('appointments'));
+    }
+
+    public function cusTreatmentsReport(){
+        $treatments = CustomerTreatments::all();
+        return view('reports.customer_treatments', compact('treatments'));
+    }
+
 
 
 

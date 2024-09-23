@@ -30,8 +30,33 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        return view('appointment.index');
+        $appointmentTypes = AppointmentType::all();
+        return view('appointment.index',compact('appointmentTypes'));
     }
+
+    public function getAppointmentsByTypeAndDate($type, $date)
+{
+    $appointments = Appointments::whereDate('date', $date)
+        ->where('appointment_type_id', $type)  // Filter by type
+        ->with('customer', 'apNumber')
+        ->get();
+
+    return response()->json($appointments->map(function ($appointment) {
+        $customerTreat = CustomerTreatments::where('appointment_id', $appointment->id)->first();
+        $haveTreat = $customerTreat ? 'Done' : 'Pending';
+
+        return [
+            'id' => $appointment->id,
+            'ap_number' => $appointment->apNumber->number ?? 'N/A',
+            'customer_name' => $appointment->customer->name ?? 'N/A',
+            'contact' => $appointment->customer->contact ?? 'N/A',
+            'ap_type' => $appointment->appointmentType->type ?? 'N/A',
+            'visit_day' => $appointment->visit_day,
+            'haveTreat' => $haveTreat,
+        ];
+    }));
+}
+
 
 
     public function getAppointmentsByDate($date)
@@ -54,7 +79,7 @@ class AppointmentsController extends Controller
                 'contact' => $appointment->customer->contact ?? 'N/A',
                 'ap_type' => $appointment->appointmentType->type ?? 'N/A',
                 'visit_day' => $appointment->visit_day,
-                'haveTreat' => $haveTreat,
+                'haveTreat' => $haveTreat,  
             ];
         }));
     }

@@ -268,6 +268,22 @@
 
           </li>
 
+          <li class="nav-item mb-2">
+
+            <a href="{{route('appointmentsReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Appointments Report</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
+            <a href="{{route('cusTreatmentsReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Customer Treatments Report</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
         </ul>
         
       </li>
