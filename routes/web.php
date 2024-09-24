@@ -211,6 +211,8 @@ Route::get('/localbookings', [BookingController::class, 'indexLocal'])->name('bo
 Route::get('/inbookings', [BookingController::class, 'indexInternational'])->name('bookings.indexInternational');
 Route::get('/localbookings/date/{date}', [BookingController::class, 'getLocalBookingsByDate'])->name('localbookings.date');
 Route::get('/intbookings/date/{date}', [BookingController::class, 'getIntBookingsByDate'])->name('intbookings.date');
+Route::post('/bookings/cancel/{id}', [BookingController::class, 'cancel'])->name('bookings.cancel');
+
 
 // website appointment
 Route::get('/customerappointments', [AppointmentsController::class, 'cusAppointmentCreate'])->name('cusAppointmentCreate');

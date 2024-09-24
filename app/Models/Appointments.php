@@ -25,6 +25,8 @@ class Appointments extends Pivot
         'payment_method',
         'payment_type_id',
         'added_date',
+        'is_booking',
+        'status',
     ];
 
     public function customer()

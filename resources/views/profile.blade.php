@@ -224,6 +224,7 @@
                                                 <th>Total Amount (LKR)</th>
                                                 <th>Paid Amount (LKR)</th>
                                                 <th>Due Amount (LKR)</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -251,6 +252,8 @@
 
                                                 <!-- Due Amount -->
                                                 <td>{{ number_format($booking->due_amount, 2) }}</td>
+                                            
+                                                <td>{{$booking->status == 0 ? 'Canceled' : 'Active'}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

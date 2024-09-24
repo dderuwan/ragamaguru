@@ -22,8 +22,8 @@ class TreatmentController extends Controller
         return view('Treatment.index', [
             'Treatments' => $Treatments
         ]);
-        // return redirect()->route('treatments.printPreview', ['cusTreatId' => 42])
-        //     ->with('success', 'Treatment and payment saved successfully.');
+  
+         
     }
 
 
@@ -366,7 +366,7 @@ class TreatmentController extends Controller
         ]);
 
         $customerTreatment = CustomerTreatments::where('id', $id)->firstOrFail();
-        
+
         $tobepaid = $customerTreatment->due_amount;
 
         $paidAmount = $customerTreatment->paid_amount + $request->paidAmount;
@@ -387,7 +387,7 @@ class TreatmentController extends Controller
 
 
         notify()->success('Payment details updated successfully. ⚡️', 'Success');
-        return view('treatment.duepay_print',compact('treatId','tobepaid','pamount','damount','ptypename'));
+        return view('treatment.duepay_print', compact('treatId', 'tobepaid', 'pamount', 'damount', 'ptypename'));
         //return redirect()->route('customer.index')->with('status', 'Payment updated successfully');
     }
 
@@ -419,6 +419,6 @@ class TreatmentController extends Controller
         }
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
 
-        return view('treatment.print', compact('customerTreatment', 'appointment', 'customer', 'countryName', 'treatments', 'selectedTreatmentIds','currentDateTime'));
+        return view('treatment.print', compact('customerTreatment', 'appointment', 'customer', 'countryName', 'treatments', 'selectedTreatmentIds', 'currentDateTime'));
     }
 }

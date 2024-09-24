@@ -31,7 +31,7 @@
                 <div class="col-12">
                     <div class="row align-items-center my-3">
                         <div class="col">
-                            <h2 class="page-title">Online Date Bookings - Local</h2>
+                            <h2 class="page-title">Bookings - Local</h2>
                         </div>
                         <div class="col-auto">
                             <a href="{{route('customer.index')}}"><button type="button" class="btn btn-primary" data-toggle="modal">
@@ -56,9 +56,14 @@
                                         <thead>
                                             <tr>
                                                 <th style="color: black;">#</th>
+                                                <th style="color: black;">Date</th>
+                                                <th style="color: black;">AP Number</th>
                                                 <th style="color: black;">Customer Name</th>
                                                 <th style="color: black;">Contact Number</th>
-                                                <th style="color: black;">Added Date</th> 
+                                                <th style="color: black;">Booked By</th>
+                                                <th style="color: black;">Added Date</th>
+                                                <th style="color: black;">Status</th>
+                                                <th style="color: black;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="bookingsBody">
@@ -92,13 +97,25 @@
                 appointmentsBody.innerHTML = '';
 
                 data.forEach((booking, index) => {
-  
+
                     const row = `
                             <tr>
                                 <td>${index + 1}</td>
+                                <td>${booking.date}</td>
+                                <td>${booking.apNumber}</td>
                                 <td>${booking.customer_name}</td>
                                 <td>${booking.contact}</td>
+                                <td>${booking.created_by}</td>
                                 <td>${booking.added_date}</td>
+                                <td>${booking.status == 0 ? 'Canceled' : 'Active'}</td> 
+                                <td>
+                                    <a href="javascript:void(0)" 
+                                        onclick="confirmCancel(${booking.id})" 
+                                        class="btn btn-danger ${booking.status == 0 ? 'disabled' : ''}" 
+                                        ${booking.status == 0 ? 'disabled' : ''}> 
+                                        <i class="fa-solid fa-ban"></i>
+                                    </a>
+                                </td>
                             </tr>
                         `;
                     appointmentsBody.insertAdjacentHTML('beforeend', row);
@@ -107,7 +124,48 @@
             .catch(error => console.error('Error fetching appointments:', error));
     }
 
-    
+
+    function confirmCancel(bookingId) {
+        Swal.fire({
+            title: 'Are you sure cancel this booking?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, cancel it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cancelBooking(bookingId);
+            }
+        });
+    }
+
+    function cancelBooking(bookingId) {
+        $.ajax({
+            url: `/bookings/cancel/${bookingId}`,
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                Swal.fire(
+                    'Canceled!',
+                    'The booking has been canceled.',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                });
+            },
+            error: function(error) {
+                Swal.fire(
+                    'Error!',
+                    'There was a problem canceling the booking.',
+                    'error'
+                );
+            }
+        });
+    }
 </script>
 
 @endsection

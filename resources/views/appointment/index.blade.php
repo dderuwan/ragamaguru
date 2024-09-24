@@ -55,6 +55,7 @@
                                                 <th>Customer Name</th>
                                                 <th>Contact Number</th>
                                                 <th>Visit Day</th>
+                                                <th>Status</th>
                                                 <th>Treatment</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
@@ -64,7 +65,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            </div>   
                         </div>
                     </div>
 
@@ -129,6 +130,7 @@
                                 <td>${appointment.customer_name}</td>
                                 <td>${appointment.contact}</td>
                                 <td>${visitDayText}</td>
+                                <td>${appointment.status == 0 ? 'Canceled' : 'Active'}</td> 
                                 <td>${appointment.haveTreat}</td>
                                 <td>
                                     <div class="action-icons">
