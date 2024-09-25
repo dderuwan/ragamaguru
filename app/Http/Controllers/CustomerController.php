@@ -177,14 +177,14 @@ class CustomerController extends Controller
             ->first();
 
         if ($customer) {
-
+    
             $password = Str::random(8);
 
             $customer->isVerified = true;
             $customer->password = bcrypt($password);
             $customer->save();
 
-            $contact = $request->addedContact;
+            $contact = $request->addedContact;        
 
             $formattedContact = $this->formatContactNumber($request->addedContact);
 
@@ -215,7 +215,7 @@ class CustomerController extends Controller
 
         $otp = rand(100000, 999999);
 
-        $customer->otp = $otp;
+        $customer->otp = $otp;  
         $customer->save();
 
         $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
@@ -245,7 +245,7 @@ class CustomerController extends Controller
                 'line2' => $validatedData['line2'],
                 'postal_code' => $validatedData['postal_code'],
                 'city' => $validatedData['city'],
-                'country' => $validatedData['country']
+                'country' => $validatedData['country']  
             ]);
         } else {
             DeliveryAddress::create([
@@ -254,7 +254,7 @@ class CustomerController extends Controller
                 'line2' => $validatedData['line2'],
                 'postal_code' => $validatedData['postal_code'],
                 'city' => $validatedData['city'],
-                'country' => $validatedData['country']
+                'country' => $validatedData['country']  
             ]);
         }
 
