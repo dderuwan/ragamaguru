@@ -51,7 +51,7 @@ class CustomerController extends Controller
 
         $existingCustomer = Customer::where('contact', $request->contact)->first();
 
-        if ($existingCustomer) {
+        if ($existingCustomer) {       
             return redirect()->back()->with([
                 'error' => 'This Customer Already Registered.',
             ]);
@@ -116,7 +116,7 @@ class CustomerController extends Controller
             $msg = "Your account has been verified.\nNow you can login RagamaGuru website using below details.\nMobile : " . $contact . "\nPassword : " . $password . "\nFrom RagamaGuru Office";
 
             // Send the message
-            $this->sendMessage($formattedContact, $msg);
+            //$this->sendMessage($formattedContact, $msg);              
 
             return redirect()->back()->with('success', 'Customer verified successfully.');
         } else {
@@ -145,7 +145,7 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
         $customerId = Customer::find($request->id);
-        if ($customerId) {
+        if ($customerId) {      
             $updatedData = $request->all();
             $customerId->update($updatedData);
             return redirect()->back()->with('success', 'Customer updated successfully.');
@@ -191,7 +191,7 @@ class CustomerController extends Controller
             $msg = "Your account has been verified.\nNow you can login RagamaGuru website using below details.\nMobile : " . $contact . "\nPassword : " . $password . "\nFrom RagamaGuru Office";
 
             // Send the message
-            $this->sendMessage($formattedContact, $msg);
+            // $this->sendMessage($formattedContact, $msg);         
 
             notify()->success('Customer verified successfully. ⚡️', 'Success');
             return redirect()->route('customer.index');
@@ -221,7 +221,7 @@ class CustomerController extends Controller
         $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
         // Send OTP message
-        $this->sendMessage($formattedContact, $msg);
+        // $this->sendMessage($formattedContact, $msg);
 
         return response()->json(['success' => 'OTP has been resent.']);
     }
@@ -253,8 +253,8 @@ class CustomerController extends Controller
                 'line1' => $validatedData['line1'],
                 'line2' => $validatedData['line2'],
                 'postal_code' => $validatedData['postal_code'],
-                'city' => $validatedData['city'],
-                'country' => $validatedData['country']  
+                'city' => $validatedData['city'], 
+                'country' => $validatedData['country']
             ]);
         }
 
@@ -307,7 +307,7 @@ class CustomerController extends Controller
             
             return view('customer.treatment_history', compact(
                 'customer',
-                'visitHistory',
+                'visitHistory', 
             ));
         }
 

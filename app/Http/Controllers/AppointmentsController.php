@@ -261,7 +261,7 @@ class AppointmentsController extends Controller
     public function cusAppointmentCreate()
     {
         //add user to session - id is 1
-        Session::put('user_id', 28); //testing purpose 
+        Session::put('user_id', 27); //testing purpose 
 
         $logged_user_id = Session::get('user_id');
 
@@ -331,7 +331,7 @@ class AppointmentsController extends Controller
                         'color' => '#b3d9ff'
                     ];
                 } elseif ($appointment->visit_day == '2' && $treatment->next_day) {
-                    $thirdVisitDates[] = [
+                    $thirdVisitDates[] = [                
                         'date' => $treatment->next_day,
                         'title' => $contact,
                         'color' => '#99ffbb'
@@ -347,7 +347,7 @@ class AppointmentsController extends Controller
                 $apBookings[] = [
                     'date' => $booking->date,
                     'title' => $contact,
-                    'color' => '#ffccb3'
+                    'color' => '#ffccb3'         
                 ];
             }
         }

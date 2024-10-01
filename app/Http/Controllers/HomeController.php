@@ -60,7 +60,7 @@ class HomeController extends Controller
             ->join('item', 'offer_item.item_id', '=', 'item.id')
             ->select('offer_item.*', 'item.*',)
             ->where('offer_item.month', $currentMonth)
-            ->where('offer_item.status', 'active')
+            ->where('offer_item.status', 'active')                  
             ->get();
 
         $companyDetails = CompanyDetails::first();
@@ -80,7 +80,7 @@ class HomeController extends Controller
         $item_list = Item::leftJoin('offer_item', function ($join) use ($currentMonth) {
             $join->on('item.id', '=', 'offer_item.item_id')
                 ->where('offer_item.month', '=', $currentMonth)
-                ->where('offer_item.status', '=', 'active');
+                ->where('offer_item.status', '=', 'active');            
         })
             ->select('item.*', 'offer_item.offer_rate', 'offer_item.offer_price', 'offer_item.normal_price')
             ->get();
@@ -92,14 +92,14 @@ class HomeController extends Controller
     public function goToProfile()
     {
         //add user to session - id is 1
-        Session::put('user_id', 1); //testing purpose 
+        Session::put('user_id', 27); //testing purpose  
 
         $logged_user_id = Session::get('user_id');
         if (empty($logged_user_id)) {
             return redirect()->back()->with('error', 'Please Login first');
         } else {
             $customer = Customer::with('customerType', 'countryType', 'country')->find($logged_user_id);
-
+      
             if ($customer) {
                 $countries = Country::all();
                 $orders = Order::where('customer_code', $customer->id)
@@ -133,7 +133,7 @@ class HomeController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'address' => 'required|string|max:255',
-                'country_id' => 'nullable',
+                'country_id' => 'nullable',                        
             ]);
 
             $customer->update($validated);

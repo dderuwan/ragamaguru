@@ -110,7 +110,7 @@ class BookingController extends Controller
             $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
             // Send OTP message
-            $this->sendMessage($formattedContact, $msg);
+            //$this->sendMessage($formattedContact, $msg);
 
 
             return response()->json(['success' => true, 'otp' => $otp]);
@@ -204,7 +204,7 @@ class BookingController extends Controller
             $msg = "Booking Confirmation\nAppointment date: $ap_date\nAppointment number: $ap_number\nYou can get appointment number in reception on this date.\nThank You.\nFrom RagamaGuru Office";
 
             // Send appointment message
-            $this->sendMessage($formattedContact, $msg);
+            //$this->sendMessage($formattedContact, $msg);
 
             return response()->json(['success' => true]);
         } else {
@@ -335,7 +335,7 @@ class BookingController extends Controller
 
         $msg = "Booking Cancelled\nAppointment date: $ap_date\nAppointment number: $apNumber\nThis booking was canceled due to some reason. Contact the company for further details.\nSorry for the inconvenience.\nFrom RagamaGuru Office";
             // Send appointment message
-        $this->sendMessage($formattedContact, $msg);
+        //$this->sendMessage($formattedContact, $msg);
 
         return response()->json([
             'message' => 'Booking canceled successfully!'
