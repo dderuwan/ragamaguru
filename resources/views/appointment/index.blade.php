@@ -119,7 +119,7 @@
                             visitDayText = 'Third Visit';
                             break;
                         default:
-                            visitDayText = 'Other Visit';
+                            visitDayText = 'Not Defined';
                             break;
                     }
 
@@ -139,7 +139,7 @@
                                         <a href="{{ route('viewCustomerTreat', '') }}/${appointment.id}" class="btn btn-warning">
                                             <i class="fe fe-eye fe-16"></i>
                                         </a>` : ''}
-                                        <a href="{{ route('appointments.printPreview', '') }}/${appointment.id}" class="btn btn-info"><i class="fa fa-print fe-16"></i></i></a>   
+                                        <!-- .<a href="{{ route('appointments.printPreview', '') }}/${appointment.id}" class="btn btn-info"><i class="fa fa-print fe-16"></i></i></a> -->   
                                         <button class="btn btn-danger action-icon delete-icon" onclick="confirmDelete(${appointment.id})" title="Delete">
                                             <i class="fe fe-trash-2"></i>
                                         </button>

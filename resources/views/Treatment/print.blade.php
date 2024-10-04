@@ -162,7 +162,11 @@
             <table>
                 <tr>
                     <td class="label">Visit Type:</td>
+                    @if ($appointment->visitDay==null)
+                    <td>Not Defined</td>
+                    @else
                     <td>{{$appointment->visitDay->name}}</td>
+                    @endif 
                     <td class="label">Visit Date:</td>
                     <td>{{$customerTreatment->added_date}}</td>
                     <td class="label">Appointment No:</td>

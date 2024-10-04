@@ -79,7 +79,11 @@
                                                     {{$customer->country->name}}
                                                     @endif
                                                 </td>
+                                                @if ($appointment->visitDay==null)
+                                                <td class="text-danger">Not Defined</td>
+                                                @else
                                                 <td class="text-primary">{{$appointment->visitDay->name}}</td>
+                                                @endif
                                             </tr>
                                         </tbody>
                                     </table>

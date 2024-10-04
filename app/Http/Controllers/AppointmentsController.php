@@ -38,7 +38,7 @@ class AppointmentsController extends Controller
     {
         $appointments = Appointments::whereDate('date', $date)
             ->where('appointment_type_id', $type)  // Filter by type
-            ->whereNotNull('visit_day')
+            // ->whereNotNull('visit_day')
             ->with('customer', 'apNumber')
             ->get();
 
@@ -64,7 +64,7 @@ class AppointmentsController extends Controller
     public function getAppointmentsByDate($date)
     {
         $appointments = Appointments::whereDate('date', $date)
-            ->whereNotNull('visit_day')   
+            // ->whereNotNull('visit_day')   
             ->with('customer', 'apNumber')
             ->get();
 

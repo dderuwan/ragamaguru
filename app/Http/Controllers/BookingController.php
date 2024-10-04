@@ -240,6 +240,7 @@ class BookingController extends Controller
                 'apNumber' => $booking->apNumber->number,
                 'created_by' => $booking->created_by,
                 'customer_name' => $booking->customer->name ?? 'N/A',
+                'customer_id' => $booking->customer->id ?? 'N/A',         
                 'contact' => $booking->customer->contact ?? 'N/A',
                 'added_date' => $booking->added_date,
                 'status' => $booking->status,

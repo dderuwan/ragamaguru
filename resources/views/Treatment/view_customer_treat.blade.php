@@ -99,7 +99,11 @@
                                         <tbody>
                                             @if($treatmentHistory)
                                             <tr>
+                                                @if ($treatmentHistory->appointment->visitDay==null) 
+                                                <td>Not Defined</td>
+                                                @else
                                                 <td>{{$treatmentHistory->appointment->visitDay->name}}</td>
+                                                @endif
                                                 <td>{{ \Carbon\Carbon::parse($treatmentHistory->added_date)->format('Y-m-d') }}</td>
                                                 <td>{{ $treatmentHistory->comment ?? 'No Comments' }}</td>
                                                 <td>{{ $treatmentHistory->things_to_bring ?? 'No Things' }}</td>
@@ -171,7 +175,7 @@
                                                 @else
                                                 <tr>
                                                     <td colspan="3" style="border-color: #000;">No Treatments</td>
-                                                </tr>
+                                                </tr> 
                                                 @endif
                                             </tbody>
                                         </table>

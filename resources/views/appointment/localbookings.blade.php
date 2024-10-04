@@ -109,6 +109,9 @@
                                 <td>${booking.added_date}</td>
                                 <td>${booking.status == 0 ? 'Canceled' : 'Active'}</td> 
                                 <td>
+                                <a href="/appointments/add/${booking.customer_id}" class="btn btn-success">
+                                        <i class="fas fa-calendar-check"></i> 
+                                    </a>
                                     <a href="javascript:void(0)" 
                                         onclick="confirmCancel(${booking.id})" 
                                         class="btn btn-danger ${booking.status == 0 ? 'disabled' : ''}" 
