@@ -190,6 +190,15 @@
             <a class="nav-link pl-3" href="{{route('apType.index')}}"><span class="ml-1 item-text">Appointment Type</span></a>
           </li>
           <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('blockDates.index')}}"><span class="ml-1 item-text">Block Dates</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('event.create')}}"><span class="ml-1 item-text">Events</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('addBookingInfo')}}"><span class="ml-1 item-text">Booking-info</span></a>
+          </li>
+          <li class="nav-item active">
             <a class="nav-link pl-3" href="{{route('user.index')}}"><span class="ml-1 item-text">Add User</span></a>
           </li>
           <li class="nav-item active">

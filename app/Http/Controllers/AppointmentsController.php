@@ -7,6 +7,7 @@ use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
 use App\Models\AppointmentType;
+use App\Models\BlockedDate;
 use App\Models\Bookings;
 use App\Models\Country;
 use App\Models\CountryType;
@@ -279,7 +280,9 @@ class AppointmentsController extends Controller
             $appointmentTypes = AppointmentType::where('status', 1)->get();
             $paymentTypes = PaymentTypes::all();
 
-            return view('appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes'));
+            $blockedDates = BlockedDate::pluck('date')->toArray();
+
+            return view('appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes','blockedDates'));
         }
     }
 

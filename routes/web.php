@@ -2,8 +2,10 @@
 use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\AppointmentSettingsController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BlockedDateController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GinController;
 use App\Http\Controllers\OfferItemsController;
 use App\Http\Controllers\POSController;
@@ -215,6 +217,7 @@ Route::post('/bookings/cancel/{id}', [BookingController::class, 'cancel'])->name
 
 
 // website appointment
+Route::get('/booking-info', [HomeController::class, 'bookingInfo'])->name('bookingInfo');
 Route::get('/customerappointments', [AppointmentsController::class, 'cusAppointmentCreate'])->name('cusAppointmentCreate');
 Route::post('/check-date', [BookingController::class, 'checkDate'])->name('checkDate');
 Route::post('/generate-otp', [BookingController::class, 'generateOtp'])->name('generate.otp');
@@ -236,6 +239,23 @@ Route::delete('/appointment-type/{id}', [AppointmentSettingsController::class, '
 Route::post('/store-appointment-type', [AppointmentSettingsController::class, 'store'])->name('apType.store');
 Route::get('/appointment-settings/edit/{id}', [AppointmentSettingsController::class, 'edit'])->name('apType.edit');
 Route::put('/store-appointment-type/update/{id}', [AppointmentSettingsController::class, 'update'])->name('apType.update');
+
+Route::get('/settings/add-booking-info', [AppointmentSettingsController::class, 'addBookingInfo'])->name('addBookingInfo');
+Route::post('/settings/save-booking-info', [AppointmentSettingsController::class, 'saveBookingInfo'])->name('saveBookingInfo');
+
+// block dates
+Route::get('/block-dates', [BlockedDateController::class, 'index'])->name('blockDates.index');
+Route::post('/admin/blocked-dates/block', [BlockedDateController::class, 'blockDate'])->name('admin.blocked_dates.block');
+Route::post('/admin/blocked-dates/unblock', [BlockedDateController::class, 'unblockDate'])->name('admin.blocked_dates.unblock');
+
+// event settings
+Route::get('/newevent/show', [EventController::class, 'index'])->name('event.index');
+Route::get('/newevent/create', [EventController::class, 'create'])->name('event.create');
+Route::post('/newevent/store', [EventController::class, 'store'])->name('event.store');
+Route::delete('/newevent/delete/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+Route::get('/newevent/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
+Route::post('/newevent/update/{id}', [EventController::class, 'update'])->name('event.update');
+
 
 //users
 Route::resource('users', UserController::class);

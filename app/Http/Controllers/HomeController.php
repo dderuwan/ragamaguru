@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointments;
+use App\Models\BookingInfo;
 use App\Models\Bookings;
 use App\Models\CompanyDetails;
 use App\Models\Country;
 use App\Models\Customer;
+use App\Models\Event;
 use App\Models\Item;
 use App\Models\OfferItems;
 use App\Models\Order;
@@ -143,4 +145,15 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'User not found');
         }
     }
+
+
+    public function bookingInfo(){
+        $events = Event::where('status', true)->get();
+        $bookingInfo = BookingInfo::first();
+        $companyDetail = CompanyDetails::first();
+
+        return view('booking_info',compact('events','bookingInfo','companyDetail'));
+    }
+
+
 }
