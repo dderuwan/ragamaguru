@@ -381,7 +381,7 @@ class AppointmentsController extends Controller
         ]);
 
         // Check if validation fails
-        if ($validator->fails()) {
+        if ($validator->fails()) {  
             return redirect()->back()->withErrors($validator)->withInput();
         }
 

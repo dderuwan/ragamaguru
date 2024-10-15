@@ -26,6 +26,7 @@ class CustomerController extends Controller
     public function create()
     {
         return view('customer.create');
+       // $this->sendWhatsappMessage(+818057441095, 'verification successfull..');
     }
 
 
@@ -51,7 +52,7 @@ class CustomerController extends Controller
 
         $existingCustomer = Customer::where('contact', $request->contact)->first();
 
-        if ($existingCustomer) {       
+        if ($existingCustomer) {
             return redirect()->back()->with([
                 'error' => 'This Customer Already Registered.',
             ]);
@@ -65,23 +66,27 @@ class CustomerController extends Controller
                 'address' => $request->address,
                 'otp' => $otp,
                 'isVerified' => false,
-                'user_id' => 1, 
-                'customer_type_id' => 2, 
+                'user_id' => 1,
+                'customer_type_id' => 2,
                 'country_type_id' => $request->country_type,
                 'registered_time' => now(),
                 // 'password' => bcrypt($password), // Uncomment and modify if you plan to generate a password later
             ];
-    
+
             if ($request->country_type == 2) {
                 $customerData['country_id'] = $request->country_id;
             }
-    
+
             $customer = Customer::create($customerData);
 
             $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
             // Send OTP message
-            $this->sendMessage($formattedContact, $msg);
+            if ($request->country_type == 2) {
+                $this->sendWhatsappMessage($request->contact, $msg);
+            } else {
+                $this->sendMessage($formattedContact, $msg);
+            }
 
             return redirect()->back()->with([
                 'success' => 'Customer created successfully',
@@ -116,7 +121,11 @@ class CustomerController extends Controller
             $msg = "Your account has been verified.\nNow you can login RagamaGuru website using below details.\nMobile : " . $contact . "\nPassword : " . $password . "\nFrom RagamaGuru Office";
 
             // Send the message
-            //$this->sendMessage($formattedContact, $msg);              
+            if ($customer->country_type_id == 2) {
+                $this->sendWhatsappMessage($contact, $msg);
+            } else {
+                $this->sendMessage($formattedContact, $msg);
+            }             
 
             return redirect()->back()->with('success', 'Customer verified successfully.');
         } else {
@@ -145,7 +154,7 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
         $customerId = Customer::find($request->id);
-        if ($customerId) {      
+        if ($customerId) {
             $updatedData = $request->all();
             $customerId->update($updatedData);
             return redirect()->back()->with('success', 'Customer updated successfully.');
@@ -177,21 +186,25 @@ class CustomerController extends Controller
             ->first();
 
         if ($customer) {
-    
+
             $password = Str::random(8);
 
             $customer->isVerified = true;
             $customer->password = bcrypt($password);
             $customer->save();
 
-            $contact = $request->addedContact;        
+            $contact = $request->addedContact;
 
             $formattedContact = $this->formatContactNumber($request->addedContact);
 
             $msg = "Your account has been verified.\nNow you can login RagamaGuru website using below details.\nMobile : " . $contact . "\nPassword : " . $password . "\nFrom RagamaGuru Office";
 
             // Send the message
-            // $this->sendMessage($formattedContact, $msg);         
+            if ($customer->country_type_id == 2) {
+                $this->sendWhatsappMessage($contact, $msg);
+            } else {
+                $this->sendMessage($formattedContact, $msg);
+            }             
 
             notify()->success('Customer verified successfully. ⚡️', 'Success');
             return redirect()->route('customer.index');
@@ -215,13 +228,17 @@ class CustomerController extends Controller
 
         $otp = rand(100000, 999999);
 
-        $customer->otp = $otp;  
+        $customer->otp = $otp;
         $customer->save();
 
         $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
         // Send OTP message
-        // $this->sendMessage($formattedContact, $msg);
+        if ($customer->country_type_id == 2) {
+            $this->sendWhatsappMessage($customer->contact, $msg);
+        } else {
+            $this->sendMessage($formattedContact, $msg);
+        }
 
         return response()->json(['success' => 'OTP has been resent.']);
     }
@@ -245,7 +262,7 @@ class CustomerController extends Controller
                 'line2' => $validatedData['line2'],
                 'postal_code' => $validatedData['postal_code'],
                 'city' => $validatedData['city'],
-                'country' => $validatedData['country']  
+                'country' => $validatedData['country']
             ]);
         } else {
             DeliveryAddress::create([
@@ -253,12 +270,36 @@ class CustomerController extends Controller
                 'line1' => $validatedData['line1'],
                 'line2' => $validatedData['line2'],
                 'postal_code' => $validatedData['postal_code'],
-                'city' => $validatedData['city'], 
+                'city' => $validatedData['city'],
                 'country' => $validatedData['country']
             ]);
         }
 
         return redirect()->back()->with('success', 'Address updated successfully.');
+    }
+
+
+    public function sendWhatsappMessage($recipient, $message)
+    {
+        $url = "https://wbot.chatbiz.net/api/send";
+        $whatsappAccessToken = env('WHATSAPP_ACCESS_TOKEN');
+        $whatsappInstanceId = env('WHATSAPP_INSTANCE_ID');
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->post($url, [
+            'instance_id'  => $whatsappInstanceId,
+            'number'       => $recipient,
+            'type'         => 'text',
+            'message'      => $message,
+            'access_token' => $whatsappAccessToken,
+        ]);
+
+        if ($response->successful()) {
+           // echo "Message sent successfully!";
+        } else {
+           // echo "Failed to send message. Error: " . $response->body();
+        }
     }
 
 
@@ -295,7 +336,7 @@ class CustomerController extends Controller
 
     public function viewTreatmentHistory($id)
     {
-        
+
         $customer = Customer::with('customerType', 'countryType', 'country')->find($id);
         if ($customer) {
 
@@ -304,10 +345,10 @@ class CustomerController extends Controller
                 ->with('appointment')
                 ->get();
 
-            
+
             return view('customer.treatment_history', compact(
                 'customer',
-                'visitHistory', 
+                'visitHistory',
             ));
         }
 

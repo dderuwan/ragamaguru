@@ -110,7 +110,11 @@ class BookingController extends Controller
             $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
             // Send OTP message
-            //$this->sendMessage($formattedContact, $msg);
+            if ($customer->country_type_id == 2) {
+                $this->sendWhatsappMessage($customer->contact, $msg);
+            } else {
+                $this->sendMessage($formattedContact, $msg);
+            }
 
 
             return response()->json(['success' => true, 'otp' => $otp]);
@@ -204,7 +208,11 @@ class BookingController extends Controller
             $msg = "Booking Confirmation\nAppointment date: $ap_date\nAppointment number: $ap_number\nYou can get appointment number in reception on this date.\nThank You.\nFrom RagamaGuru Office";
 
             // Send appointment message
-            //$this->sendMessage($formattedContact, $msg);
+            if ($customer->country_type_id == 2) {
+                $this->sendWhatsappMessage($customer->contact, $msg);
+            } else {
+                $this->sendMessage($formattedContact, $msg);
+            }
 
             return response()->json(['success' => true]);
         } else {
@@ -240,7 +248,7 @@ class BookingController extends Controller
                 'apNumber' => $booking->apNumber->number,
                 'created_by' => $booking->created_by,
                 'customer_name' => $booking->customer->name ?? 'N/A',
-                'customer_id' => $booking->customer->id ?? 'N/A',         
+                'customer_id' => $booking->customer->id ?? 'N/A',
                 'contact' => $booking->customer->contact ?? 'N/A',
                 'added_date' => $booking->added_date,
                 'status' => $booking->status,
@@ -316,6 +324,29 @@ class BookingController extends Controller
         }
     }
 
+    public function sendWhatsappMessage($recipient, $message)
+    {
+        $url = "https://wbot.chatbiz.net/api/send";
+        $whatsappAccessToken = env('WHATSAPP_ACCESS_TOKEN');
+        $whatsappInstanceId = env('WHATSAPP_INSTANCE_ID');
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->post($url, [
+            'instance_id'  => $whatsappInstanceId,
+            'number'       => $recipient,
+            'type'         => 'text',
+            'message'      => $message,
+            'access_token' => $whatsappAccessToken,
+        ]);
+
+        if ($response->successful()) {
+           // echo "Message sent successfully!";
+        } else {
+           // echo "Failed to send message. Error: " . $response->body();
+        }
+    }
+
     public function cancel($id)
     {
         // Find the booking by ID
@@ -335,8 +366,13 @@ class BookingController extends Controller
         $formattedContact = $this->formatContactNumber($customer->contact);
 
         $msg = "Booking Cancelled\nAppointment date: $ap_date\nAppointment number: $apNumber\nThis booking was canceled due to some reason. Contact the company for further details.\nSorry for the inconvenience.\nFrom RagamaGuru Office";
-            // Send appointment message
-        //$this->sendMessage($formattedContact, $msg);
+        
+        // Send cancel message
+        if ($customer->country_type_id == 2) {
+            $this->sendWhatsappMessage($customer->contact, $msg);
+        } else {
+            $this->sendMessage($formattedContact, $msg);
+        }
 
         return response()->json([
             'message' => 'Booking canceled successfully!'

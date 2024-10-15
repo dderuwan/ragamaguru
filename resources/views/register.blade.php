@@ -90,20 +90,6 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="contact" class="form-label">Contact (Whatsapp Number)</label><i class="text-danger">*</i>
-                    <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter Contact Number" required>
-                    @error('contact')
-                    <p class="text-danger">Please enter a valid contact number</p>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="address" class="form-label">Address</label><i class="text-danger">*</i>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" required>
-                    @error('address')
-                    <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="mb-3">
                     <label class="form-label">Country Type</label><i class="text-danger">*</i>
                     <div>
                         <div class="form-check form-check-inline">
@@ -116,6 +102,20 @@
                         </div>
                     </div>
                     @error('country_type')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Contact<i class="text-danger">*</i> (If International, Add Whatsapp Number)</label>
+                    <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter Contact Number" required>
+                    @error('contact')
+                    <p class="text-danger">Please enter a valid contact number</p>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label><i class="text-danger">*</i>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" required>
+                    @error('address')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
