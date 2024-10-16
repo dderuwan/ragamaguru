@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'RagamaGuru')</title>
     <link rel="icon" href="{{ asset('images/logos/' . app(\App\Http\Controllers\CompanySettingController::class)->getCompanyLogo()) }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -30,6 +31,8 @@
     <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+    <!-- Include Flatpickr CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @include('includes.css')
 
     <style>
@@ -51,16 +54,9 @@
             text-align: center;
             color: white;
         }
-
-        .register-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
     </style>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body>
@@ -72,82 +68,84 @@
     <div class="hero1">
         <div class="hero-container">
             <div class="content1">
-                <h2 id="content-title">REGISTER</h2>
+                <h2 id="content-title">Appointments</h2>
             </div>
         </div>
     </div>
 
+
     <div class="container my-5">
-        <div class="register-form">
-            <h3 class="text-center mb-4">Register</h3>
-            <form method="POST" action="{{route('register.store')}}">
-                @csrf
-                <div class="mb-3">
-                    <label for="full_name" class="form-label">Full Name</label><i class="text-danger">*</i>
-                    <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter Full Name" required>
-                    @error('full_name')
-                    <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Country Type</label><i class="text-danger">*</i>
-                    <div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="country_type" id="local" value="1" required>
-                            <label class="form-check-label" for="local">Local</label>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-2 mb-5" id="booking-info-card" style="border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4 class="mb-0 text-white">Booking Information & Events</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="booking-info">
+                            <h5 class="text-secondary"><i class="fas fa-calendar-alt"></i> Booking Schedule</h5>
+                            <p class="lead font-weight-normal text-dark">
+                            {!! $bookingInfo->info_text ?? 'No booking information available.' !!}
+                            </p>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="country_type" id="international" value="2" required>
-                            <label class="form-check-label" for="international">International</label>
+                        <hr>
+
+                        <!-- Events Section -->
+                        <div class="event-info">
+                            <h5 class="text-secondary"><i class="fas fa-bell"></i> Upcoming Events</h5>
+                            @if($events->isNotEmpty()) 
+                            <ul class="list-unstyled mt-3">
+                                @foreach ($events as $event)
+                                <li class="media mb-3">
+                                    <div class="media-body">
+                                        <h6 class="mt-0 mb-1 font-weight-bold">{{ $event->name }}</h6>
+                                        <span class="text-muted">Date(s):
+                                            @php
+                                            $dates = json_decode($event->dates);
+                                            echo implode(', ', $dates);
+                                            @endphp
+                                        </span> <br />
+                                        <span class="text-muted">Time: {{ $event->start_time }} - {{ $event->end_time }} | Location: {{ $event->location }}</span>
+                                    </div>
+                                </li>
+                                @endforeach
+                            </ul>
+                            @else
+                            <p class="text-muted">No upcoming events available.</p>
+                            @endif
                         </div>
                     </div>
-                    @error('country_type')
-                    <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                    <div class="card-footer text-muted text-center">
+                        <a type="button" class="btn btn-sm btn-primary mb-2" href="{{route('cusAppointmentCreate')}}" id="bookNowBtn">Book Now >></a>
+                        <p class="mb-0">For more information, please contact our office at {{$companyDetail->contact ?? 'RagamaGuru Office'}}</p>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="contact" class="form-label">Contact<i class="text-danger">*</i> (If International, Add Whatsapp Number)</label>
-                    <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter Contact Number" required>
-                    @error('contact')
-                    <p class="text-danger">Please enter a valid contact number</p>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="address" class="form-label">Address</label><i class="text-danger">*</i>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" required>
-                    @error('address')
-                    <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label><i class="text-danger">*</i>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-                    @error('password')
-                    <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-            </form>
-            @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
             </div>
-            @endif
-            @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-            @endif
         </div>
+
+
+
+
+
+
     </div>
 
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
+
+
+
+
+
+
 
 
     <script src="assets/web/website_assets/plugins/bootstrap/js/popper.min.js"></script>
@@ -173,6 +171,9 @@
     <script src="assets/web/js/Food_cart/php-email-form/validate.js"></script>
     <script src="assets/web/js/Food_cart/main.js"></script>
 
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- sweetalert -->
 
     <script src="assets/sweetalert/sweetalert.min.js" type="text/javascript"></script>
@@ -184,15 +185,13 @@
     </script>
 
     <script src="assets/web/website_assets/js/loadMap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="assets/web/js/pagination.js"></script>
     @include('includes.script')
 
 
 
-    <script>
-
-    </script>
 
 
 

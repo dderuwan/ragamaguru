@@ -7,6 +7,7 @@ use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
 use App\Models\AppointmentType;
+use App\Models\BlockedDate;
 use App\Models\Bookings;
 use App\Models\Country;
 use App\Models\CountryType;
@@ -30,13 +31,41 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        return view('appointment.index');
+        $appointmentTypes = AppointmentType::all();
+        return view('appointment.index', compact('appointmentTypes'));
     }
+
+    public function getAppointmentsByTypeAndDate($type, $date)
+    {
+        $appointments = Appointments::whereDate('date', $date)
+            ->where('appointment_type_id', $type)  // Filter by type
+            // ->whereNotNull('visit_day')
+            ->with('customer', 'apNumber')
+            ->get();
+
+        return response()->json($appointments->map(function ($appointment) {
+            $customerTreat = CustomerTreatments::where('appointment_id', $appointment->id)->first();
+            $haveTreat = $customerTreat ? 'Done' : 'Pending';
+
+            return [
+                'id' => $appointment->id,
+                'ap_number' => $appointment->apNumber->number ?? 'N/A',
+                'customer_name' => $appointment->customer->name ?? 'N/A',
+                'contact' => $appointment->customer->contact ?? 'N/A',
+                'ap_type' => $appointment->appointmentType->type ?? 'N/A',
+                'visit_day' => $appointment->visit_day,
+                'haveTreat' => $haveTreat,
+                'status' => $appointment->status,
+            ];
+        }));
+    }
+
 
 
     public function getAppointmentsByDate($date)
     {
         $appointments = Appointments::whereDate('date', $date)
+            // ->whereNotNull('visit_day')   
             ->with('customer', 'apNumber')
             ->get();
 
@@ -52,8 +81,10 @@ class AppointmentsController extends Controller
                 'ap_number' => $appointment->apNumber->number ?? 'N/A',
                 'customer_name' => $appointment->customer->name ?? 'N/A',
                 'contact' => $appointment->customer->contact ?? 'N/A',
+                'ap_type' => $appointment->appointmentType->type ?? 'N/A',
                 'visit_day' => $appointment->visit_day,
                 'haveTreat' => $haveTreat,
+                'status' => $appointment->status,
             ];
         }));
     }
@@ -83,6 +114,8 @@ class AppointmentsController extends Controller
 
             $bookings = Appointments::where('customer_id', $customer->id)
                 ->whereDate('date', '>=', $today)
+                ->where('is_booking', 1)
+                ->where('status', 1)
                 ->get();
 
             $visitTypes = VisitType::all();
@@ -91,48 +124,28 @@ class AppointmentsController extends Controller
 
             $appointmentTypes = AppointmentType::all();
 
-            $lastVisitDay = null;
-            $firstVisit = null;
-            $secondVisit = null;
-            $thirdVisit = null;
-
-            if ($latestAppointment) {
-                $lastVisitDay = $latestAppointment->visit_day;
-                if ($lastVisitDay == '1') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Pending';
-                    $thirdVisit = 'Pending';
-                } else if ($lastVisitDay == '2') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Done';
-                    $thirdVisit = 'Pending';
-                } else if ($lastVisitDay == '3') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Done';
-                    $thirdVisit = 'Done';
-                } else if ($lastVisitDay == '4') {
-                    $firstVisit = 'Done';
-                    $secondVisit = 'Done';
-                    $thirdVisit = 'Done';
-                }
-            } else {
-                $firstVisit = 'Pending';
-                $secondVisit = 'Pending';
-                $thirdVisit = 'Pending';
-            }
-
             // Check the last row in the customer_treatments table
             $lastCustomerTreatment = CustomerTreatments::where('customer_id', $id)->latest()->first();
 
-            $paymentStatus = 'done';
+            $lastAppointment = null;
+            $lastVisitDay = null;
+            $lastVisitDate = null;
+
             $nextDay = null;
 
             if ($lastCustomerTreatment) {
                 $nextDay = $lastCustomerTreatment->next_day;
-                if ($lastVisitDay == '1') {
-                    if ($nextDay == null) {
+                $lastAppointmentId = $lastCustomerTreatment->appointment_id;
+                $lastAppointment = Appointments::where('id', $lastAppointmentId)->latest()->first();
+            }
+
+            $paymentStatus = 'done';
+
+            if ($lastCustomerTreatment) {
+                if ($lastCustomerTreatment->treatments !== null) {
+                    if ($lastCustomerTreatment->selected_treatments == null && $lastCustomerTreatment->due_amount == null) {
                         $paymentStatus = 'not paid';
-                    } else if ($nextDay != null && $lastCustomerTreatment->due_amount > 0.00) {
+                    } else if ($lastCustomerTreatment->due_amount > 0) {
                         $paymentStatus = 'due';
                     }
                 }
@@ -143,10 +156,7 @@ class AppointmentsController extends Controller
                 'appointment_numbers',
                 'today',
                 'todayAppointments',
-                'lastVisitDay',
-                'firstVisit',
-                'secondVisit',
-                'thirdVisit',
+                'lastAppointment',
                 'onlinebooking',
                 'customerType',
                 'countryType',
@@ -194,6 +204,13 @@ class AppointmentsController extends Controller
             return redirect()->back()->with('error', 'Invalid appointment number.');
         }
 
+        $appointmentDate = Carbon::parse($validated['today_date']);
+        $today = Carbon::today();
+
+        // Check if the appointment date is after today
+        $isBooking = ($appointmentDate->gt($today)) ? '1' : null; // Set is_booking = 1 if the appointment date is after today
+
+
         $appointmentId = DB::table('appointments')->insertGetId([
             'customer_id' => $validated['customer_id'],
             'date' => $validated['today_date'],
@@ -207,6 +224,8 @@ class AppointmentsController extends Controller
             'paid_amount' => $validated['paidAmount'],
             'due_amount' => $validated['dueAmount'],
             'payment_type_id' => $validated['paymentType'],
+            'is_booking' => $isBooking,
+            'status' => '1',
             'added_date' => now(),
             'created_at' => now(),
             'updated_at' => now(),
@@ -243,7 +262,7 @@ class AppointmentsController extends Controller
     public function cusAppointmentCreate()
     {
         //add user to session - id is 1
-        Session::put('user_id', 28); //testing purpose 
+        Session::put('user_id', 27); //testing purpose 
 
         $logged_user_id = Session::get('user_id');
 
@@ -261,7 +280,9 @@ class AppointmentsController extends Controller
             $appointmentTypes = AppointmentType::where('status', 1)->get();
             $paymentTypes = PaymentTypes::all();
 
-            return view('appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes'));
+            $blockedDates = BlockedDate::pluck('date')->toArray();
+
+            return view('appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes','blockedDates'));
         }
     }
 
@@ -284,11 +305,15 @@ class AppointmentsController extends Controller
         $appointments = Appointments::select('id', 'visit_day')->get();
         $customerTreatments = CustomerTreatments::select('next_day', 'appointment_id', 'customer_id')->get();
         $customers = Customer::select('id', 'contact')->get();
-        $bookings = Bookings::select('customer_id', 'booking_date')->get();
+        $bookings = Appointments::select('customer_id', 'date')
+            ->whereDate('date', '>=', Carbon::today())
+            ->where('is_booking', 1) // Add this line to filter by is_booking
+            ->get();
 
+        $firstVisitDates = [];
         $secondVisitDates = [];
         $thirdVisitDates = [];
-        $onlineBookings = [];
+        $apBookings = [];
 
         foreach ($customerTreatments as $treatment) {
             $appointment = $appointments->firstWhere('id', $treatment->appointment_id);
@@ -296,14 +321,20 @@ class AppointmentsController extends Controller
 
             if ($appointment && $customer) {
                 $contact = $customer->contact;
-                if ($appointment->visit_day == 1 && $treatment->next_day) {
+                if ($appointment->visit_day == '0' && $treatment->next_day) {
+                    $firstVisitDates[] = [
+                        'date' => $treatment->next_day,
+                        'title' => $contact,
+                        'color' => '#ffffb3'
+                    ];
+                } else if ($appointment->visit_day == '1' && $treatment->next_day) {
                     $secondVisitDates[] = [
                         'date' => $treatment->next_day,
                         'title' => $contact,
                         'color' => '#b3d9ff'
                     ];
-                } elseif ($appointment->visit_day == 2 && $treatment->next_day) {
-                    $thirdVisitDates[] = [
+                } elseif ($appointment->visit_day == '2' && $treatment->next_day) {
+                    $thirdVisitDates[] = [                
                         'date' => $treatment->next_day,
                         'title' => $contact,
                         'color' => '#99ffbb'
@@ -316,15 +347,15 @@ class AppointmentsController extends Controller
             $customer = $customers->firstWhere('id', $booking->customer_id);
             if ($customer) {
                 $contact = $customer->contact;
-                $onlineBookings[] = [
-                    'date' => $booking->booking_date,
+                $apBookings[] = [
+                    'date' => $booking->date,
                     'title' => $contact,
-                    'color' => '#ffccb3'
+                    'color' => '#ffccb3'         
                 ];
             }
         }
 
-        return view('appointment.calendar_schedule', compact('secondVisitDates', 'thirdVisitDates', 'onlineBookings'));
+        return view('appointment.calendar_schedule', compact('firstVisitDates', 'secondVisitDates', 'thirdVisitDates', 'apBookings'));
     }
 
 
@@ -338,39 +369,39 @@ class AppointmentsController extends Controller
     }
 
     public function addAppointment($id)
-{
-    // Get the request instance
-    $request = Request::instance();
+    {
+        // Get the request instance
+        $request = Request::instance();
 
-    // Create a validator instance with the request data
-    $validator = Validator::make($request->all(), [
-        'visit_type' => 'required|exists:visit_type,id',
-        'paidAmount' => 'required|numeric|min:0',
-        'paymentType' => 'required|exists:payment_types,id',
-    ]);
+        // Create a validator instance with the request data
+        $validator = Validator::make($request->all(), [
+            'visit_type' => 'required|exists:visit_type,id',
+            'paidAmount' => 'required|numeric|min:0',
+            'paymentType' => 'required|exists:payment_types,id',
+        ]);
 
-    // Check if validation fails
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
+        // Check if validation fails
+        if ($validator->fails()) {  
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $booking = Appointments::findOrFail($id);
+
+        $currentPaidAmount = $booking->paid_amount;
+
+        $newPaidAmount = $currentPaidAmount + $request->input('paidAmount');
+
+        $newDueAmount = $booking->total_amount - $newPaidAmount;
+
+        $booking->update([
+            'visit_day' => $request->input('visit_type'),
+            'paid_amount' => $newPaidAmount,
+            'due_amount' => $newDueAmount,
+            'payment_method' => 'Office',
+            'payment_type_id' => $request->input('paymentType'),
+        ]);
+
+        return redirect()->route('appointments.printPreview', ['appointmentId' => $id])
+            ->with('success', 'Appointment saved successfully.');
     }
-
-    $booking = Appointments::findOrFail($id);
-
-    $currentPaidAmount = $booking->paid_amount;
-
-    $newPaidAmount = $currentPaidAmount + $request->input('paidAmount');
-
-    $newDueAmount = $booking->total_amount - $newPaidAmount;
-
-    $booking->update([
-        'visit_type' => $request->input('visit_type'),
-        'paid_amount' => $newPaidAmount,
-        'due_amount' => $newDueAmount,
-        'payment_method' =>'Office',
-        'payment_type_id' => $request->input('paymentType'),
-    ]);
-
-    return redirect()->route('appointments.printPreview', ['appointmentId' => $id])
-        ->with('success', 'Appointment saved successfully.');
-}
 }

@@ -39,11 +39,11 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Appointment Type Settings</h2>
+                        <h2 class="page-title">Event Settings</h2>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="{{ route('apType.create') }}"><button type="button" class="btn btn-primary float-end">
-                                Add Type
+                        <a href="{{ route('event.create') }}"><button type="button" class="btn btn-primary float-end">
+                                Add Event
                             </button></a>
                     </div>
                 </div>
@@ -70,39 +70,50 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
-                                            <th style="color: black;">Type</th>
-                                            <th style="color: black;">Price</th>
-                                            <th style="color: black;">For Whom</th>
+                                            <th style="color: black;">Name</th>
+                                            <th style="color: black;">Location</th>
+                                            <th style="color: black;">Time</th>
+                                            <th style="color: black;">Dates</th>
                                             <th style="color: black;">Status</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($type_list as $index => $type)
+                                        @foreach ($event_list as $index => $event)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $type->type }}</td>
-                                            <td>{{ $type->price }}</td>
-                                            <td>{{ $type->for_whom }}</td>
+                                            <td>{{ $event->name }}</td>
+                                            <td>{{ $event->location }}</td>
+                                            <td>{{ $event->start_time }} - {{ $event->end_time }}</td>
                                             <td>
-                                            @if ($type->status==1)
-                                            Active
-                                            @endif
-                                            @if ($type->status==0)
-                                            Inactive
-                                            @endif
+                                                @php
+                                                $datesArray = json_decode($event->dates, true);
+                                                $individualDates = isset($datesArray[0]) ? explode(',', $datesArray[0]) : [];
+                                                @endphp
+
+                                                @foreach($individualDates as $date)
+                                                {{ trim($date) }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @if ($event->status==1)
+                                                Active
+                                                @endif
+                                                @if ($event->status==0)
+                                                Inactive
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('apType.edit', $type->id) }}" class="action-icon edit-icon" title="Edit">
+                                                    <a href="{{ route('event.edit', $event->id) }}" class="action-icon edit-icon" title="Edit">
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
 
-                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $type->id }}')" title="Delete">
+                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $event->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
 
-                                                    <form id="delete-form-{{ $type->id }}" action="{{ route('apType.destroy', $type->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $event->id }}" action="{{ route('event.destroy', $event->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -133,7 +144,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this type?
+                    Are you sure you want to delete this event?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -148,8 +159,8 @@
 
 @section('scripts')
 <script>
-    function confirmDelete(typeId) {
-        const deleteForm = document.getElementById('delete-form-' + typeId);
+    function confirmDelete(eventId) {
+        const deleteForm = document.getElementById('delete-form-' + eventId);
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
         //$('#deleteModal').modal('show');

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointments;
+use App\Models\BookingInfo;
 use App\Models\Bookings;
 use App\Models\CompanyDetails;
 use App\Models\Country;
 use App\Models\Customer;
+use App\Models\Event;
 use App\Models\Item;
 use App\Models\OfferItems;
 use App\Models\Order;
@@ -59,7 +62,7 @@ class HomeController extends Controller
             ->join('item', 'offer_item.item_id', '=', 'item.id')
             ->select('offer_item.*', 'item.*',)
             ->where('offer_item.month', $currentMonth)
-            ->where('offer_item.status', 'active')
+            ->where('offer_item.status', 'active')                  
             ->get();
 
         $companyDetails = CompanyDetails::first();
@@ -79,7 +82,7 @@ class HomeController extends Controller
         $item_list = Item::leftJoin('offer_item', function ($join) use ($currentMonth) {
             $join->on('item.id', '=', 'offer_item.item_id')
                 ->where('offer_item.month', '=', $currentMonth)
-                ->where('offer_item.status', '=', 'active');
+                ->where('offer_item.status', '=', 'active');            
         })
             ->select('item.*', 'offer_item.offer_rate', 'offer_item.offer_price', 'offer_item.normal_price')
             ->get();
@@ -91,22 +94,28 @@ class HomeController extends Controller
     public function goToProfile()
     {
         //add user to session - id is 1
-        Session::put('user_id', 28); //testing purpose 
+        Session::put('user_id', 27); //testing purpose  
 
         $logged_user_id = Session::get('user_id');
         if (empty($logged_user_id)) {
             return redirect()->back()->with('error', 'Please Login first');
         } else {
             $customer = Customer::with('customerType', 'countryType', 'country')->find($logged_user_id);
-
+      
             if ($customer) {
                 $countries = Country::all();
-                $booking = Bookings::where('customer_id', $customer->id)->latest()->first();
                 $orders = Order::where('customer_code', $customer->id)
                     ->where('order_type', 'Online')
                     ->with('orderStatus')
                     ->get();
-                return view('profile', compact('customer', 'booking', 'orders', 'countries'));
+
+                $today = Carbon::today();
+
+                $bookings = Appointments::where('customer_id', $customer->id)
+                    ->whereDate('date', '>=', $today)
+                    ->get();
+
+                return view('profile', compact('customer', 'bookings', 'orders', 'countries'));
             }
         }
     }
@@ -126,7 +135,7 @@ class HomeController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'address' => 'required|string|max:255',
-                'country_id' => 'nullable',
+                'country_id' => 'nullable',                        
             ]);
 
             $customer->update($validated);
@@ -136,4 +145,15 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'User not found');
         }
     }
+
+
+    public function bookingInfo(){
+        $events = Event::where('status', true)->get();
+        $bookingInfo = BookingInfo::first();
+        $companyDetail = CompanyDetails::first();
+
+        return view('booking_info',compact('events','bookingInfo','companyDetail'));
+    }
+
+
 }

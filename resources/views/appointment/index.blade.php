@@ -2,26 +2,7 @@
 
 @section('content')
 <style>
-    .fc-event-custom.event {
-        background-color: #27E151;
-        border-color: #27E151;
-    }
-
-    .fc-time {
-        padding: 0 0 0 2px;
-        font-size: 12px;
-    }
-
-    .fc-title {
-        display: block;
-        padding: 0 0 0 2px;
-        font-size: 12px;
-    }
-
-    .fc td,
-    .fc th {
-        border-left: 1px solid #ddd !important;
-    }
+    /* Your styles */
 </style>
 
 <div class="wrapper">
@@ -35,17 +16,25 @@
                         </div>
                         <div class="col-auto">
                             <a href="{{route('showCalendarSchedule')}}"><button type="button" class="btn btn-primary">
-                            <i class="fa-regular fa-calendar-days"></i></button></a>
+                                    <i class="fa-regular fa-calendar-days"></i></button></a>
                         </div>
                         <div class="col-auto">
                             <a href="{{route('customer.index')}}"><button type="button" class="btn btn-primary">
-                            <i class="fe fe-user fe-16"></i></button></a>
+                                    <i class="fe fe-user fe-16"></i></button></a>
                         </div>
-                        <!-- <div class="col-auto">
-                            <a href=""><button type="button" class="btn btn-primary" data-toggle="modal">
-                                    Online Bookings</button></a>
-                        </div> -->
                     </div>
+
+                    <!-- Appointment Type Tabs -->
+                    <ul class="nav nav-tabs mb-3" id="appointmentTypeTabs" role="tablist">
+                        @foreach($appointmentTypes as $index => $type)
+                        <li class="nav-item">
+                            <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="type-{{$type->id}}-tab"
+                               data-toggle="tab" href="#type-{{$type->id}}" role="tab" aria-controls="type-{{$type->id}}"
+                               aria-selected="{{ $loop->first ? 'true' : 'false' }}"
+                               onclick="loadAppointments({{ $type->id }})">{{ $type->type }}</a>
+                        </li>
+                        @endforeach
+                    </ul>
 
                     <div class="row my-4">
                         <!-- Small table -->
@@ -53,27 +42,30 @@
                             <div class="card shadow">
                                 <div class="card-body">
                                     <label>Select Date:</label>
-                                    <input type="date" class="form-control mb-3 col-md-6" id="appointmentDate" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="loadAppointments()">
+                                    <input type="date" class="form-control mb-3 col-md-6" id="appointmentDate"
+                                           value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
+                                           onchange="loadAppointments(selectedType)">
 
                                     <!-- table -->
-                                    <table class="table " id="">
+                                    <table class="table" id="">
                                         <thead>
                                             <tr>
-                                                <th style="color: black;">#</th>
-                                                <th style="color: black;">Appointment Number</th>
-                                                <th style="color: black;">Customer Name</th>
-                                                <th style="color: black;">Contact Number</th>
-                                                <th style="color: black;">Visit Day</th>
-                                                <th style="color: black;">Treatment</th>
-                                                <th class="text-center" style="color: black;">Action</th>
+                                                <th>#</th>
+                                                <th>Appointment Number</th>
+                                                <th>Customer Name</th>
+                                                <th>Contact Number</th>
+                                                <th>Visit Day</th>
+                                                <th>Status</th>
+                                                <th>Treatment</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="appointmentsBody">
-
+                                            <!-- Appointments will be loaded here -->
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            </div>   
                         </div>
                     </div>
 
@@ -86,13 +78,24 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        loadAppointments();
+    let selectedType = null; // Default type will be set dynamically
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the first tab's ID dynamically from the appointment types list
+        const firstTypeTab = document.querySelector('#appointmentTypeTabs .nav-link');
+        if (firstTypeTab) {
+            const firstTypeId = firstTypeTab.getAttribute('onclick').match(/\d+/)[0];
+            selectedType = firstTypeId;
+            loadAppointments(selectedType); // Load default type on page load
+        }
     });
 
-    function loadAppointments() {
+    function loadAppointments(type) {
+        selectedType = type;
         const date = document.getElementById('appointmentDate').value;
-        const url = `{{ route('appointments.date', ':date') }}`.replace(':date', date);
+        const url = `{{ route('appointments.byTypeAndDate', ['type' => ':type', 'date' => ':date']) }}`
+            .replace(':type', type)
+            .replace(':date', date);
 
         fetch(url)
             .then(response => response.json())
@@ -101,9 +104,11 @@
                 appointmentsBody.innerHTML = '';
 
                 data.forEach((appointment, index) => {
-                    let appointmentID = appointment.id;
                     let visitDayText = '';
                     switch (appointment.visit_day) {
+                        case '0':
+                            visitDayText = 'Checking Visit';
+                            break;
                         case '1':
                             visitDayText = 'First Visit';
                             break;
@@ -114,7 +119,7 @@
                             visitDayText = 'Third Visit';
                             break;
                         default:
-                            visitDayText = 'Other Visit';
+                            visitDayText = 'Not Defined';
                             break;
                     }
 
@@ -125,6 +130,7 @@
                                 <td>${appointment.customer_name}</td>
                                 <td>${appointment.contact}</td>
                                 <td>${visitDayText}</td>
+                                <td>${appointment.status == 0 ? 'Canceled' : 'Active'}</td> 
                                 <td>${appointment.haveTreat}</td>
                                 <td>
                                     <div class="action-icons">
@@ -133,6 +139,7 @@
                                         <a href="{{ route('viewCustomerTreat', '') }}/${appointment.id}" class="btn btn-warning">
                                             <i class="fe fe-eye fe-16"></i>
                                         </a>` : ''}
+                                        <!-- .<a href="{{ route('appointments.printPreview', '') }}/${appointment.id}" class="btn btn-info"><i class="fa fa-print fe-16"></i></i></a> -->   
                                         <button class="btn btn-danger action-icon delete-icon" onclick="confirmDelete(${appointment.id})" title="Delete">
                                             <i class="fe fe-trash-2"></i>
                                         </button>
@@ -150,8 +157,6 @@
             .catch(error => console.error('Error fetching appointments:', error));
     }
 
-
-
     function confirmDelete(appointmentId) {
         Swal.fire({
             title: 'Are you sure?',
@@ -163,7 +168,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById(`delete-form-${appointmentId}`).submit();
+                document.getElementById(`delete-form-${appointmentId}`).submit(); 
             }
         });
     }

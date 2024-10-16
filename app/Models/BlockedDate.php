@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AppointmentType extends Model
+class BlockedDate extends Model
 {
     use HasFactory;
-    protected $table = 'appointment_type';
+
+    protected $table = 'blocked_dates';
 
     protected $fillable = [
-        'type','price','for_whom','status', 
+        'date', 
     ];
 }

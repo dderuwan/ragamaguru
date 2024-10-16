@@ -187,6 +187,15 @@
             <a class="nav-link pl-3" href="{{route('apType.index')}}"><span class="ml-1 item-text">Appointment Type</span></a>
           </li>
           <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('blockDates.index')}}"><span class="ml-1 item-text">Block Dates</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('event.create')}}"><span class="ml-1 item-text">Events</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('addBookingInfo')}}"><span class="ml-1 item-text">Booking-info</span></a>
+          </li>
+          <li class="nav-item active">
             <a class="nav-link pl-3" href="{{route('user.index')}}"><span class="ml-1 item-text">Add User</span></a>
           </li>
           <li class="nav-item active">
@@ -261,6 +270,22 @@
 
             <a href="{{route('orderreport')}}" class="sidebar_text text-decoration-none">
               <span class="ml-3 item-text">Sales Report</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
+            <a href="{{route('appointmentsReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Appointments Report</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
+            <a href="{{route('cusTreatmentsReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Customer Treatments Report</span><span class="sr-only">(current)</span>
             </a>
 
           </li>

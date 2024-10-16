@@ -25,6 +25,8 @@ class Appointments extends Pivot
         'payment_method',
         'payment_type_id',
         'added_date',
+        'is_booking',
+        'status',
     ];
 
     public function customer()
@@ -40,5 +42,10 @@ class Appointments extends Pivot
     public function appointmentType()
     {
         return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
+    }
+
+    public function visitDay()
+    {
+        return $this->belongsTo(VisitType::class, 'visit_day');
     }
 }

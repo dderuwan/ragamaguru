@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApNumbers;
 use App\Models\Appointments;
 use App\Models\AppointmentType;
 use App\Models\Bookings;
@@ -48,6 +49,7 @@ class BookingController extends Controller
         $bookingCount = DB::table('appointments')
             ->whereDate('date', $bookingDate->format('Y-m-d'))
             ->where('created_by', 'Online')
+            ->where('status', 1)
             ->count();
 
         $maxBookingCount = 5;
@@ -78,14 +80,14 @@ class BookingController extends Controller
             ->pluck('ap_numbers_id');
 
         $availableApNumber = DB::table('ap_numbers')
-            ->whereNotIn('id', $bookedApNumbers)  
+            ->whereNotIn('id', $bookedApNumbers)
             ->first();
 
         if ($availableApNumber) {
             return response()->json([
                 'success' => true,
                 'ap_number' => $availableApNumber->number,
-                'ap_number_id' => $availableApNumber->id  
+                'ap_number_id' => $availableApNumber->id
             ]);
         } else {
             return response()->json([
@@ -108,7 +110,11 @@ class BookingController extends Controller
             $msg = "Mobile number verification\nYour OTP code is: $otp\nFrom RagamaGuru Office";
 
             // Send OTP message
-            //$this->sendMessage($formattedContact, $msg);
+            if ($customer->country_type_id == 2) {
+                $this->sendWhatsappMessage($customer->contact, $msg);
+            } else {
+                $this->sendMessage($formattedContact, $msg);
+            }
 
 
             return response()->json(['success' => true, 'otp' => $otp]);
@@ -148,7 +154,7 @@ class BookingController extends Controller
 
 
     public function store(Request $request)
-    {        
+    {
         //Log::info($request->all());
 
         $validated = $request->validate([
@@ -170,8 +176,8 @@ class BookingController extends Controller
             }
 
             $apType = DB::table('appointment_type')
-            ->where('id', $validated['booking_type'])  
-            ->first();
+                ->where('id', $validated['booking_type'])
+                ->first();
 
             $appointments = new Appointments();
             $appointments->customer_id = $validated['customer_id'];
@@ -179,7 +185,9 @@ class BookingController extends Controller
             $appointments->date = $validated['booking_date'];
             $appointments->appointment_type_id = $validated['booking_type'];
             $appointments->created_by = 'Online';
-            $appointments->created_user_id = 1;
+            // $appointments->created_user_id = 1;
+            $appointments->is_booking = '1';
+            $appointments->status = '1';
             $appointments->total_amount = $apType->price;
             $appointments->paid_amount = 0;
             $appointments->due_amount = $apType->price;
@@ -190,8 +198,8 @@ class BookingController extends Controller
             $ap_date = $validated['booking_date'];
 
             $ap_numbers = DB::table('ap_numbers')
-            ->where('id', $validated['ap_number_id'])  
-            ->first();
+                ->where('id', $validated['ap_number_id'])
+                ->first();
 
             $ap_number = $ap_numbers->number;
 
@@ -200,7 +208,11 @@ class BookingController extends Controller
             $msg = "Booking Confirmation\nAppointment date: $ap_date\nAppointment number: $ap_number\nYou can get appointment number in reception on this date.\nThank You.\nFrom RagamaGuru Office";
 
             // Send appointment message
-            // $this->sendMessage($formattedContact, $msg);
+            if ($customer->country_type_id == 2) {
+                $this->sendWhatsappMessage($customer->contact, $msg);
+            } else {
+                $this->sendMessage($formattedContact, $msg);
+            }
 
             return response()->json(['success' => true]);
         } else {
@@ -221,7 +233,8 @@ class BookingController extends Controller
 
     public function getLocalBookingsByDate($date)
     {
-        $bookings = Bookings::whereDate('booking_date', $date)
+        $bookings = Appointments::whereDate('date', $date)
+            ->where('is_booking', 1)
             ->whereHas('customer', function ($query) {
                 $query->where('country_type_id', 1);
             })
@@ -231,16 +244,22 @@ class BookingController extends Controller
         return response()->json($bookings->map(function ($booking) {
             return [
                 'id' => $booking->id,
+                'date' => $booking->date,
+                'apNumber' => $booking->apNumber->number,
+                'created_by' => $booking->created_by,
                 'customer_name' => $booking->customer->name ?? 'N/A',
+                'customer_id' => $booking->customer->id ?? 'N/A',
                 'contact' => $booking->customer->contact ?? 'N/A',
                 'added_date' => $booking->added_date,
+                'status' => $booking->status,
             ];
         }));
     }
 
     public function getIntBookingsByDate($date)
     {
-        $bookings = Bookings::whereDate('booking_date', $date)
+        $bookings = Appointments::whereDate('date', $date)
+            ->where('is_booking', 1)
             ->whereHas('customer', function ($query) {
                 $query->where('country_type_id', 2);
             })
@@ -249,18 +268,29 @@ class BookingController extends Controller
 
         return response()->json($bookings->map(function ($booking) use ($date) {
 
-            $hasAppointment = $booking->customer->appointments()
-                ->whereDate('date', $date)
-                ->exists();
+            // $hasAppointment = $booking->customer->appointments()
+            //     ->whereDate('date', $date)
+            //     ->exists();
+            $countryId = $booking->customer->country_id;
+            $response = Http::get("https://restcountries.com/v3.1/alpha/{$countryId}");
 
+            $countryName = null;
+            if ($response->successful()) {
+                $countryData = $response->json();
+                $countryName = $countryData[0]['name']['common'];
+            }
             return [
                 'id' => $booking->id,
+                'date' => $booking->date ?? 'N/A',
+                'ap_number' => $booking->apNumber->number,
+                'created_by' => $booking->created_by,
                 'customer_name' => $booking->customer->name ?? 'N/A',
                 'customer_id' => $booking->customer->id ?? 'N/A',
                 'contact' => $booking->customer->contact ?? 'N/A',
-                'country' => $booking->customer->country->name ?? 'N/A',
-                'appointment_status' => $hasAppointment ? 'Done' : 'Pending',
+                'country' => $countryName ?? 'N/A',
+                // 'appointment_status' => $hasAppointment ? 'Done' : 'Pending',
                 'added_date' => $booking->added_date,
+                'status' => $booking->status,
             ];
         }));
     }
@@ -292,5 +322,60 @@ class BookingController extends Controller
             $error = $response->json();
             //Log::error('SMS sending failed:', $error);
         }
+    }
+
+    public function sendWhatsappMessage($recipient, $message)
+    {
+        $url = "https://wbot.chatbiz.net/api/send";
+        $whatsappAccessToken = env('WHATSAPP_ACCESS_TOKEN');
+        $whatsappInstanceId = env('WHATSAPP_INSTANCE_ID');
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->post($url, [
+            'instance_id'  => $whatsappInstanceId,
+            'number'       => $recipient,
+            'type'         => 'text',
+            'message'      => $message,
+            'access_token' => $whatsappAccessToken,
+        ]);
+
+        if ($response->successful()) {
+           // echo "Message sent successfully!";
+        } else {
+           // echo "Failed to send message. Error: " . $response->body();
+        }
+    }
+
+    public function cancel($id)
+    {
+        // Find the booking by ID
+        $appointment = Appointments::findOrFail($id);
+
+        // Update status to 0 (canceled)
+        $appointment->status = 0;
+        $appointment->save();
+
+        $ap_date = $appointment->date;
+
+        $ap_number = ApNumbers::findOrFail($appointment->ap_numbers_id);
+        $apNumber = $ap_number->number;
+
+        $customer = Customer::findOrFail($appointment->customer_id);
+
+        $formattedContact = $this->formatContactNumber($customer->contact);
+
+        $msg = "Booking Cancelled\nAppointment date: $ap_date\nAppointment number: $apNumber\nThis booking was canceled due to some reason. Contact the company for further details.\nSorry for the inconvenience.\nFrom RagamaGuru Office";
+        
+        // Send cancel message
+        if ($customer->country_type_id == 2) {
+            $this->sendWhatsappMessage($customer->contact, $msg);
+        } else {
+            $this->sendMessage($formattedContact, $msg);
+        }
+
+        return response()->json([
+            'message' => 'Booking canceled successfully!'
+        ]);
     }
 }

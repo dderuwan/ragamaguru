@@ -212,9 +212,53 @@
                                 <h5 style="color:white;">Booking Details</h5>
                             </div>
                             <div class="card-body">
-                                <h6 class="font-weight-bold">Booked Date:</h6>
-                                @if ($booking)
-                                <p>{{$booking->booking_date}}</p>
+                                @if ($bookings && $bookings->count() > 0)
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="">
+                                            <tr>
+                                                <th>Booked Date</th>
+                                                <th>Appointment Number</th>
+                                                <th>Appointment Type</th>
+                                                <th>Created By</th>
+                                                <th>Total Amount (LKR)</th>
+                                                <th>Paid Amount (LKR)</th>
+                                                <th>Due Amount (LKR)</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($bookings as $booking)
+                                            <tr>
+                                                <!-- Booked Date -->
+                                                <td>{{ \Carbon\Carbon::parse($booking->date)->format('M d, Y') }}</td>
+
+                                                <!-- Appointment Number -->
+                                                <td>{{ $booking->apNumber->number }}</td>
+
+                                                <!-- Appointment Type and Price -->
+                                                <td>
+                                                    {{ $booking->appointmentType->type }} (LKR {{ number_format($booking->appointmentType->price, 2) }})
+                                                </td>
+
+                                                <!-- Created By -->
+                                                <td>{{ $booking->created_by }}</td>
+
+                                                <!-- Total Amount -->
+                                                <td>{{ number_format($booking->total_amount, 2) }}</td>
+
+                                                <!-- Paid Amount -->
+                                                <td>{{ number_format($booking->paid_amount, 2) }}</td>
+
+                                                <!-- Due Amount -->
+                                                <td>{{ number_format($booking->due_amount, 2) }}</td>
+                                            
+                                                <td>{{$booking->status == 0 ? 'Canceled' : 'Active'}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                                 @else
                                 <p>You haven't booked a date yet. Go To <a href="{{route('cusAppointmentCreate')}}">Appointments</a> to book a date</p>
                                 @endif
@@ -310,8 +354,8 @@
                         <div class="form-group">
                             <label for="country">Country</label>
                             <select class="form-control" id="country" name="country_id">
-                            <option value="" disabled selected>Select your country</option> 
-                            <!-- Add options dynamically here -->
+                                <option value="" disabled selected>Select your country</option>
+                                <!-- Add options dynamically here -->
                             </select>
                             @error('country_id')
                             <p class="text-danger">{{ $message }}</p>
@@ -502,38 +546,34 @@
         });
     </script>
 
-<script>
-    
+    <script>
+        $(document).ready(function() {
+            var savedCountryId = "{{ $customer->country_id ?? '' }}"; // The saved country ID from the database
 
-    $(document).ready(function() {
-      var savedCountryId = "{{ $customer->country_id ?? '' }}"; // The saved country ID from the database
+            $.ajax({
+                url: 'https://restcountries.com/v3.1/all',
+                method: 'GET',
+                success: function(data) {
+                    var countrySelect = $('#country');
 
-      $.ajax({
-        url: 'https://restcountries.com/v3.1/all',
-        method: 'GET',
-        success: function(data) {
-          var countrySelect = $('#country');
+                    data.sort(function(a, b) {
+                        return a.name.common.localeCompare(b.name.common);
+                    });
 
-          data.sort(function(a, b) {
-            return a.name.common.localeCompare(b.name.common);
-          });
+                    data.forEach(function(country) {
+                        countrySelect.append('<option value="' + country.cca2 + '">' + country.name.common + '</option>');
+                    });
 
-          data.forEach(function(country) {
-            countrySelect.append('<option value="' + country.cca2 + '">' + country.name.common + '</option>');
-          });
-
-          if (savedCountryId) {
-            countrySelect.val(savedCountryId); 
-          }
-        },
-        error: function(error) {
-          console.log("Error fetching country data: ", error);
-        }
-      });
-    });
-
-
-  </script>
+                    if (savedCountryId) {
+                        countrySelect.val(savedCountryId);
+                    }
+                },
+                error: function(error) {
+                    console.log("Error fetching country data: ", error);
+                }
+            });
+        });
+    </script>
 
 
 

@@ -36,6 +36,7 @@
                                             <th>Reg. Type</th>
                                             <th>Country Type</th>
                                             <th>Verify</th>
+                                            <th>AP</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -62,7 +63,10 @@
                                             <td><span class="fe fe-15 fe-x"></span></td>
                                             @endif
                                             <td>
-                                                <button class="btn btn-info fe fe-24 fe-edit more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <a href="{{ route('appointments.create',$customer->id) }}" class="btn btn-sm btn-primary" type="button"><i class="fa-regular fa-calendar-check"></i></a>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-info btn-sm fe fe-24 fe-edit more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="text-muted sr-only">Action</span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">

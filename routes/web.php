@@ -2,8 +2,11 @@
 use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\AppointmentSettingsController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BlockedDateController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\GinController;
 use App\Http\Controllers\OfferItemsController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\SupplierController;
@@ -136,7 +139,8 @@ Route::get('/viewcustomertreat/{id}', [App\Http\Controllers\TreatmentController:
 Route::post('/savetreatpayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveTreatPayment'])->name('saveTreatPayment');
 Route::get('/viewduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'viewDuePayment'])->name('viewDuePayment');
 Route::post('/saveduepayment/{id}', [App\Http\Controllers\TreatmentController::class, 'saveDuePayment'])->name('saveDuePayment');
-
+Route::put('/treatments/update-next-day/{id}', [App\Http\Controllers\TreatmentController::class, 'updateNextDay'])->name('updateNextDay');
+Route::get('/treatments/print-preview/{cusTreatId}', [App\Http\Controllers\TreatmentController::class, 'printPreview'])->name('treatments.printPreview');
 
 //employee module
 Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
@@ -195,20 +199,25 @@ Route::get('/appointments/add/{id}', [AppointmentsController::class, 'create'])-
 Route::post('/appointments/save', [AppointmentsController::class, 'store'])->name('appointments.store');
 Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
 Route::get('/appointments/date/{date}', [AppointmentsController::class, 'getAppointmentsByDate'])->name('appointments.date');
-Route::get('appointments/print-preview/{appointmentId}', [AppointmentsController::class, 'printPreview'])->name('appointments.printPreview');
+Route::get('/appointments/print-preview/{appointmentId}', [AppointmentsController::class, 'printPreview'])->name('appointments.printPreview');
 Route::delete('/appointments/{id}', [AppointmentsController::class, 'destroy'])->name('appointments.destroy');
 Route::get('/showcalendarschedule', [AppointmentsController::class, 'showCalendarSchedule'])->name('showCalendarSchedule');
 Route::get('/calendar-events', [AppointmentsController::class, 'getCalendarEvents'])->name('calendar.events');
 Route::post('/check-appointments', [AppointmentsController::class, 'checkAppointments'])->name('checkAppointments');
 Route::get('/viewbooking/{id}', [AppointmentsController::class, 'viewBooking'])->name('viewBooking');
 Route::post('/add-appointment/{id}', [AppointmentsController::class, 'addAppointment'])->name('addAppointment');
+Route::get('appointments/{type}/{date}', [AppointmentsController::class, 'getAppointmentsByTypeAndDate'])->name('appointments.byTypeAndDate');
+
 
 Route::get('/localbookings', [BookingController::class, 'indexLocal'])->name('bookings.indexLocal');
 Route::get('/inbookings', [BookingController::class, 'indexInternational'])->name('bookings.indexInternational');
 Route::get('/localbookings/date/{date}', [BookingController::class, 'getLocalBookingsByDate'])->name('localbookings.date');
 Route::get('/intbookings/date/{date}', [BookingController::class, 'getIntBookingsByDate'])->name('intbookings.date');
+Route::post('/bookings/cancel/{id}', [BookingController::class, 'cancel'])->name('bookings.cancel');
+
 
 // website appointment
+Route::get('/booking-info', [HomeController::class, 'bookingInfo'])->name('bookingInfo');
 Route::get('/customerappointments', [AppointmentsController::class, 'cusAppointmentCreate'])->name('cusAppointmentCreate');
 Route::post('/check-date', [BookingController::class, 'checkDate'])->name('checkDate');
 Route::post('/generate-otp', [BookingController::class, 'generateOtp'])->name('generate.otp');
@@ -230,6 +239,23 @@ Route::delete('/appointment-type/{id}', [AppointmentSettingsController::class, '
 Route::post('/store-appointment-type', [AppointmentSettingsController::class, 'store'])->name('apType.store');
 Route::get('/appointment-settings/edit/{id}', [AppointmentSettingsController::class, 'edit'])->name('apType.edit');
 Route::put('/store-appointment-type/update/{id}', [AppointmentSettingsController::class, 'update'])->name('apType.update');
+
+Route::get('/settings/add-booking-info', [AppointmentSettingsController::class, 'addBookingInfo'])->name('addBookingInfo');
+Route::post('/settings/save-booking-info', [AppointmentSettingsController::class, 'saveBookingInfo'])->name('saveBookingInfo');
+
+// block dates
+Route::get('/block-dates', [BlockedDateController::class, 'index'])->name('blockDates.index');
+Route::post('/admin/blocked-dates/block', [BlockedDateController::class, 'blockDate'])->name('admin.blocked_dates.block');
+Route::post('/admin/blocked-dates/unblock', [BlockedDateController::class, 'unblockDate'])->name('admin.blocked_dates.unblock');
+
+// event settings
+Route::get('/newevent/show', [EventController::class, 'index'])->name('event.index');
+Route::get('/newevent/create', [EventController::class, 'create'])->name('event.create');
+Route::post('/newevent/store', [EventController::class, 'store'])->name('event.store');
+Route::delete('/newevent/delete/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+Route::get('/newevent/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
+Route::post('/newevent/update/{id}', [EventController::class, 'update'])->name('event.update');
+
 
 //users
 Route::resource('users', UserController::class);
@@ -333,6 +359,8 @@ Route::delete('/customerdestroy/{id}', [App\Http\Controllers\ReportController::c
 Route::delete('/supplierdestroy/{id}',[App\Http\Controllers\ReportController::class,'supplierdestroy'])->name('supplierdestroy');
 Route::delete('/gindestroy/{id}', [App\Http\Controllers\ReportController::class, 'gindestroy'])->name('gindestroy');
 Route::delete('/purchaseorderdestroy/{id}', [App\Http\Controllers\ReportController::class, 'purchaseorderdestroy'])->name('purchaseorderdestroy');
+Route::get('/custreatmentsreport', [App\Http\Controllers\ReportController::class, 'cusTreatmentsReport'])->name('cusTreatmentsReport');
+Route::get('/appointmentsreport', [App\Http\Controllers\ReportController::class, 'appointmentsReport'])->name('appointmentsReport');
 
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);

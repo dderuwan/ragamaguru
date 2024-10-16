@@ -31,6 +31,8 @@
   <link href="assets/web/css/foodcart/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/web/css/foodcart/main.css" rel="stylesheet">
+  <!-- Include Flatpickr CSS and JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   @include('includes.css')
 
   <style>
@@ -53,6 +55,8 @@
       color: white;
     }
   </style>
+  <!-- Add Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body>
@@ -69,140 +73,145 @@
     </div>
   </div>
 
-  <!-- Booking Step by Step Process -->
+
   <div class="container my-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="progress">
-          <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+
+
+    <div id="booking-card" >
+
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="progress">
+            <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
         </div>
       </div>
-    </div>
 
 
-    <!-- Step 1: Personal Details (Card Layout) -->
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card mt-4" id="step1">
-          <div class="card-body">
-            <h4 class="card-title">Step 1: Personal Details</h4>
-            <form id="personalDetailsForm">
+      <!-- Step 1: Personal Details (Card Layout) -->
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card mt-4" id="step1">
+            <div class="card-body">
+              <h4 class="card-title ">Step 1: Personal Details</h4>
+              <form id="personalDetailsForm">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Name<i class="text-danger">*</i></label>
+                    <input type="text" class="form-control" id="name" value="{{$customer->name}}" disabled required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="contact" class="form-label">Contact<i class="text-danger">*</i></label>
+                    <input type="text" class="form-control" id="contact" value="{{$customer->contact}}" required disabled>
+                  </div>
+                  <div class="{{ $customer->countryType->name == 'International' ? 'col-md-6' : 'col-md-12' }} mb-3">
+                    <label for="address" class="form-label">Address<i class="text-danger">*</i></label>
+                    @if ($customer->address)
+                    <input type="text" class="form-control" id="address" value="{{$customer->address}}" disabled required>
+                    @endif
+                  </div>
+                  @if ($customer->countryType->name=='International')
+                  <div class="col-md-6 mb-3">
+                    <label for="country" class="form-label">Country<i class="text-danger">*</i></label>
+                    <select class="form-control" id="country" required>
+                      <option value="" disabled selected>Select your country</option>
+                      <!-- Add options dynamically here -->
+                    </select>
+                    <p id="countrymsg" class="text-danger"></p>
+                  </div>
+                  @endif 
+                </div>
+                <a type="button" href="{{route('bookingInfo')}}" class="btn btn-secondary"><i class="fa fa-home"></i></a>
+                <a type="button" href="{{route('goToProfile')}}" class="btn btn-secondary">Update</a>
+                <button type="button" class="btn btn-primary float-end" id="nextToStep2">Next</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Date Booking (Card Layout) -->
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card mt-4" id="step2" style="display: none;">
+            <div class="card-body">
+              <h4 class="card-title">Step 2: Booking</h4>
+              <input type="hidden" id="customerId" value="{{$customer->id}}">
               <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="name" class="form-label">Name<i class="text-danger">*</i></label>
-                  <input type="text" class="form-control" id="name" value="{{$customer->name}}" disabled required>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="contact" class="form-label">Contact<i class="text-danger">*</i></label>
-                  <input type="text" class="form-control" id="contact" value="{{$customer->contact}}" required disabled>
-                </div>
-                <div class="{{ $customer->countryType->name == 'International' ? 'col-md-6' : 'col-md-12' }} mb-3">
-                  <label for="address" class="form-label">Address<i class="text-danger">*</i></label>
-                  @if ($customer->address)
-                  <input type="text" class="form-control" id="address" value="{{$customer->address}}" disabled required>
-                  @endif
-                </div>
-                @if ($customer->countryType->name=='International')
-                <div class="col-md-6 mb-3">
-                  <label for="country" class="form-label">Country<i class="text-danger">*</i></label>
-                  <select class="form-control" id="country" required>
-                    <option value="" disabled selected>Select your country</option> 
-                    <!-- Add options dynamically here -->
+                <div class="col-md-12 mb-2">
+                  <label for="bookingType" class="form-label">Select Booking Type</label>
+                  <select class="form-control" id="bookingType" name="bookingType" required>
+                    <option value="" disabled selected>Select booking type</option>
+                    @foreach($appointmentTypes as $type)
+                    <option value="{{ $type->id }}" data-price="{{ $type->price }}">
+                      {{ $type->type }} - LKR {{ number_format($type->price, 2) }}
+                    </option>
+                    @endforeach
                   </select>
-                  <p id="countrymsg" class="text-danger"></p>
+                  <p id="bookingtypemsg" class="text-danger"></p>
                 </div>
-                @endif
+                <div class="col-md-12 mb-2">
+                  <label for="bookingDate" class="form-label">Select Date</label>
+                  <input type="text" class="form-control" data-blocked-dates="{{ json_encode($blockedDates) }}" id="bookingDate" placeholder="Select a date" required>
+                  <p id="bookingdatemsg" class="text-danger"></p>
+                </div>
               </div>
-              <a type="button" href="{{route('goToProfile')}}" class="btn btn-secondary">Update</a>
-              <button type="button" class="btn btn-primary float-end" id="nextToStep2">Next</button>
-            </form>
+              <button type="button" class="btn btn-secondary" id="backToStep1">Back</button>
+              <button type="button" class="btn btn-primary float-end" id="nextToStep3">Next</button>
+            </div>
+
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Step 2: Date Booking (Card Layout) -->
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card mt-4" id="step2" style="display: none;">
-          <div class="card-body">
-            <h4 class="card-title">Step 2: Booking</h4>
-            <input type="hidden" id="customerId" value="{{$customer->id}}">
-            <div class="row">
-              <div class="col-md-12 mb-2">
-                <label for="bookingType" class="form-label">Select Booking Type</label>
-                <select class="form-control" id="bookingType" name="bookingType" required>
-                  <option value="" disabled selected>Select booking type</option>
-                  @foreach($appointmentTypes as $type)
-                  <option value="{{ $type->id }}" data-price="{{ $type->price }}">
-                    {{ $type->type }} - LKR {{ number_format($type->price, 2) }}
-                  </option>
-                  @endforeach
+      <!-- Step 3: appointment show Process (Card Layout) -->
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card mt-4" id="step3" style="display: none;">
+            <div class="card-body">
+              <h4 class="card-title">Step 3: Appointment </h4>
+              <div class="form-group mb-3">
+                <label for="bookedDate" class="form-label">Booked Date</label>
+                <input type="text" class="form-control" id="bookedDate" readonly>
+              </div>
+              <div class="form-group mb-3">
+                <label for="apNumber" class="form-label">Available Appointment Number</label>
+                <input type="text" class="form-control" id="apNumber" readonly>
+              </div>
+              <button type="button" class="btn btn-secondary" id="backToStep2">Back</button>
+              <button type="button" class="btn btn-primary float-end" id="nextToStep4">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Payment Process (Card Layout) -->
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card mt-4" id="step4" style="display: none;">
+            <div class="card-body">
+              <h4 class="card-title">Step 4: Payment </h4>
+              <div class="form-group mb-3">
+                <label for="paymentMethod" class="form-label">Payment Method</label>
+                <select class="form-control" id="paymentMethod" required>
+                  <option value="" disabled selected>Select Method</option>
+                  <option value="Office">Pay At Office</option>
+                  <option value="Online">Pay At Online</option>
                 </select>
-                <p id="bookingtypemsg" class="text-danger"></p>
+                <p id="pmethodmsg" class="text-danger"></p>
               </div>
-              <div class="col-md-12 mb-2">
-                <label for="bookingDate" class="form-label">Select Date</label>
-                <input type="date" class="form-control" id="bookingDate" required>
-                <p id="bookingdatemsg" class="text-danger"></p>
+              <div class="form-group mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="text" class="form-control" id="amount" readonly>
               </div>
+              <button type="button" class="btn btn-secondary" id="backToStep3">Back</button>
+              <button type="submit" class="btn btn-success float-end" id="submitBooking">Confirm Booking</button>
             </div>
-            <button type="button" class="btn btn-secondary" id="backToStep1">Back</button>
-            <button type="button" class="btn btn-primary float-end" id="nextToStep3">Next</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 3: appointment show Process (Card Layout) -->
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card mt-4" id="step3" style="display: none;">
-          <div class="card-body">
-            <h4 class="card-title">Step 3: Appointment </h4>
-            <div class="form-group mb-3">
-              <label for="bookedDate" class="form-label">Booked Date</label>
-              <input type="text" class="form-control" id="bookedDate" readonly>
-            </div>
-            <div class="form-group mb-3">
-              <label for="apNumber" class="form-label">Available Appointment Number</label>
-              <input type="text" class="form-control" id="apNumber" readonly>
-            </div>
-            <button type="button" class="btn btn-secondary" id="backToStep2">Back</button>
-            <button type="button" class="btn btn-primary float-end" id="nextToStep4">Next</button>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Step 3: Payment Process (Card Layout) -->
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card mt-4" id="step4" style="display: none;">
-          <div class="card-body">
-            <h4 class="card-title">Step 4: Payment </h4>
-            <div class="form-group mb-3">
-              <label for="paymentMethod" class="form-label">Payment Method</label>
-              <select class="form-control" id="paymentMethod" required>
-                <option value="" disabled selected>Select Method</option>
-                <option value="Office">Pay At Office</option>
-                <option value="Online">Pay At Online</option>
-              </select>
-              <p id="pmethodmsg" class="text-danger"></p>
-            </div>
-            <div class="form-group mb-3">
-              <label for="amount" class="form-label">Amount</label>
-              <input type="text" class="form-control" id="amount" readonly>
-            </div>
-            <button type="button" class="btn btn-secondary" id="backToStep3">Back</button>
-            <button type="submit" class="btn btn-success float-end" id="submitBooking">Confirm Booking</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
+    </div> 
 
   </div>
 
@@ -241,6 +250,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
   <script>
     $(document).ready(function() {
       $.ajax({
@@ -259,7 +271,7 @@
         },
         error: function(error) {
           console.log("Error fetching country data: ", error);
-        } 
+        }
       });
     });
 
@@ -281,7 +293,7 @@
           });
 
           if (savedCountryId) {
-            countrySelect.val(savedCountryId); 
+            countrySelect.val(savedCountryId);
             countrySelect.prop('disabled', true);
           }
         },
@@ -290,9 +302,50 @@
         }
       });
     });
-
-
   </script>
+
+
+  <!-- Include jQuery and jQuery UI -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+  <script>
+    $(function() {
+      var dateElement = document.getElementById('bookingDate');
+      const blockedDates = JSON.parse(dateElement.getAttribute('data-blocked-dates'));
+
+      const disabledDates = blockedDates.map(date => $.datepicker.parseDate('yy-mm-dd', date));
+
+      $("#bookingDate").datepicker({
+        dateFormat: "yy-mm-dd",
+        beforeShowDay: function(date) {
+          const day = date.getDay();
+          const formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+
+          if (day === 0 || disabledDates.some(d => d.getTime() === date.getTime())) {
+            return [false, "non-bookable", "Unavailable"];
+          }
+          return [true, "", ""];
+        }
+      });
+    });
+  </script>
+
+  <style>
+    .non-bookable a {
+      background: #ffcccc !important;
+      /* Light red background for public holidays */
+      color: #ff0000 !important;
+      /* Red text color */
+    }
+
+    .non-bookable a:hover {
+      background: #ffcccc !important;
+      /* Keep hover effect same */
+    }
+  </style>
+
 
 
   <script>
@@ -313,7 +366,7 @@
           document.getElementById('step1').style.display = 'none';
           document.getElementById('step2').style.display = 'block';
           document.getElementById('progress-bar').style.width = '50%';
-        }else{
+        } else {
           document.getElementById('step1').style.display = 'none';
           document.getElementById('step2').style.display = 'block';
           document.getElementById('progress-bar').style.width = '50%';
@@ -530,7 +583,7 @@
             $('#otpModal').modal('hide');
             saveBooking();
           } else {
-            otpmsg.innerText = "Invalid OTP. Please try again.";   
+            otpmsg.innerText = "Invalid OTP. Please try again.";
           }
         });
     });

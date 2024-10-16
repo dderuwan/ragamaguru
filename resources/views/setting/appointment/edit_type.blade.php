@@ -93,6 +93,15 @@
                                             <p class="text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="forWhom">For Whom</label><br />
+                                            <input type="checkbox" id="local" name="for_whom[]" value="local"
+                                                {{ in_array('local', explode(',', $type->for_whom)) ? 'checked' : '' }}>
+                                            <label for="local">Local</label><br />
+                                            <input type="checkbox" id="international" name="for_whom[]" value="international"
+                                                {{ in_array('international', explode(',', $type->for_whom)) ? 'checked' : '' }}>
+                                            <label for="international">International</label><br />
+                                        </div>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Update</button>
