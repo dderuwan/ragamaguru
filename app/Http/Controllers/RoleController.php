@@ -33,41 +33,16 @@ class RoleController extends Controller
 
     public function storeRole(Request $request)
     {
-        //dd($request);
-        // Validate the incoming request data
-        $validator = Validator::make($request->all(), [
-            'role_name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
-
-        // Begin a transaction
-        DB::beginTransaction();
 
         try {
-            // Create the new role
-            $role = Role::create([
-                'name' => $request->input('role_name'),
-                'description' => $request->input('description'),
-            ]);
 
-            // Attach the selected permissions to the role
-            if ($request->has('permissions')) {
-                $role->permissions()->sync($request->input('permissions'));
-            }
-
-            // Commit the transaction
-            DB::commit();
-
-            // Redirect or return a success response
+            $role = Role::create($request->only('name'));          
             return redirect()->route('showRole')->with('success', 'Role created successfully.');
-        } catch (\Exception $e) {
-            // Rollback the transaction if an error occurs
-            DB::rollback();
 
-            // Redirect or return an error response
+        } catch (\Exception $e) {
+            
             return redirect()->back()->with('error', 'Failed to create role: ' . $e->getMessage());
+
         }
     }
 
@@ -121,19 +96,26 @@ class RoleController extends Controller
 
     public function assignRole(Request $request)
     {
+        // Validate the input
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'role_id' => 'required|exists:roles,id',
         ]);
 
-        $user = User::findOrFail($request->input('user_id'));
-        $role = Role::findOrFail($request->input('role_id'));
+        try {
+            // Retrieve the user and role
+            $user = User::findOrFail($request->user_id);
+            $role = Role::findOrFail($request->role_id);
 
-        // Assign role to user
-        $user->roles()->sync([$role->id]);
+            // Assign the role to the user
+            $user->assignRole($role->name);
 
-        return redirect()->back()->with('success', 'Role assigned successfully.');
+            return redirect()->back()->with('success', 'Role huththa assigned to user successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to assign role: ' . $e->getMessage());
+        }
     }
+
 
     public function addPermission()
     {

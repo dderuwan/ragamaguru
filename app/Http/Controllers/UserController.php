@@ -27,37 +27,38 @@ class UserController extends Controller
 
 
     public function store(StoreUserRequest $request)
-    {
-        $validatedData = $request->validated();
-        try {
- 
-                $user = new User();
-                $user->firstname = $validatedData['firstname'];
-                $user->lastname = $validatedData['lastname'] ?? null;
-                $user->email = $validatedData['email'];
-                $user->password = bcrypt($validatedData['password']);
-                $user->about = $validatedData['about'];
-                $user->user_type = $validatedData['user_type'];
-                $user->status = $validatedData['status'];
+{
+    $validatedData = $request->validated();
 
-                // Handle image upload
-                if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                    $imageFile = $request->file('image');
-                    $imageName = time() . '.' . $imageFile->getClientOriginalExtension();
-                    $imageFile->move(public_path('images/users'), $imageName);
-                    $user->image = $imageName;
-                }
+    try {
+        $user = new User();
+        $user->firstname = $validatedData['firstname'];
+        $user->lastname  = $validatedData['lastname'] ?? null;
+        $user->email     = $validatedData['email'];
+        $user->contact   = $request->contact;
+        $user->password  = bcrypt($validatedData['password']);
+        $user->about     = $validatedData['about'] ?? null;
+        $user->user_type = $validatedData['user_type'];
+        $user->status    = $validatedData['status'];
 
-                $user->save();
-            
-
-            return redirect()->route('user.show')->with('success', 'User details saved successfully');
-        } catch (\Exception $e) {
-            Log::error('Error saving user: ' . $e->getMessage());
-
-            return redirect()->back()->with('error', 'Failed to save the user details.');
+        // Handle image upload
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imageFile = $request->file('image');
+            $imageName = time() . '.' . $imageFile->getClientOriginalExtension();
+            $imageFile->move(public_path('images/users'), $imageName);
+            $user->image = 'images/users/' . $imageName; // Save the relative path
         }
+
+        $user->save();
+
+        return redirect()->route('user.show')->with('success', 'User details saved successfully');
+    } catch (\Exception $e) {
+        \Log::error('Error saving user: ' . $e->getMessage());
+
+        return redirect()->back()->with('error', 'Failed to save the user details: ' . $e->getMessage());
     }
+}
+
 
 
 

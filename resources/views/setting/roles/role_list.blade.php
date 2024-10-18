@@ -14,7 +14,6 @@
               <thead>
                 <tr>
                   <th>Role Name</th>
-                  <th>Description</th>
                   <th>Permissions</th>
                   <th>Actions</th>
                 </tr>

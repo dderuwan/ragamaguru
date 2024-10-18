@@ -2,21 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role as SpatieRole;
 
-class Role extends Model
+class Role extends SpatieRole
 {
-    use HasFactory;
-    protected $fillable = ['name', 'description'];
+    protected $fillable = [
+        'name',
+        'guard_name',
+    ];
 
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class);
-    }
+    /**
+     * Define timestamps as true, since your roles table includes
+     * created_at and updated_at fields.
+     */
+    public $timestamps = true;
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
+    /**
+     * Optionally, you can define any additional methods or relationships
+     * in this model if you want to extend its functionality.
+     */
 }

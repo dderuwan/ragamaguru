@@ -16,15 +16,10 @@
               <div class="form-group row">
                 <label for="inputTitle" class="col-sm-2 col-form-label" style="color:black;">Role Name <i class="text-danger">*</i></label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputTitle" name="role_name" placeholder="Role name" required>
+                  <input type="text" class="form-control" id="inputTitle" name="name" placeholder="Role name" required>
                 </div>
               </div>
-              <div class="form-group row">
-                <label for="inputDescription" class="col-sm-2 col-form-label" style="color:black;">Description</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" id="inputDescription" name="description" placeholder="Description" rows="2"></textarea>
-                </div>
-              </div>
+              
 
               @foreach($permissions as $category => $groupedPermissions)
                 <div class="form-group row">
