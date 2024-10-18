@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GinController;
 use App\Http\Controllers\OfferItemsController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
@@ -373,8 +374,17 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
  Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
  Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
 
+// web.php
+Route::get('/payment-result', [CustomerOrderController::class, 'handlePaymentResult'])->name('payment.result');
 
 
+Route::post('/create-payment-order', [CustomerOrderController::class, 'createPaymentOrder'])->name('createPaymentOrder');
+// Route::get('/payment-callback', [CustomerOrderController::class, 'handlePaymentCallback'])->name('payment.callback');
+Route::get('/payment-result', [CustomerOrderController::class, 'paymentResult'])->name('paymentResult');
+
+Route::post('/create-payment-booking', [BookingController::class, 'createPaymentBooking']);
+// Route::get('/payment-booking-callback', [BookingController::class, 'handleBookingPaymentCallback'])->name('bpayment.callback');
+Route::get('/payment-booking-result', [BookingController::class, 'paymentResult'])->name('bookingPaymentResult');
 
 
  //dashboard
@@ -388,8 +398,7 @@ Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'ge
 
 
 
-
-
+ 
 
 
 
