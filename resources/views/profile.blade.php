@@ -157,34 +157,21 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Name:</h6>
-                                        <p>{{$customer->name}}</p>
+                                        <p>{{ session('customer_name', 'Guest') }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Contact:</h6>
-                                        <p>{{$customer->contact}}</p>
+                                        <p>{{ session('customer_contact', 'Not provided') }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Address:</h6>
-                                        @if ($customer->address)
-                                        <p>{{$customer->address}}</p>
-                                        @else
-                                        <p>No Address</p>
-                                        @endif
+                                        <p>{{ session('customer_address', 'No Address') }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Country Type:</h6>
-                                        <p>{{$customer->countryType->name}}</p>
+                                        <p>{{ session('customer_countryType', 'Not specified') }}</p> <!-- Country type from session -->
                                     </div>
-                                    @if ($customer->countryType->name==='International')
-                                    <div class="col-md-6">
-                                        <h6 class="font-weight-bold">Country:</h6>
-                                        @if ($customer->country_id)
-                                        <p id="countryName">loading country</p> <!-- Placeholder for country name -->
-                                        @else
-                                        <p>Not Added</p>
-                                        @endif
-                                        <p></p>
-                                    </div>
+                                    
                                     @endif
                                     <div class="col-md-6">
                                         <button class="btn btn-info" data-toggle="modal" data-target="#updateCustomerModal">Update</button>

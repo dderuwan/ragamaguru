@@ -1,4 +1,10 @@
 <?php
+
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\CustomerAuthController;
+
 use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\AppointmentSettingsController;
 use App\Http\Controllers\Auth\LoginController;
@@ -26,19 +32,65 @@ use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\RegisterController as ControllersRegisterController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Default Dashboard Route (for regular users)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+// Profile Routes (for regular users)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/**
+ * Admin Authentication Routes
+ */
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+    // Protected routes for admin after login
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');  // Create this view for admin dashboard
+        })->name('admin.dashboard');
+    });
+});
 
 
-use App\Http\Controllers\TreatementController;
+
+/**
+ * Customer Authentication Routes
+ */
+Route::prefix('customer')->group(function () {
+    Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('customer.login');
+    Route::post('/login', [CustomerAuthController::class, 'login']);
+    Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
+
+    // Protected routes for customer after login
+    Route::middleware('auth:customer')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('customer.dashboard');  // Create this view for customer dashboard
+        })->name('customer.dashboard');
+    });
+});
+
+// Include the default Breeze routes (registration, login, password reset for default user)
+require __DIR__.'/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
 Auth::routes();
-
-
 
 
 Route::view('/home', 'home')->name('home');
@@ -65,17 +117,8 @@ Route::post('/changestatus/{id}', [CustomerOrderController::class, 'changeStatus
 
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('clearCart');
 
-Route::get('lang/home', [LangController::class,'index']);
-Route::get('lang/change', [LangController::class,'change'])->name('changeLang');
 
-
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-});
-
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // Authentication Routes
 // Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
@@ -366,38 +409,21 @@ Route::get('/appointmentsreport', [App\Http\Controllers\ReportController::class,
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
 
 //POS
- Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
- Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
- Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
- Route::get('/showpos/{id}', [App\Http\Controllers\POSController::class, 'show'])->name('showopos');
- Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
- Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
+Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
+Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
+Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
+Route::get('/showpos/{id}', [App\Http\Controllers\POSController::class, 'show'])->name('showopos');
+Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
+Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
 
 
 
 
 
- //dashboard
- Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+//dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
- //revenue
- Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
- Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
- Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
-
-
-
-
-
-
-
-
-
-
-?>
-
-
-
-
-
-
+//revenue
+Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
+Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
+Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);

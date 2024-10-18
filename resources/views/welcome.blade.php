@@ -98,7 +98,7 @@
   <div class="hero-header">
     <div class="header-slider header-slider-preloader slider-two" id="home">
         <div class="animation-slide owl-carousel owl-theme" id="animation-slide">
-          <div class="item bg-img-hero" data-image-src="/assets/web/images/homeimg3.jpg"></div>
+          <div class="item bg-img-hero" data-image-src="/assets/web/images/dashboardimg3.jpg"></div>
           <div class="item bg-img-hero" data-image-src="assets/web/images/slider1.png"></div>
           <div class="item bg-img-hero" data-image-src="assets/web/images/default.jpeg"></div>
         </div>
@@ -117,7 +117,7 @@
                                         Fill out the form to schedule your appointment and receive confirmation details via SMS</p>
                                         <ul class="navbar-right d-flex align-items-center mt-4">
                                             <div class="btn-container me-2">
-                                                <a href="{{ route('login') }}" id="btn-sign" class="btn btn-primary">SIGN IN</a>
+                                                <a href="{{ route('customer.login') }}" id="btn-sign" class="btn btn-primary">SIGN IN</a>
                                             </div>
                                             <div class="btn-container">
                                                 <a href="{{ route('register.index') }}" id="btn-join" class="btn btn-white">JOIN US</a>
