@@ -14,6 +14,7 @@ use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GinController;
 use App\Http\Controllers\OfferItemsController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseController;
@@ -315,12 +316,34 @@ Route::get('/api/get-item-stock/{itemCode}', [App\Http\Controllers\OrderRequestC
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
 //POS
-Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
-Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
-Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
-Route::get('/showpos/{id}', [App\Http\Controllers\POSController::class, 'show'])->name('showopos');
-Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
-Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
+
+ Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
+ Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
+ Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
+ Route::get('/showpos/{id}', [App\Http\Controllers\POSController::class, 'show'])->name('showopos');
+ Route::delete('/deletepos/{id}', [App\Http\Controllers\POSController::class, 'destroy'])->name('deletepos');
+ Route::get('/pos/print-and-redirect/{id}', [App\Http\Controllers\POSController::class, 'printAndRedirect'])->name('printAndRedirect');
+
+// web.php
+Route::get('/payment-result', [CustomerOrderController::class, 'handlePaymentResult'])->name('payment.result');
+
+
+Route::post('/create-payment-order', [CustomerOrderController::class, 'createPaymentOrder'])->name('createPaymentOrder');
+// Route::get('/payment-callback', [CustomerOrderController::class, 'handlePaymentCallback'])->name('payment.callback');
+Route::get('/payment-result', [CustomerOrderController::class, 'paymentResult'])->name('paymentResult');
+
+Route::post('/create-payment-booking', [BookingController::class, 'createPaymentBooking']);
+// Route::get('/payment-booking-callback', [BookingController::class, 'handleBookingPaymentCallback'])->name('bpayment.callback');
+Route::get('/payment-booking-result', [BookingController::class, 'paymentResult'])->name('bookingPaymentResult');
+
+
+ //dashboard
+ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+ //revenue
+ Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
+ Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
+ Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
 
 // customer module
 Route::resource('customer', CustomerController::class);
@@ -334,6 +357,7 @@ Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->n
 Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
 Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
 Route::get('/treatmenthistory/{id}', [CustomerController::class, 'viewTreatmentHistory'])->name('viewTreatmentHistory');
+
 
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
@@ -361,6 +385,7 @@ Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'upd
 Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
 Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
 Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
+
 
 // offer items
 Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex');

@@ -111,9 +111,9 @@ class BookingController extends Controller
 
             // Send OTP message
             if ($customer->country_type_id == 2) {
-                $this->sendWhatsappMessage($customer->contact, $msg);
+               // $this->sendWhatsappMessage($customer->contact, $msg);
             } else {
-                $this->sendMessage($formattedContact, $msg);
+                //$this->sendMessage($formattedContact, $msg);
             }
 
 
@@ -155,7 +155,7 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        //Log::info($request->all());
+        //Log::info($request->all()); 
 
         $validated = $request->validate([
             'booking_date' => 'required|date',
@@ -219,6 +219,137 @@ class BookingController extends Controller
             return response()->json(['success' => false, 'message' => 'Customer not found']);
         }
     }
+
+    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';
+
+    public function createPaymentBooking(Request $request)
+    {
+        $validated = $request->validate([
+            'booking_date' => 'required|date',
+            'customer_id' => 'required|exists:customer,id',
+            'booking_type' => 'required|exists:appointment_type,id',
+            'payment_method' => 'required',
+            'ap_number_id' => 'required',
+        ]);
+
+        session(['booking_data' => $validated]);
+
+        $apType = DB::table('appointment_type')->where('id', $validated['booking_type'])->first();
+        $customer = DB::table('customer')->where('id', $validated['customer_id'])->first();
+
+        $data = [
+            'merchantRID' => uniqid('booking_'),
+            'amount' => $apType->price,
+            'validTimeLimit' => 2, // Transaction valid for 2 hours
+            'returnUrl' => route('bookingPaymentResult'),
+            'customerMobile' => $customer->contact,
+            'mode' => 'WEB',
+            'orderSummary' => 'RagamaGuru Appointment',
+            'customerReference' => $customer->contact,
+            'paymentMethod' => 'VISA_MASTERCARD',
+        ];
+
+        $response = Http::withHeaders([
+            'merchant-api-key' => env('MARX_API_KEY'),
+        ])->post($this->paymentGatewayUrl, $data);
+
+        if ($response->successful()) {
+            $paymentUrl = $response->json('data.payUrl');
+            return response()->json(['success' => true, 'paymentUrl' => $paymentUrl]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Failed to create payment order.']);
+        }
+    }
+
+    public function paymentResult(Request $request)
+    {
+        $trId = $request->input('trId');
+        $merchantRID = $request->input('merchantRID');
+
+        // Validate the query parameters
+        if (!$trId || !$merchantRID) {
+            return redirect('/')->withErrors('Invalid payment parameters.');
+        }
+
+        // Initiate the payment using the trId
+        $paymentResponse = $this->initiatePayment($trId, $merchantRID);
+
+        // Check the payment response status
+        if ($paymentResponse['status'] === 0 && $paymentResponse['data']['summaryResult'] === 'SUCCESS') {
+            $bookingData = session('booking_data');
+
+            // Store the booking as paid
+            $this->storeBooking($bookingData, 'Online');
+
+            // Clear the session data
+            session()->forget('booking_data');     
+
+            return redirect()->route('cusAppointmentCreate')->with('success', 'Payment successful! Booking completed.');
+        } else {
+            return redirect()->route('cusAppointmentCreate')->with('error', 'Payment failed. Please try again.');
+        }
+    }
+
+    private function initiatePayment($trId, $merchantRID)
+    {
+        $url = $this->paymentGatewayUrl . "/$trId"; // URL to initiate payment
+
+        $response = Http::withHeaders([
+            'merchant-api-key' => env('MARX_API_KEY'),
+        ])->put($url, ['merchantRID' => $merchantRID]);
+
+        return $response->json();
+    }
+
+
+    // public function handleBookingPaymentCallback(Request $request)
+    // {
+    //     $trId = $request->query('trId');
+    //     $merchantRID = $request->query('merchantRID');
+
+    //     // Verify the transaction with the payment gateway
+    //     $response = Http::withHeaders([
+    //         'merchant-api-key' => env('MARX_API_KEY'),
+    //     ])->get("https://app.marx.lk/api/v3/ipg/orders/{$trId}/summary");
+
+    //     if ($response->successful() && $response->json('data.summaryResult') == 'SUCCESS') {
+    //         // Retrieve booking data from the session
+    //         $bookingData = session('booking_data');
+
+    //         // Store the booking as paid
+    //         $this->storeBooking($bookingData, $response->json('data.amount'), 'Online');
+
+    //         // Clear the session data
+    //         session()->forget('booking_data');     
+
+    //         return redirect()->route('cusAppointmentCreate')->with('success', 'Payment successful! Booking completed.');
+    //     } else {
+    //         return redirect()->route('cusAppointmentCreate')->with('error', 'Payment failed. Please try again.');
+    //     }
+    // }
+
+    private function storeBooking($bookingData,$paymentMethod)
+    {
+        // Save the booking in the database
+        $apType = DB::table('appointment_type')->where('id', $bookingData['booking_type'])->first();
+
+        $appointments = new Appointments();
+        $appointments->customer_id = $bookingData['customer_id'];
+        $appointments->ap_numbers_id = $bookingData['ap_number_id'];
+        $appointments->date = $bookingData['booking_date'];
+        $appointments->appointment_type_id = $bookingData['booking_type'];
+        $appointments->created_by = 'Online';   
+        $appointments->is_booking = '1';
+        $appointments->status = '1'; 
+        $appointments->total_amount = $apType->price;
+        $appointments->paid_amount = $apType->price;
+        $appointments->due_amount = 0.00;
+        $appointments->payment_method = $paymentMethod;
+        $appointments->added_date = now();
+        $appointments->save();
+    }
+
+
 
 
     public function indexLocal()
@@ -341,9 +472,9 @@ class BookingController extends Controller
         ]);
 
         if ($response->successful()) {
-           // echo "Message sent successfully!";
+            // echo "Message sent successfully!";
         } else {
-           // echo "Failed to send message. Error: " . $response->body();
+            // echo "Failed to send message. Error: " . $response->body();
         }
     }
 
@@ -366,7 +497,7 @@ class BookingController extends Controller
         $formattedContact = $this->formatContactNumber($customer->contact);
 
         $msg = "Booking Cancelled\nAppointment date: $ap_date\nAppointment number: $apNumber\nThis booking was canceled due to some reason. Contact the company for further details.\nSorry for the inconvenience.\nFrom RagamaGuru Office";
-        
+
         // Send cancel message
         if ($customer->country_type_id == 2) {
             $this->sendWhatsappMessage($customer->contact, $msg);

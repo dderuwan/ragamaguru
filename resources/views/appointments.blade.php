@@ -76,8 +76,24 @@
 
   <div class="container my-5">
 
+    @if (session('success'))
+    <div class="alert alert-success"> 
+      {{ session('success') }}     
+    </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+      {{ session('error') }}
+    </div>
+    @endif
+    @if (session('warning'))
+    <div class="alert alert-warning">
+      {{ session('warning') }}
+    </div>
+    @endif
 
-    <div id="booking-card" >
+
+    <div id="booking-card">
 
       <div class="row justify-content-center">
         <div class="col-md-8">
@@ -119,7 +135,7 @@
                     </select>
                     <p id="countrymsg" class="text-danger"></p>
                   </div>
-                  @endif 
+                  @endif
                 </div>
                 <a type="button" href="{{route('bookingInfo')}}" class="btn btn-secondary"><i class="fa fa-home"></i></a>
                 <a type="button" href="{{route('goToProfile')}}" class="btn btn-secondary">Update</a>
@@ -211,7 +227,7 @@
         </div>
       </div>
 
-    </div> 
+    </div>
 
   </div>
 
@@ -601,10 +617,11 @@
       let bookingType = document.getElementById('bookingType').value;
       let paymentMethod = document.getElementById('paymentMethod').value;
 
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
       if (paymentMethod == 'Office') {
 
         let url = window.location.origin + '/bookingstore';
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         fetch(url, {
             method: 'POST',
@@ -647,7 +664,31 @@
 
 
       } else if (paymentMethod == 'Online') {
-
+        let url = window.location.origin + '/create-payment-booking';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({
+              customer_id: customerId,
+              country_id: country,
+              booking_date: bookingDate,
+              booking_type: bookingType,
+              payment_method: paymentMethod,
+              ap_number_id: apNumberId
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              window.location.href = data.paymentUrl; // Redirect to payment gateway
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch(error => console.error('Error:', error));
       }
     }
   </script>

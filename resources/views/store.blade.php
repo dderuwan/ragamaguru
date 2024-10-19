@@ -47,16 +47,17 @@
             overflow: hidden;
         }
 
-    .product-image {
-        width: 300px;
-        height: 200px;
-        object-fit: cover; /* Ensures the image covers the container without stretching */
-    }
+        .product-image {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            /* Ensures the image covers the container without stretching */
+        }
 
-    .logoContent{
-        color: black;
-        margin-top:30px;
-    }
+        .logoContent {
+            color: black;
+            margin-top: 30px;
+        }
 
 
         .product-image {
@@ -89,7 +90,7 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
 
 
@@ -119,6 +120,21 @@
         </div>
     </header>
 
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+    @if (session('warning'))
+    <div class="alert alert-warning">
+        {{ session('warning') }} 
+    </div>
+    @endif
 
 
     <!-- Products -->
@@ -234,7 +250,7 @@
     <script src="assets/web/website_assets/js/loadMap.js"></script>
 
     <script src="assets/web/js/pagination.js"></script>
-@include('includes.script')
+    @include('includes.script')
 
 
 

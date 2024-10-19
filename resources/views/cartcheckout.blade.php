@@ -148,11 +148,11 @@
                                     <h6 class="text-dark font-weight-bold col-sm-6">Shipping Cost: </h6>
                                     <h6 class="font-weight-bold text-secondary col-sm-6">
                                         @if ($deliveryAddress)
-                                            @if ($checkoutDetails['shippingCost'] == '0.00' || $checkoutDetails['shippingCost'] == 0)
-                                            Free
-                                            @elseif ($checkoutDetails['shippingCost'] > 0)
-                                            Rs. {{ $checkoutDetails['shippingCost'] }}
-                                            @endif
+                                        @if ($checkoutDetails['shippingCost'] == '0.00' || $checkoutDetails['shippingCost'] == 0)
+                                        Free
+                                        @elseif ($checkoutDetails['shippingCost'] > 0)
+                                        Rs. {{ $checkoutDetails['shippingCost'] }}
+                                        @endif
                                         @else
                                         Not Updated
                                         @endif
@@ -250,7 +250,7 @@
             </div>
         </div>
     </div>
-
+    
 
     <!-- Confirmation Modal -->
     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
@@ -312,13 +312,45 @@
         document.getElementById('confirmButton').addEventListener('click', function() {
             var paymentMethodSelect = document.getElementById('pmethod').value;
             if (paymentMethodSelect == 1) { //card
-                //card payment
+                //online payment
+                initiatePaymentGateway();
             } else if (paymentMethodSelect == 2) { //cod
                 //cash on delivery
                 orderAdd(paymentMethodSelect);
             }
 
         });
+
+
+        function initiatePaymentGateway() {
+            let data = {
+                merchantRID: "{{ uniqid('ORD_') }}", // Unique order reference
+                mode: 'WEB',
+                paymentMethod: 'VISA_MASTERCARD',
+                orderSummary: 'RagamaGuru Order',
+                customerMobile: '{{$userDetails->contact}}', 
+                threeDSecure: true
+            };
+
+            fetch('{{ route("createPaymentOrder") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.paymentUrl; // Redirect to payment gateway
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
 
         function orderAdd(paymentMethodSelect) {
             var data = {
