@@ -92,11 +92,9 @@ class HomeController extends Controller
 
 
     public function goToProfile()
-    {
-        //add user to session - id is 1
-        Session::put('user_id', 27); //testing purpose  
+    { 
 
-        $logged_user_id = Session::get('user_id');
+        $logged_user_id = Session::get('customer_id');
         if (empty($logged_user_id)) {
             return redirect()->back()->with('error', 'Please Login first');
         } else {

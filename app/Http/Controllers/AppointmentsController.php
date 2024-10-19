@@ -18,6 +18,7 @@ use App\Models\PaymentTypes;
 use App\Models\VisitType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
@@ -218,7 +219,7 @@ class AppointmentsController extends Controller
             'visit_day' => $validated['visit_type'],
             'appointment_type_id' => $validated['ap_type'],
             'created_by' => 'Office',
-            'created_user_id' => 1,
+            'created_user_id' => Auth::guard('admin')->id(),
             'payment_method' => 'Office',
             'total_amount' => $validated['totalAmount'],
             'paid_amount' => $validated['paidAmount'],
@@ -261,10 +262,8 @@ class AppointmentsController extends Controller
 
     public function cusAppointmentCreate()
     {
-        //add user to session - id is 1
-        Session::put('user_id', 27); //testing purpose 
 
-        $logged_user_id = Session::get('user_id');
+        $logged_user_id = Session::get('customer_id');
 
         if (empty($logged_user_id)) {
             return redirect()->back()->with('error', 'Please Login first');
@@ -277,7 +276,24 @@ class AppointmentsController extends Controller
 
             $first_visit = $hasAppointment;
 
-            $appointmentTypes = AppointmentType::where('status', 1)->get();
+            if ($customer->country_type_id == 1) { // Local
+                // Get appointment types that are either 'local' or 'local,international'
+                $appointmentTypes = AppointmentType::where('status', 1)
+                    ->where(function($query) {
+                        $query->where('for_whom', 'like', '%local%')
+                              ->orWhere('for_whom', 'like', '%local,international%');
+                    })
+                    ->get();
+            } else if ($customer->country_type_id == 2) { // International
+                // Get appointment types that are either 'international' or 'local,international'
+                $appointmentTypes = AppointmentType::where('status', 1)
+                    ->where(function($query) {
+                        $query->where('for_whom', 'like', '%international%')
+                              ->orWhere('for_whom', 'like', '%local,international%');
+                    })
+                    ->get();
+            }
+
             $paymentTypes = PaymentTypes::all();
 
             $blockedDates = BlockedDate::pluck('date')->toArray();

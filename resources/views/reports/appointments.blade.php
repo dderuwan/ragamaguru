@@ -55,7 +55,7 @@
                                                 <th style="color: black;">Visit Day</th>
                                                 <th style="color: black;">Appointment Type</th>
                                                 <th style="color: black;">Created By</th>
-                                                <th style="color: black;">Created User</th>
+                                                <th style="color: black;">Created User ID</th>
                                                 <th style="color: black;">Total Amount</th>
                                                 <th style="color: black;">Paid Amount</th>
                                                 <th style="color: black;">Due Amount</th>

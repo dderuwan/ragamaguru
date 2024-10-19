@@ -16,7 +16,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class POSController extends Controller
@@ -57,7 +57,7 @@ class POSController extends Controller
             $customer->address = $validatedData['address'];
             $customer->otp = $otp;
             $customer->isVerified = false;
-            $customer->user_id = 1;
+            $customer->user_id = Auth::guard('admin')->id();
             $customer->customer_type_id = 2;
             $customer->country_type_id = 1;
             $customer->registered_time = now();

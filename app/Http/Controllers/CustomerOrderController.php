@@ -27,7 +27,7 @@ class CustomerOrderController extends Controller
         $paymentType = CartPaymentTypes::find($pmethod);
 
         $checkoutDetails = Session::get('checkoutDetails');
-        $userId = Session::get('user_id');
+        $userId = Session::get('customer_id');
 
         if (!$checkoutDetails || !$userId) {
             return response()->json(['success' => false, 'message' => 'No checkout details or user details found in session']);
@@ -104,7 +104,7 @@ class CustomerOrderController extends Controller
     public function createPaymentOrder(Request $request)
     {
         $checkoutDetails = Session::get('checkoutDetails');
-        $userId = Session::get('user_id');
+        $userId = Session::get('customer_id');
 
         if (!$checkoutDetails || !$userId) {
             return response()->json(['success' => false, 'message' => 'No checkout details or user details found in session']);
@@ -181,7 +181,7 @@ class CustomerOrderController extends Controller
     {
         // Retrieve cart and user details from session
         $checkoutDetails = Session::get('checkoutDetails');
-        $userId = Session::get('user_id');
+        $userId = Session::get('customer_id');
 
         DB::beginTransaction();
 

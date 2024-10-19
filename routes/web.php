@@ -33,6 +33,7 @@ use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\RegisterController as ControllersRegisterController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');

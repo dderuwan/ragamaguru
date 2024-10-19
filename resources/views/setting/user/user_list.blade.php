@@ -70,6 +70,7 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
+                                            <th style="color: black;">User ID</th>
                                             <th style="color: black;">Image</th>
                                             <th style="color: black;">Name</th>
                                             <th style="color: black;">Email</th>
@@ -82,6 +83,7 @@
                                         @foreach ($user_list as $index => $user)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
+                                            <td>{{ $user->id }}</td>
                                             <td>
                                                 @if ($user->image)
                                                     <img src="{{ asset('images/users/' . $user->image) }}" alt="User Image" style="max-width: 70px; max-height: 70px;">

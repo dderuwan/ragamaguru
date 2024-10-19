@@ -154,24 +154,32 @@
                                 <h5 style="color:white;">Personal Details</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row">
+                            <div class="row">
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Name:</h6>
-                                        <p>{{ session('customer_name', 'Guest') }}</p>
+                                        <p>{{$customer->name}}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Contact:</h6>
-                                        <p>{{ session('customer_contact', 'Not provided') }}</p>
+                                        <p>{{$customer->contact}}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Address:</h6>
-                                        <p>{{ session('customer_address', 'No Address') }}</p>
+                                        @if ($customer->address)
+                                        <p>{{$customer->address}}</p>
+                                        @else
+                                        <p>No Address</p>
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Country Type:</h6>
-                                        <p>{{ session('customer_countryType', 'Not specified') }}</p> <!-- Country type from session -->
+                                        <p>{{$customer->countryType->name}}</p>
                                     </div>
-                                    
+                                    @if ($customer->countryType->name==='International')
+                                    <div class="col-md-6">
+                                        <h6 class="font-weight-bold">Country:</h6>
+                                        <p>{{$customer->country->name}}</p>
+                                    </div>
                                     @endif
                                     <div class="col-md-6">
                                         <button class="btn btn-info" data-toggle="modal" data-target="#updateCustomerModal">Update</button>

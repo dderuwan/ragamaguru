@@ -105,10 +105,8 @@ class CartController extends Controller
 
     public function storeCartDetails(Request $request)
     {
-        //add user to session - id is 1
-        Session::put('user_id', 1); //testing purpose 
 
-        $userId = Session::get('user_id');
+        $userId = Session::get('customer_id');
         $cart = session()->get('cart', []);
 
         if (empty($userId)) {
@@ -133,7 +131,7 @@ class CartController extends Controller
     {
 
         $checkoutDetails = Session::get('checkoutDetails', []);
-        $logged_user_id = Session::get('user_id');
+        $logged_user_id = Session::get('customer_id');
         $paymentTypes = CartPaymentTypes::all();
         $userDetails = Customer::findOrFail($logged_user_id);
 

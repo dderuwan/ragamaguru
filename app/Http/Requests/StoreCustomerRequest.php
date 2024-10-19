@@ -23,7 +23,7 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'contact' => 'required|numeric|doesnt_start_with:+|starts_with:0-9',
+            'contact' => 'required|numeric|doesnt_start_with:+',
             'address' => 'required|string|max:255',
             'country_type' => 'required|in:1,2',
             'country_id' => 'required_if:country_type,2',
