@@ -1,4 +1,10 @@
 <?php
+
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\CustomerAuthController;
+
 use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\AppointmentSettingsController;
 use App\Http\Controllers\Auth\LoginController;
@@ -27,19 +33,65 @@ use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\RegisterController as ControllersRegisterController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Default Dashboard Route (for regular users)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+// Profile Routes (for regular users)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/**
+ * Admin Authentication Routes
+ */
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+    // Protected routes for admin after login
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');  // Create this view for admin dashboard
+        })->name('admin.dashboard');
+    });
+});
 
 
-use App\Http\Controllers\TreatementController;
+
+/**
+ * Customer Authentication Routes
+ */
+Route::prefix('customer')->group(function () {
+    Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('customer.login');
+    Route::post('/login', [CustomerAuthController::class, 'login']);
+    Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
+
+    // Protected routes for customer after login
+    Route::middleware('auth:customer')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('customer.dashboard');  // Create this view for customer dashboard
+        })->name('customer.dashboard');
+    });
+});
+
+// Include the default Breeze routes (registration, login, password reset for default user)
+require __DIR__.'/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
 Auth::routes();
-
-
 
 
 Route::view('/home', 'home')->name('home');
@@ -66,17 +118,8 @@ Route::post('/changestatus/{id}', [CustomerOrderController::class, 'changeStatus
 
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('clearCart');
 
-Route::get('lang/home', [LangController::class,'index']);
-Route::get('lang/change', [LangController::class,'change'])->name('changeLang');
 
-
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-});
-
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // Authentication Routes
 // Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
@@ -109,27 +152,10 @@ Route::put('/updatedetails/{id}', [HomeController::class, 'updateCusDetails'])->
 
 
 
-// customer module
-Route::resource('customer', CustomerController::class);
-Route::get('/allcustomers', [CustomerController::class,'index'])->name('allcustomers');
-Route::get('/createCustomer', [CustomerController::class, 'create'])->name('createcustomer');
-Route::post('/storeCustomer', [CustomerController::class, 'store'])->name('storecustomer');
-Route::post('/verifyCustomer', [CustomerController::class, 'verify'])->name('verifycustomer');
-Route::get('/editCustomer/{id}', [CustomerController::class, 'edit'])->name('editcustomer');
-Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('updatecustomer');
-Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
-Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
-Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
-Route::get('/treatmenthistory/{id}', [CustomerController::class, 'viewTreatmentHistory'])->name('viewTreatmentHistory');
 
 
-//Treatment module
-Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
-Route::get('/createTreatment', [App\Http\Controllers\TreatmentController::class, 'create'])->name('createTreatment');
-Route::get('/editTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
-Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
-Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
-Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
+
+
 
 Route::get('/customertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'customerTreat'])->name('customerTreat');
 Route::post('/savecustomertreatments/{id}', [App\Http\Controllers\TreatmentController::class, 'saveCustomerTreatments'])->name('saveCustomerTreatments');
@@ -143,43 +169,9 @@ Route::post('/saveduepayment/{id}', [App\Http\Controllers\TreatmentController::c
 Route::put('/treatments/update-next-day/{id}', [App\Http\Controllers\TreatmentController::class, 'updateNextDay'])->name('updateNextDay');
 Route::get('/treatments/print-preview/{cusTreatId}', [App\Http\Controllers\TreatmentController::class, 'printPreview'])->name('treatments.printPreview');
 
-//employee module
-Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
-Route::get('/createemployee', [App\Http\Controllers\EmployeeController::class, 'create'])->name('createemployee');
-Route::get('/editemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('editemployee');
-Route::put('/updateemployee/{id}',[App\Http\Controllers\EmployeeController::class, 'update'])->name('updateemployee');
-Route::post('/storeemployee', [App\Http\Controllers\EmployeeController::class, 'store'])->name('storeemployee');
-Route::delete('/deleteemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('deleteemployee');
-
-
-// supplier module
-Route::resource('supplier', SupplierController::class);
-Route::get('/allsuppliers', [SupplierController::class,'index'])->name('allsuppliers');
-Route::get('/createSupplier', [SupplierController::class, 'create'])->name('createsupplier');
-Route::post('/storeSupplier', [SupplierController::class, 'store'])->name('storesupplier');
-Route::get('/editSupplier/{id}', [SupplierController::class, 'edit'])->name('editsupplier');
-Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('updatesupplier');
 
 
 
-// Item module
-Route::resource('item', ItemController::class);
-Route::get('/items', [ItemController::class, 'index'])->name('item.index');
-Route::get('/items/create', [ItemController::class, 'create'])->name('createitem');
-Route::post('/items', [ItemController::class, 'store'])->name('items.store');
-Route::get('/edititem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edititem');
-Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateitem');
-Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
-Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
-Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
-
-// offer items
-Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex');
-Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate');
-Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore');
-Route::get('/offer-items/edit/{id}', [OfferItemsController::class, 'edit'])->name('offerItemEdit');
-Route::put('/offer-items/update/{id}', [OfferItemsController::class, 'update'])->name('offerItemUpdate');
-Route::delete('/offer-items/destroy/{id}', [OfferItemsController::class, 'destroy'])->name('offerItemDestroy');
 
 //Purchase module
 Route::resource('purchase', PurchaseController::class)->except(['show']);
@@ -229,8 +221,6 @@ Route::post('/get-apnumber', [BookingController::class, 'getApNumber'])->name('g
 
 
 //Settings module
-Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
-Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
 Route::get('/footer', [CompanySettingController::class, 'getCompanyDetails']);
 
 // appointment setting
@@ -260,19 +250,14 @@ Route::post('/newevent/update/{id}', [EventController::class, 'update'])->name('
 
 //users
 Route::resource('users', UserController::class);
-Route::get('/users', [UserController::class, 'index'])->name('user.index');
 Route::post('/users/add-user', [UserController::class, 'store'])->name('user.store');
-Route::post('/users/user-list', [UserController::class, 'show'])->name('user.show');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/updateUser/{id}', [UserController::class, 'update'])->name('updateUser');
 
 //roles
 Route::view('/role_edit', 'setting.roles.role_edit')->name('role_edit');
-Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
 Route::post('/storeRole', [RoleController::class, 'storeRole'])->name('storeRole');
-Route::get('/addRole', [RoleController::class, 'addRole'])->name('addRole');
-Route::get('/showRole', [RoleController::class, 'showRole'])->name('showRole');
 Route::get('/editRole/{id}', [RoleController::class, 'editRole'])->name('editRole');
 Route::put('/updateRole/{id}', [RoleController::class, 'updateRole'])->name('updateRole');
 Route::delete('/deleteRole/{id}', [RoleController::class, 'deleteRole'])->name('deleteRole');
@@ -323,50 +308,15 @@ Route::get('/hrm/leave-applications/edit/{id}', [LeaveController::class, 'editLe
 Route::put('/hrm/leave-applications/update/{id}', [LeaveController::class, 'updateLeaveApp'])->name('leave_app_update');
 
 
-
-
-//OrderRequests module
-Route::get('/allorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'index'])->name('allorderrequests');
-Route::get('/createorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'create'])->name('OrderRequests.create');
-Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store');
-Route::get('/showorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'show'])->name('OrderRequests.show');
-Route::delete('/deleteorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'destroy'])->name('OrderRequests.destroy');
-
 // API Routes for fetching items and stock
 Route::get('/api/get-items/{supplierCode}', [App\Http\Controllers\OrderRequestContralller::class, 'getItemsBySupplier']);
 Route::get('/api/get-item-stock/{itemCode}', [App\Http\Controllers\OrderRequestContralller::class, 'getItemStock']);
 
 
-// GIN
-Route::get('/allgins', [App\Http\Controllers\GinController::class, 'index'])->name('allgins');
-Route::get('/creategin', [App\Http\Controllers\GinController::class, 'create'])->name('creategin');
-Route::post('/insertgin', [App\Http\Controllers\GinController::class, 'store'])->name('insertgin');
-Route::get('/showogins/{id}', [App\Http\Controllers\GinController::class, 'show'])->name('showogins');
-Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'destroy'])->name('deletegins');
-
-//reports
-Route::get('/orderreport', [App\Http\Controllers\ReportController::class, 'orderreport'])->name('orderreport');
-Route::get('/productreport', [App\Http\Controllers\ReportController::class, 'productreport'])->name('productreport');
-Route::get('/stockreport', [App\Http\Controllers\ReportController::class, 'stockreport'])->name('stockreport');
-Route::get('/customerreport', [App\Http\Controllers\ReportController::class, 'customerreport'])->name('customerreport');
-Route::get('/supplierreport', [App\Http\Controllers\ReportController::class, 'supplierreport'])->name('supplierreport');
-Route::get('/ginreport', [App\Http\Controllers\ReportController::class, 'ginreport'])->name('ginreport');
-Route::get('/ginshow/{id}', [App\Http\Controllers\ReportController::class, 'ginshow'])->name('ginshow');
-Route::get('/purchaseorderreport', [App\Http\Controllers\ReportController::class, 'purchaseorderreport'])->name('purchaseorderreport');
-Route::get('/purchaseordershow/{id}', [App\Http\Controllers\ReportController::class, 'purchaseordershow'])->name('purchaseordershow');
-Route::get('orderreport/print/{id}', [App\Http\Controllers\ReportController::class, 'printOrderReport'])->name('orderreport.print');
-Route::delete('/deleteorderreport/{id}', [App\Http\Controllers\ReportController::class, 'destroy'])->name('orderreport.destroy');
-Route::delete('/customerdestroy/{id}', [App\Http\Controllers\ReportController::class, 'customerdestroy'])->name('customerdestroy');
-Route::delete('/supplierdestroy/{id}',[App\Http\Controllers\ReportController::class,'supplierdestroy'])->name('supplierdestroy');
-Route::delete('/gindestroy/{id}', [App\Http\Controllers\ReportController::class, 'gindestroy'])->name('gindestroy');
-Route::delete('/purchaseorderdestroy/{id}', [App\Http\Controllers\ReportController::class, 'purchaseorderdestroy'])->name('purchaseorderdestroy');
-Route::get('/custreatmentsreport', [App\Http\Controllers\ReportController::class, 'cusTreatmentsReport'])->name('cusTreatmentsReport');
-Route::get('/appointmentsreport', [App\Http\Controllers\ReportController::class, 'appointmentsReport'])->name('appointmentsReport');
-
 // routes/web.php
 Route::get('/api/get-order-items/{orderRequestCode}', [GinController::class, 'getOrderItems']);
-
 //POS
+
  Route::get('/pospage', [App\Http\Controllers\POSController::class, 'showHomepage'])->name('pospage');
  Route::post('/POS.store', [App\Http\Controllers\POSController::class, 'store'])->name('POS.store');
  Route::post('/POS.customerstore', [App\Http\Controllers\POSController::class, 'customerstore'])->name('POS.customerstore');
@@ -395,18 +345,117 @@ Route::get('/payment-booking-result', [BookingController::class, 'paymentResult'
  Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
  Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);
 
+// customer module
+Route::resource('customer', CustomerController::class);
+Route::get('/allcustomers', [CustomerController::class,'index'])->name('allcustomers');
+Route::get('/createCustomer', [CustomerController::class, 'create'])->name('createcustomer');
+Route::post('/storeCustomer', [CustomerController::class, 'store'])->name('storecustomer');
+Route::post('/verifyCustomer', [CustomerController::class, 'verify'])->name('verifycustomer');
+Route::get('/editCustomer/{id}', [CustomerController::class, 'edit'])->name('editcustomer');
+Route::post('/updateCustomer', [CustomerController::class, 'update'])->name('updatecustomer');
+Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->name('deletecustomer');
+Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
+Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
+Route::get('/treatmenthistory/{id}', [CustomerController::class, 'viewTreatmentHistory'])->name('viewTreatmentHistory');
+
+
+//Treatment module
+Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
+Route::get('/createTreatment', [App\Http\Controllers\TreatmentController::class, 'create'])->name('createTreatment');
+Route::get('/editTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'edit'])->name('editTreatment');
+Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::class, 'update'])->name('updateTreatment');
+Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
+Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
+
+// supplier module
+Route::resource('supplier', SupplierController::class);
+Route::get('/allsuppliers', [SupplierController::class,'index'])->name('allsuppliers');
+Route::get('/createSupplier', [SupplierController::class, 'create'])->name('createsupplier');
+Route::post('/storeSupplier', [SupplierController::class, 'store'])->name('storesupplier');
+Route::get('/editSupplier/{id}', [SupplierController::class, 'edit'])->name('editsupplier');
+Route::post('/updateSupplier', [SupplierController::class, 'update'])->name('updatesupplier');
+
+// Item module
+Route::resource('item', ItemController::class);
+Route::get('/items', [ItemController::class, 'index'])->name('item.index');
+Route::get('/items/create', [ItemController::class, 'create'])->name('createitem');
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+Route::get('/edititem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edititem');
+Route::put('/updateitem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateitem');
+Route::get('/get-supplier-codes', [ItemController::class, 'getSupplierCodes']);
+Route::get('/editItem/{id}', [ItemController::class, 'edit'])->name('edititem');
+Route::put('/updateItem/{id}', [ItemController::class, 'update'])->name('updateitem');
+
+
+// offer items
+Route::get('/offer-items', [OfferItemsController::class, 'index'])->name('offerIndex');
+Route::get('/offer-items/create', [OfferItemsController::class, 'create'])->name('offerCreate');
+Route::post('/offer-items/store', [OfferItemsController::class, 'store'])->name('offerItemStore');
+Route::get('/offer-items/edit/{id}', [OfferItemsController::class, 'edit'])->name('offerItemEdit');
+Route::put('/offer-items/update/{id}', [OfferItemsController::class, 'update'])->name('offerItemUpdate');
+Route::delete('/offer-items/destroy/{id}', [OfferItemsController::class, 'destroy'])->name('offerItemDestroy');
+
+//OrderRequests module
+Route::get('/allorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'index'])->name('allorderrequests');
+Route::get('/createorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'create'])->name('OrderRequests.create');
+Route::post('/insertorderrequests', [App\Http\Controllers\OrderRequestContralller::class, 'store'])->name('OrderRequests.store');
+Route::get('/showorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'show'])->name('OrderRequests.show');
+Route::delete('/deleteorderrequests/{id}', [App\Http\Controllers\OrderRequestContralller::class, 'destroy'])->name('OrderRequests.destroy');
+
+// GIN
+Route::get('/allgins', [App\Http\Controllers\GinController::class, 'index'])->name('allgins');
+Route::get('/creategin', [App\Http\Controllers\GinController::class, 'create'])->name('creategin');
+Route::post('/insertgin', [App\Http\Controllers\GinController::class, 'store'])->name('insertgin');
+Route::get('/showogins/{id}', [App\Http\Controllers\GinController::class, 'show'])->name('showogins');
+Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'destroy'])->name('deletegins');
 
 
 
- 
+
+Route::group(['middleware' => ['auth:admin','role:Super-Admin|Admin']], function () {
+
+    //employee module
+    Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
+    Route::get('/createemployee', [App\Http\Controllers\EmployeeController::class, 'create'])->name('createemployee');
+    Route::get('/editemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('editemployee');
+    Route::put('/updateemployee/{id}',[App\Http\Controllers\EmployeeController::class, 'update'])->name('updateemployee');
+    Route::post('/storeemployee', [App\Http\Controllers\EmployeeController::class, 'store'])->name('storeemployee');
+    Route::delete('/deleteemployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('deleteemployee');
+
+    //reports
+    Route::get('/orderreport', [App\Http\Controllers\ReportController::class, 'orderreport'])->name('orderreport');
+    Route::get('/productreport', [App\Http\Controllers\ReportController::class, 'productreport'])->name('productreport');
+    Route::get('/stockreport', [App\Http\Controllers\ReportController::class, 'stockreport'])->name('stockreport');
+    Route::get('/customerreport', [App\Http\Controllers\ReportController::class, 'customerreport'])->name('customerreport');
+    Route::get('/supplierreport', [App\Http\Controllers\ReportController::class, 'supplierreport'])->name('supplierreport');
+    Route::get('/ginreport', [App\Http\Controllers\ReportController::class, 'ginreport'])->name('ginreport');
+    Route::get('/ginshow/{id}', [App\Http\Controllers\ReportController::class, 'ginshow'])->name('ginshow');
+    Route::get('/purchaseorderreport', [App\Http\Controllers\ReportController::class, 'purchaseorderreport'])->name('purchaseorderreport');
+    Route::get('/purchaseordershow/{id}', [App\Http\Controllers\ReportController::class, 'purchaseordershow'])->name('purchaseordershow');
+    Route::get('orderreport/print/{id}', [App\Http\Controllers\ReportController::class, 'printOrderReport'])->name('orderreport.print');
+    Route::delete('/deleteorderreport/{id}', [App\Http\Controllers\ReportController::class, 'destroy'])->name('orderreport.destroy');
+    Route::delete('/customerdestroy/{id}', [App\Http\Controllers\ReportController::class, 'customerdestroy'])->name('customerdestroy');
+    Route::delete('/supplierdestroy/{id}',[App\Http\Controllers\ReportController::class,'supplierdestroy'])->name('supplierdestroy');
+    Route::delete('/gindestroy/{id}', [App\Http\Controllers\ReportController::class, 'gindestroy'])->name('gindestroy');
+    Route::delete('/purchaseorderdestroy/{id}', [App\Http\Controllers\ReportController::class, 'purchaseorderdestroy'])->name('purchaseorderdestroy');
+    Route::get('/custreatmentsreport', [App\Http\Controllers\ReportController::class, 'cusTreatmentsReport'])->name('cusTreatmentsReport');
+    Route::get('/appointmentsreport', [App\Http\Controllers\ReportController::class, 'appointmentsReport'])->name('appointmentsReport');
+
+    Route::post('/users/user-list', [UserController::class, 'show'])->name('user.show');
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::get('/addRole', [RoleController::class, 'addRole'])->name('addRole');
+    Route::get('/showRole', [RoleController::class, 'showRole'])->name('showRole');
+    Route::get('/assign_user_role', [RoleController::class, 'showUsers'])->name('assign_user_role');
+    Route::get('company-settings', [CompanySettingController::class, 'index'])->name('company.index');
+    Route::post('company-settings', [CompanySettingController::class, 'store'])->name('company.store');
+    
+});
+
+//dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
-
-
-?>
-
-
-
-
-
-
+//revenue
+Route::get('/monthly-revenue', [RevenueController::class, 'index'])->name('monthly-revenue');
+Route::get('/api/monthly-revenue', [RevenueController::class, 'getMonthlyRevenue']);
+Route::get('/api/daily-revenue-column-chart', [RevenueController::class, 'getDailyRevenueForColumnChart']);

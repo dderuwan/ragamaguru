@@ -47,8 +47,8 @@
                                         @foreach($attendance_list as $index => $attendance)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $attendance->employee->firstname }} {{ $attendance->employee->lastname }}</td>
-                                            <td>{{ $attendance->employee->id }}</td>
+                                            <td>{{ $attendance->user->firstname }} {{ $attendance->user->lastname }}</td>
+                                            <td>{{ $attendance->user->id }}</td>
                                             <td>{{ $attendance->date }}</td>
                                             <td>{{ $attendance->sign_in }}</td>
                                             <td>{{ $attendance->sign_out }}</td>

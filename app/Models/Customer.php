@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Customer extends Pivot
+class Customer extends Authenticatable
 {
     protected $table  = "customer";
     protected $fillable = ['name', 'contact', 'address', 'otp', 'isVerified', 'user_id', 'customer_type_id', 'registered_time', 'password', 'country_type_id', 'country_id'];
@@ -38,5 +41,15 @@ class Customer extends Pivot
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Hide the password and remember token
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    public function getAuthPassword()
+    {
+        return $this->password;
     }
 }

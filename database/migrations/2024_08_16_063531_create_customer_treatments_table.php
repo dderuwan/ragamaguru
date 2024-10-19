@@ -15,13 +15,11 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('appointment_id');
-            $table->json('treatments')->nullable(); // Save treatment IDs as JSON
+            $table->json('treatments')->nullable();
             $table->text('note')->nullable();
             $table->timestamp('added_date')->useCurrent();
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customer')->onDelete('cascade');
-            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
         });
     }
 

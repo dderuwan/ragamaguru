@@ -48,7 +48,7 @@
                                         @foreach($leave_applications as $index => $leave_app)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>{{ $leave_app->employee->firstname }} {{ $leave_app->employee->lastname }}</td>
+                                                <td>{{ $leave_app->user->firstname }} {{ $leave_app->user->lastname }}</td>
                                                 <td>{{ $leave_app->leaveType->leave_type }}</td>
                                                 <td>{{ $leave_app->apply_strt_date }}</td>
                                                 <td>{{ $leave_app->apply_end_date }}</td>

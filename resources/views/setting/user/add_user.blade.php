@@ -40,6 +40,16 @@
                   @enderror
                 </div>
               </div>
+              <!-- Contact Number -->
+              <div class="form-group row">
+                  <label for="inputContact" class="col-sm-2 col-form-label" style="color:black;">Contact Number<i class="text-danger">*</i></label>
+                  <div class="col-sm-8">
+                      <input type="text" class="form-control" id="inputContact" name="contact" placeholder="Contact Number" required>
+                      @error('contact')
+                      <p class="text-danger">{{ $message }}</p>
+                      @enderror
+                  </div>
+              </div>
               <div class="form-group row">
                 <label for="inputpassword" class="col-sm-2 col-form-label" style="color:black;">Password<i class="text-danger">*</i></label>
                 <div class="col-sm-8">

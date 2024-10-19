@@ -32,6 +32,11 @@ class Leave_Apply extends Model
         return $this->belongsTo(Employee::class, 'employee_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+    }
+
     public function leaveType()
     {
         return $this->belongsTo(Leave_type::class, 'leave_type_id');

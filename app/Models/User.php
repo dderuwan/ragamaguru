@@ -6,10 +6,12 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model implements AuthenticatableContract
 {
     use HasFactory;
+    use HasRoles;
     use Authenticatable;
     
     protected $table  = "users";
@@ -25,14 +27,6 @@ class User extends Model implements AuthenticatableContract
         'status',
     ];
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
 
-    public function hasRole($role)
-    {
-        return $this->roles()->where('name', $role)->exists();
-    }
 
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\WeeklyHoliday;
 use App\Models\Holiday;
-use App\Models\Employee;
+use App\Models\User;
 use App\Models\Leave_type;
 use App\Models\Leave_Apply;
 
@@ -175,7 +175,7 @@ class LeaveController extends Controller
     //leave application
     public function createLeaveApp()
     {
-        $employees = Employee::all();
+        $employees = User::all();
         $leaveTypes = Leave_type::all();
         return view('humanResources.leave.apply_leave', compact('employees', 'leaveTypes'));
     }
@@ -228,16 +228,16 @@ class LeaveController extends Controller
 
     public function showLeaveApp()
     {
-        $leave_applications = Leave_Apply::with('employee', 'leaveType')->get();
-        $employees = Employee::all();
+        $leave_applications = Leave_Apply::with('user', 'leaveType')->get();
+        $employees = User::all();
         $leaveTypes = Leave_type::all();
         return view('humanResources.leave.leave_application', compact('employees', 'leaveTypes', 'leave_applications'));
     }
 
     public function manageLeaveApp()
     {
-        $leave_applications = Leave_Apply::with('employee', 'leaveType')->get();
-        $employees = Employee::all();
+        $leave_applications = Leave_Apply::with('user', 'leaveType')->get();
+        $employees = User::all();
         $leaveTypes = Leave_type::all();
         return view('humanResources.leave.manage_leave_application', compact('employees', 'leaveTypes', 'leave_applications'));
     }
@@ -258,7 +258,7 @@ class LeaveController extends Controller
    public function editLeaveApp($id)
 {
     $leave_applications = Leave_Apply::findOrFail($id);
-    $employees = Employee::all();
+    $employees = User::all();
     $leaveTypes = Leave_Type::all();
 
     return view('humanResources.leave.leave_app_update', compact('leave_applications', 'employees', 'leaveTypes'));
@@ -267,7 +267,7 @@ class LeaveController extends Controller
 public function updateLeaveApp(Request $request, $id)
 {
     $request->validate([
-        'employee_id' => 'required|exists:employee,id',
+        'employee_id' => 'required',
         'leave_type_id' => 'required|exists:leave_type,id',
         'apply_strt_date' => 'required|date',
         'apply_end_date' => 'required|date',
