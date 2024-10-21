@@ -220,7 +220,7 @@ class BookingController extends Controller
         }
     }
 
-    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';
+    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';             
 
     public function createPaymentBooking(Request $request)
     {
