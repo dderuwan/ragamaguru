@@ -96,7 +96,7 @@
                           <td id="countryName"></td>
                           @endif
                           @if ($lastAppointment)
-                          <td>{{$lastAppointment->visitDay->name}} ({{$lastAppointment->date}})</td>
+                          <td>{{$lastAppointment->visitDay->name ?? 'Not Defined'}} ({{$lastAppointment->date}})</td>
                           @else
                           <td>Not yet</td>
                           @endif

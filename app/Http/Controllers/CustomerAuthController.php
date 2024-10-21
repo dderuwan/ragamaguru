@@ -39,8 +39,9 @@ class CustomerAuthController extends Controller
         ])->withInput(); // Retain the old input for the form
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        $request->session()->forget(['customer_id', 'customer_name']);
         Auth::guard('customer')->logout();
         return redirect('/customer/login');
     }

@@ -111,9 +111,9 @@ class BookingController extends Controller
 
             // Send OTP message
             if ($customer->country_type_id == 2) {
-               // $this->sendWhatsappMessage($customer->contact, $msg);
+               $this->sendWhatsappMessage($customer->contact, $msg);
             } else {
-                //$this->sendMessage($formattedContact, $msg);
+                $this->sendMessage($formattedContact, $msg);
             }
 
 

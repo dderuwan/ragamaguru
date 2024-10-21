@@ -76,25 +76,61 @@
 
     <div class="container my-5">
 
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
+        @if (session('warning'))
+        <div class="alert alert-warning">
+            {{ session('warning') }}
+        </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card mt-2 mb-5" id="booking-info-card" style="border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h4 class="mb-0 text-white">Booking Information & Events</h4>
+                    <div class="card-header bg-info text-white text-center">
+                        <h4 class="mb-0 text-white">Booking</h4>
                     </div>
                     <div class="card-body">
                         <div class="booking-info">
                             <h5 class="text-secondary"><i class="fas fa-calendar-alt"></i> Booking Schedule</h5>
                             <p class="lead font-weight-normal text-dark">
-                            {!! $bookingInfo->info_text ?? 'No booking information available.' !!}
+                                {!! $bookingInfo->info_text ?? 'No booking information available.' !!}
                             </p>
                         </div>
                         <hr>
 
                         <!-- Events Section -->
+
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        <a type="button" class="btn btn-sm btn-primary mb-2" href="{{route('cusAppointmentCreate')}}" id="bookNowBtn">Book Now >></a>
+                        <p class="mb-0">For more information, please contact our office at {{$companyDetail->contact ?? 'RagamaGuru Office'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-2 mb-5" id="booking-info-card" style="border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <div class="card-header bg-info text-white text-center">
+                        <h4 class="mb-0 text-white">Events</h4>
+                    </div>
+                    <div class="card-body">
+
+
+                        <!-- Events Section -->
                         <div class="event-info">
                             <h5 class="text-secondary"><i class="fas fa-bell"></i> Upcoming Events</h5>
-                            @if($events->isNotEmpty()) 
+                            @if($events->isNotEmpty())
                             <ul class="list-unstyled mt-3">
                                 @foreach ($events as $event)
                                 <li class="media mb-3">

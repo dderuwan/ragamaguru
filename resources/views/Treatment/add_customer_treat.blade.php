@@ -107,7 +107,7 @@
                                         <tbody>
                                             @forelse($treatmentHistory as $history)
                                             <tr>
-                                                <td>{{$history->appointment->visitDay->name}}</td>
+                                                <td>{{$history->appointment->visitDay->name ?? 'Not Defined'}}</td>
                                                 <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
                                                 <td>
                                                     @if($history->treatments)

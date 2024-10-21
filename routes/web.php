@@ -158,7 +158,7 @@ Route::put('/updatedetails/{id}', [HomeController::class, 'updateCusDetails'])->
 
 
 
-Route::get('/customertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'customerTreat'])->name('customerTreat');
+
 Route::post('/savecustomertreatments/{id}', [App\Http\Controllers\TreatmentController::class, 'saveCustomerTreatments'])->name('saveCustomerTreatments');
 Route::post('/saveseconddaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveSecondDayDetails'])->name('saveSecondDayDetails');
 Route::post('/savethirddaydetails/{id}', [App\Http\Controllers\TreatmentController::class, 'saveThirdDayDetails'])->name('saveThirdDayDetails');
@@ -359,6 +359,8 @@ Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name(
 Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
 Route::get('/treatmenthistory/{id}', [CustomerController::class, 'viewTreatmentHistory'])->name('viewTreatmentHistory');
 
+Route::post('/password/update', [CustomerController::class, 'updatePassword'])->name('password.update');
+
 
 //Treatment module
 Route::get('/Treatment', [App\Http\Controllers\TreatmentController::class, 'index'])->name('Treatment');
@@ -414,6 +416,11 @@ Route::delete('/deletegins/{id}', [App\Http\Controllers\GinController::class, 'd
 
 
 Route::group(['middleware' => ['auth:admin','role:Super-Admin|Admin']], function () {
+    
+    Route::group(['middleware' => ['auth:admin','role:Super-Admin']], function () {
+        Route::get('/customertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'customerTreat'])->name('customerTreat');
+    });
+    
 
     //employee module
     Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');

@@ -139,6 +139,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#order-details" data-toggle="tab">Order Details</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#change-password" data-toggle="tab">Change Password</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -146,6 +149,7 @@
 
             <!-- Content Area -->
             <div class="col-lg-9">
+
                 <div class="tab-content">
                     <!-- Personal Details Tab -->
                     <div class="tab-pane fade show active" id="personal-details">
@@ -154,7 +158,7 @@
                                 <h5 style="color:white;">Personal Details</h5>
                             </div>
                             <div class="card-body">
-                            <div class="row">
+                                <div class="row">
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Name:</h6>
                                         <p>{{$customer->name}}</p>
@@ -178,7 +182,7 @@
                                     @if ($customer->countryType->name==='International')
                                     <div class="col-md-6">
                                         <h6 class="font-weight-bold">Country:</h6>
-                                        <p>{{$customer->country->name}}</p>
+                                        <p id="countryName"></p>
                                     </div>
                                     @endif
                                     <div class="col-md-6">
@@ -247,7 +251,7 @@
 
                                                 <!-- Due Amount -->
                                                 <td>{{ number_format($booking->due_amount, 2) }}</td>
-                                            
+
                                                 <td>{{$booking->status == 0 ? 'Canceled' : 'Active'}}</td>
                                             </tr>
                                             @endforeach
@@ -308,6 +312,46 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="tab-pane fade" id="change-password">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 style="color:white;">Change Password</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('password.update') }}" method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="current_password" class="form-label">Current Password</label>
+                                        <input type="password" class="form-control" id="current_password" name="current_password" required>
+                                        @error('current_password')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="new_password" class="form-label">New Password</label>
+                                        <input type="password" class="form-control" id="new_password" name="new_password" required>
+                                        @error('new_password')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="new_password_confirmation" class="form-label">Confirm New Password</label>
+                                        <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required>
+                                        @error('new_password_confirmation')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success">Save Password</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -515,8 +559,7 @@
 
 
         $(document).ready(function() {
-            const countryId = '{{ $customer->country_id ?? '
-            ' }}';
+            var countryId = "{{ $customer->country_id ?? '' }}";
 
             if (countryId) {
                 // Fetch all country data from the API

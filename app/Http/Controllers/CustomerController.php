@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
@@ -27,7 +29,6 @@ class CustomerController extends Controller
     public function create()
     {
         return view('customer.create');
-       // $this->sendWhatsappMessage(+818057441095, 'verification successfull..');
     }
 
 
@@ -86,7 +87,7 @@ class CustomerController extends Controller
             if ($request->country_type == 2) {
                 $this->sendWhatsappMessage($request->contact, $msg);
             } else {
-                //$this->sendMessage($formattedContact, $msg);
+                $this->sendMessage($formattedContact, $msg);
             }
 
             return redirect()->back()->with([
@@ -354,5 +355,29 @@ class CustomerController extends Controller
         }
 
         return redirect()->back()->with('error', 'customer not found');
+    }
+
+
+    public function updatePassword(Request $request)
+    {
+        // Validate input fields
+        $request->validate([
+            'current_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $logged_user_id = Session::get('customer_id');
+        $user = Customer::findOrFail($logged_user_id);
+        // Check if the current password matches
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+        }
+
+        // Update the password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        // Flash a success message and redirect
+        return back()->with('success', 'Password changed successfully.');
     }
 }

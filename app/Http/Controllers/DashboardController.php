@@ -23,7 +23,7 @@ class DashboardController extends Controller
 
         $totalCustomers = DB::table('customer')->count();
 
-        $totalBookings = DB::table('bookings')->count();
+        $totalBookings = DB::table('appointments')->count();
 
         return view('dashboard.index', compact(
             'todayOrdersCount',
