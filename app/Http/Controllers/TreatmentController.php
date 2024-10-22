@@ -8,8 +8,10 @@ use App\Models\Customer;
 use App\Models\CustomerTreatments;
 use App\Models\PaymentTypes;
 use App\Models\Treatment;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class TreatmentController extends Controller
@@ -385,9 +387,10 @@ class TreatmentController extends Controller
         $ptype = PaymentTypes::find($request->paymentType);
         $ptypename = $ptype->name;
 
+        $user = User::findOrFail(Auth::guard('admin')->id());
 
         notify()->success('Payment details updated successfully. ⚡️', 'Success');
-        return view('treatment.duepay_print', compact('treatId', 'tobepaid', 'pamount', 'damount', 'ptypename'));
+        return view('treatment.duepay_print', compact('treatId', 'tobepaid', 'pamount', 'damount', 'ptypename','user'));
         //return redirect()->route('customer.index')->with('status', 'Payment updated successfully');
     }
 
@@ -405,7 +408,7 @@ class TreatmentController extends Controller
         }
         $appointment = Appointments::findOrFail($customerTreatment->appointment_id);
         $customer = Customer::findOrFail($customerTreatment->customer_id);
-
+        $user = User::findOrFail(Auth::guard('admin')->id());
         $countryName = null;
         if ($customer->country_id) {
             $response = Http::get("https://restcountries.com/v3.1/alpha/{$customer->country_id}");
@@ -419,6 +422,6 @@ class TreatmentController extends Controller
         }
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
 
-        return view('treatment.print', compact('customerTreatment', 'appointment', 'customer', 'countryName', 'treatments', 'selectedTreatmentIds', 'currentDateTime'));
+        return view('treatment.print', compact('customerTreatment', 'appointment', 'customer', 'countryName', 'treatments', 'selectedTreatmentIds', 'currentDateTime','user'));
     }
 }

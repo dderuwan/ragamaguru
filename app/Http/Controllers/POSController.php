@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
@@ -150,7 +151,8 @@ class POSController extends Controller
     {
         $order = Order::findOrFail($id);
         $companyDetail = CompanyDetails::first();
-        return view('POS.print', compact('order','companyDetail'));
+        $user = User::findOrFail(Auth::guard('admin')->id());
+        return view('POS.print', compact('order','companyDetail','user'));
     }
 
 

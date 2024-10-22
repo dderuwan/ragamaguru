@@ -126,7 +126,7 @@
             </div>
         </div>
         <div class="footer">
-            <p>Created By: user name</p>
+            <p>Created By: {{ $user->firstname }} {{ $user->lastname }}</p>
             <p>Thank you for your appointment.</p>
         </div>
     </div>

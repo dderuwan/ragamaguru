@@ -35,8 +35,7 @@ class OfferItemsController extends Controller
 
    
     public function store(StoreOfferItemsRequest $request)
-    {
-        //dd($request->all());
+    {   
 
         $data = $request->validated(); // Get validated data
 

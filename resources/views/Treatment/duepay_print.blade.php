@@ -130,7 +130,7 @@
     </table>
 
     <div class="footer">
-        <p>Prepared By: user name</p>
+        <p>Prepared By: {{ $user->firstname }} {{ $user->lastname }}</p>
         <p><strong>Thank you very much</strong></p>
     </div>
 

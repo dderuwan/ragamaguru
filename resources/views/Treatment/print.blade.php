@@ -257,7 +257,7 @@
         <div class="footer">
             <p>Bring This receipt when you come with your list of things.</p>
             <!-- <p>Thank you for your visit!</p> --> 
-            <p class="prepared-by">Prepared by: Jane Smith</p>
+            <p class="prepared-by">Prepared by: {{ $user->firstname }} {{ $user->lastname }}</p>
         </div>
     </div>
 

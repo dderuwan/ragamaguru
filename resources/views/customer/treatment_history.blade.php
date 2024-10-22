@@ -99,15 +99,15 @@
                                         <tbody>
                                             @forelse($visitHistory as $history)
                                             <tr>
-                                                <td>{{$history->appointment->visitDay->name ?? 'Not Defined'}}</td>
+                                                <td>{{$history->appointment->visitDay->name ?? 'Not Defined'}}</td>  
                                                 <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
                                                 <td>
                                                     @if($history->treatments)
                                                     @php
                                                     $treatmentNames = \App\Models\Treatment::whereIn('id', $history->treatments)->pluck('name')->toArray();
                                                     @endphp
-                                                    @foreach($treatmentNames as $treatmentName)
-                                                    {{ $treatmentName }}<br>       
+                                                    @foreach($treatmentNames as $treatmentName)                   
+                                                    {{ $treatmentName }}<br> 
                                                     @endforeach
                                                     @else
                                                     No Treatments
@@ -120,8 +120,8 @@
                                                     @endphp
                                                     @foreach($selectedTreatmentNames as $treatmentName)
                                                     {{ $treatmentName }}<br>
-                                                    @endforeach
-                                                    @else
+                                                    @endforeach          
+                                                    @else                    
                                                     No Treatments
                                                     @endif
                                                 </td>

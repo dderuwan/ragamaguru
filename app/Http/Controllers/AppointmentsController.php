@@ -15,6 +15,7 @@ use App\Models\Customer;
 use App\Models\CustomerTreatments;
 use App\Models\CustomerType;
 use App\Models\PaymentTypes;
+use App\Models\User;
 use App\Models\VisitType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
@@ -307,11 +308,13 @@ class AppointmentsController extends Controller
         $appointment = Appointments::findOrFail($appointmentId);
         $apNumberRecord = ApNumbers::findOrFail($appointment->ap_numbers_id);
         $customer = Customer::findOrFail($appointment->customer_id);
+        $user = User::findOrFail($appointment->created_user_id);
 
         return view('appointment.print', [
             'appointment' => $appointment,
             'apNumberRecord' => $apNumberRecord,
-            'customer' => $customer
+            'customer' => $customer,
+            'user' => $user
         ]);
     }
 

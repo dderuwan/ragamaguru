@@ -140,7 +140,7 @@
 
     <div class="footer">
         <p>Billing To: {{ $order->payment_type }}</p>
-        <p>Bill By: E Support</p>
+        <p>Bill By: {{ $user->firstname }} {{ $user->lastname }}</p>
         <p><strong>Thank you very much</strong></p>
     </div>
 

@@ -220,13 +220,13 @@ class BookingController extends Controller
         }
     }
 
-    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';             
+    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';            
 
     public function createPaymentBooking(Request $request)
     {
         $validated = $request->validate([
             'booking_date' => 'required|date',
-            'customer_id' => 'required|exists:customer,id',
+            'customer_id' => 'required|exists:customer,id',          
             'booking_type' => 'required|exists:appointment_type,id',
             'payment_method' => 'required',
             'ap_number_id' => 'required',
@@ -245,7 +245,7 @@ class BookingController extends Controller
             'customerMobile' => $customer->contact,
             'mode' => 'WEB',
             'orderSummary' => 'RagamaGuru Appointment',
-            'customerReference' => $customer->contact,
+            'customerReference' => $customer->contact,                       
             'paymentMethod' => 'VISA_MASTERCARD',
         ];
 
@@ -379,7 +379,7 @@ class BookingController extends Controller
                 'apNumber' => $booking->apNumber->number,
                 'created_by' => $booking->created_by,
                 'customer_name' => $booking->customer->name ?? 'N/A',
-                'customer_id' => $booking->customer->id ?? 'N/A',
+                'customer_id' => $booking->customer->id ?? 'N/A',   
                 'contact' => $booking->customer->contact ?? 'N/A',
                 'added_date' => $booking->added_date,
                 'status' => $booking->status,
