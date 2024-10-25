@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="page-title">Update Treatment</h2>
+        <h2 class="page-title">Update Medical Treatment</h2>
         <p class="text-muted"></p>
 
         <div class="card-deck">
@@ -14,7 +14,7 @@
               <strong class="card-title">Update</strong>
             </div>
             <div class="card-body">
-              <form method="post" action="{{route('updateTreatment',$treatment->id)}}">
+              <form method="post" action="{{route('updateMedicalTreatment',$treatment->id)}}">
                 @csrf
                  <input type="hidden" class="form-control" id="id"  name="id" value="{{$treatment->id}}">
                 <div class="form-row">

@@ -10,6 +10,7 @@ use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Event;
 use App\Models\Item;
+use App\Models\MedicalBookingInfo;
 use App\Models\OfferItems;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -148,9 +149,10 @@ class HomeController extends Controller
     public function bookingInfo(){
         $events = Event::where('status', true)->get();
         $bookingInfo = BookingInfo::first();
+        $medicalBookingInfo = MedicalBookingInfo::first();
         $companyDetail = CompanyDetails::first();
 
-        return view('booking_info',compact('events','bookingInfo','companyDetail'));
+        return view('booking_info',compact('events','bookingInfo','medicalBookingInfo','companyDetail'));
     }
 
 

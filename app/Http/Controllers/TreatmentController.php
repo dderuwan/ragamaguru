@@ -80,7 +80,7 @@ class TreatmentController extends Controller
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0|max:999999.99',
             'things_to_bring' => 'nullable|array',
-            'status' => 'required|boolean',
+            'status' => 'required|boolean',     
         ]);
 
         $treatment = Treatment::findOrFail($id);
@@ -369,25 +369,25 @@ class TreatmentController extends Controller
 
         $customerTreatment = CustomerTreatments::where('id', $id)->firstOrFail();
 
-        $tobepaid = $customerTreatment->due_amount;
+        $tobepaid = $customerTreatment->due_amount;                 
 
         $paidAmount = $customerTreatment->paid_amount + $request->paidAmount;
 
         $customerTreatment->update([
             'paid_amount' => $paidAmount,
             'due_amount' => $request->dueAmount,
-            'payment_type_id' => $request->paymentType,
+            'payment_type_id' => $request->paymentType,                  
         ]);
 
         $customerTreatment->save();
 
         $treatId = $customerTreatment->id;
-        $pamount = $request->paidAmount;
+        $pamount = $request->paidAmount;              
         $damount = $request->dueAmount;
-        $ptype = PaymentTypes::find($request->paymentType);
+        $ptype = PaymentTypes::find($request->paymentType);    
         $ptypename = $ptype->name;
 
-        $user = User::findOrFail(Auth::guard('admin')->id());
+        $user = User::findOrFail(Auth::guard('admin')->id());        
 
         notify()->success('Payment details updated successfully. ⚡️', 'Success');
         return view('treatment.duepay_print', compact('treatId', 'tobepaid', 'pamount', 'damount', 'ptypename','user'));
@@ -418,7 +418,7 @@ class TreatmentController extends Controller
                 $countryName = $countryData[0]['name']['common'];
             }
         } else {
-            $countryName = 'Sri Lanka';
+            $countryName = 'Sri Lanka';        
         }
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
 

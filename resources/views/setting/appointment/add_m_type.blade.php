@@ -39,7 +39,7 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Appointment Type Settings</h2>
+                        <h2 class="page-title">Medical Appointment Type Settings</h2>
                     </div>
                     <div class="col-md-6 text-right">
                         <a href="{{ route('apType.index') }}"><button type="button" class="btn btn-primary float-end">
@@ -64,8 +64,8 @@
                     <div class="col-md-12">
                         <div class="card shadow">
                             <div class="card-body">
-                                <h5 class="mb-2">Add Normal Appointment Type</h5>
-                                <form method="post" action="{{route('apType.store')}}">
+                                <h5 class="mb-2">Add Medical Appointment Type</h5>
+                                <form method="post" action="{{route('medicalApType.store')}}">
                                     @csrf
                                     <div class="form-row">
                                         <div class="form-group col-md-6">

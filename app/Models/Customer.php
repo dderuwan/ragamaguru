@@ -23,6 +23,10 @@ class Customer extends Authenticatable
         return $this->hasMany(Appointments::class, 'customer_id', 'id');
     }
 
+    public function medicalAppointments()
+    {
+        return $this->hasMany(MedicalAppointments::class, 'customer_id', 'id');
+    }
     public function customerType()
     {
         return $this->belongsTo(CustomerType::class);

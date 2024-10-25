@@ -53,7 +53,7 @@
                                                 No Address
                                                 @endif
                                             </td>
-                                            <td>{{$customer->registered_time}}</td> 
+                                            <td>{{$customer->registered_time}}</td>
                                             <td>{{$customer->user_id}}</td>
                                             <td>{{ optional($customer->customerType)->name }}</td>
                                             <td>{{ optional($customer->countryType)->name }}</td>
@@ -63,15 +63,31 @@
                                             <td><span class="fe fe-15 fe-x"></span></td>
                                             @endif
                                             <td>
-                                            <a href="{{ route('appointments.create',$customer->id) }}" class="btn btn-sm btn-primary" type="button"><i class="fa-regular fa-calendar-check"></i></a>
+                                                <a href="{{ route('appointments.create', $customer->id) }}"
+                                                    class="btn btn-sm btn-primary"
+                                                    type="button"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Normal Appointment">
+                                                    <i class="fa-regular fa-calendar-check"></i>
+                                                </a>
+
+                                                <a href="{{ route('mAppointments.create', $customer->id) }}"
+                                                    class="btn btn-sm btn-info"  
+                                                    type="button"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Medical Appointment">
+                                                    <i class="fa-regular fa-calendar-check"></i>
+                                                </a>
                                             </td>
                                             <td>
-                                                <button class="btn btn-info btn-sm fe fe-24 fe-edit more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-success btn-sm fe fe-24 fe-edit more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="text-muted sr-only">Action</span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     @if (!$customer->isVerified)
-                                                    <button data-toggle="modal" data-target="#verifyModal"  class="dropdown-item" onclick="verifyModal('{{ $customer->id }}','{{ $customer->contact }}')">Verify</button>
+                                                    <button data-toggle="modal" data-target="#verifyModal" class="dropdown-item" onclick="verifyModal('{{ $customer->id }}','{{ $customer->contact }}')">Verify</button>
                                                     @endif
                                                     <a class="dropdown-item" href="{{route('editcustomer',$customer->id)}}">Edit</a>
                                                     <button data-toggle="modal" data-target="#deleteModal" class="dropdown-item text-danger" onclick="confirmDelete('{{ $customer->id }}')">Remove</button>
@@ -184,7 +200,7 @@
     function verifyModal(customerId, contactNumber) {
         document.getElementById('customer_id').value = customerId;
         document.getElementById('addedContact').value = contactNumber;
-        document.getElementById('otpsendmsg').innerText="";
+        document.getElementById('otpsendmsg').innerText = "";
         //$('#verifyModal').modal('show');
     }
 
@@ -205,9 +221,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        otpsendmsg.innerText=data.success;
+                        otpsendmsg.innerText = data.success;
                     } else {
-                        otpsendmsg.innerText=data.success;
+                        otpsendmsg.innerText = data.success;
                     }
                 })
                 .catch(error => console.error('Error:', error));

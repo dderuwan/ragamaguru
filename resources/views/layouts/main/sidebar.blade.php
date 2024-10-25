@@ -26,12 +26,24 @@
             <span class="ml-3 item-text">Customers</span><span class="sr-only">(current)</span>
           </a>
         </li>
-        <li class="nav-item active sidebar_li">
-          <i class="fa-regular fa-pen-to-square"></i>
-          <a href="{{route('Treatment')}}" class="sidebar_text">
+       
+
+        <li class="nav-item dropdown">
+          <a href="#treatment" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fa fa-pen-to-square"></i>
             <span class="ml-3 item-text">Treatment</span><span class="sr-only">(current)</span>
           </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="treatment">
+            <li class="nav-item active">
+              <a class="nav-link pl-3" href="{{route('Treatment')}}"><span class="ml-1 item-text">Normal</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link pl-3" href="{{route('medicalTreatment')}}"><span class="ml-1 item-text">Medical</span></a>
+            </li>
+          </ul>
         </li>
+
+
         <li class="nav-item active sidebar_li">
           <i class="fe fe-truck"></i>
 
@@ -39,13 +51,7 @@
             <span class="ml-3 item-text">Suppliers</span><span class="sr-only">(current)</span>
           </a>
         </li>
-
-        <!-- <li class="nav-item active sidebar_li">
-            <i class="fe fe-box fe-16"></i>
-          <a href="{{route('item.index')}}" class="sidebar_text" >
-            <span class="ml-3 item-text">Items</span><span class="sr-only">(current)</span>
-          </a>
-        </li> -->
+          
 
         <li class="nav-item dropdown">
           <a href="#items" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -99,6 +105,21 @@
             <li class="nav-item active">
               <a class="nav-link pl-3" href="{{route('bookings.indexInternational')}}"><span class="ml-1 item-text">International</span></a>
             </li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a href="#medical" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+          <i class="fe fe-plus-square"></i>
+            <span class="ml-3 item-text">Medical</span><span class="sr-only">(current)</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="medical">
+            <li class="nav-item active">
+              <a class="nav-link pl-3" href="{{route('mAppointments.index')}}"><span class="ml-1 item-text">Appointments</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link pl-3" href="{{route('bookings.medical')}}"><span class="ml-1 item-text">Bookings</span></a>
+            </li>                
           </ul>
         </li>
 
@@ -190,10 +211,13 @@
             <a class="nav-link pl-3" href="{{route('blockDates.index')}}"><span class="ml-1 item-text">Block Dates</span></a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link pl-3" href="{{route('event.create')}}"><span class="ml-1 item-text">Events</span></a>
+            <a class="nav-link pl-3" href="{{route('event.index')}}"><span class="ml-1 item-text">Events</span></a>
           </li>
           <li class="nav-item active">
             <a class="nav-link pl-3" href="{{route('addBookingInfo')}}"><span class="ml-1 item-text">Booking-info</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('reason.index')}}"><span class="ml-1 item-text">Medical Reason</span></a>
           </li>
           <li class="nav-item active">
             <a class="nav-link pl-3" href="{{route('user.index')}}"><span class="ml-1 item-text">Add User</span></a>

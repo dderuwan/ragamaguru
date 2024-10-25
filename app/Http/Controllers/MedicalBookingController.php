@@ -7,13 +7,14 @@ use App\Models\Appointments;
 use App\Models\AppointmentType;
 use App\Models\Bookings;
 use App\Models\Customer;
+use App\Models\MedicalAppointments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class BookingController extends Controller
+class MedicalBookingController extends Controller
 {
 
     public function checkDate(Request $request)
@@ -31,28 +32,15 @@ class BookingController extends Controller
                 'success' => false,
                 'message' => 'Invalid date. The selected date is in the past.'
             ]);
-        }
-
-        // $existingBooking = DB::table('bookings')
-        //     ->whereDate('booking_date', $bookingDate->format('Y-m-d'))
-        //     ->where('customer_id', $request->customer_id)
-        //     ->first();
-
-        // if ($existingBooking) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'You already have a booking on this date.'
-        //     ]);
-        // }
+        } 
 
 
-        $bookingCount = DB::table('appointments')
+        $bookingCount = DB::table('medical_appointments')
             ->whereDate('date', $bookingDate->format('Y-m-d'))
-            ->where('created_by', 'Online')
             ->where('status', 1)
             ->count();
 
-        $maxBookingCount = 5;
+        $maxBookingCount = 30;
 
         if ($bookingCount >= $maxBookingCount) {
             return response()->json([
@@ -75,7 +63,7 @@ class BookingController extends Controller
 
         $selectedDate = $request->input('selected_date');
 
-        $bookedApNumbers = DB::table('appointments')
+        $bookedApNumbers = DB::table('medical_appointments')
             ->whereDate('date', $selectedDate)
             ->pluck('ap_numbers_id');
 
@@ -147,7 +135,7 @@ class BookingController extends Controller
             $customer->save();
             return response()->json(['success' => true]);
         }
-
+        
         // OTP is incorrect
         return response()->json(['success' => false, 'message' => 'Invalid OTP']);
     }
@@ -160,8 +148,8 @@ class BookingController extends Controller
         $validated = $request->validate([
             'booking_date' => 'required|date',
             'customer_id' => 'required|exists:customer,id',
-            'booking_type' => 'required|exists:appointment_type,id',
-            'payment_method' => 'required',
+            'booking_type' => 'required|exists:medical_appointment_type,id',
+            'medical_reason' => 'required|exists:medical_reason,id',
             'ap_number_id' => 'required',
         ]);
 
@@ -175,11 +163,11 @@ class BookingController extends Controller
                 $customer->save();
             }
 
-            $apType = DB::table('appointment_type')
+            $apType = DB::table('medical_appointment_type')
                 ->where('id', $validated['booking_type'])
                 ->first();
 
-            $appointments = new Appointments();
+            $appointments = new MedicalAppointments();
             $appointments->customer_id = $validated['customer_id'];
             $appointments->ap_numbers_id = $validated['ap_number_id'];
             $appointments->date = $validated['booking_date'];
@@ -191,8 +179,9 @@ class BookingController extends Controller
             $appointments->total_amount = $apType->price;
             $appointments->paid_amount = 0;
             $appointments->due_amount = $apType->price;
-            $appointments->payment_method = $validated['payment_method'];
+            $appointments->payment_method = 'Office';
             $appointments->added_date = now();
+            $appointments->medical_reason_id = $validated['medical_reason'];
             $appointments->save();
 
             $ap_date = $validated['booking_date'];
@@ -220,155 +209,23 @@ class BookingController extends Controller
         }
     }
 
-    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';            
+    
 
-    public function createPaymentBooking(Request $request)
+    
+
+
+
+
+    public function medicalBookingsIndex()
     {
-        $validated = $request->validate([
-            'booking_date' => 'required|date',
-            'customer_id' => 'required|exists:customer,id',          
-            'booking_type' => 'required|exists:appointment_type,id',
-            'payment_method' => 'required',
-            'ap_number_id' => 'required',
-        ]);
-
-        session(['booking_data' => $validated]);
-
-        $apType = DB::table('appointment_type')->where('id', $validated['booking_type'])->first();
-        $customer = DB::table('customer')->where('id', $validated['customer_id'])->first();
-
-        $data = [
-            'merchantRID' => uniqid('booking_'),
-            'amount' => $apType->price,
-            'validTimeLimit' => 2, // Transaction valid for 2 hours
-            'returnUrl' => route('bookingPaymentResult'),
-            'customerMobile' => $customer->contact,
-            'mode' => 'WEB',
-            'orderSummary' => 'RagamaGuru Appointment',
-            'customerReference' => $customer->contact,                       
-            'paymentMethod' => 'VISA_MASTERCARD',
-        ];
-
-        $response = Http::withHeaders([
-            'merchant-api-key' => env('MARX_API_KEY'),
-        ])->post($this->paymentGatewayUrl, $data);
-
-        if ($response->successful()) {
-            $paymentUrl = $response->json('data.payUrl');
-            return response()->json(['success' => true, 'paymentUrl' => $paymentUrl]);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Failed to create payment order.']);
-        }
-    }
-
-    public function paymentResult(Request $request)
-    {
-        $trId = $request->input('trId');
-        $merchantRID = $request->input('merchantRID');
-
-        // Validate the query parameters
-        if (!$trId || !$merchantRID) {
-            return redirect('/')->withErrors('Invalid payment parameters.');
-        }
-
-        // Initiate the payment using the trId
-        $paymentResponse = $this->initiatePayment($trId, $merchantRID);
-
-        // Check the payment response status
-        if ($paymentResponse['status'] === 0 && $paymentResponse['data']['summaryResult'] === 'SUCCESS') {
-            $bookingData = session('booking_data');
-
-            // Store the booking as paid
-            $this->storeBooking($bookingData, 'Online');
-
-            // Clear the session data
-            session()->forget('booking_data');     
-
-            return redirect()->route('cusAppointmentCreate')->with('success', 'Payment successful! Booking completed.');
-        } else {
-            return redirect()->route('cusAppointmentCreate')->with('error', 'Payment failed. Please try again.');
-        }
-    }
-
-    private function initiatePayment($trId, $merchantRID)
-    {
-        $url = $this->paymentGatewayUrl . "/$trId"; // URL to initiate payment
-
-        $response = Http::withHeaders([
-            'merchant-api-key' => env('MARX_API_KEY'),
-        ])->put($url, ['merchantRID' => $merchantRID]);
-
-        return $response->json();
+        return view('medicalAppointment.medicalbookings');
     }
 
 
-    // public function handleBookingPaymentCallback(Request $request)
-    // {
-    //     $trId = $request->query('trId');
-    //     $merchantRID = $request->query('merchantRID');
-
-    //     // Verify the transaction with the payment gateway
-    //     $response = Http::withHeaders([
-    //         'merchant-api-key' => env('MARX_API_KEY'),
-    //     ])->get("https://app.marx.lk/api/v3/ipg/orders/{$trId}/summary");
-
-    //     if ($response->successful() && $response->json('data.summaryResult') == 'SUCCESS') {
-    //         // Retrieve booking data from the session
-    //         $bookingData = session('booking_data');
-
-    //         // Store the booking as paid
-    //         $this->storeBooking($bookingData, $response->json('data.amount'), 'Online');
-
-    //         // Clear the session data
-    //         session()->forget('booking_data');     
-
-    //         return redirect()->route('cusAppointmentCreate')->with('success', 'Payment successful! Booking completed.');
-    //     } else {
-    //         return redirect()->route('cusAppointmentCreate')->with('error', 'Payment failed. Please try again.');
-    //     }
-    // }
-
-    private function storeBooking($bookingData,$paymentMethod)
+    public function getMedicalBookingsByDate($date)
     {
-        // Save the booking in the database
-        $apType = DB::table('appointment_type')->where('id', $bookingData['booking_type'])->first();
-
-        $appointments = new Appointments();
-        $appointments->customer_id = $bookingData['customer_id'];
-        $appointments->ap_numbers_id = $bookingData['ap_number_id'];
-        $appointments->date = $bookingData['booking_date'];
-        $appointments->appointment_type_id = $bookingData['booking_type'];
-        $appointments->created_by = 'Online';   
-        $appointments->is_booking = '1';
-        $appointments->status = '1'; 
-        $appointments->total_amount = $apType->price;
-        $appointments->paid_amount = $apType->price;
-        $appointments->due_amount = 0.00;
-        $appointments->payment_method = $paymentMethod;
-        $appointments->added_date = now();
-        $appointments->save();
-    }
-
-
-
-
-    public function indexLocal()
-    {
-        return view('appointment.localbookings');
-    }
-
-    public function indexInternational()
-    {
-        return view('appointment.internationalbookings');
-    }
-
-    public function getLocalBookingsByDate($date)
-    {
-        $bookings = Appointments::whereDate('date', $date)
+        $bookings = MedicalAppointments::whereDate('date', $date)
             ->where('is_booking', 1)
-            ->whereHas('customer', function ($query) {
-                $query->where('country_type_id', 1);
-            })
             ->with('customer')
             ->get();
 
@@ -383,48 +240,12 @@ class BookingController extends Controller
                 'contact' => $booking->customer->contact ?? 'N/A',
                 'added_date' => $booking->added_date,
                 'status' => $booking->status,
+                'medical_reason' => $booking->medicalReason->reason ?? 'N/A',
             ];
         }));
     }
 
-    public function getIntBookingsByDate($date)
-    {
-        $bookings = Appointments::whereDate('date', $date)
-            ->where('is_booking', 1)
-            ->whereHas('customer', function ($query) {
-                $query->where('country_type_id', 2);
-            })
-            ->with(['customer', 'customer.country'])
-            ->get();
-
-        return response()->json($bookings->map(function ($booking) use ($date) {
-
-            // $hasAppointment = $booking->customer->appointments()
-            //     ->whereDate('date', $date)
-            //     ->exists();
-            $countryId = $booking->customer->country_id;
-            $response = Http::get("https://restcountries.com/v3.1/alpha/{$countryId}");
-
-            $countryName = null;
-            if ($response->successful()) {
-                $countryData = $response->json();
-                $countryName = $countryData[0]['name']['common'];
-            }
-            return [
-                'id' => $booking->id,
-                'date' => $booking->date ?? 'N/A',
-                'ap_number' => $booking->apNumber->number,
-                'created_by' => $booking->created_by,
-                'customer_name' => $booking->customer->name ?? 'N/A',
-                'customer_id' => $booking->customer->id ?? 'N/A',
-                'contact' => $booking->customer->contact ?? 'N/A',
-                'country' => $countryName ?? 'N/A',
-                // 'appointment_status' => $hasAppointment ? 'Done' : 'Pending',
-                'added_date' => $booking->added_date,
-                'status' => $booking->status,
-            ];
-        }));
-    }
+    
 
     protected function sendMessage($contact, $msg)
     {
@@ -481,7 +302,7 @@ class BookingController extends Controller
     public function cancel($id)
     {
         // Find the booking by ID
-        $appointment = Appointments::findOrFail($id);
+        $appointment = MedicalAppointments::findOrFail($id);
 
         // Update status to 0 (canceled)
         $appointment->status = 0;
@@ -502,7 +323,7 @@ class BookingController extends Controller
         if ($customer->country_type_id == 2) {
             $this->sendWhatsappMessage($customer->contact, $msg);
         } else {
-            $this->sendMessage($formattedContact, $msg);
+            //$this->sendMessage($formattedContact, $msg);
         }
 
         return response()->json([

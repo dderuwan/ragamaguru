@@ -39,14 +39,11 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Appointment Type Settings</h2>
+                        <h2 class="page-title">Medical Reason</h2>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="{{ route('apType.create') }}"><button type="button" class="btn btn-primary float-end">
-                                Add Normal Type
-                            </button></a>
-                            <a href="{{ route('medicalApType.create') }}"><button type="button" class="btn btn-primary float-end">
-                                Add Medical Type
+                        <a href="{{ route('reason.create') }}"><button type="button" class="btn btn-primary float-end">
+                                Add Reason
                             </button></a>
                     </div>
                 </div>
@@ -73,42 +70,35 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
-                                            <th style="color: black;">Type</th>
-                                            <th style="color: black;">Price</th>
-                                            <th style="color: black;">For Whom</th>
+                                            <th style="color: black;">Resaon</th>
                                             <th style="color: black;">Status</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td colspan="6">Normal Appointment Types</td>
-                                        </tr>
-                                        @foreach ($type_list as $index => $type)
+                                        @foreach ($reason_list as $index => $reason)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $type->type }}</td>
-                                            <td>{{ $type->price }}</td>
-                                            <td>{{ $type->for_whom }}</td>
+                                            <td>{{ $reason->reason }}</td>
                                             <td>
-                                                @if ($type->status==1)
+                                                @if ($reason->status==1)
                                                 Active
                                                 @endif
-                                                @if ($type->status==0)
+                                                @if ($reason->status==0)
                                                 Inactive
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('apType.edit', $type->id) }}" class="action-icon edit-icon" title="Edit">
+                                                    <a href="{{ route('reason.edit', $reason->id) }}" class="action-icon edit-icon" title="Edit">
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
 
-                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $type->id }}')" title="Delete">
+                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $reason->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
 
-                                                    <form id="delete-form-{{ $type->id }}" action="{{ route('apType.destroy', $type->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $reason->id }}" action="{{ route('reason.destroy', $reason->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -116,41 +106,7 @@
                                             </td>
                                         </tr>
                                         @endforeach
-                                        <tr>
-                                            <td colspan="6">Medical Appointment Types</td>
-                                        </tr>
-                                        @foreach ($mtype_list as $index => $mtype)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $mtype->type }}</td>
-                                            <td>{{ $mtype->price }}</td>
-                                            <td>{{ $mtype->for_whom }}</td>
-                                            <td>
-                                                @if ($mtype->status==1)
-                                                Active
-                                                @endif
-                                                @if ($mtype->status==0)
-                                                Inactive
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="action-icons">
-                                                    <a href="{{ route('medicalApType.edit', $mtype->id) }}" class="action-icon edit-icon" title="Edit">
-                                                        <i class="fe fe-edit text-primary"></i>
-                                                    </a>
-
-                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $mtype->id }}')" title="Delete">
-                                                        <i class="fe fe-trash-2 text-danger"></i>
-                                                    </button>
-
-                                                    <form id="delete-form-{{ $mtype->id }}" action="{{ route('medicalApType.destroy', $mtype->id) }}" method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                        
                                     </tbody>
                                 </table>
                             </div>

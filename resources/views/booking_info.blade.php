@@ -96,7 +96,7 @@
             <div class="col-md-8">
                 <div class="card mt-2 mb-5" id="booking-info-card" style="border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                     <div class="card-header bg-info text-white text-center">
-                        <h4 class="mb-0 text-white">Booking</h4>
+                        <h4 class="mb-0 text-white">Normal Booking</h4>
                     </div>
                     <div class="card-body">
                         <div class="booking-info">
@@ -106,8 +106,6 @@
                             </p>
                         </div>
                         <hr>
-
-                        <!-- Events Section -->
 
                     </div>
                     <div class="card-footer text-muted text-center">
@@ -161,6 +159,29 @@
         </div>
 
 
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-2 mb-5" id="booking-info-card" style="border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <div class="card-header bg-info text-white text-center">
+                        <h4 class="mb-0 text-white">Medical Session Booking</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="booking-info">
+                            <h5 class="text-secondary"><i class="fas fa-calendar-alt"></i> Booking Schedule</h5>
+                            <p class="lead font-weight-normal text-dark">
+                                {!! $medicalBookingInfo->info_text ?? 'No booking information available.' !!}
+                            </p>
+                        </div>
+                        <hr>
+
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        <a type="button" class="btn btn-sm btn-primary mb-2" href="{{route('cusMAppointmentCreate')}}" id="bookNowBtn">Book Now >></a>
+                        <p class="mb-0">For more information, please contact our office at {{$companyDetail->contact ?? 'RagamaGuru Office'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 

@@ -58,13 +58,13 @@
                     <div class="col-md-12">
                         <div class="card shadow">
                             <div class="card-body">
-                                <h5 class="mb-2">Add Booking Information</h5>
+                                <h5 class="mb-2">Add Normal Booking Information</h5>
                                 <form method="post" action="{{ route('saveBookingInfo') }}">
                                     @csrf
                                     <!-- Summernote Textarea -->
                                     <div class="form-group">
                                         <textarea name="booking_info" id="booking_info" class="form-control" rows="5">
-                                            {{ $bookingInfo->info_text ?? '' }}  
+                                        {{ $bookingInfo->info_text ?? '' }}
                                         </textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Save</button>
@@ -73,6 +73,28 @@
                         </div> <!-- .card -->
                     </div> <!-- .col-md-12 -->
                 </div> <!-- .row -->
+
+                <div class="row my-4 mb-5">
+                    <!-- Small table -->
+                    <div class="col-md-12 mb-5">
+                        <div class="card shadow mb-5">
+                            <div class="card-body">
+                                <h5 class="mb-2">Add Medical Booking Information</h5>
+                                <form method="post" action="{{ route('saveMedicalBookingInfo') }}">
+                                    @csrf
+                                    <!-- Summernote Textarea -->
+                                    <div class="form-group">
+                                        <textarea name="booking_info" id="medical_booking_info" class="form-control" rows="5">
+                                        {{ $medicalBookingInfo->info_text ?? '' }}
+                                        </textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div> <!-- .card-body -->
+                        </div> <!-- .card -->
+                    </div> <!-- .col-md-12 -->
+                </div> <!-- .row -->
+
             </div> <!-- .col-12 -->
         </div> <!-- .row -->
     </div> <!-- .container-fluid -->
@@ -81,29 +103,51 @@
 @endsection
 
 @section('scripts')
-    <!-- Include Summernote CSS and JS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+<!-- Include Summernote CSS and JS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#booking_info').summernote({
-                placeholder: 'Enter booking information here...',
-                tabsize: 2,
-                height: 200,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontname', ['fontname']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
+<script>
+    $(document).ready(function() {
+        $('#booking_info').summernote({
+            placeholder: 'Enter booking information here...',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
         });
-    </script>
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#medical_booking_info').summernote({
+            placeholder: 'Enter booking information here...',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
 @endsection

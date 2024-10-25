@@ -64,20 +64,21 @@
                     <div class="col-md-12">
                         <div class="card shadow">
                             <div class="card-body">
-                                <h5 class="mb-2">Add Normal Appointment Type</h5>
-                                <form method="post" action="{{route('apType.store')}}">
+                                <h5 class="mb-2">Edit Appointment Type</h5>
+                                <form method="POST" action="{{ route('medicalApType.update', $type->id) }}">
                                     @csrf
+                                    @method('PUT')
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="inputType">Type</label>
-                                            <input type="text" class="form-control" id="inputType" name="type" placeholder="Add Type">
+                                            <input type="text" class="form-control" id="inputType" name="type" value="{{ $type->type }}" placeholder="Add Type">
                                             @error('type')
                                             <p class="text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputPrice">Price</label>
-                                            <input type="text" class="form-control" id="inputPrice" name="price" placeholder="Add Price">
+                                            <input type="text" class="form-control" id="inputPrice" name="price" value="{{ $type->price }}" placeholder="Add Price">
                                             @error('price')
                                             <p class="text-danger">{{ $message }}</p>
                                             @enderror
@@ -85,28 +86,26 @@
                                         <div class="form-group col-md-6">
                                             <label for="inputStatus">Status</label>
                                             <select class="form-control" id="status" name="status">
-                                                <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="1" {{ $type->status == 1 ? 'selected' : '' }}>Active</option>
+                                                <option value="0" {{ $type->status == 0 ? 'selected' : '' }}>Inactive</option>
                                             </select>
                                             @error('status')
                                             <p class="text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        <!-- New Checkboxes for Local and International -->
                                         <div class="form-group col-md-6">
                                             <label for="forWhom">For Whom</label><br />
-                                            <input type="checkbox" id="local" name="for_whom[]" value="local">
+                                            <input type="checkbox" id="local" name="for_whom[]" value="local"
+                                                {{ in_array('local', explode(',', $type->for_whom)) ? 'checked' : '' }}>
                                             <label for="local">Local</label><br />
-                                            <input type="checkbox" id="international" name="for_whom[]" value="international">
+                                            <input type="checkbox" id="international" name="for_whom[]" value="international"
+                                                {{ in_array('international', explode(',', $type->for_whom)) ? 'checked' : '' }}>
                                             <label for="international">International</label><br />
-                                            @error('for_whom')
-                                            <p class="text-danger">{{ $message }}</p>
-                                            @enderror
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </form>
 
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
 
                             </div>
                         </div>

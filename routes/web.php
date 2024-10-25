@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\MedicalAppointmentsController;
+use App\Http\Controllers\MedicalBookingController;
+use App\Http\Controllers\MedicalReasonController;
+use App\Http\Controllers\MedicalTreatController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuthController;
@@ -171,6 +175,11 @@ Route::put('/treatments/update-next-day/{id}', [App\Http\Controllers\TreatmentCo
 Route::get('/treatments/print-preview/{cusTreatId}', [App\Http\Controllers\TreatmentController::class, 'printPreview'])->name('treatments.printPreview');
 
 
+Route::post('/m-savecustomertreatments/{id}', [MedicalTreatController::class, 'saveCustomerTreatments'])->name('saveCustomerMTreatments');
+Route::get('/m-viewcustomertreat/{id}', [MedicalTreatController::class, 'viewCustomerTreat'])->name('viewCustomerMTreat');   
+Route::put('/m-treatments/update-next-day/{id}', [MedicalTreatController::class, 'updateNextDay'])->name('updateMNextDay');
+Route::post('/m-savetreatpayment/{id}', [MedicalTreatController::class, 'saveTreatPayment'])->name('saveMTreatPayment');
+Route::get('/m-treatments/print-preview/{cusTreatId}', [MedicalTreatController::class, 'printPreview'])->name('mtreatments.printPreview');
 
 
 
@@ -201,6 +210,20 @@ Route::post('/check-appointments', [AppointmentsController::class, 'checkAppoint
 Route::get('/viewbooking/{id}', [AppointmentsController::class, 'viewBooking'])->name('viewBooking');
 Route::post('/add-appointment/{id}', [AppointmentsController::class, 'addAppointment'])->name('addAppointment');
 Route::get('appointments/{type}/{date}', [AppointmentsController::class, 'getAppointmentsByTypeAndDate'])->name('appointments.byTypeAndDate');
+    
+//medical appointment
+Route::get('/m-appointments/add/{id}', [MedicalAppointmentsController::class, 'create'])->name('mAppointments.create');
+Route::post('/m-appointments/save', [MedicalAppointmentsController::class, 'store'])->name('mAppointments.store');
+Route::get('/m-appointments', [MedicalAppointmentsController::class, 'index'])->name('mAppointments.index');
+Route::get('/m-appointments/date/{date}', [MedicalAppointmentsController::class, 'getAppointmentsByDate'])->name('mAppointments.date');
+Route::get('/m-appointments/print-preview/{appointmentId}', [MedicalAppointmentsController::class, 'printPreview'])->name('mAppointments.printPreview');
+Route::delete('/m-appointments/{id}', [MedicalAppointmentsController::class, 'destroy'])->name('mAppointments.destroy');
+Route::get('/m-showcalendarschedule', [MedicalAppointmentsController::class, 'showCalendarSchedule'])->name('mShowCalendarSchedule');
+Route::get('/m-calendar-events', [MedicalAppointmentsController::class, 'getCalendarEvents'])->name('mCalendar.events');
+Route::post('/m-check-appointments', [MedicalAppointmentsController::class, 'checkAppointments'])->name('mCheckAppointments');
+Route::get('/m-viewbooking/{id}', [MedicalAppointmentsController::class, 'viewBooking'])->name('mViewBooking');
+Route::post('/m-add-appointment/{id}', [MedicalAppointmentsController::class, 'addAppointment'])->name('mAddAppointment');
+Route::get('m-appointments/{type}/{date}', [MedicalAppointmentsController::class, 'getAppointmentsByTypeAndDate'])->name('mAppointments.byTypeAndDate');
 
 
 Route::get('/localbookings', [BookingController::class, 'indexLocal'])->name('bookings.indexLocal');
@@ -208,6 +231,10 @@ Route::get('/inbookings', [BookingController::class, 'indexInternational'])->nam
 Route::get('/localbookings/date/{date}', [BookingController::class, 'getLocalBookingsByDate'])->name('localbookings.date');
 Route::get('/intbookings/date/{date}', [BookingController::class, 'getIntBookingsByDate'])->name('intbookings.date');
 Route::post('/bookings/cancel/{id}', [BookingController::class, 'cancel'])->name('bookings.cancel');
+
+Route::get('/medicalbookings', [MedicalBookingController::class, 'medicalBookingsIndex'])->name('bookings.medical');
+Route::get('/medicalbookings/date/{date}', [MedicalBookingController::class, 'getMedicalBookingsByDate'])->name('medicalbookings.date');
+Route::post('/m-bookings/cancel/{id}', [MedicalBookingController::class, 'cancel'])->name('mbookings.cancel');
 
 
 // website appointment
@@ -218,6 +245,14 @@ Route::post('/generate-otp', [BookingController::class, 'generateOtp'])->name('g
 Route::post('/verify-otp', [BookingController::class, 'verifyOtp'])->name('verify.otp');
 Route::post('/bookingstore', [BookingController::class, 'store'])->name('booking.store');
 Route::post('/get-apnumber', [BookingController::class, 'getApNumber'])->name('getApnumber');
+
+// website medical appointment
+Route::get('/customermappointments', [MedicalAppointmentsController::class, 'cusMedicalAppointmentCreate'])->name('cusMAppointmentCreate');
+Route::post('/m-check-date', [MedicalBookingController::class, 'checkDate'])->name('mcheckDate');
+Route::post('/m-generate-otp', [MedicalBookingController::class, 'generateOtp'])->name('mgenerate.otp');
+Route::post('/m-verify-otp', [MedicalBookingController::class, 'verifyOtp'])->name('mverify.otp');
+Route::post('/m-bookingstore', [MedicalBookingController::class, 'store'])->name('mbooking.store');
+Route::post('/m-get-apnumber', [MedicalBookingController::class, 'getApNumber'])->name('mgetApnumber');
 
 
 
@@ -232,8 +267,22 @@ Route::post('/store-appointment-type', [AppointmentSettingsController::class, 's
 Route::get('/appointment-settings/edit/{id}', [AppointmentSettingsController::class, 'edit'])->name('apType.edit');
 Route::put('/store-appointment-type/update/{id}', [AppointmentSettingsController::class, 'update'])->name('apType.update');
 
+Route::get('/medi-appointment-settings/create', [AppointmentSettingsController::class, 'mcreate'])->name('medicalApType.create');
+Route::delete('/medi-appointment-type/{id}', [AppointmentSettingsController::class, 'mdestroy'])->name('medicalApType.destroy');
+Route::post('/store-medi-appointment-type', [AppointmentSettingsController::class, 'mstore'])->name('medicalApType.store');
+Route::get('/medi-appointment-type/edit/{id}', [AppointmentSettingsController::class, 'medit'])->name('medicalApType.edit');
+Route::put('/medi-appointment-type/update/{id}', [AppointmentSettingsController::class, 'mupdate'])->name('medicalApType.update');
+
 Route::get('/settings/add-booking-info', [AppointmentSettingsController::class, 'addBookingInfo'])->name('addBookingInfo');
 Route::post('/settings/save-booking-info', [AppointmentSettingsController::class, 'saveBookingInfo'])->name('saveBookingInfo');
+Route::post('/settings/save-mbooking-info', [AppointmentSettingsController::class, 'saveMedicalBookingInfo'])->name('saveMedicalBookingInfo');
+
+Route::get('/medical-reason', [MedicalReasonController::class, 'index'])->name('reason.index');
+Route::get('/medical-reason/create', [MedicalReasonController::class, 'create'])->name('reason.create');
+Route::delete('/medical-reason/{id}', [MedicalReasonController::class, 'destroy'])->name('reason.destroy');
+Route::post('/store-medical-reason', [MedicalReasonController::class, 'store'])->name('reason.store');
+Route::get('/medical-reason/edit/{id}', [MedicalReasonController::class, 'edit'])->name('reason.edit');
+Route::put('/medical-reason/update/{id}', [MedicalReasonController::class, 'update'])->name('reason.update');
 
 // block dates
 Route::get('/block-dates', [BlockedDateController::class, 'index'])->name('blockDates.index');
@@ -370,6 +419,14 @@ Route::post('/updateTreatment/{id}',[App\Http\Controllers\TreatmentController::c
 Route::post('/storeTreatment', [App\Http\Controllers\TreatmentController::class, 'store'])->name('storeTreatment');
 Route::delete('/deleteTreatment/{id}', [App\Http\Controllers\TreatmentController::class, 'destroy'])->name('deleteTreatment');
 
+//Medical Treatment
+Route::get('/medical-treatment', [App\Http\Controllers\MedicalTreatController::class, 'index'])->name('medicalTreatment');
+Route::get('/createMedicalTreatment', [App\Http\Controllers\MedicalTreatController::class, 'create'])->name('createMedicalTreatment');
+Route::get('/editMedicalTreatment/{id}', [App\Http\Controllers\MedicalTreatController::class, 'edit'])->name('editMedicalTreatment');
+Route::post('/updateMedicalTreatment/{id}',[App\Http\Controllers\MedicalTreatController::class, 'update'])->name('updateMedicalTreatment');
+Route::post('/storeMedicalTreatment', [App\Http\Controllers\MedicalTreatController::class, 'store'])->name('storeMedicalTreatment');
+Route::delete('/deleteMedicalTreatment/{id}', [App\Http\Controllers\MedicalTreatController::class, 'destroy'])->name('deleteMedicalTreatment');
+
 // supplier module
 Route::resource('supplier', SupplierController::class);
 Route::get('/allsuppliers', [SupplierController::class,'index'])->name('allsuppliers');
@@ -419,6 +476,7 @@ Route::group(['middleware' => ['auth:admin','role:Super-Admin|Admin']], function
     
     Route::group(['middleware' => ['auth:admin','role:Super-Admin']], function () {
         Route::get('/customertreat/{id}', [App\Http\Controllers\TreatmentController::class, 'customerTreat'])->name('customerTreat');
+        Route::get('/medical-customertreat/{id}', [App\Http\Controllers\MedicalTreatController::class, 'customerTreat'])->name('customerMTreat');
     });
     
 
