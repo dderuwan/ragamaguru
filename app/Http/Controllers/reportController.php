@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointments;
+use App\Models\CustomerMedicalTreatments;
+use App\Models\MedicalAppointments;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Item;
@@ -169,6 +171,24 @@ class reportController extends Controller
     }
 
 
+    public function mAppointmentsReport(){
+        $appointments = MedicalAppointments::all();
+        return view('reports.m_appointment', compact('appointments'));
+    }
 
+    public function mCusTreatmentsReport(){
+        $treatments = CustomerMedicalTreatments::all();
+        return view('reports.m_customer_treatments', compact('treatments'));
+    }
+
+    public function cusTreatmentsPayReport(){
+        $treatments = CustomerTreatments::all();
+        return view('reports.treatment_payment', compact('treatments'));
+    }
+
+    public function mCusTreatmentsPayReport(){
+        $treatments = CustomerMedicalTreatments::all();
+        return view('reports.m_treatment_payment', compact('treatments'));
+    }
 
 }

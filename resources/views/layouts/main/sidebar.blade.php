@@ -301,7 +301,7 @@
           <li class="nav-item mb-2">
 
             <a href="{{route('appointmentsReport')}}" class="sidebar_text text-decoration-none">
-              <span class="ml-3 item-text">Appointments Report</span><span class="sr-only">(current)</span>
+              <span class="ml-3 item-text">Appointments</span><span class="sr-only">(current)</span>
             </a>
 
           </li>
@@ -309,7 +309,39 @@
           <li class="nav-item mb-2">
 
             <a href="{{route('cusTreatmentsReport')}}" class="sidebar_text text-decoration-none">
-              <span class="ml-3 item-text">Customer Treatments Report</span><span class="sr-only">(current)</span>
+              <span class="ml-3 item-text">Customer Treatments</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
+            <a href="{{route('mAppointmentsReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Medical Appointments</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
+            <a href="{{route('mCusTreatmentsReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Customer M-Treatments</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
+            <a href="{{route('cusTreatmentsPayReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Customer Treat Payment</span><span class="sr-only">(current)</span>
+            </a>
+
+          </li>
+
+          <li class="nav-item mb-2">
+
+            <a href="{{route('mCusTreatmentsPayReport')}}" class="sidebar_text text-decoration-none">
+              <span class="ml-3 item-text">Customer M-Treat Payment</span><span class="sr-only">(current)</span>
             </a>
 
           </li>

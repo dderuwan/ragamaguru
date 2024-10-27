@@ -180,7 +180,10 @@ Route::get('/m-viewcustomertreat/{id}', [MedicalTreatController::class, 'viewCus
 Route::put('/m-treatments/update-next-day/{id}', [MedicalTreatController::class, 'updateNextDay'])->name('updateMNextDay');
 Route::post('/m-savetreatpayment/{id}', [MedicalTreatController::class, 'saveTreatPayment'])->name('saveMTreatPayment');
 Route::get('/m-treatments/print-preview/{cusTreatId}', [MedicalTreatController::class, 'printPreview'])->name('mtreatments.printPreview');
-
+Route::get('/m-viewduepayment/{id}', [MedicalTreatController::class, 'viewDuePayment'])->name('viewMDuePayment');
+Route::post('/m-saveduepayment/{id}', [MedicalTreatController::class, 'saveDuePayment'])->name('saveMDuePayment');
+Route::get('/m-customerdata/{id}', [MedicalTreatController::class, 'customerMData'])->name('customerMData');
+Route::post('/m-savecustomerdata/{id}', [MedicalTreatController::class, 'saveCustomerMData'])->name('saveCustomerMData');
 
 
 //Purchase module
@@ -407,6 +410,7 @@ Route::delete('/deleteCustomer/{id}', [CustomerController::class, 'destroy'])->n
 Route::post('/reverifyCustomer', [CustomerController::class, 'reverify'])->name('reverifycustomer');
 Route::post('/resend-otp', [CustomerController::class, 'resendOtp'])->name('resendOtp');
 Route::get('/treatmenthistory/{id}', [CustomerController::class, 'viewTreatmentHistory'])->name('viewTreatmentHistory');
+Route::get('/m-treatmenthistory/{id}', [CustomerController::class, 'viewMTreatmentHistory'])->name('viewMTreatmentHistory');
 
 Route::post('/password/update', [CustomerController::class, 'updatePassword'])->name('password.update');
 
@@ -506,6 +510,13 @@ Route::group(['middleware' => ['auth:admin','role:Super-Admin|Admin']], function
     Route::delete('/purchaseorderdestroy/{id}', [App\Http\Controllers\ReportController::class, 'purchaseorderdestroy'])->name('purchaseorderdestroy');
     Route::get('/custreatmentsreport', [App\Http\Controllers\ReportController::class, 'cusTreatmentsReport'])->name('cusTreatmentsReport');
     Route::get('/appointmentsreport', [App\Http\Controllers\ReportController::class, 'appointmentsReport'])->name('appointmentsReport');
+    Route::get('/m-appointmentsreport', [App\Http\Controllers\ReportController::class, 'mAppointmentsReport'])->name('mAppointmentsReport');
+    Route::get('/m-custreatmentsreport', [App\Http\Controllers\ReportController::class, 'mCusTreatmentsReport'])->name('mCusTreatmentsReport');
+    Route::get('/custreatmentspayreport', [App\Http\Controllers\ReportController::class, 'cusTreatmentsPayReport'])->name('cusTreatmentsPayReport');
+    Route::get('/m-custreatmentspayreport', [App\Http\Controllers\ReportController::class, 'mCusTreatmentsPayReport'])->name('mCusTreatmentsPayReport');
+
+
+
 
     Route::post('/users/user-list', [UserController::class, 'show'])->name('user.show');
     Route::get('/users', [UserController::class, 'index'])->name('user.index');

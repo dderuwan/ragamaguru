@@ -97,6 +97,7 @@
                                                     </form>
                                                     <a class="dropdown-item text-success" href="{{ route('appointments.create',$customer->id) }}">Appointment</a>
                                                     <a class="dropdown-item text-warning" href="{{ route('viewTreatmentHistory',$customer->id) }}">Treatments</a>
+                                                    <a class="dropdown-item text-warning" href="{{ route('viewMTreatmentHistory',$customer->id) }}">Medical Treatments</a>
                                                 </div>
                                             </td>
                                         </tr>

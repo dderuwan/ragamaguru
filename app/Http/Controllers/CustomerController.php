@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\CustomerMedicalTreatments;
 use App\Models\CustomerTreatments;
 use App\Models\DeliveryAddress;
 use Illuminate\Http\Request;
@@ -380,4 +381,27 @@ class CustomerController extends Controller
         // Flash a success message and redirect
         return back()->with('success', 'Password changed successfully.');
     }
+
+
+    public function viewMTreatmentHistory($id)
+    {
+
+        $customer = Customer::with('customerType', 'countryType', 'country')->find($id);
+        if ($customer) {
+
+
+            $visitHistory = CustomerMedicalTreatments::where('customer_medical_treatments.customer_id', $customer->id)
+                ->with('appointment')
+                ->get();
+
+
+            return view('customer.m_treatment_history', compact(
+                'customer',
+                'visitHistory',
+            ));
+        }
+
+        return redirect()->back()->with('error', 'customer not found');
+    }
+
 }

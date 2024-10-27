@@ -100,7 +100,8 @@
                                                 <th style="color: black;">Visit Day</th>
                                                 <th style="color: black;">Date</th>
                                                 <th style="color: black;">Added Treatments</th>
-                                                <th style="color: black;">Selected Treatments</th>
+                                                <th style="color: black;">Added Additional Treatments</th>
+                                                <th style="color: black;">Selected Additional Treatments</th>
                                                 <th style="color: black;">Comments</th>
                                                 <th style="color: black;">Things to Bring</th>
                                                 <th style="color: black;">Next Assigned Date</th>
@@ -111,6 +112,18 @@
                                             <tr>
                                                 <td>{{$history->appointment->visitDay->name ?? 'Not Defined'}}</td>
                                                 <td>{{ \Carbon\Carbon::parse($history->added_date)->format('Y-m-d') }}</td>
+                                                <td>
+                                                    @if($history->free_treatments)
+                                                    @php
+                                                    $treatmentNames = \App\Models\Treatment::whereIn('id', $history->free_treatments)->pluck('name')->toArray();
+                                                    @endphp
+                                                    @foreach($treatmentNames as $treatmentName)
+                                                    {{ $treatmentName }}<br>
+                                                    @endforeach
+                                                    @else
+                                                    No Treatments
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     @if($history->treatments)
                                                     @php
@@ -153,8 +166,64 @@
                                     <div>
                                         <form action="{{ route('saveCustomerMTreatments', $appointment->id) }}" method="POST">
                                             @csrf
+
+                                            <label class="mt-2"><strong>Add Treatments: (charges not included)</strong></label>
+                                            <div class="row">
+                                                <!-- First Table -->
+                                                <div class="col-md-6">
+                                                    <table class="table table-bordered table-hover" style="background-color: #f9f9f9; color: #333;">
+                                                        <thead style="background-color: #e2e2e2;">
+                                                            <tr>
+                                                                <th style="color: black;">No.</th>
+                                                                <th style="color: black;">Treatment</th>
+                                                                <th style="color: black;">Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($treatment->take(ceil($treatment->count() / 2)) as $index => $treat)
+                                                            <tr>
+                                                                <td>{{ $index + 1 }}</td>
+                                                                <td>{{ $treat->name }}</td>
+                                                                <td>
+                                                                    <input type="checkbox" name="free_treatments[]" value="{{ $treat->id }}"
+                                                                        {{ isset($existingCustomerTreatment) && !is_null($existingCustomerTreatment->free_treatments) && in_array($treat->id, $existingCustomerTreatment->free_treatments) ? 'checked' : '' }}>
+                                                                </td>
+
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <!-- Second Table -->
+                                                <div class="col-md-6">
+                                                    <table class="table table-bordered table-hover" style="background-color: #f9f9f9; color: #333;">
+                                                        <thead style="background-color: #e2e2e2;">
+                                                            <tr>
+                                                                <th style="color: black;">No.</th>
+                                                                <th style="color: black;">Treatment</th>
+                                                                <th style="color: black;">Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($treatment->slice(ceil($treatment->count() / 2)) as $index => $treat)
+                                                            <tr>
+                                                                <td>{{ $index + 1 }}</td>
+                                                                <td>{{ $treat->name }}</td>
+                                                                <td>
+                                                                    <input type="checkbox" name="free_treatments[]" value="{{ $treat->id }}"
+                                                                        {{ isset($existingCustomerTreatment) && !is_null($existingCustomerTreatment->free_treatments) && in_array($treat->id, $existingCustomerTreatment->free_treatments) ? 'checked' : '' }}>
+                                                                </td>
+
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
                                             <!-- treatment details table -->
-                                            <label class="mt-2"><strong>Add Treatments:</strong></label>
+                                            <label class="mt-2"><strong class="text-warning">Add Additional Treatments: (charges included)</strong></label>
                                             <div class="row">
                                                 <!-- First Table -->
                                                 <div class="col-md-6">

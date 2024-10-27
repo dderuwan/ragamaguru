@@ -250,6 +250,8 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                    <a type="button" href="{{route('treatments.printPreview',$treatmentHistory->id)}}" class="btn btn-primary ">Print</a>
                     @endif
 
                 </div> <!-- .col-12 -->

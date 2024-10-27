@@ -159,6 +159,7 @@ class MedicalTreatController extends Controller
                 [
                     'customer_id' => $appointment->customer_id,
                     'treatments' => $request->input('treatments'),
+                    'free_treatments' => $request->input('free_treatments'),
                     'comment' => $request->input('comment'),
                     'things_to_bring' => $request->input('thingsToBring'),
                     'next_day' => $request->input('nextDay'),
@@ -262,6 +263,11 @@ class MedicalTreatController extends Controller
             $selectedTreatmentIds = $customerTreatment->selected_treatments;
             $treatments = MedicalTreat::whereIn('id', $treatmentIds)->get();
         }
+        $ftreatments = null;
+        if($customerTreatment->free_treatments){
+            $ftreatmentIds = $customerTreatment->free_treatments;
+            $ftreatments = MedicalTreat::whereIn('id', $ftreatmentIds)->get();
+        }
         $appointment = MedicalAppointments::findOrFail($customerTreatment->appointment_id);
         $customer = Customer::findOrFail($customerTreatment->customer_id);
         $user = User::findOrFail(Auth::guard('admin')->id());
@@ -278,8 +284,75 @@ class MedicalTreatController extends Controller
         }
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
 
-        return view('treatment.print', compact('customerTreatment', 'appointment', 'customer', 'countryName', 'treatments', 'selectedTreatmentIds', 'currentDateTime','user'));
+        return view('medicalTreat.print', compact('customerTreatment', 'appointment', 'customer', 'countryName', 'treatments','ftreatments', 'selectedTreatmentIds', 'currentDateTime','user'));
     }
+
+
+    public function viewDuePayment($id)
+    {
+        $customerTreatment = CustomerMedicalTreatments::find($id);
+
+        if ($customerTreatment) {
+            $customer = Customer::with('customerType', 'countryType', 'country')->find($customerTreatment->customer_id);
+            $paymentTypes = PaymentTypes::all();
+            return view('medicalTreat.make_due_mpayment', compact('customerTreatment', 'customer', 'paymentTypes'));
+        }
+
+        return redirect()->back()->with('error', 'Data not found.');
+    }
+
+    public function saveDuePayment(Request $request, $id)
+    {
+        //dd($request);
+        $request->merge([
+            'totalAmount' => str_replace(',', '', $request->totalAmount),
+            'paidAmount' => str_replace(',', '', $request->paidAmount),
+            'dueAmount' => str_replace(',', '', $request->dueAmount),
+        ]);
+
+        $request->validate([
+            'paidAmount' => 'required|numeric|min:0|max:' . $request->totalAmount,
+            'dueAmount' => 'required|numeric|min:0|max:' . $request->totalAmount,
+            'paymentType' => 'required|exists:payment_types,id',
+        ]);
+
+        $customerTreatment = CustomerMedicalTreatments::where('id', $id)->firstOrFail();
+
+        $tobepaid = $customerTreatment->due_amount;                 
+
+        $paidAmount = $customerTreatment->paid_amount + $request->paidAmount;
+
+        $customerTreatment->update([
+            'paid_amount' => $paidAmount,
+            'due_amount' => $request->dueAmount,
+            'payment_type_id' => $request->paymentType,                  
+        ]);
+
+        $customerTreatment->save();
+
+        $treatId = $customerTreatment->id;
+        $pamount = $request->paidAmount;              
+        $damount = $request->dueAmount;
+        $ptype = PaymentTypes::find($request->paymentType);    
+        $ptypename = $ptype->name;
+
+        $user = User::findOrFail(Auth::guard('admin')->id());        
+
+        notify()->success('Payment details updated successfully. ⚡️', 'Success');
+        return view('treatment.duepay_print', compact('treatId', 'tobepaid', 'pamount', 'damount', 'ptypename','user'));
+        //return redirect()->route('customer.index')->with('status', 'Payment updated successfully');
+    }
+
+
+    public function customerMData($id){
+        return view('medicalAppointment.customer_mdata');
+    }
+
+
+    public function saveCustomerMData(Request $request, $id){
+
+    }
+
 
 
 }

@@ -137,6 +137,7 @@
                                 <td>
                                     <div class="action-icons">
                                         <a href="{{ route('customerMTreat', '') }}/${appointment.id}" class="btn btn-success"><i class="fe fe-plus-square fe-16"></i></i></a>
+                                        <a href="{{ route('customerMData', '') }}/${appointment.id}" class="btn btn-info"><i class="fe fe-file-plus fe-16"></i></i></a>
                                         ${appointment.haveTreat === "Done" ? `
                                         <a href="{{ route('viewCustomerMTreat', '') }}/${appointment.id}" class="btn btn-warning">
                                             <i class="fe fe-eye fe-16"></i>

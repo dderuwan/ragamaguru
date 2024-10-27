@@ -313,7 +313,7 @@ class MedicalAppointmentsController extends Controller
         $customer = Customer::findOrFail($appointment->customer_id);
         $user = User::findOrFail(Auth::guard('admin')->id());
 
-        return view('appointment.print', [
+        return view('medicalAppointment.print', [
             'appointment' => $appointment,
             'apNumberRecord' => $apNumberRecord,
             'customer' => $customer,

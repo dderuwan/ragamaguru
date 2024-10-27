@@ -157,10 +157,10 @@
                         <tr>
                           <th scope="row">Payment Status</th>
                           @if ($paymentStatus=='due')
-                          <td class="text-danger">Not Completed &nbsp;&nbsp;<a href="{{route('viewDuePayment',$lastCustomerTreatment->id)}}" class="btn btn-sm btn-warning">PAY</a></td>
+                          <td class="text-danger">Not Completed &nbsp;&nbsp;<a href="{{route('viewMDuePayment',$lastCustomerTreatment->id)}}" class="btn btn-sm btn-warning">PAY</a></td>
                           @endif
                           @if ($paymentStatus=='not paid')
-                          <td class="text-danger">Not Paid &nbsp;&nbsp;<a href="{{route('viewCustomerTreat',$lastCustomerTreatment->appointment_id)}}" class="btn btn-sm btn-warning">PAY</a></td>
+                          <td class="text-danger">Not Paid &nbsp;&nbsp;<a href="{{route('viewCustomerMTreat',$lastCustomerTreatment->appointment_id)}}" class="btn btn-sm btn-warning">PAY</a></td>
                           @endif
                           @if ($paymentStatus=='done')
                           <td>Completed</td>

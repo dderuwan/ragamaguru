@@ -85,13 +85,14 @@
                                     </table>
 
                                     <!-- Treatment History Table -->
-                                    <label class="mt-2"><strong>Today Visit Details:</strong></label>
+                                    <label class="mt-2"><strong>Today Visit Details & Treatments:</strong></label>
                                     <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
                                         <thead style="background-color: #ccffcc;">
                                             <tr>
                                                 <th style="color: black;">Visit Day</th>
                                                 <th style="color: black;">Reason</th>
                                                 <th style="color: black;">Date</th>
+                                                <th style="color: black;">Free Treatments</th>
                                                 <th style="color: black;">Comments</th>
                                                 <th style="color: black;">Things to bring</th>
                                                 <th style="color: black;">Next Date</th>
@@ -107,6 +108,18 @@
                                                 @endif
                                                 <td>{{ $treatmentHistory->appointment->medicalReason->reason ?? 'No Comments' }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($treatmentHistory->added_date)->format('Y-m-d') }}</td>
+                                                <td>
+                                                    @if($treatmentHistory->free_treatments)
+                                                    @php
+                                                    $treatmentNames = \App\Models\Treatment::whereIn('id', $treatmentHistory->free_treatments)->pluck('name')->toArray();
+                                                    @endphp
+                                                    @foreach($treatmentNames as $treatmentName)
+                                                    {{ $treatmentName }}<br>
+                                                    @endforeach
+                                                    @else
+                                                    No Treatments
+                                                    @endif
+                                                </td>
                                                 <td>{{ $treatmentHistory->comment ?? 'No Comments' }}</td>
                                                 <td>{{ $treatmentHistory->things_to_bring ?? 'No Things' }}</td>
                                                 <td>{{ $treatmentHistory->next_day ?? 'Not Added' }}</td>
@@ -144,7 +157,7 @@
                                     <form action="{{route("saveMTreatPayment",$appointment->id)}}" method="POST">
                                         @csrf
                                         <input type="hidden" value="{{$appointment->id}}">
-                                        <label class="mt-2"><strong>Today Treatments:</strong></label>
+                                        <label class="mt-2"><strong>Today Additional Treatments:</strong></label>
                                         <table class="table table-bordered table-hover" style="background-color: #e6ffe6; color: #333;">
                                             <thead style="background-color: #ccffcc;">
                                                 <tr>
@@ -252,6 +265,8 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                    <a type="button" href="{{route('mtreatments.printPreview',$treatmentHistory->id)}}" class="btn btn-primary ">Print</a>
                     @endif
 
                 </div> <!-- .col-12 -->

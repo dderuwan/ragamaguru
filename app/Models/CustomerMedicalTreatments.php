@@ -14,6 +14,7 @@ class CustomerMedicalTreatments extends Model
     protected $fillable = [
         'customer_id',
         'appointment_id',
+        'free_treatments',
         'treatments', // JSON field to store treatment IDs
         'selected_treatments',
         'added_date',
@@ -27,6 +28,7 @@ class CustomerMedicalTreatments extends Model
     ];
 
     protected $casts = [
+        'free_treatments'=>'array',
         'treatments' => 'array', // Automatically cast treatments to array
         'selected_treatments'=>'array',
     ];
