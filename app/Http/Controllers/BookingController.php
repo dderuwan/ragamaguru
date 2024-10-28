@@ -113,7 +113,7 @@ class BookingController extends Controller
             if ($customer->country_type_id == 2) {
                $this->sendWhatsappMessage($customer->contact, $msg);
             } else {
-                //$this->sendMessage($formattedContact, $msg);
+               $this->sendMessage($formattedContact, $msg);
             }
 
 
@@ -211,7 +211,7 @@ class BookingController extends Controller
             if ($customer->country_type_id == 2) {
                 $this->sendWhatsappMessage($customer->contact, $msg);
             } else {
-                //$this->sendMessage($formattedContact, $msg);
+                $this->sendMessage($formattedContact, $msg);
             }
 
             return response()->json(['success' => true]);
@@ -220,7 +220,7 @@ class BookingController extends Controller
         }
     }
 
-    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';            
+    private $paymentGatewayUrl = 'https://app.marx.lk/api/v3/ipg/orders';            
 
     public function createPaymentBooking(Request $request)
     {

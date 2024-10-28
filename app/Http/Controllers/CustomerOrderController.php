@@ -99,7 +99,7 @@ class CustomerOrderController extends Controller
     }
 
 
-    private $paymentGatewayUrl = 'https://dev.app.marx.lk/api/v3/ipg/orders';
+    private $paymentGatewayUrl = 'https://app.marx.lk/api/v3/ipg/orders';
 
     public function createPaymentOrder(Request $request)
     {

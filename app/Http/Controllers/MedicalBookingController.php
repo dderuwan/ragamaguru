@@ -101,7 +101,7 @@ class MedicalBookingController extends Controller
             if ($customer->country_type_id == 2) {
                $this->sendWhatsappMessage($customer->contact, $msg);
             } else {
-                //$this->sendMessage($formattedContact, $msg);
+               $this->sendMessage($formattedContact, $msg);
             }
 
 
@@ -323,7 +323,7 @@ class MedicalBookingController extends Controller
         if ($customer->country_type_id == 2) {
             $this->sendWhatsappMessage($customer->contact, $msg);
         } else {
-            //$this->sendMessage($formattedContact, $msg);
+            $this->sendMessage($formattedContact, $msg);
         }
 
         return response()->json([

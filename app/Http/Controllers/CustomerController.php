@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\CustomerMedicalInfo;
 use App\Models\CustomerMedicalTreatments;
 use App\Models\CustomerTreatments;
 use App\Models\DeliveryAddress;
+use App\Models\MedicalQuiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -394,10 +396,16 @@ class CustomerController extends Controller
                 ->with('appointment')
                 ->get();
 
+            $quizzes = MedicalQuiz::all();
+            $customerAnswers = CustomerMedicalInfo::where('customer_id', $customer->id)
+                ->pluck('answer', 'quiz_id')
+                ->toArray();
 
             return view('customer.m_treatment_history', compact(
                 'customer',
                 'visitHistory',
+                'quizzes',
+                'customerAnswers',
             ));
         }
 

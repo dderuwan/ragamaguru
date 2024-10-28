@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\MedicalAppointmentsController;
 use App\Http\Controllers\MedicalBookingController;
+use App\Http\Controllers\MedicalDateController;
+use App\Http\Controllers\MedicalQuizController;
 use App\Http\Controllers\MedicalReasonController;
 use App\Http\Controllers\MedicalTreatController;
 use App\Http\Controllers\ProfileController;
@@ -287,10 +289,21 @@ Route::post('/store-medical-reason', [MedicalReasonController::class, 'store'])-
 Route::get('/medical-reason/edit/{id}', [MedicalReasonController::class, 'edit'])->name('reason.edit');
 Route::put('/medical-reason/update/{id}', [MedicalReasonController::class, 'update'])->name('reason.update');
 
+Route::get('/medical-quiz', [MedicalQuizController::class, 'index'])->name('quiz.index');
+Route::get('/medical-quiz/create', [MedicalQuizController::class, 'create'])->name('quiz.create');
+Route::delete('/medical-quiz/{id}', [MedicalQuizController::class, 'destroy'])->name('quiz.destroy');
+Route::post('/store-medical-quiz', [MedicalQuizController::class, 'store'])->name('quiz.store');
+Route::get('/medical-quiz/edit/{id}', [MedicalQuizController::class, 'edit'])->name('quiz.edit');
+Route::put('/medical-quiz/update/{id}', [MedicalQuizController::class, 'update'])->name('quiz.update');
+
 // block dates
 Route::get('/block-dates', [BlockedDateController::class, 'index'])->name('blockDates.index');
 Route::post('/admin/blocked-dates/block', [BlockedDateController::class, 'blockDate'])->name('admin.blocked_dates.block');
 Route::post('/admin/blocked-dates/unblock', [BlockedDateController::class, 'unblockDate'])->name('admin.blocked_dates.unblock');
+
+Route::get('/medical-date', [MedicalDateController::class, 'index'])->name('medicalDate.index');
+Route::post('/medical-date/toggle', [MedicalDateController::class, 'toggleDate'])->name('medicalDate.toggle');
+
 
 // event settings
 Route::get('/newevent/show', [EventController::class, 'index'])->name('event.index');

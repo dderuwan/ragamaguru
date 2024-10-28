@@ -16,7 +16,7 @@
                 <p class="card-text"></p>
                 <div class="row my-4">
                     <!-- Filter Section -->
-                 
+
                     <!-- Customer Treatments Table -->
                     <div class="col-md-12">
                         <div class="card shadow">
@@ -49,7 +49,7 @@
                                             <td>Not Defined</td>
                                             @else
                                             <td>{{ $treatment->appointment->visitDay->name }}</td>
-                                            @endif 
+                                            @endif
                                             <td>{{ $treatment->added_date }}</td>
                                             <td>{{ $treatment->appointment->medicalReason->reason }}</td>
                                             <td>
@@ -92,12 +92,12 @@
                                             <td>{{ $treatment->things_to_bring ?? 'No' }}</td>
                                             <td>{{ $treatment->next_day ? \Carbon\Carbon::parse($treatment->next_day)->format('Y-m-d') : 'No' }}</td>
                                             <td>
-                                                    <!-- Show Button -->
-                                                    <a href="{{route('mtreatments.printPreview',$treatment->id)}}" class="btn btn-secondary"><i class="fa-solid fa-print fe-12"></i></a>
+                                                <!-- Show Button -->
+                                                <a href="{{route('mtreatments.printPreview',$treatment->id)}}" class="btn btn-secondary"><i class="fa-solid fa-print fe-12"></i></a>
 
-                                                    <!-- Delete Button -->
-                                                       
-                                                </td>
+                                                <!-- Delete Button -->
+
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -200,7 +200,7 @@
             // }
         });
 
-        
+
     });
 </script>
 @endsection

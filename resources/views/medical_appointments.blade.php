@@ -77,8 +77,8 @@
   <div class="container my-5">
 
     @if (session('success'))
-    <div class="alert alert-success"> 
-      {{ session('success') }}     
+    <div class="alert alert-success">
+      {{ session('success') }}
     </div>
     @endif
     @if (session('error'))
@@ -168,7 +168,7 @@
                 </div>
                 <div class="col-md-12 mb-2">
                   <label for="bookingDate" class="form-label">Select Date</label>
-                  <input type="text" class="form-control" data-blocked-dates="{{ json_encode($blockedDates) }}" id="bookingDate" placeholder="Select a date" required>
+                  <input type="text" class="form-control" data-off-days="{{ json_encode($offDays) }}" data-blocked-dates="{{ json_encode($blockedDates) }}" id="bookingDate" placeholder="Select a date" required>
                   <p id="bookingdatemsg" class="text-danger"></p>
                 </div>
               </div>
@@ -212,8 +212,8 @@
                 <select class="form-control" id="medicalReason" required>
                   <option value="" disabled selected>Select Reason</option>
                   @foreach($medicalReason as $reason)
-                    <option value="{{ $reason->id }}">{{ $reason->reason }}</option>
-                    @endforeach
+                  <option value="{{ $reason->id }}">{{ $reason->reason }}</option>
+                  @endforeach
                 </select>
                 <p id="mreasonmsg" class="text-danger"></p>
               </div>
@@ -329,21 +329,44 @@
 
   <script>
     $(function() {
-      var dateElement = document.getElementById('bookingDate');
+      const dateElement = document.getElementById('bookingDate');        
+
+      // Get off days and blocked dates from element attributes
+      const offDays = JSON.parse(dateElement.getAttribute('data-off-days'));
       const blockedDates = JSON.parse(dateElement.getAttribute('data-blocked-dates'));
 
+      // Map day names to numeric values (Sunday = 0, Monday = 1, etc.)
+      const dayMap = {
+        'Sunday': 0,
+        'Monday': 1,
+        'Tuesday': 2,
+        'Wednesday': 3,
+        'Thursday': 4,
+        'Friday': 5,
+        'Saturday': 6
+      };
+
+      // Convert off days to their numeric equivalents
+      const disabledDays = offDays.map(day => dayMap[day]);
+
+      // Convert blocked dates to Date objects
       const disabledDates = blockedDates.map(date => $.datepicker.parseDate('yy-mm-dd', date));
 
+      // Initialize the datepicker with combined logic
       $("#bookingDate").datepicker({
         dateFormat: "yy-mm-dd",
         beforeShowDay: function(date) {
-          const day = date.getDay();
+          const day = date.getDay(); // Get the day of the week (0-6)
           const formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
 
-          if (day === 0 || disabledDates.some(d => d.getTime() === date.getTime())) {
+          // Check if the date falls on a blocked day or is a specific blocked date
+          const isOffDay = disabledDays.includes(day);
+          const isBlockedDate = disabledDates.some(d => d.getTime() === date.getTime());
+
+          if (isOffDay || isBlockedDate) {
             return [false, "non-bookable", "Unavailable"];
           }
-          return [true, "", ""];
+          return [true, "", ""];          
         }
       });
     });
@@ -352,14 +375,14 @@
   <style>
     .non-bookable a {
       background: #ffcccc !important;
-      /* Light red background for public holidays */
+      /* Light red background */
       color: #ff0000 !important;
       /* Red text color */
     }
 
     .non-bookable a:hover {
       background: #ffcccc !important;
-      /* Keep hover effect same */
+      /* Keep hover effect the same */
     }
   </style>
 
@@ -620,49 +643,49 @@
 
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        let url = window.location.origin + '/m-bookingstore';
+      let url = window.location.origin + '/m-bookingstore';
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify({
-              customer_id: customerId,
-              country_id: country,
-              booking_date: bookingDate,
-              booking_type: bookingType,
-              medical_reason: medicalReason,
-              ap_number_id: apNumberId
-            })
+      fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+          },
+          body: JSON.stringify({
+            customer_id: customerId,
+            country_id: country,
+            booking_date: bookingDate,
+            booking_type: bookingType,
+            medical_reason: medicalReason,
+            ap_number_id: apNumberId
           })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            if (data.success) {
-              Swal.fire({
-                title: 'Success!',
-                text: 'OTP verified and booking completed successfully.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              }).then(() => {
-                window.location.reload();
-              });
-            } else {
-              alert(data.message);
-            }
-          })
-          .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-          });
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            Swal.fire({
+              title: 'Success!',
+              text: 'OTP verified and booking completed successfully.',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
 
 
-      
+
     }
   </script>
 

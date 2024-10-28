@@ -220,6 +220,12 @@
             <a class="nav-link pl-3" href="{{route('reason.index')}}"><span class="ml-1 item-text">Medical Reason</span></a>
           </li>
           <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('quiz.index')}}"><span class="ml-1 item-text">Medical Question</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link pl-3" href="{{route('medicalDate.index')}}"><span class="ml-1 item-text">Medical Dates</span></a>
+          </li>
+          <li class="nav-item active">
             <a class="nav-link pl-3" href="{{route('user.index')}}"><span class="ml-1 item-text">Add User</span></a>
           </li>
           <li class="nav-item active">

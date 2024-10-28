@@ -39,11 +39,11 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Medical Reason</h2>
+                        <h2 class="page-title">Medical Question</h2>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="{{ route('reason.create') }}"><button type="button" class="btn btn-primary float-end">
-                                Add Reason
+                        <a href="{{ route('quiz.create') }}"><button type="button" class="btn btn-primary float-end">
+                                Add Question
                             </button></a>
                     </div>
                 </div>
@@ -70,35 +70,35 @@
                                     <thead>
                                         <tr>
                                             <th style="color: black;">#</th>
-                                            <th style="color: black;">Resaon</th>
+                                            <th style="color: black;">Question</th>
                                             <th style="color: black;">Status</th>
                                             <th class="text-center" style="color: black;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($reason_list as $index => $reason)
+                                        @foreach ($quiz_list as $index => $quiz)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $reason->reason }}</td>
+                                            <td>{{ $quiz->quiz }}</td>
                                             <td>
-                                                @if ($reason->status==1)
+                                                @if ($quiz->status==1)
                                                 Active
                                                 @endif
-                                                @if ($reason->status==0)
+                                                @if ($quiz->status==0)
                                                 Inactive
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="action-icons">
-                                                    <a href="{{ route('reason.edit', $reason->id) }}" class="action-icon edit-icon" title="Edit">
+                                                    <a href="{{ route('quiz.edit', $quiz->id) }}" class="action-icon edit-icon" title="Edit">
                                                         <i class="fe fe-edit text-primary"></i>
                                                     </a>
 
-                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $reason->id }}')" title="Delete">
+                                                    <button class="action-icon delete-icon" data-toggle="modal" data-target="#deleteModal" onclick="confirmDelete('{{ $quiz->id }}')" title="Delete">
                                                         <i class="fe fe-trash-2 text-danger"></i>
                                                     </button>
 
-                                                    <form id="delete-form-{{ $reason->id }}" action="{{ route('reason.destroy', $reason->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $quiz->id }}" action="{{ route('quiz.destroy', $quiz->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -132,7 +132,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this reason?
+                    Are you sure you want to delete this question?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

@@ -131,7 +131,7 @@
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td colspan="5" class="text-center">No visit history</td>
+                                                <td colspan="7" class="text-center">No visit history</td>
                                             </tr>
                                             @endforelse 
                                         </tbody>

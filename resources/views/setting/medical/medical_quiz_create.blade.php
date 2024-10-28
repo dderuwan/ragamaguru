@@ -39,11 +39,11 @@
             <div class="col-12">
                 <div class="row mb-2">
                     <div class="col-md-6">
-                        <h2 class="page-title">Medical Reason Settings</h2>
+                        <h2 class="page-title">Medical Questions</h2>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="{{ route('reason.index') }}"><button type="button" class="btn btn-primary float-end">
-                                Type List
+                        <a href="{{ route('quiz.index') }}"><button type="button" class="btn btn-primary float-end">
+                                Question List
                             </button></a>
                     </div>
                 </div>
@@ -64,24 +64,22 @@
                     <div class="col-md-12">
                         <div class="card shadow">
                             <div class="card-body">
-                                <h5 class="mb-2">Edit Medical Reason</h5>
-                                <form method="POST" action="{{ route('reason.update', $reason->id) }}">
+                                <h5 class="mb-2">Add Questions</h5>
+                                <form method="post" action="{{route('quiz.store')}}">
                                     @csrf
-                                    @method('PUT')
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="inputReason">Reason</label>
-                                            <input type="text" class="form-control" id="inputReason" name="reason" value="{{ $reason->reason }}" placeholder="Add Reason">
-                                            @error('reason')
+                                        <div class="form-group col-md-12">
+                                            <label for="inputQuiz">Question</label>
+                                            <input type="text" class="form-control" id="inputQuiz" name="quiz" placeholder="Add question">
+                                            @error('quiz')
                                             <p class="text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                    
                                         <div class="form-group col-md-6">
                                             <label for="inputStatus">Status</label>
                                             <select class="form-control" id="status" name="status">
-                                                <option value="1" {{ $reason->status == 1 ? 'selected' : '' }}>Active</option>
-                                                <option value="0" {{ $reason->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">Inactive</option>
                                             </select>
                                             @error('status')
                                             <p class="text-danger">{{ $message }}</p>
@@ -89,9 +87,9 @@
                                         </div>
                                         
                                     </div>
-
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </form>
+
 
                             </div>
                         </div>

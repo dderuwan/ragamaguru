@@ -221,7 +221,7 @@
                   <input type="date" class="form-control" id="today_date" name="today_date" value="{{$today}}" required>
                 </div>
                 <div class="form-group col-md-6">
-                <label for="medical_reason" style="color:black;">Appointment Type <i class="text-danger">*</i></label>
+                <label for="medical_reason" style="color:black;">Medical Reason<i class="text-danger">*</i></label>
                   <select class="form-control" id="medical_reason" name="medical_reason" required>
                     <option value="">Select Medical Reason </option>
                     @foreach ($medicalReasons as $medicalReason)

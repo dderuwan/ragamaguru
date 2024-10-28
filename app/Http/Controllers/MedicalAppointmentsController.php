@@ -15,6 +15,7 @@ use App\Http\Requests\StoreMedicalAppointmentsRequest;
 use App\Http\Requests\UpdateMedicalAppointmentsRequest;
 use App\Models\Customer;
 use App\Models\MedicalAppointmentTypes;
+use App\Models\MedicalDate;
 use App\Models\MedicalReason;
 use App\Models\PaymentTypes;
 use App\Models\User;
@@ -51,6 +52,7 @@ class MedicalAppointmentsController extends Controller
                 'id' => $appointment->id,
                 'ap_number' => $appointment->apNumber->number ?? 'N/A',
                 'customer_name' => $appointment->customer->name ?? 'N/A',
+                'customer_id' => $appointment->customer_id ?? 'N/A',
                 'contact' => $appointment->customer->contact ?? 'N/A',
                 'ap_type' => $appointment->appointmentType->type ?? 'N/A',
                 'medical_reason' => $appointment->medicalReason->reason ?? 'N/A',
@@ -79,6 +81,7 @@ class MedicalAppointmentsController extends Controller
                 'id' => $appointment->id,
                 'ap_number' => $appointment->apNumber->number ?? 'N/A',
                 'customer_name' => $appointment->customer->name ?? 'N/A',
+                'customer_id' => $appointment->customer_id ?? 'N/A',
                 'contact' => $appointment->customer->contact ?? 'N/A',
                 'ap_type' => $appointment->appointmentType->type ?? 'N/A',
                 'visit_day' => $appointment->visit_day,
@@ -300,9 +303,11 @@ class MedicalAppointmentsController extends Controller
             $paymentTypes = PaymentTypes::all();
             $medicalReason = MedicalReason::all();
 
-            $blockedDates = BlockedDate::pluck('date')->toArray();
+            $blockedDates = BlockedDate::pluck('date')->toArray(); 
 
-            return view('medical_appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes','blockedDates','medicalReason'));
+            $offDays = MedicalDate::where('status', 0)->pluck('day')->toArray();
+
+            return view('medical_appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes','blockedDates','medicalReason','offDays'));
         }
     }
 

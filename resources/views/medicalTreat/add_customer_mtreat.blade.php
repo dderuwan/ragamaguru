@@ -85,8 +85,33 @@
                                                 @else
                                                 <td class="text-primary">{{$appointment->visitDay->name}}</td>
                                                 @endif
-                                                <td class="text-primary">{{$appointment->medicalReason->reason}}</td> 
+                                                <td class="text-primary">{{$appointment->medicalReason->reason}}</td>
                                             </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label><strong>Medical Information:</strong></label>
+                                        <a href="{{ route('customerMData', $customer->id) }}" class="">Update</a>
+                                    </div>
+                                    <table class="table table-bordered table-hover" style="background-color: #fffbe6; color: #333;" id="">
+                                        <thead style="background-color: #fff4cc;">
+                                            <tr>
+                                                <th style="color: black;">Medical Question</th>
+                                                <th style="color: black;">Answer</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($quizzes as $quiz)
+                                            <tr>
+                                                <td>{{ $quiz->quiz }}</td>
+                                                <td>{{ $customerAnswers[$quiz->id] ?? 'No Answer Provided' }}</td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="2" class="text-center">No medical information available.</td>
+                                            </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
 
@@ -161,7 +186,7 @@
                                     </table>
                                     @endif
 
-                                    
+
 
                                     <div>
                                         <form action="{{ route('saveCustomerMTreatments', $appointment->id) }}" method="POST">
@@ -296,7 +321,7 @@
                                         </form>
                                     </div>
 
-            
+
                                 </div>
                             </div>
                         </div>
