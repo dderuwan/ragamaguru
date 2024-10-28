@@ -10,6 +10,7 @@ use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Event;
 use App\Models\Item;
+use App\Models\MedicalAppointments;
 use App\Models\MedicalBookingInfo;
 use App\Models\OfferItems;
 use App\Models\Order;
@@ -110,9 +111,17 @@ class HomeController extends Controller
 
                 $today = Carbon::today();
 
-                $bookings = Appointments::where('customer_id', $customer->id)
-                    ->whereDate('date', '>=', $today)
-                    ->get();
+                $appointments = Appointments::where('customer_id', $customer->id)
+        ->whereDate('date', '>=', $today)
+        ->get();
+
+    // Query MedicalAppointments for the customer
+    $medicalAppointments = MedicalAppointments::where('customer_id', $customer->id)
+        ->whereDate('date', '>=', $today) // Adjust column name as needed
+        ->get();
+
+    // Merge both collections into one
+    $bookings = $appointments->merge($medicalAppointments);
 
                 return view('profile', compact('customer', 'bookings', 'orders', 'countries'));
             }

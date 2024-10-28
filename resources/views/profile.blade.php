@@ -216,11 +216,10 @@
                                     <table class="table table-bordered table-hover">
                                         <thead class="">
                                             <tr>
-                                                <th>Booked Date</th>
+                                                <th>Appointment Date</th>
                                                 <th>Appointment Number</th>
                                                 <th>Appointment Type</th>
                                                 <th>Created By</th>
-                                                <th>Total Amount (LKR)</th>
                                                 <th>Paid Amount (LKR)</th>
                                                 <th>Due Amount (LKR)</th>
                                                 <th>Status</th>
@@ -243,8 +242,6 @@
                                                 <!-- Created By -->
                                                 <td>{{ $booking->created_by }}</td>
 
-                                                <!-- Total Amount -->
-                                                <td>{{ number_format($booking->total_amount, 2) }}</td>
 
                                                 <!-- Paid Amount -->
                                                 <td>{{ number_format($booking->paid_amount, 2) }}</td>

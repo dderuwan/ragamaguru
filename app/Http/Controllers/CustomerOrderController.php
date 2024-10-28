@@ -60,7 +60,7 @@ class CustomerOrderController extends Controller
                     $itemCode = $item['item_code'];
                     $quantity = $item['quantity'];
                     $itemName = $item['item_name'];
-                    $totalPrice = $item['total_price'];
+                    $totalPrice = $item['total_price']; 
 
                     OrderItems::create([
                         'pos_id' => $customerOrder->id,
