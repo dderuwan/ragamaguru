@@ -314,7 +314,7 @@
                                             <div class="form-group mt-2">
                                                 <label for="nextDay"><strong>Add Next Visit Date</strong></label>
                                                 <input type="date" class="form-control mb-3 col-md-6" id="nextDay" name="nextDay" value="{{ $existingCustomerTreatment->next_day ?? '' }}">
-                                                <a href="{{route('showCalendarSchedule')}}" type="button" class="btn btn-sm btn-success">View Schedule</a>
+                                                <a href="{{route('mShowCalendarSchedule')}}" type="button" class="btn btn-sm btn-success">View Schedule</a>
                                             </div>
 
                                             <button type="submit" class="btn btn-primary mt-3">Save Treatments</button>

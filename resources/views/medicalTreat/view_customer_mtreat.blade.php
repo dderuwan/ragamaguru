@@ -146,7 +146,7 @@
                                                 @enderror
 
                                                 <div class="d-flex justify-content-between">
-                                                    <a href="{{ route('showCalendarSchedule') }}" type="button" class="btn btn-sm btn-success">View Schedule</a>
+                                                    <a href="{{ route('mShowCalendarSchedule') }}" type="button" class="btn btn-sm btn-success">View Schedule</a>
                                                     <button type="submit" class="btn btn-sm btn-primary">Save Date</button>
                                                 </div>
                                             </form>

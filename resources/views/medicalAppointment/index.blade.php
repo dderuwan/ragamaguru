@@ -15,7 +15,7 @@
                             <h2 class="page-title">All Medical Appointments</h2>
                         </div>
                         <div class="col-auto">
-                            <a href="{{route('showCalendarSchedule')}}"><button type="button" class="btn btn-primary">
+                            <a href="{{route('mShowCalendarSchedule')}}"><button type="button" class="btn btn-primary">
                                     <i class="fa-regular fa-calendar-days"></i></button></a>
                         </div>
                         <div class="col-auto">
