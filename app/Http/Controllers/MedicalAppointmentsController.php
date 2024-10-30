@@ -155,6 +155,15 @@ class MedicalAppointmentsController extends Controller
                 }
             }
 
+            $bookingCount = DB::table('medical_appointments')
+            ->where('status', 1)
+            ->count();
+
+            $payment = 'pay';
+            if($bookingCount<10){
+                $payment = 'free';
+            }
+
             return view('medicalAppointment.create', compact(
                 'customer',
                 'appointment_numbers',                             
@@ -172,6 +181,7 @@ class MedicalAppointmentsController extends Controller
                 'paymentTypes',
                 'appointmentTypes',
                 'medicalReasons',
+                'payment',
                 'nextDay'
             ));
         } else {
@@ -300,6 +310,15 @@ class MedicalAppointmentsController extends Controller
                     ->get();
             }
 
+            $bookingCount = DB::table('medical_appointments')
+            ->where('status', 1)
+            ->count();
+
+            $payment = 'pay';
+            if($bookingCount<10){
+                $payment = 'free';
+            }
+
             $paymentTypes = PaymentTypes::all();
             $medicalReason = MedicalReason::all();
 
@@ -307,7 +326,7 @@ class MedicalAppointmentsController extends Controller
 
             $offDays = MedicalDate::where('status', 0)->pluck('day')->toArray();
 
-            return view('medical_appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes','blockedDates','medicalReason','offDays'));
+            return view('medical_appointments', compact('customer', 'first_visit', 'countries', 'appointmentTypes', 'paymentTypes','blockedDates','medicalReason','offDays','payment'));
         }
     }
 

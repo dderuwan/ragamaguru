@@ -167,6 +167,15 @@ class MedicalBookingController extends Controller
                 ->where('id', $validated['booking_type'])
                 ->first();
 
+            $bookingCount = DB::table('medical_appointments')
+                ->where('status', 1)
+                ->count();
+    
+            $payment = $apType->price;        
+                if($bookingCount<10){
+                    $payment = 0;
+                }    
+
             $appointments = new MedicalAppointments();
             $appointments->customer_id = $validated['customer_id'];
             $appointments->ap_numbers_id = $validated['ap_number_id'];
@@ -176,9 +185,9 @@ class MedicalBookingController extends Controller
             // $appointments->created_user_id = 1;
             $appointments->is_booking = '1';
             $appointments->status = '1';
-            $appointments->total_amount = $apType->price;
+            $appointments->total_amount = $payment;
             $appointments->paid_amount = 0;
-            $appointments->due_amount = $apType->price;
+            $appointments->due_amount = $payment;
             $appointments->payment_method = 'Office';
             $appointments->added_date = now();
             $appointments->medical_reason_id = $validated['medical_reason'];

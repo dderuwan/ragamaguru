@@ -159,7 +159,7 @@
                   <select class="form-control" id="bookingType" name="bookingType" required>
                     <option value="" disabled selected>Select booking type</option>
                     @foreach($appointmentTypes as $type)
-                    <option value="{{ $type->id }}" data-price="{{ $type->price }}">
+                    <option value="{{ $type->id }}" data-price="{{ $type->price }}" data-payment="{{$payment}}">
                       {{ $type->type }} - LKR {{ number_format($type->price, 2) }}
                     </option>
                     @endforeach
@@ -547,9 +547,15 @@
       bookingTypeSelect.addEventListener('change', function() {
         const selectedOption = bookingTypeSelect.options[bookingTypeSelect.selectedIndex];
         const selectedPrice = selectedOption.getAttribute('data-price');
+        const payment = selectedOption.getAttribute('data-payment');
 
         if (selectedPrice) {
-          amountInput.value = 'LKR ' + parseFloat(selectedPrice).toFixed(2);
+          if(payment=='pay'){
+            amountInput.value = 'LKR ' + parseFloat(selectedPrice).toFixed(2);
+          }else if(payment=='free'){
+            amountInput.value = 'Free of charge ';
+          }
+          
         }
       });
 

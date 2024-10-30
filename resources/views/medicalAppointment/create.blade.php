@@ -195,7 +195,7 @@
                   <select class="form-control" id="ap_type" name="ap_type" onchange="setTotalAmount()" required>
                     <option value="">Select Appointment Type </option>
                     @foreach ($appointmentTypes as $appointmentType)
-                    <option value="{{$appointmentType->id}}" data-price="{{ $appointmentType->price }}">
+                    <option value="{{$appointmentType->id}}" data-price="{{ $appointmentType->price }}" data-payment="{{ $payment }}">
                       {{$appointmentType->type}} - LKR {{$appointmentType->price}}
                     </option>
                     @endforeach
@@ -363,7 +363,7 @@
       let selectedDate = $(this).val();
 
       $.ajax({
-        url: "{{ route('checkAppointments') }}",
+        url: "{{ route('mCheckAppointments') }}",
         method: "POST",
         data: {
           date: selectedDate,
@@ -398,8 +398,14 @@
     var apTypeSelect = document.getElementById('ap_type');
     var selectedOption = apTypeSelect.options[apTypeSelect.selectedIndex];
     var selectedPrice = selectedOption.getAttribute('data-price');
+    var payment = selectedOption.getAttribute('data-payment');
 
-    document.getElementById('totalAmount').value = selectedPrice;
+    if(payment=='free'){
+      document.getElementById('totalAmount').value = 0;
+    }else if(payment=='pay'){
+      document.getElementById('totalAmount').value = selectedPrice;
+    }
+    
     calculateDueAmount();
   }
 
